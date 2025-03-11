@@ -131,20 +131,69 @@ run_parallel() {
     
     log "Компиляция параллельной версии: $program (PPN=$ppn, Threads=$threads)"
     cd "$program_dir"
-    "${SCRIPT_DIR}/dvm" f "$program_name.f" 2>>"${LOGS_DIR}/errors/${program_name}_par.log"
+    "${SCRIPT_DIR}/dvm" f "./$program_name.f" 2>>"${LOGS_DIR}/errors/${program_name}_par.log"
     
     if [ $? -eq 0 ]; then
         log "Запуск параллельной версии: $program (Grid: ${grid_str})"
         
-        # Динамически формируем аргументы для запуска
-        local run_args=()
-        for val in "${grid_dims[@]}"; do
-            run_args+=("$val")
-        done
-        run_args+=("./$program_name")
+        # Создаем временный файл для статус-кода
+        local status_file=$(mktemp)
         
-        "${SCRIPT_DIR}/dvm" run "${run_args[@]}" 2>>"${LOGS_DIR}/errors/${program_name}_par.log"
-        save_stats "$program_dir" "$output_dir"
+        # Функция для очистки всех процессов при таймауте
+        cleanup() {
+            local ppid=$1
+            log "Очистка процессов для $program (Grid: ${grid_str})"
+            
+            # Найти и убить все дочерние процессы
+            pkill -P $ppid
+            
+            # На всякий случай ищем и завершаем процессы по имени программы
+            pkill -f "./$program_name"
+            
+            # Для большей надежности отправляем SIGKILL после небольшой паузы
+            sleep 1
+            pkill -9 -P $ppid 2>/dev/null
+            pkill -9 -f "./$program_name" 2>/dev/null
+            
+            echo "TERMINATED" > "$status_file"
+        }
+        
+        # Запускаем с таймаутом в фоновом режиме
+        (
+            # Устанавливаем обработчик сигнала для перехвата SIGTERM от timeout
+            trap 'log "Таймаут для $program (Grid: ${grid_str})"; cleanup $$' TERM INT
+            
+            # Динамически формируем аргументы для запуска
+            local run_args=()
+            for val in "${grid_dims[@]}"; do
+                run_args+=("$val")
+            done
+            run_args+=("./$program_name")
+            
+            "${SCRIPT_DIR}/dvm" run "${run_args[@]}" 2>>"${LOGS_DIR}/errors/${program_name}_par.log"
+            echo $? > "$status_file"
+        ) &
+        
+        local pid=$!
+        
+        # Ждем завершения с таймаутом (90 секунд)
+        if ! timeout -s TERM 90 tail --pid=$pid -f /dev/null; then
+            # Если таймаут сработал, убиваем всю группу процессов
+            cleanup $pid
+        fi
+        
+        # Проверяем статус выполнения
+        local status=$(cat "$status_file")
+        rm "$status_file"
+        
+        if [ "$status" == "TERMINATED" ]; then
+            log "Программа $program (Grid: ${grid_str}) была прервана по таймауту"
+            # Пытаемся собрать статистику даже после таймаута
+            save_stats "$program_dir" "$output_dir"
+        else
+            log "Программа $program (Grid: ${grid_str}) завершилась с кодом $status"
+            save_stats "$program_dir" "$output_dir"
+        fi
     else
         log "ОШИБКА: Не удалось скомпилировать $program"
     fi
@@ -220,19 +269,27 @@ process_program() {
         thread_values+=($i)
     done
     
-    # Значения для размеров сетки
-    local grid_values=(1 2 4)
+    local grid_values=(1 2 3 4 6 7)
     
-    # Параллельные запуски
     for ppn in "${ppn_values[@]}"; do
-        for threads in "${thread_values[@]}"; do
-            # Генерация комбинаций размера сетки для данной размерности
-            readarray -t grid_combinations < <(generate_grid_combinations "$dim_num" "${grid_values[@]}")
+        readarray -t grid_combinations < <(generate_grid_combinations "$dim_num" "${grid_values[@]}")
+        
+        for grid_combination in "${grid_combinations[@]}"; do
+            read -ra grid_dims <<< "$grid_combination"
             
-            for grid_combination in "${grid_combinations[@]}"; do
-                # Преобразуем строку с пробелами в массив
-                read -ra grid_dims <<< "$grid_combination"
-                run_parallel "$program" "$dim" "$ppn" "$threads" "${grid_dims[@]}"
+            local grid_product=1
+            for dim_size in "${grid_dims[@]}"; do
+                grid_product=$((grid_product * dim_size))
+            done
+            
+            for ((threads=1; threads<=MAX_THREADS; threads++)); do
+                local total_parallelism=$((grid_product * threads))
+                
+                if [ $total_parallelism -le $MAX_THREADS ]; then
+                    run_parallel "$program" "$dim" "$ppn" "$threads" "${grid_dims[@]}"
+                else
+                    log "Skip combinations: grid=${grid_combination}, threads=${threads}. The total load ($total_parallelism) exceeds available resources ($MAX_THREADS)"
+                fi
             done
         done
     done
@@ -241,7 +298,7 @@ process_program() {
 # Проверка наличия и обработка программ для всех размерностей
 for dim_num in {1..4}; do
     dim="${dim_num}d"
-    source_dir="${SCRIPT_DIR}/sources/${dim}"
+    source_dir="${SCRIPT_DIR}/second_sources/${dim}"
     
     # Проверяем, существует ли директория
     if [ -d "$source_dir" ]; then
