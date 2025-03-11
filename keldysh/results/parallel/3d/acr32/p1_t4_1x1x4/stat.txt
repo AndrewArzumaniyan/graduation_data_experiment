@@ -1,0 +1,88 @@
+Processor system=1*1*4
+Statistics has been accumulated on DVM-system version 5.0, platform DVM
+Analyzer is executing on DVM-system version 5.0, platform DVM
+-------------------------------------------------------------------------
+INTERVAL ( NLINE=7 SOURCE=acr32.f ) LEVEL=0  EXE_COUNT=1
+--- The main characteristics --- 
+Parallelization efficiency      0.0887 
+Execution time                  6.4110 
+Processors                           4
+Threads amount                      20
+Total time                     25.6439
+Productive time                 2.2758 ( CPU= 2.2732 Sys= 0.0016 I/O= 0.0010 )
+Lost  time                     23.3681 
+   Insufficient parallelism     6.8274 ( User= 6.8197 Sys= 0.0077 )
+   Communication                0.7687 ( Real_sync= 0.0000 Starts= 0.0000 )
+   Idle time                   15.7719
+Load imbalance                  3.9751
+Synchronization               870.0959
+Time variation                870.0921
+Overlap                         0.0007
+                  Nop   Communic    Synchro  Variation    Overlap 
+I/O                11     0.0000    94.1463    94.1425     0.0000 
+Reduction          27     0.7687   220.0735   220.0735     0.0000 
+Shadow             75     0.0000   555.8761   555.8761     0.0007 
+--- The comparative characteristics --- 
+                              Tmin N proc      Tmax N proc      Tmid
+Lost time                   4.8475     1     6.3469     4     5.8420 
+User insufficient par.      0.1909     4     4.6861     1     1.7049 
+Sys.insufficient par.       0.0011     4     0.0043     1     0.0019 
+Idle time                   0.0000     1     5.8634     4     3.9430 
+Communication               0.0981     2     0.2915     4     0.1922 
+Synchronization             1.5891     1   330.9410     4   217.5240 
+Variation                   1.5851     1   330.9411     4   217.5230 
+Overlap                     0.0000     4     0.0006     1     0.0002 
+Load imbalance              0.0000     1     1.4984     4     0.9938 
+Execution time              0.5476     4     6.4110     1     2.4680 
+User CPU time               0.0636     4     1.5620     1     0.5683 
+Sys. CPU time               0.0004     4     0.0004     1     0.0004 
+I/O time                    0.0000     3     0.0010     1     0.0003 
+Processors                       4     1          4     4          4 
+                      Communic          Synchro        Variation          Overlap  
+I/O             Tmin    0.0000     1     0.0130     1     0.0090     1     0.0000     1 
+I/O             Tmax    0.0000     4    35.5966     4    35.5967     4     0.0000     4 
+I/O             Tmid    0.0000          23.5366          23.5356           0.0000       
+Reduction       Tmin    0.0981     2     0.1030     1     0.1030     1     0.0000     2 
+Reduction       Tmax    0.2915     4    83.6137     4    83.6137     4     0.0000     1 
+Reduction       Tmid    0.1922          55.0184          55.0184           0.0000       
+Shadow          Tmin    0.0000     1     1.4731     1     1.4731     1     0.0000     4 
+Shadow          Tmax    0.0000     4   211.7307     4   211.7307     4     0.0006     1 
+Shadow          Tmid    0.0000         138.9690         138.9690           0.0002       
+--- The execution characteristics --- 
+                                1          2          3          4 
+Lost time                  4.8475     5.9733     6.2004     6.3469 
+User insufficient par.     4.6861     1.3119     0.6307     0.1909 
+Sys.insufficient par.      0.0043     0.0012     0.0012     0.0011 
+Idle time                  0.0000     4.5622     5.3464     5.8634 
+Communication              0.1571     0.0981     0.2221     0.2915 
+Synchronization            1.5891   240.1700   297.3958   330.9410 
+Variation                  1.5851   240.1701   297.3958   330.9411 
+Overlap                    0.0006     0.0001     0.0000     0.0000 
+Load imbalance             0.0000     1.1248     1.3518     1.4984 
+Execution time             6.4110     1.8488     1.0646     0.5476 
+User CPU time              1.5620     0.4373     0.2102     0.0636 
+Sys. CPU time              0.0004     0.0004     0.0004     0.0004 
+I/O time                   0.0010     0.0000     0.0000     0.0000 
+Processors                      4          4          4          4 
+           Communication          
+Reduction                  0.1571     0.0981     0.2221     0.2915 
+           Synchronization        
+I/O                        0.0130    26.4561    32.0806    35.5966 
+Reduction                  0.1030    61.2903    75.0665    83.6137 
+Shadow                     1.4731   152.4237   190.2487   211.7307 
+           Variation              
+I/O                        0.0090    26.4561    32.0807    35.5967 
+Reduction                  0.1030    61.2903    75.0665    83.6137 
+Shadow                     1.4731   152.4237   190.2487   211.7307 
+           Overlap                
+Reduction                  0.0000     0.0000     0.0000     0.0000 
+Shadow                     0.0006     0.0001     0.0000     0.0000 
+
+
+-------------------------------------------------------------------------
+Name (number) and performance time of processors
+omp.keldysh.ru(1) 4.228601
+omp.keldysh.ru(2) 0.935768
+omp.keldysh.ru(3) 0.899696
+omp.keldysh.ru(4) 0.465442
+min - omp.keldysh.ru(4) 0.465442; max - omp.keldysh.ru(1) 4.228601; mid - 1.632377
