@@ -136,64 +136,37 @@ run_parallel() {
     if [ $? -eq 0 ]; then
         log "Запуск параллельной версии: $program (Grid: ${grid_str})"
         
-        # Создаем временный файл для статус-кода
-        local status_file=$(mktemp)
+        # Динамически формируем аргументы для запуска
+        local run_args=()
+        for val in "${grid_dims[@]}"; do
+            run_args+=("$val")
+        done
+        run_args+=("./$program_name")
         
-        # Функция для очистки всех процессов при таймауте
-        cleanup() {
-            local ppid=$1
-            log "Очистка процессов для $program (Grid: ${grid_str})"
-            
-            # Найти и убить все дочерние процессы
-            pkill -P $ppid
-            
-            # На всякий случай ищем и завершаем процессы по имени программы
-            pkill -f "./$program_name"
-            
-            # Для большей надежности отправляем SIGKILL после небольшой паузы
-            sleep 1
-            pkill -9 -P $ppid 2>/dev/null
-            pkill -9 -f "./$program_name" 2>/dev/null
-            
-            echo "TERMINATED" > "$status_file"
-        }
+        # Запускаем с таймаутом в последовательном режиме
+        local temp_log=$(mktemp)
+        local status=0
         
-        # Запускаем с таймаутом в фоновом режиме
-        (
-            # Устанавливаем обработчик сигнала для перехвата SIGTERM от timeout
-            trap 'log "Таймаут для $program (Grid: ${grid_str})"; cleanup $$' TERM INT
-            
-            # Динамически формируем аргументы для запуска
-            local run_args=()
-            for val in "${grid_dims[@]}"; do
-                run_args+=("$val")
-            done
-            run_args+=("./$program_name")
-            
-            "${SCRIPT_DIR}/dvm" run "${run_args[@]}" 2>>"${LOGS_DIR}/errors/${program_name}_par.log"
-            echo $? > "$status_file"
-        ) &
-        
-        local pid=$!
-        
-        # Ждем завершения с таймаутом (90 секунд)
-        if ! timeout -s TERM 90 tail --pid=$pid -f /dev/null; then
-            # Если таймаут сработал, убиваем всю группу процессов
-            cleanup $pid
-        fi
-        
-        # Проверяем статус выполнения
-        local status=$(cat "$status_file")
-        rm "$status_file"
-        
-        if [ "$status" == "TERMINATED" ]; then
-            log "Программа $program (Grid: ${grid_str}) была прервана по таймауту"
-            # Пытаемся собрать статистику даже после таймаута
-            save_stats "$program_dir" "$output_dir"
-        else
+        # Запуск с таймаутом
+        if timeout -k 5 90 "${SCRIPT_DIR}/dvm" run "${run_args[@]}" 2>>"${LOGS_DIR}/errors/${program_name}_par.log" >"$temp_log"; then
+            status=$?
             log "Программа $program (Grid: ${grid_str}) завершилась с кодом $status"
-            save_stats "$program_dir" "$output_dir"
+        else
+            status=$?
+            log "Программа $program (Grid: ${grid_str}) была прервана по таймауту (код: $status)"
+            
+            # Очистка оставшихся процессов
+            pkill -f "./$program_name" 2>/dev/null
+            sleep 1
+            pkill -9 -f "./$program_name" 2>/dev/null
         fi
+        
+        # Объединяем вывод программы с основным логом
+        cat "$temp_log" >> "${LOGS_DIR}/errors/${program_name}_par.log"
+        rm "$temp_log"
+        
+        # Собираем статистику в любом случае
+        save_stats "$program_dir" "$output_dir"
     else
         log "ОШИБКА: Не удалось скомпилировать $program"
     fi
@@ -298,7 +271,7 @@ process_program() {
 # Проверка наличия и обработка программ для всех размерностей
 for dim_num in {1..4}; do
     dim="${dim_num}d"
-    source_dir="${SCRIPT_DIR}/second_sources/${dim}"
+    source_dir="${SCRIPT_DIR}/sources/${dim}"
     
     # Проверяем, существует ли директория
     if [ -d "$source_dir" ]; then

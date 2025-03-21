@@ -4,80 +4,80 @@ Analyzer is executing on DVM-system version 5.0, platform DVM
 -------------------------------------------------------------------------
 INTERVAL ( NLINE=7 SOURCE=f_sor2d.f ) LEVEL=0  EXE_COUNT=1
 --- The main characteristics --- 
-Parallelization efficiency      0.1979 
-Execution time                 97.7983 
+Parallelization efficiency      0.7321 
+Execution time                  2.0587 
 Processors                           7
 Threads amount                      14
-Total time                    684.5882
-Productive time               135.4819 ( CPU= 134.3217 Sys= 1.1595 I/O= 0.0007 )
-Lost  time                    549.1062 
-   Insufficient parallelism     7.1151 ( User= 0.1534 Sys= 6.9617 )
-   Communication              541.8015 ( Real_sync= 0.1608 Starts= 0.0000 )
-   Idle time                    0.1896
-Load imbalance                397.9136
-Synchronization                65.0812
-Time variation                 74.7137
-Overlap                         0.0001
+Total time                     14.4109
+Productive time                10.5502 ( CPU= 10.4124 Sys= 0.1375 I/O= 0.0002 )
+Lost  time                      3.8607 
+   Insufficient parallelism     0.8643 ( User= 0.0377 Sys= 0.8267 )
+   Communication                2.9805 ( Real_sync= 0.0022 Starts= 0.0000 )
+   Idle time                    0.0158
+Load imbalance                  0.4631
+Synchronization                 0.7012
+Time variation                  1.3372
+Overlap                         0.0002
                   Nop   Communic  Real_sync    Synchro  Variation    Overlap 
-I/O                49     0.0000     0.0000    20.0791    20.0743     0.0000 
-Reduction          42    87.2921     0.0000    18.7285    18.7284     0.0000 
-Shadow             44   452.7528     0.0000    26.2735    35.9110     0.0001 
+I/O                49     0.0000     0.0000     0.0007     0.0090     0.0000 
+Reduction          42     0.9575     0.0000     0.0001     0.0000     0.0002 
+Shadow             44     1.9174     0.0000     0.7005     1.3282     0.0001 
 --- The comparative characteristics --- 
                               Tmin N proc      Tmax N proc      Tmid
-Lost time                  21.5990     2    93.3559     7    78.4437 
-User insufficient par.      0.0057     6     0.0551     2     0.0219 
-Sys.insufficient par.       0.1139     7     2.9527     1     0.9945 
-Idle time                   0.0000     2     0.0613     7     0.0271 
-Communication              20.2687     2    93.1710     7    77.4002 
-Real synchronization        0.0119     1     0.0329     6     0.0230 
-Synchronization             1.0814     6    17.0126     1     9.2973 
-Variation                   2.7200     6    18.3229     1    10.6734 
-Overlap                     0.0000     1     0.0000     5     0.0000 
-Load imbalance              0.0000     2    71.7568     7    56.8448 
-Execution time             97.7370     7    97.7983     2    97.7712 
-User CPU time               4.4235     7    75.9867     2    19.1888 
-Sys. CPU time               0.0190     7     0.4914     1     0.1656 
-I/O time                    0.0000     6     0.0007     1     0.0001 
+Lost time                   0.4854     2     0.6107     6     0.5515 
+User insufficient par.      0.0042     5     0.0069     3     0.0054 
+Sys.insufficient par.       0.0350     7     0.1974     2     0.1181 
+Idle time                   0.0000     3     0.0046     5     0.0023 
+Communication               0.2814     2     0.5648     7     0.4258 
+Real synchronization        0.0000     4     0.0008     5     0.0003 
+Synchronization             0.0102     7     0.2086     1     0.1002 
+Variation                   0.0212     7     0.3614     1     0.1910 
+Overlap                     0.0000     6     0.0001     1     0.0000 
+Load imbalance              0.0000     2     0.1253     6     0.0662 
+Execution time              2.0541     5     2.0587     3     2.0564 
+User CPU time               1.4358     6     1.5436     4     1.4875 
+Sys. CPU time               0.0058     7     0.0329     2     0.0196 
+I/O time                    0.0000     4     0.0002     1     0.0000 
 Processors                       7     1          7     7          7 
                       Communic        Real_sync          Synchro        Variation          Overlap  
-I/O             Tmin    0.0000     1     0.0000     1     0.2870     6     0.2870     6     0.0000     1 
-I/O             Tmax    0.0000     7     0.0000     7     4.8389     1     4.8341     1     0.0000     7 
-I/O             Tmid    0.0000           0.0000           2.8684           2.8678           0.0000       
-Reduction       Tmin    7.3473     5     0.0000     1     0.2870     6     0.2870     6     0.0000     1 
-Reduction       Tmax   29.1082     1     0.0000     7     4.5171     1     4.5171     1     0.0000     6 
-Reduction       Tmid   12.4703           0.0000           2.6755           2.6755           0.0000       
-Shadow          Tmin    5.3396     2     0.0000     1     0.5074     6     2.1460     6     0.0000     1 
-Shadow          Tmax   85.2541     7     0.0000     7     7.6566     1     8.9717     1     0.0000     5 
-Shadow          Tmid   64.6790           0.0000           3.7534           5.1301           0.0000       
+I/O             Tmin    0.0000     1     0.0000     1     0.0000     1     0.0000     1     0.0000     1 
+I/O             Tmax    0.0000     7     0.0000     7     0.0001     6     0.0015     6     0.0000     7 
+I/O             Tmid    0.0000           0.0000           0.0001           0.0013           0.0000       
+Reduction       Tmin    0.0004     7     0.0000     1     0.0000     1     0.0000     4     0.0000     6 
+Reduction       Tmax    0.3183     1     0.0000     7     0.0000     6     0.0000     6     0.0000     1 
+Reduction       Tmid    0.1368           0.0000           0.0000           0.0000           0.0000       
+Shadow          Tmin    0.0395     1     0.0000     1     0.0101     7     0.0197     7     0.0000     5 
+Shadow          Tmax    0.5604     7     0.0000     7     0.2086     1     0.3614     1     0.0000     1 
+Shadow          Tmid    0.2739           0.0000           0.1001           0.1897           0.0000       
 --- The execution characteristics --- 
                                 1          2          3          4          5          6          7 
-Lost time                 79.2187    21.5990    89.4188    84.1848    91.9647    89.3644    93.3559 
-User insufficient par.     0.0297     0.0551     0.0319     0.0101     0.0112     0.0057     0.0096 
-Sys.insufficient par.      2.9527     1.2753     1.1403     0.4585     0.6970     0.3240     0.1139 
-Idle time                  0.0138     0.0000     0.0329     0.0035     0.0350     0.0431     0.0613 
-Communication             76.2225    20.2687    88.2136    83.7126    91.2215    88.9916    93.1710 
-Real synchronization       0.0119     0.0227     0.0243     0.0154     0.0260     0.0329     0.0276 
-Synchronization           17.0126     4.7450    14.3005    12.3756    13.3404     1.0814     2.2256 
-Variation                 18.3229     7.8022    16.2664    14.5212    11.3010     2.7200     3.7800 
-Overlap                    0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000 
-Load imbalance            57.6203     0.0000    67.8197    62.5858    70.3656    67.7654    71.7568 
-Execution time            97.7845    97.7983    97.7654    97.7948    97.7633    97.7552    97.7370 
-User CPU time             18.0875    75.9867     8.1895    13.5371     5.7175     8.3799     4.4235 
-Sys. CPU time              0.4914     0.2125     0.1901     0.0764     0.1162     0.0540     0.0190 
-I/O time                   0.0007     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000 
+Lost time                  0.5534     0.4854     0.4945     0.5044     0.6045     0.6107     0.6079 
+User insufficient par.     0.0046     0.0066     0.0069     0.0055     0.0042     0.0044     0.0055 
+Sys.insufficient par.      0.1878     0.1974     0.1701     0.0640     0.0990     0.0734     0.0350 
+Idle time                  0.0031     0.0000     0.0000     0.0023     0.0046     0.0033     0.0026 
+Communication              0.3579     0.2814     0.3175     0.4326     0.4968     0.5295     0.5648 
+Real synchronization       0.0000     0.0000     0.0000     0.0000     0.0008     0.0006     0.0007 
+Synchronization            0.2086     0.1529     0.1228     0.0929     0.0719     0.0418     0.0102 
+Variation                  0.3614     0.3070     0.2472     0.1877     0.1367     0.0761     0.0212 
+Overlap                    0.0001     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000 
+Load imbalance             0.0682     0.0000     0.0091     0.0190     0.1191     0.1253     0.1225 
+Execution time             2.0556     2.0587     2.0587     2.0564     2.0541     2.0554     2.0561 
+User CPU time              1.4740     1.5404     1.5359     1.5436     1.4377     1.4358     1.4449 
+Sys. CPU time              0.0311     0.0329     0.0283     0.0107     0.0165     0.0122     0.0058 
+I/O time                   0.0002     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000 
 Processors                      7          7          7          7          7          7          7 
            Communication          
-Reduction                 29.1082    14.7928    10.3427     8.7445     7.3473     9.2053     7.7513 
-Shadow                    47.0430     5.3396    77.7253    74.0840    83.7180    79.5888    85.2541 
+Reduction                  0.3183     0.2126     0.1702     0.1276     0.0854     0.0430     0.0004 
+Shadow                     0.0395     0.0687     0.1472     0.2123     0.4065     0.4827     0.5604 
            Real synchronization   
            Synchronization        
-I/O                        4.8389     1.3190     4.5354     3.8569     4.4124     0.2870     0.8295 
-Reduction                  4.5171     0.9971     4.2764     3.8290     4.1744     0.2870     0.6474 
-Shadow                     7.6566     2.4288     5.4888     4.6897     4.7535     0.5074     0.7487 
+I/O                        0.0000     0.0001     0.0001     0.0001     0.0001     0.0001     0.0001 
+Reduction                  0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000 
+Shadow                     0.2086     0.1528     0.1227     0.0928     0.0718     0.0416     0.0101 
            Variation              
-I/O                        4.8341     1.3190     4.5354     3.8569     4.4124     0.2870     0.8295 
-Reduction                  4.5171     0.9971     4.2764     3.8289     4.1744     0.2870     0.6474 
-Shadow                     8.9717     5.4862     7.4547     6.8354     2.7141     2.1460     2.3030 
+I/O                        0.0000     0.0015     0.0015     0.0015     0.0015     0.0015     0.0015 
+Reduction                  0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000 
+Shadow                     0.3614     0.3055     0.2457     0.1862     0.1352     0.0746     0.0197 
            Overlap                
 Reduction                  0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000 
 Shadow                     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000 
@@ -85,11 +85,11 @@ Shadow                     0.0000     0.0000     0.0000     0.0000     0.0000   
 
 -------------------------------------------------------------------------
 Name (number) and performance time of processors
-omp.keldysh.ru(1) 0.885766
-omp.keldysh.ru(2) 5.400737
-omp.keldysh.ru(3) 0.936019
-omp.keldysh.ru(4) 0.911288
-omp.keldysh.ru(5) 5.470747
-omp.keldysh.ru(6) 0.464457
-omp.keldysh.ru(7) 0.924272
-min - omp.keldysh.ru(6) 0.464457; max - omp.keldysh.ru(5) 5.470747; mid - 2.141898
+omp.keldysh.ru(1) 0.637761
+omp.keldysh.ru(2) 0.470509
+omp.keldysh.ru(3) 0.496460
+omp.keldysh.ru(4) 0.499213
+omp.keldysh.ru(5) 0.502132
+omp.keldysh.ru(6) 0.495907
+omp.keldysh.ru(7) 0.503724
+min - omp.keldysh.ru(2) 0.470509; max - omp.keldysh.ru(1) 0.637761; mid - 0.515101

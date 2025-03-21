@@ -4,90 +4,91 @@ Analyzer is executing on DVM-system version 5.0, platform DVM
 -------------------------------------------------------------------------
 INTERVAL ( NLINE=8 SOURCE=red22.f ) LEVEL=0  EXE_COUNT=2
 --- The main characteristics --- 
-Parallelization efficiency      0.0292 
-Execution time                  3.1661 
+Parallelization efficiency      0.1075 
+Execution time                  0.0058 
 Processors                           9
-Threads amount                      18
-Total time                     28.4946
-Productive time                 0.8317 ( CPU= 0.8304 Sys= 0.0008 I/O= 0.0005 )
-Lost  time                     27.6629 
-   Insufficient parallelism     1.7407 ( User= 1.7305 Sys= 0.0102 )
-   Communication               25.0937 ( Real_sync= 0.0000 Starts= 0.0000 )
-   Idle time                    0.8285
-Load imbalance                  5.2467
-Synchronization                48.9269
-Time variation                 37.2514
+Threads amount                       9
+Total time                      0.0526
+Productive time                 0.0057 ( CPU= 0.0050 Sys= 0.0006 I/O= 0.0000 )
+Lost  time                      0.0470 
+   Insufficient parallelism     0.0409 ( User= 0.0358 Sys= 0.0051 )
+   Communication                0.0059 ( Real_sync= 0.0000 Starts= 0.0000 )
+   Idle time                    0.0001
+Load imbalance                  0.0001
+Synchronization                 0.0041
+Time variation                  0.0033
 Overlap                         0.0000
                   Nop   Communic    Synchro  Variation    Overlap 
-I/O                17     0.0000    17.6159    17.6119     0.0000 
-Reduction          15    10.1566    16.5125    16.4811     0.0000 
-Remote access      37    14.9372    14.7985     3.1585     0.0000 
+I/O                17     0.0000     0.0007     0.0019     0.0000 
+Reduction          15     0.0031     0.0006     0.0006     0.0000 
+Remote access      37     0.0028     0.0028     0.0008     0.0000 
 --- The comparative characteristics --- 
                               Tmin N proc      Tmax N proc      Tmid
-Lost time                   2.4907     2     3.1655     6     3.0737 
-User insufficient par.      0.0026     6     1.3677     2     0.1923 
-Sys.insufficient par.       0.0006     9     0.0044     1     0.0011 
-Idle time                   0.0000     4     0.1580     3     0.0921 
-Communication               1.0152     2     3.1371     4     2.7882 
-Synchronization             2.4181     2     8.4389     6     5.4363 
-Variation                   2.1289     2     6.3776     6     4.1390 
-Overlap                     0.0000     2     0.0000     5     0.0000 
-Load imbalance              0.0000     2     0.6748     6     0.5830 
-Execution time              3.0081     3     3.1661     4     3.0740 
-User CPU time               0.0004     6     0.6752     2     0.0923 
-Sys. CPU time               0.0001     9     0.0001     2     0.0001 
-I/O time                    0.0000     9     0.0005     1     0.0001 
+Lost time                   0.0052     1     0.0052     7     0.0052 
+User insufficient par.      0.0040     6     0.0040     5     0.0040 
+Sys.insufficient par.       0.0005     5     0.0008     1     0.0006 
+Idle time                   0.0000     5     0.0000     8     0.0000 
+Communication               0.0004     1     0.0007     7     0.0007 
+Synchronization             0.0001     1     0.0006     6     0.0005 
+Variation                   0.0000     1     0.0005     3     0.0004 
+Overlap                     0.0000     3     0.0000     1     0.0000 
+Load imbalance              0.0000     1     0.0000     7     0.0000 
+Execution time              0.0058     8     0.0058     9     0.0058 
+User CPU time               0.0006     6     0.0006     5     0.0006 
+Sys. CPU time               0.0001     5     0.0001     1     0.0001 
+I/O time                    0.0000     5     0.0000     1     0.0000 
 Processors                       9     1          9     9          9 
                       Communic          Synchro        Variation          Overlap  
-I/O             Tmin    0.0000     1     1.0187     2     1.0187     2     0.0000     1 
-I/O             Tmax    0.0000     9     3.0537     6     3.0537     6     0.0000     9 
-I/O             Tmid    0.0000           1.9573           1.9569           0.0000       
-Reduction       Tmin    0.3125     2     0.8177     2     0.8647     2     0.0000     2 
-Reduction       Tmax    2.4302     8     2.8014     6     2.8677     6     0.0000     5 
-Reduction       Tmid    1.1285           1.8347           1.8312           0.0000       
-Remote access   Tmin    0.5668     8     0.5817     2     0.2299     4     0.0000     1 
-Remote access   Tmax    2.4973     9     2.5838     6     0.4562     6     0.0000     9 
-Remote access   Tmid    1.6597           1.6443           0.3509           0.0000       
+I/O             Tmin    0.0000     1     0.0000     1     0.0000     1     0.0000     1 
+I/O             Tmax    0.0000     9     0.0001     3     0.0003     3     0.0000     9 
+I/O             Tmid    0.0000           0.0001           0.0002           0.0000       
+Reduction       Tmin    0.0002     1     0.0000     1     0.0000     7     0.0000     2 
+Reduction       Tmax    0.0004     4     0.0001     6     0.0001     3     0.0000     7 
+Reduction       Tmid    0.0003           0.0001           0.0001           0.0000       
+Remote access   Tmin    0.0002     1     0.0000     1     0.0000     1     0.0000     3 
+Remote access   Tmax    0.0004     9     0.0004     9     0.0002     3     0.0000     2 
+Remote access   Tmid    0.0003           0.0003           0.0001           0.0000       
 --- The execution characteristics --- 
                                 1          2          3          4          5          6          7          8          9 
-Lost time                  3.1480     2.4907     3.1636     3.1619     3.0970     3.1655     3.1585     3.1517     3.1259 
-User insufficient par.     0.0518     1.3677     0.0107     0.0241     0.1391     0.0026     0.0212     0.0294     0.0838 
-Sys.insufficient par.      0.0044     0.0008     0.0008     0.0007     0.0007     0.0007     0.0007     0.0008     0.0006 
-Idle time                  0.0057     0.1071     0.1580     0.0000     0.1242     0.1483     0.0154     0.1245     0.1454 
-Communication              3.0862     1.0152     2.9941     3.1371     2.8330     3.0139     3.1213     2.9970     2.8961 
-Synchronization            5.5657     2.4181     8.1184     5.5193     2.6183     8.4389     5.4000     2.8564     7.9918 
-Variation                  4.0536     2.1289     6.0697     3.9384     2.3130     6.3776     3.9166     2.5001     5.9537 
+Lost time                  0.0052     0.0052     0.0052     0.0052     0.0052     0.0052     0.0052     0.0052     0.0052 
+User insufficient par.     0.0040     0.0040     0.0040     0.0040     0.0040     0.0040     0.0040     0.0040     0.0040 
+Sys.insufficient par.      0.0008     0.0006     0.0006     0.0005     0.0005     0.0005     0.0005     0.0005     0.0005 
+Idle time                  0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000 
+Communication              0.0004     0.0007     0.0007     0.0007     0.0007     0.0007     0.0007     0.0007     0.0007 
+Synchronization            0.0001     0.0004     0.0005     0.0004     0.0005     0.0006     0.0004     0.0005     0.0006 
+Variation                  0.0000     0.0004     0.0005     0.0004     0.0004     0.0005     0.0003     0.0004     0.0004 
 Overlap                    0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000 
-Load imbalance             0.6578     0.0000     0.6728     0.6711     0.6063     0.6748     0.6678     0.6610     0.6351 
-Execution time             3.1604     3.0590     3.0081     3.1661     3.0418     3.0178     3.1507     3.0415     3.0207 
-User CPU time              0.0175     0.6752     0.0024     0.0041     0.0690     0.0004     0.0074     0.0142     0.0401 
+Load imbalance             0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000 
+Execution time             0.0058     0.0058     0.0058     0.0058     0.0058     0.0058     0.0058     0.0058     0.0058 
+User CPU time              0.0006     0.0006     0.0006     0.0006     0.0006     0.0006     0.0006     0.0006     0.0006 
 Sys. CPU time              0.0001     0.0001     0.0001     0.0001     0.0001     0.0001     0.0001     0.0001     0.0001 
-I/O time                   0.0005     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000 
+I/O time                   0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000 
 Processors                      9          9          9          9          9          9          9          9          9 
            Communication          
-Reduction                  1.2306     0.3125     0.5227     1.1769     2.2645     0.5200     1.3005     2.4302     0.3987 
-Remote access              1.8556     0.7027     2.4714     1.9602     0.5685     2.4939     1.8208     0.5668     2.4973 
+Reduction                  0.0002     0.0003     0.0004     0.0004     0.0004     0.0004     0.0004     0.0003     0.0003 
+Remote access              0.0002     0.0003     0.0003     0.0003     0.0003     0.0003     0.0003     0.0004     0.0004 
            Synchronization        
-I/O                        1.9130     1.0187     2.9189     1.8797     1.0426     3.0537     1.7900     1.1025     2.8968 
-Reduction                  1.8659     0.8177     2.6927     1.8158     0.9848     2.8014     1.8190     1.0973     2.6179 
-Remote access              1.7868     0.5817     2.5069     1.8238     0.5908     2.5838     1.7910     0.6567     2.4771 
+I/O                        0.0000     0.0001     0.0001     0.0000     0.0001     0.0001     0.0000     0.0001     0.0001 
+Reduction                  0.0000     0.0001     0.0001     0.0001     0.0001     0.0001     0.0000     0.0001     0.0001 
+Remote access              0.0000     0.0002     0.0003     0.0004     0.0004     0.0004     0.0004     0.0004     0.0004 
            Variation              
-I/O                        1.9089     1.0187     2.9189     1.8798     1.0427     3.0537     1.7900     1.1025     2.8968 
-Reduction                  1.8470     0.8647     2.7489     1.8287     0.8817     2.8677     1.7900     0.9415     2.7108 
-Remote access              0.2976     0.2455     0.4019     0.2299     0.3887     0.4562     0.3366     0.4561     0.3461 
+I/O                        0.0000     0.0002     0.0003     0.0002     0.0002     0.0003     0.0002     0.0002     0.0003 
+Reduction                  0.0000     0.0001     0.0001     0.0000     0.0001     0.0001     0.0000     0.0001     0.0001 
+Remote access              0.0000     0.0001     0.0002     0.0001     0.0001     0.0001     0.0001     0.0001     0.0000 
            Overlap                
 Reduction                  0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000 
+Remote access              0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000     0.0000 
 
 
 -------------------------------------------------------------------------
 Name (number) and performance time of processors
-omp.keldysh.ru(1) 0.892270
-omp.keldysh.ru(2) 5.596832
-omp.keldysh.ru(3) 0.935835
-omp.keldysh.ru(4) 0.911633
-omp.keldysh.ru(5) 5.591276
-omp.keldysh.ru(6) 0.464570
-omp.keldysh.ru(7) 0.936143
-omp.keldysh.ru(8) 0.863178
-omp.keldysh.ru(9) 0.888842
-min - omp.keldysh.ru(6) 0.464570; max - omp.keldysh.ru(2) 5.596832; mid - 1.897842
+omp.keldysh.ru(1) 0.464556
+omp.keldysh.ru(2) 0.465659
+omp.keldysh.ru(3) 0.497116
+omp.keldysh.ru(4) 0.492297
+omp.keldysh.ru(5) 0.464519
+omp.keldysh.ru(6) 0.495304
+omp.keldysh.ru(7) 0.492848
+omp.keldysh.ru(8) 0.497676
+omp.keldysh.ru(9) 0.493590
+min - omp.keldysh.ru(5) 0.464519; max - omp.keldysh.ru(8) 0.497676; mid - 0.484840
