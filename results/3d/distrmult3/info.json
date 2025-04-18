@@ -1,0 +1,589 @@
+[
+  {
+    "cluster_info": {
+      "cores_per_node": 0,
+      "memory_per_node_gb": 0,
+      "network_bandwidth_gbps": 0,
+      "network_latency_ms": 0,
+      "num_nodes": 0,
+      "threads_per_node": 0
+    }
+  },
+  {
+    "program_info": {
+      "arrays_info": [
+        {
+          "dimensions": [
+            14,
+            12,
+            10
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_63_a3"
+        },
+        {
+          "dimensions": [
+            15,
+            15,
+            25
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_124_a3"
+        },
+        {
+          "dimensions": [
+            24,
+            24,
+            24
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_181_a3"
+        },
+        {
+          "dimensions": [
+            20,
+            30,
+            30
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_243_a3"
+        },
+        {
+          "dimensions": [
+            16,
+            16,
+            16
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_300_a3"
+        },
+        {
+          "dimensions": [
+            12,
+            12,
+            48
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_362_a3"
+        },
+        {
+          "dimensions": [
+            10,
+            35,
+            10
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_419_a3"
+        },
+        {
+          "dimensions": [
+            11,
+            14,
+            24
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_482_a3"
+        },
+        {
+          "dimensions": [
+            30,
+            12,
+            30
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_540_a3"
+        },
+        {
+          "dimensions": [
+            16,
+            16,
+            16,
+            16
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_605_a4"
+        }
+      ],
+      "average_parallel_line_executions": 7107.741496598639,
+      "directives": {
+        "across": null,
+        "distribute": [
+          {
+            "array_id": 0,
+            "distribution_spec": [
+              "MULT_BLOCK(m1)",
+              "MULT_BLOCK(m2)",
+              "MULT_BLOCK(m3)"
+            ],
+            "line": 66
+          },
+          {
+            "array_id": 1,
+            "distribution_spec": [
+              "BLOCK",
+              "BLOCK",
+              "BLOCK"
+            ],
+            "line": 127
+          },
+          {
+            "array_id": 2,
+            "distribution_spec": [
+              "MULT_BLOCK(m1)",
+              "BLOCK",
+              "MULT_BLOCK(m3)"
+            ],
+            "line": 184
+          },
+          {
+            "array_id": 3,
+            "distribution_spec": [
+              "BLOCK",
+              "MULT_BLOCK(m2)",
+              "BLOCK"
+            ],
+            "line": 246
+          },
+          {
+            "array_id": 4,
+            "distribution_spec": [
+              "MULT_BLOCK(m1)",
+              "MULT_BLOCK(m2)",
+              "MULT_BLOCK(m3)"
+            ],
+            "line": 303
+          },
+          {
+            "array_id": 5,
+            "distribution_spec": [
+              "MULT_BLOCK(m1)",
+              "MULT_BLOCK(m2)",
+              "MULT_BLOCK(m3)"
+            ],
+            "line": 365
+          },
+          {
+            "array_id": 6,
+            "distribution_spec": [
+              "*",
+              "*",
+              "*"
+            ],
+            "line": 422
+          },
+          {
+            "array_id": 7,
+            "distribution_spec": [
+              "MULT_BLOCK(m1)",
+              "*",
+              "MULT_BLOCK(m3)"
+            ],
+            "line": 485
+          },
+          {
+            "array_id": 8,
+            "line": 543
+          },
+          {
+            "array_id": 9,
+            "distribution_spec": [
+              "MULT_BLOCK(m1)",
+              "*",
+              "MULT_BLOCK(m3)",
+              "*"
+            ],
+            "line": 608
+          }
+        ],
+        "parallel": [
+          {
+            "acrosses": [],
+            "computational_intensity": 3.5,
+            "iterations_count": [
+              0,
+              12,
+              10
+            ],
+            "line": 76,
+            "loops_count": 3,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 14.0,
+            "iterations_count": [
+              1,
+              12,
+              10
+            ],
+            "line": 91,
+            "loops_count": 3,
+            "reductions": [
+              0
+            ],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 6.0,
+            "iterations_count": [
+              16,
+              15,
+              24
+            ],
+            "line": 133,
+            "loops_count": 3,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 13.0,
+            "iterations_count": [
+              1,
+              15,
+              24
+            ],
+            "line": 148,
+            "loops_count": 3,
+            "reductions": [
+              1
+            ],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 3.5,
+            "iterations_count": [
+              0,
+              24,
+              24
+            ],
+            "line": 194,
+            "loops_count": 3,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 4.666666666666667,
+            "iterations_count": [
+              1,
+              24,
+              24
+            ],
+            "line": 209,
+            "loops_count": 3,
+            "reductions": [
+              2
+            ],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 7.0,
+            "iterations_count": [
+              21,
+              29,
+              29
+            ],
+            "line": 252,
+            "loops_count": 3,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 14.0,
+            "iterations_count": [
+              1,
+              29,
+              29
+            ],
+            "line": 267,
+            "loops_count": 3,
+            "reductions": [
+              3
+            ],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 3.5,
+            "iterations_count": [
+              0,
+              16,
+              16
+            ],
+            "line": 313,
+            "loops_count": 3,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 14.0,
+            "iterations_count": [
+              1,
+              16,
+              16
+            ],
+            "line": 329,
+            "loops_count": 3,
+            "reductions": [
+              4
+            ],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 6.0,
+            "iterations_count": [
+              13,
+              12,
+              45
+            ],
+            "line": 371,
+            "loops_count": 3,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 13.0,
+            "iterations_count": [
+              1,
+              12,
+              45
+            ],
+            "line": 386,
+            "loops_count": 3,
+            "reductions": [
+              5
+            ],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 3.5,
+            "iterations_count": [
+              0,
+              32,
+              10
+            ],
+            "line": 432,
+            "loops_count": 3,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 4.666666666666667,
+            "iterations_count": [
+              1,
+              32,
+              10
+            ],
+            "line": 448,
+            "loops_count": 3,
+            "reductions": [
+              6
+            ],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 3.5,
+            "iterations_count": [
+              0,
+              13,
+              23
+            ],
+            "line": 493,
+            "loops_count": 3,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 14.0,
+            "iterations_count": [
+              1,
+              13,
+              23
+            ],
+            "line": 508,
+            "loops_count": 3,
+            "reductions": [
+              7
+            ],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 3.5,
+            "iterations_count": [
+              0,
+              12,
+              28
+            ],
+            "line": 555,
+            "loops_count": 3,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 5.0,
+            "iterations_count": [
+              1,
+              12,
+              28
+            ],
+            "line": 571,
+            "loops_count": 3,
+            "reductions": [
+              8
+            ],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 9.0,
+            "iterations_count": [
+              17,
+              16,
+              16,
+              16
+            ],
+            "line": 615,
+            "loops_count": 4,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 19.0,
+            "iterations_count": [
+              1,
+              16,
+              16,
+              16
+            ],
+            "line": 632,
+            "loops_count": 4,
+            "reductions": [
+              9
+            ],
+            "remote_accesses": [],
+            "shadow_renews": []
+          }
+        ],
+        "reduction": [
+          {
+            "elements_count": 1,
+            "line": 91,
+            "operation": "min",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          },
+          {
+            "elements_count": 1,
+            "line": 148,
+            "operation": "min",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          },
+          {
+            "elements_count": 1,
+            "line": 209,
+            "operation": "min",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          },
+          {
+            "elements_count": 1,
+            "line": 267,
+            "operation": "min",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          },
+          {
+            "elements_count": 1,
+            "line": 329,
+            "operation": "min",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          },
+          {
+            "elements_count": 1,
+            "line": 386,
+            "operation": "min",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          },
+          {
+            "elements_count": 1,
+            "line": 448,
+            "operation": "min",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          },
+          {
+            "elements_count": 1,
+            "line": 508,
+            "operation": "min",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          },
+          {
+            "elements_count": 1,
+            "line": 571,
+            "operation": "min",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          },
+          {
+            "elements_count": 1,
+            "line": 632,
+            "operation": "min",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          }
+        ],
+        "remote_access": null,
+        "shadow_renew": null
+      },
+      "launch_grid": {
+        "dimensions": [
+          0,
+          0,
+          0
+        ],
+        "total_processes": 0
+      },
+      "parallel_execution_fraction": 0.9629949824329854,
+      "sequential_execution_time_sec": 0.0
+    }
+  }
+]

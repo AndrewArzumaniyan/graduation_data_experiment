@@ -1,0 +1,319 @@
+[
+  {
+    "cluster_info": {
+      "cores_per_node": 0,
+      "memory_per_node_gb": 0,
+      "network_bandwidth_gbps": 0,
+      "network_latency_ms": 0,
+      "num_nodes": 0,
+      "threads_per_node": 0
+    }
+  },
+  {
+    "program_info": {
+      "arrays_info": [
+        {
+          "dimensions": [
+            8,
+            8
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_33_a2"
+        },
+        {
+          "dimensions": [
+            8,
+            8,
+            8
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_82_a3"
+        },
+        {
+          "dimensions": [
+            8,
+            8,
+            8
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_134_a3"
+        },
+        {
+          "dimensions": [
+            8,
+            8,
+            8,
+            8
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_186_a4"
+        },
+        {
+          "dimensions": [
+            8,
+            8,
+            8,
+            8
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_243_a4"
+        }
+      ],
+      "average_parallel_line_executions": 1139.620253164557,
+      "directives": {
+        "across": null,
+        "distribute": [
+          {
+            "array_id": 0,
+            "distribution_spec": [
+              "BLOCK",
+              "BLOCK"
+            ],
+            "line": 36
+          },
+          {
+            "array_id": 1,
+            "distribution_spec": [
+              "BLOCK",
+              "*",
+              "BLOCK"
+            ],
+            "line": 85
+          },
+          {
+            "array_id": 2,
+            "distribution_spec": [
+              "BLOCK",
+              "*",
+              "BLOCK"
+            ],
+            "line": 137
+          },
+          {
+            "array_id": 3,
+            "distribution_spec": [
+              "*",
+              "*",
+              "BLOCK",
+              "BLOCK"
+            ],
+            "line": 189
+          },
+          {
+            "array_id": 4,
+            "distribution_spec": [
+              "BLOCK",
+              "*",
+              "BLOCK",
+              "*"
+            ],
+            "line": 246
+          }
+        ],
+        "parallel": [
+          {
+            "acrosses": [],
+            "computational_intensity": 2.0,
+            "iterations_count": [
+              9,
+              8
+            ],
+            "line": 42,
+            "loops_count": 2,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 6.0,
+            "iterations_count": [
+              1,
+              8
+            ],
+            "line": 54,
+            "loops_count": 2,
+            "reductions": [
+              0
+            ],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 6.0,
+            "iterations_count": [
+              9,
+              8,
+              8
+            ],
+            "line": 91,
+            "loops_count": 3,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 13.0,
+            "iterations_count": [
+              1,
+              8,
+              8
+            ],
+            "line": 105,
+            "loops_count": 3,
+            "reductions": [
+              1
+            ],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 6.0,
+            "iterations_count": [
+              9,
+              8,
+              8
+            ],
+            "line": 143,
+            "loops_count": 3,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 13.0,
+            "iterations_count": [
+              1,
+              8,
+              8
+            ],
+            "line": 157,
+            "loops_count": 3,
+            "reductions": [
+              2
+            ],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 9.0,
+            "iterations_count": [
+              9,
+              8,
+              8,
+              8
+            ],
+            "line": 195,
+            "loops_count": 4,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 19.0,
+            "iterations_count": [
+              1,
+              8,
+              8,
+              8
+            ],
+            "line": 211,
+            "loops_count": 4,
+            "reductions": [
+              3
+            ],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 9.0,
+            "iterations_count": [
+              9,
+              8,
+              8,
+              8
+            ],
+            "line": 252,
+            "loops_count": 4,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 19.0,
+            "iterations_count": [
+              1,
+              8,
+              8,
+              8
+            ],
+            "line": 268,
+            "loops_count": 4,
+            "reductions": [
+              4
+            ],
+            "remote_accesses": [],
+            "shadow_renews": []
+          }
+        ],
+        "reduction": [
+          {
+            "elements_count": 1,
+            "line": 54,
+            "operation": "min",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          },
+          {
+            "elements_count": 1,
+            "line": 105,
+            "operation": "min",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          },
+          {
+            "elements_count": 1,
+            "line": 157,
+            "operation": "min",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          },
+          {
+            "elements_count": 1,
+            "line": 211,
+            "operation": "min",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          },
+          {
+            "elements_count": 1,
+            "line": 268,
+            "operation": "min",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          }
+        ],
+        "remote_access": null,
+        "shadow_renew": null
+      },
+      "launch_grid": {
+        "dimensions": [
+          0,
+          0,
+          0
+        ],
+        "total_processes": 0
+      },
+      "parallel_execution_fraction": 0.9985359685898716,
+      "sequential_execution_time_sec": 0.0
+    }
+  }
+]

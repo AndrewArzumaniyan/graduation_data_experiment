@@ -1,0 +1,280 @@
+[
+  {
+    "cluster_info": {
+      "cores_per_node": 0,
+      "memory_per_node_gb": 0,
+      "network_bandwidth_gbps": 0,
+      "network_latency_ms": 0,
+      "num_nodes": 0,
+      "threads_per_node": 0
+    }
+  },
+  {
+    "program_info": {
+      "arrays_info": [
+        {
+          "dimensions": [
+            8
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_31_a1"
+        },
+        {
+          "dimensions": [
+            4,
+            4
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_31_b2"
+        },
+        {
+          "dimensions": [
+            16
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_105_a1"
+        },
+        {
+          "dimensions": [
+            4,
+            4
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_105_b2"
+        },
+        {
+          "dimensions": [
+            16
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_178_a1"
+        },
+        {
+          "dimensions": [
+            4,
+            4
+          ],
+          "element_size_bytes": 4,
+          "name": "f0_178_b2"
+        }
+      ],
+      "average_parallel_line_executions": 51.63636363636363,
+      "directives": {
+        "across": null,
+        "align": [
+          {
+            "line": 34,
+            "rules": [
+              [
+                1,
+                1,
+                0
+              ]
+            ],
+            "source_array_id": 1,
+            "target_array_id": 0
+          },
+          {
+            "line": 108,
+            "rules": [
+              [
+                0,
+                2
+              ]
+            ],
+            "source_array_id": 3,
+            "target_array_id": 2
+          },
+          {
+            "line": 181,
+            "source_array_id": 5,
+            "target_array_id": 4
+          }
+        ],
+        "distribute": [
+          {
+            "array_id": 0,
+            "distribution_spec": [
+              "BLOCK"
+            ],
+            "line": 33
+          },
+          {
+            "array_id": 2,
+            "distribution_spec": [
+              "BLOCK"
+            ],
+            "line": 107
+          },
+          {
+            "array_id": 4,
+            "distribution_spec": [
+              "BLOCK"
+            ],
+            "line": 180
+          }
+        ],
+        "parallel": [
+          {
+            "acrosses": [],
+            "computational_intensity": 0.0,
+            "iterations_count": [
+              5,
+              4
+            ],
+            "line": 45,
+            "loops_count": 2,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 10.5,
+            "iterations_count": [
+              1
+            ],
+            "line": 52,
+            "loops_count": 1,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 3.5,
+            "iterations_count": [
+              0,
+              4
+            ],
+            "line": 67,
+            "loops_count": 2,
+            "reductions": [
+              0,
+              1
+            ],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 0.0,
+            "iterations_count": [
+              5,
+              4
+            ],
+            "line": 120,
+            "loops_count": 2,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 10.5,
+            "iterations_count": [
+              3
+            ],
+            "line": 127,
+            "loops_count": 1,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 3.5,
+            "iterations_count": [
+              0,
+              4
+            ],
+            "line": 142,
+            "loops_count": 2,
+            "reductions": [
+              2,
+              3
+            ],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 2.0,
+            "iterations_count": [
+              5,
+              4
+            ],
+            "line": 191,
+            "loops_count": 2,
+            "reductions": [],
+            "remote_accesses": [],
+            "shadow_renews": []
+          },
+          {
+            "acrosses": [],
+            "computational_intensity": 16.0,
+            "iterations_count": [
+              3
+            ],
+            "line": 198,
+            "loops_count": 1,
+            "reductions": [
+              4
+            ],
+            "remote_accesses": [],
+            "shadow_renews": []
+          }
+        ],
+        "reduction": [
+          {
+            "elements_count": 1,
+            "line": 67,
+            "operation": "min",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          },
+          {
+            "elements_count": 1,
+            "line": 67,
+            "operation": "sum",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          },
+          {
+            "elements_count": 1,
+            "line": 142,
+            "operation": "min",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          },
+          {
+            "elements_count": 1,
+            "line": 142,
+            "operation": "sum",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          },
+          {
+            "elements_count": 1,
+            "line": 198,
+            "operation": "min",
+            "reduction_type": "SCALAR",
+            "size_bytes": 4
+          }
+        ],
+        "remote_access": null,
+        "shadow_renew": null
+      },
+      "launch_grid": {
+        "dimensions": [
+          0,
+          0,
+          0
+        ],
+        "total_processes": 0
+      },
+      "parallel_execution_fraction": 0.9187965059851181,
+      "sequential_execution_time_sec": 0.0
+    }
+  }
+]
