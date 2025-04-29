@@ -445,8 +445,8 @@ C ---------------------------------------------------------
       integer NL 
       do 10 i=1,N
       do 10 j=1,M
-   10 AR(i,j) = NL+i+j
-                   
+      AR(i,j) = NL+i+j
+10    continue             
       end 
 
 

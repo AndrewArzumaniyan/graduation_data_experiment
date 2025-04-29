@@ -1,0 +1,1448 @@
+        -:    0:Source:results/4d/acr43/acr43.f
+        -:    0:Graph:./results\4d\acr43\acr43.gcno
+        -:    0:Data:./results\4d\acr43\acr43.gcda
+        -:    0:Runs:1
+function MAIN__ called 1 returned 100% blocks executed 100%
+        1:    1:      program ACR43
+        -:    2:
+        -:    3:c    TESTING OF THE ACROSS CLAUSE'.       
+        -:    4:c    DISTRIBUTED ARRAY A(N,M,K,L) IS TO HAVE DIFFERENT 
+        -:    5:c    FLOW-DEP-LENGTH ON BOTH SIDES      
+        -:    6:
+        1:    7:      print *,'===START OF ACR43========================'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:    8:C --------------------------------------------------
+        1:    9:      call acr4301
+call    0 returned 100%
+        -:   10:C --------------------------------------------------
+        1:   11:      call acr4302
+call    0 returned 100%
+        -:   12:C --------------------------------------------------
+        1:   13:      call acr4303
+call    0 returned 100%
+        -:   14:C -------------------------------------------------
+        1:   15:      call acr4304
+call    0 returned 100%
+        -:   16:C -------------------------------------------------
+        1:   17:      call acr4305
+call    0 returned 100%
+        -:   18:C -------------------------------------------------
+        1:   19:      call acr4306
+call    0 returned 100%
+        -:   20:C --------------------------------------------------
+        1:   21:      call acr4307
+call    0 returned 100%
+        -:   22:C --------------------------------------------------
+        1:   23:      call acr4308
+call    0 returned 100%
+        -:   24:C----------------------------------------------------
+        1:   25:       call acr4309
+call    0 returned 100%
+        -:   26:C----------------------------------------------------
+        -:   27:
+        -:   28:C
+        -:   29:C
+        1:   30:      print *,'=== END OF ACR43 ========================= '    
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+function main called 1 returned 100% blocks executed 100%
+        1:   31:      end
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   32:C ---------------------------------------------ACR4301 
+function acr4301_ called 1 returned 100% blocks executed 90%
+        1:   33:      subroutine ACR4301    
+        -:   34:      integer, parameter :: N = 16,M=8,K=8,L=8, NL=1000
+        1:   35:      integer, allocatable :: A(:,:,:,:), B(:,:,:,:), C(:,:,:,:)
+        -:   36:      integer nloopi,nloopj,nloopii,nloopjj
+        -:   37:      character*7 tname 
+        -:   38:!dvm$ distribute B(*,BLOCK,BLOCK,BLOCK)      
+        -:   39:!dvm$ align (i,j,ii,jj) with B(i,j,ii,jj) ::A
+        1:   40:      tname='ACR4301'     
+       1*:   41:      allocate (B(N,M,K,L),A(N,M,K,L),C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:   42:      NNL=NL    
+        1:   43:      call serial4(C,N,M,K,L,NNL)
+       15:   44:      do i=2,N-1
+call    0 returned 100%
+branch  1 taken 93% (fallthrough)
+branch  2 taken 7%
+       99:   45:       do j=2,M-1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      602:   46:         do ii=2,K-1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+     3612:   47:          do jj=2,L-1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+        -:   48:           C(i,j,ii,jj)=
+        -:   49:     *   C(i+1,j,ii,jj)+ C(i,j+1,ii,jj)+
+        -:   50:     *   C(i,j,ii+1,jj)+ C(i,j,ii,jj+1)+
+        -:   51:     *   C(i-1,j,ii,jj)+ C(i,j-1,ii,jj)+
+     3528:   52:     *   C(i,j,ii-1,jj)+ C(i,j,ii,jj-1)
+        -:   53:         enddo 
+        -:   54:        enddo
+        -:   55:       enddo 
+        -:   56:      enddo
+        9:   57:      nloopi=NL
+        -:   58:      nloopj=NL
+        -:   59:      nloopii=NL
+        -:   60:      nloopjj=NL
+        -:   61:
+        -:   62:!dvm$ actual (nloopi,nloopj,nloopii,nloopjj,C)
+        -:   63:!dvm$ region
+        -:   64:
+        -:   65:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj)
+        9:   66:      do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:   67:        do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:   68:         do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     8768:   69:          do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     8704:   70:           A(i,j,ii,jj) = NL+i+j+ii+jj
+        -:   71:          enddo
+        -:   72:         enddo
+        -:   73:        enddo
+        -:   74:       enddo
+        -:   75: 
+        -:   76:!dvm$ parallel (jj,ii,j,i) on B(i,j,ii,jj),
+        -:   77:!dvm$*across(A(1:1,1:1,1:1,1:1))
+        7:   78:      do jj=2,L-1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+       43:   79:       do ii=2,K-1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      258:   80:        do j=2,M-1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+     3276:   81:         do i=2,N-1
+branch  0 taken 93% (fallthrough)
+branch  1 taken 7%
+        -:   82:          A(i,j,ii,jj)=
+        -:   83:     *   A(i+1,j,ii,jj)+A(i,j+1,ii,jj)+
+        -:   84:     *   A(i,j,ii+1,jj)+A(i,j,ii,jj+1)+
+        -:   85:     *   A(i-1,j,ii,jj)+A(i,j-1,ii,jj)+
+     3240:   86:     *   A(i,j,ii-1,jj)+A(i,j,ii,jj-1)
+        -:   87:         enddo 
+        -:   88:        enddo
+        -:   89:       enddo 
+        -:   90:      enddo
+        -:   91:  
+        -:   92:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj),
+        -:   93:!dvm$*reduction( min( nloopi),min(nloopj),min(nloopii),min(nloopjj))
+        7:   94:      do jj=2,L-1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+       43:   95:       do ii=2,K-1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      258:   96:        do j=2,M-1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+     3276:   97:         do i=2,N-1
+branch  0 taken 93% (fallthrough)
+branch  1 taken 7%
+     3240:   98:            if (A(i,j,ii,jj).ne.C(i,j,ii,jj)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:   99:           nloopi=min(nloopi,i)
+        -:  100:           nloopj=min(nloopj,j)
+        -:  101:           nloopii=min(nloopii,ii)
+        -:  102:           nloopjj=min(nloopjj,jj)
+        -:  103:           endif
+        -:  104:         enddo
+        -:  105:        enddo
+        -:  106:       enddo
+        -:  107:      enddo
+        -:  108:!dvm$ end region
+        -:  109:!dvm$ get_actual(nloopi)
+        -:  110:
+        1:  111:      if (nloopi .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  112:       call ansyes(tname)
+call    0 returned 100%
+        -:  113:      else
+    #####:  114:       call ansno(tname)
+call    0 never executed
+        -:  115:      endif
+       1*:  116:      deallocate (A, B, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  117:      end
+        -:  118:C ---------------------------------------------ACR4302     
+function acr4302_ called 1 returned 100% blocks executed 90%
+        1:  119:      subroutine ACR4302    
+        -:  120:      integer, parameter :: N = 16,M=10,K=10,L=10, NL=1000
+        1:  121:      integer, allocatable :: A(:,:,:,:), B(:,:,:,:), C(:,:,:,:)
+        -:  122:      integer nloopi,nloopj,nloopii,nloopjj
+        -:  123:      character*7 tname 
+        -:  124:!dvm$ distribute B(*,BLOCK,BLOCK,BLOCK)
+        -:  125:!dvm$ shadow(2:2,2:2,2:2,2:2) :: A 
+        -:  126:!dvm$ align (i,j,ii,jj) with B(i,j,ii,jj) ::A
+        1:  127:      tname='ACR4302'
+       1*:  128:      allocate (B(N,M,K,L), A(N,M,K,L), C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  129:      NNL=NL
+        1:  130:      call serial4(C,N,M,K,L,NNL)
+       13:  131:      do i=3,N-2
+call    0 returned 100%
+branch  1 taken 92% (fallthrough)
+branch  2 taken 8%
+       85:  132:       do j=3,M-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      516:  133:        do ii=3,K-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+     3096:  134:         do jj=3,L-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+        -:  135:          C(i,j,ii,jj) =
+        -:  136:     *   C(i+2,j,ii,jj)+ C(i,j+2,ii,jj)+
+        -:  137:     *   C(i,j,ii+1,jj)+ C(i,j,ii,jj+2)+
+        -:  138:     *   C(i-1,j,ii,jj)+ C(i,j-2,ii,jj)+
+        -:  139:     *   C(i,j,ii-2,jj)+ C(i,j,ii,jj-1)+
+        -:  140:     *   C(i+1,j,ii,jj)+ C(i,j+1,ii,jj)+
+        -:  141:     *   C(i,j,ii,jj+1)+ C(i,j-1,ii,jj)+
+     3024:  142:     *   C(i,j,ii,jj-1)
+        -:  143:         enddo
+        -:  144:        enddo
+        -:  145:       enddo 
+        -:  146:      enddo 
+       11:  147:      nloopi=NL
+        -:  148:      nloopj=NL
+        -:  149:      nloopii=NL
+        -:  150:      nloopjj=NL
+        -:  151:
+        -:  152:!dvm$ actual (nloopi,nloopj,nloopii,nloopjj,C)
+        -:  153:!dvm$ region in( C),out( A) 
+        -:  154:
+        -:  155:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj)
+       11:  156:      do jj=1,L
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  157:       do ii=1,K
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  158:        do j=1,M
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+    17100:  159:         do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    17000:  160:          A(i,j,ii,jj) = NL+i+j+ii+jj
+        -:  161:         enddo
+        -:  162:        enddo
+        -:  163:       enddo
+        -:  164:      enddo 
+        -:  165:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj),across(A(1:2,2:2,2:1,1:2))
+        7:  166:      do jj=3,L-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+       43:  167:       do ii=3,K-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      258:  168:        do j=3,M-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+     2844:  169:         do i=3,N-2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+        -:  170:          A(i,j,ii,jj) =
+        -:  171:     *   A(i+2,j,ii,jj)+ A(i,j+2,ii,jj)+
+        -:  172:     *   A(i,j,ii+1,jj)+ A(i,j,ii,jj+2)+
+        -:  173:     *   A(i-1,j,ii,jj)+ A(i,j-2,ii,jj)+
+        -:  174:     *   A(i,j,ii-2,jj)+ A(i,j,ii,jj-1)+
+        -:  175:     *   A(i+1,j,ii,jj)+ A(i,j+1,ii,jj)+
+        -:  176:     *   A(i,j,ii,jj+1)+ A(i,j-1,ii,jj)+
+     2808:  177:     *   A(i,j,ii,jj-1)
+        -:  178:         enddo
+        -:  179:        enddo
+        -:  180:       enddo
+        -:  181:      enddo
+        -:  182:
+        -:  183:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj),
+        -:  184:!dvm$*reduction( min( nloopi),min(nloopj),min(nloopii),min(nloopjj))
+        7:  185:      do jj=3,L-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+       43:  186:       do ii=3,K-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      258:  187:        do j=3,M-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+     2844:  188:         do i=3,N-2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+     2808:  189:          if (A(i,j,ii,jj).ne.C(i,j,ii,jj)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  190:           nloopi=min(nloopi,i)
+        -:  191:           nloopj=min(nloopj,j)
+        -:  192:           nloopii=min(nloopii,ii)
+        -:  193:           nloopjj=min(nloopjj,jj)
+        -:  194:          endif
+        -:  195:         enddo
+        -:  196:        enddo
+        -:  197:       enddo
+        -:  198:      enddo
+        -:  199:
+        -:  200:!dvm$ end region
+        -:  201:!dvm$ get_actual (nloopi)
+        -:  202:
+        1:  203:      if (nloopi .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  204:       call ansyes(tname)
+call    0 returned 100%
+        -:  205:      else
+    #####:  206:       call ansno(tname)
+call    0 never executed
+        -:  207:      endif
+       1*:  208:      deallocate (A, B, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  209:      end
+        -:  210:C -----------------------------------------ACR4303      
+function acr4303_ called 1 returned 100% blocks executed 90%
+        1:  211:      subroutine ACR4303     
+        -:  212:      integer, parameter :: N = 16,M=10,K=10,L=10, NL=1000
+        1:  213:      integer, allocatable :: A(:,:,:,:), B(:,:,:,:), C(:,:,:,:)
+        -:  214:      integer nloopi,nloopj,nloopii,nloopjj
+        -:  215:      character*7 tname 
+        -:  216:!dvm$ distribute B(*,BLOCK,BLOCK,BLOCK)
+        -:  217:!dvm$ shadow(2:2,2:2,2:2,2:2) :: A
+        -:  218:!dvm$ align (i,j,ii,jj) with B(i,j,ii,jj) ::A
+        1:  219:      tname='ACR4303'
+       1*:  220:      allocate (B(N,M,K,L), A(N,M,K,L), C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  221:      NNL=NL
+        1:  222:      call serial4(C,N,M,K,L,NNL)
+       13:  223:      do i=3,N-2
+call    0 returned 100%
+branch  1 taken 92% (fallthrough)
+branch  2 taken 8%
+       85:  224:       do j=3,M-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      516:  225:        do ii=3,K-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+     3096:  226:         do jj=3,L-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+        -:  227:          C(i,j,ii,jj) =  C(i-2,j,ii,jj)+
+        -:  228:     *   C(i,j-2,ii,jj)+ C(i,j,ii-2,jj)+
+        -:  229:     *   C(i,j,ii,jj-2)+ C(i-1,j,ii,jj)+
+        -:  230:     *   C(i,j-1,ii,jj)+ C(i,j,ii-1,jj)+
+     3024:  231:     *   C(i,j,ii,jj-1)
+        -:  232:         enddo
+        -:  233:        enddo 
+        -:  234:       enddo 
+        -:  235:      enddo  
+       11:  236:      nloopi=NL
+        -:  237:      nloopj=NL
+        -:  238:      nloopii=NL
+        -:  239:      nloopjj=NL
+        -:  240:
+        -:  241:!dvm$ actual (nloopi,nloopj,nloopii,nloopjj,C)
+        -:  242:!dvm$ region in (C)
+        -:  243:
+        -:  244:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj)
+       11:  245:      do jj=1,L
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  246:       do ii=1,K
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  247:        do j=1,M
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+    17100:  248:         do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    17000:  249:          A(i,j,ii,jj) = NL+i+j+ii+jj
+        -:  250:         enddo
+        -:  251:        enddo
+        -:  252:       enddo
+        -:  253:      enddo
+        -:  254: 
+        -:  255:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj),
+        -:  256:!dvm$*across(A(2:0,2:2,2:0,2:0))
+        7:  257:      do jj=3,L-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+       43:  258:       do ii=3,K-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      258:  259:        do j=3,M-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+     2844:  260:         do i=3,N-2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+        -:  261:          A(i,j,ii,jj) =  A(i-2,j,ii,jj)+
+        -:  262:     *   A(i,j-2,ii,jj)+ A(i,j,ii-2,jj)+
+        -:  263:     *   A(i,j,ii,jj-2)+ A(i-1,j,ii,jj)+
+        -:  264:     *   A(i,j-1,ii,jj)+ A(i,j,ii-1,jj)+
+     2808:  265:     *   A(i,j,ii,jj-1)
+        -:  266:         enddo
+        -:  267:        enddo
+        -:  268:       enddo
+        -:  269:      enddo
+        -:  270:  
+        -:  271:!dvm$ parallel (jj,ii,j,i) on B(i,j,ii,jj),
+        -:  272:!dvm$*reduction( min( nloopi),min(nloopj),min(nloopii),min(nloopjj))
+        7:  273:      do jj=3,L-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+       43:  274:       do ii=3,K-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      258:  275:        do j=3,M-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+     2844:  276:         do i=3,N-2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+     2808:  277:          if (A(i,j,ii,jj).ne.C(i,j,ii,jj)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  278:           nloopi=min(nloopi,i)
+        -:  279:           nloopj=min(nloopj,j)
+        -:  280:           nloopii=min(nloopii,ii)
+        -:  281:           nloopjj=min(nloopjj,jj)
+        -:  282:          endif
+        -:  283:         enddo
+        -:  284:        enddo
+        -:  285:       enddo
+        -:  286:      enddo
+        -:  287:
+        -:  288:!dvm$ end region
+        -:  289:!dvm$ get_actual (nloopi)
+        -:  290:
+        1:  291:      if (nloopi .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  292:       call ansyes(tname)
+call    0 returned 100%
+        -:  293:      else
+    #####:  294:       call ansno(tname)
+call    0 never executed
+        -:  295:      endif
+       1*:  296:      deallocate (A, B, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  297:      end 
+        -:  298:C ------------------------------------------ACR4304   
+function acr4304_ called 1 returned 100% blocks executed 90%
+        1:  299:      subroutine ACR4304     
+        -:  300:      integer, parameter :: N = 16,M=10,K=10,L=10, NL=1000            
+        1:  301:      integer, allocatable :: A(:,:,:,:), B(:,:,:,:), C(:,:,:,:)
+        -:  302:      integer nloopi,nloopj,nloopii,nloopjj
+        -:  303:      character*7 tname 
+        -:  304:!dvm$ distribute B(*,BLOCK,BLOCK,BLOCK)   
+        -:  305:!dvm$ shadow(2:2,2:2,2:2,2:2) :: A      
+        -:  306:!dvm$ align (i,j,ii,jj) with B(i,j,ii,jj) ::A
+        1:  307:      tname='ACR4304'     
+       1*:  308:      allocate (B(N,M,K,L), A(N,M,K,L), C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  309:      NNL=NL    
+        1:  310:      call serial4(C,N,M,K,L,NNL)
+       13:  311:      do i=3,N-2
+call    0 returned 100%
+branch  1 taken 92% (fallthrough)
+branch  2 taken 8%
+       85:  312:       do j=3,M-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      516:  313:        do ii=3,K-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+     3096:  314:         do jj=3,L-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+        -:  315:          C(i,j,ii,jj) =  C(i+2,j,ii,jj)+
+        -:  316:     *   C(i,j,ii,jj+2)+ C(i-2,j,ii,jj)+
+        -:  317:     *   C(i,j-2,ii,jj)+ C(i,j,ii-2,jj)+
+        -:  318:     *   C(i+1,j,ii,jj)+ C(i,j,ii,jj+1)+
+        -:  319:     *   C(i-1,j,ii,jj)+ C(i,j-1,ii,jj)+
+     3024:  320:     *   C(i,j,ii-1,jj)
+        -:  321:         enddo
+        -:  322:        enddo
+        -:  323:       enddo 
+        -:  324:      enddo
+       11:  325:      nloopi=NL
+        -:  326:      nloopj=NL
+        -:  327:      nloopii=NL
+        -:  328:      nloopjj=NL
+        -:  329:
+        -:  330:!dvm$ actual (nloopi,nloopj,nloopii,nloopjj,C)
+        -:  331:!dvm$ region in (C)
+        -:  332:
+        -:  333:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj)
+       11:  334:      do jj=1,L
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  335:       do ii=1,K
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  336:        do j=1,M
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+    17100:  337:         do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    17000:  338:          A(i,j,ii,jj) = NL+i+j+ii+jj
+        -:  339:         enddo
+        -:  340:        enddo
+        -:  341:       enddo
+        -:  342:      enddo
+        -:  343: 
+        -:  344:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj),
+        -:  345:!dvm$*across(A(2:2,2:0,2:0,0:2))
+        7:  346:      do jj=3,L-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+       43:  347:       do ii=3,K-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      258:  348:        do j=3,M-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+     2844:  349:         do i=3,N-2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+        -:  350:          A(i,j,ii,jj) =  A(i+2,j,ii,jj)+
+        -:  351:     *   A(i,j,ii,jj+2)+ A(i-2,j,ii,jj)+
+        -:  352:     *   A(i,j-2,ii,jj)+ A(i,j,ii-2,jj)+
+        -:  353:     *   A(i+1,j,ii,jj)+ A(i,j,ii,jj+1)+
+        -:  354:     *   A(i-1,j,ii,jj)+ A(i,j-1,ii,jj)+
+     2808:  355:     *   A(i,j,ii-1,jj)
+        -:  356:         enddo
+        -:  357:        enddo
+        -:  358:       enddo
+        -:  359:      enddo
+        -:  360:  
+        -:  361:!dvm$ parallel (jj,ii,j,i) on B(i,j,ii,jj),
+        -:  362:!dvm$*reduction( min( nloopi),min(nloopj),min(nloopii),min(nloopjj))
+        7:  363:      do jj=3,L-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+       43:  364:       do ii=3,K-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      258:  365:        do j=3,M-2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+     2844:  366:         do i=3,N-2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+     2808:  367:          if (A(i,j,ii,jj).ne.C(i,j,ii,jj)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  368:           nloopi=min(nloopi,i)
+        -:  369:           nloopj=min(nloopj,j)
+        -:  370:           nloopii=min(nloopii,ii)
+        -:  371:           nloopjj=min(nloopjj,jj)
+        -:  372:          endif
+        -:  373:         enddo
+        -:  374:        enddo
+        -:  375:       enddo
+        -:  376:      enddo
+        -:  377:
+        -:  378:!dvm$ end region
+        -:  379:!dvm$ get_actual (nloopi)
+        -:  380:
+        1:  381:      if (nloopi .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  382:       call ansyes(tname)
+call    0 returned 100%
+        -:  383:      else
+    #####:  384:       call ansno(tname)
+call    0 never executed
+        -:  385:      endif
+       1*:  386:      deallocate (A, B, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  387:      end
+        -:  388:C ------------------------------------------ACR4305
+function acr4305_ called 1 returned 100% blocks executed 90%
+        1:  389:      subroutine ACR4305
+        -:  390:      integer, parameter :: N = 16,M=16,K=16,L=16, NL=1000
+        1:  391:      integer, allocatable :: A(:,:,:,:), B(:,:,:,:), C(:,:,:,:)
+        -:  392:      integer nloopi,nloopj,nloopii,nloopjj
+        -:  393:      character*7 tname 
+        -:  394:!dvm$ distribute B(*,BLOCK,BLOCK,BLOCK)   
+        -:  395:!dvm$ shadow(2:2,2:0,0:2,2:2) :: A      
+        -:  396:!dvm$ align (i,j,ii,jj) with B(i,j,ii,jj) ::A
+        1:  397:      tname='ACR4305'     
+       1*:  398:      allocate (B(N,M,K,L), A(N,M,K,L), C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  399:      NNL=NL    
+        1:  400:      call serial4(C,N,M,K,L,NNL)
+       13:  401:      do i=3,N-2
+call    0 returned 100%
+branch  1 taken 92% (fallthrough)
+branch  2 taken 8%
+      157:  402:       do j=3,M-2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+     1884:  403:        do ii=3,K-2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+    22608:  404:         do jj=3,L-2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+        -:  405:          C(i,j,ii,jj)=
+        -:  406:     *   C(i+2,j,ii,jj)+ C(i,j,ii+2,jj)+
+        -:  407:     *   C(i,j,ii,jj+2)+ C(i-2,j,ii,jj)+
+        -:  408:     *   C(i,j-2,ii,jj)+ C(i,j,ii,jj-2)+
+        -:  409:     *   C(i+1,j,ii,jj)+ C(i,j,ii+1,jj)+
+        -:  410:     *   C(i,j,ii,jj+1)+ C(i-1,j,ii,jj)+
+    22464:  411:     *   C(i,j-1,ii,jj)+ C(i,j,ii,jj-1)         
+        -:  412:         enddo
+        -:  413:        enddo
+        -:  414:       enddo
+        -:  415:      enddo
+       17:  416:      nloopi=NL
+        -:  417:      nloopj=NL
+        -:  418:      nloopii=NL
+        -:  419:      nloopjj=NL
+        -:  420:
+        -:  421:!dvm$ actual (nloopi,nloopj,nloopii,nloopjj,C)
+        -:  422:!dvm$ region in (C),out (A)
+        -:  423:
+        -:  424:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj)
+       17:  425:      do jj=1,L
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  426:       do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368:  427:        do j=1,M
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69888:  428:         do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69632:  429:          A(i,j,ii,jj) = NL+i+j+ii+jj
+        -:  430:         enddo
+        -:  431:        enddo
+        -:  432:       enddo
+        -:  433:      enddo
+        -:  434:
+        -:  435:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj),
+        -:  436:!dvm$*across(A(2:2,2:0,0:2,2:2))
+       13:  437:      do jj=3,L-2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      157:  438:       do ii=3,K-2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+     1884:  439:        do j=3,M-2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+    22608:  440:         do i=3,N-2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+        -:  441:          A(i,j,ii,jj)=
+        -:  442:     *   A(i+2,j,ii,jj)+ A(i,j,ii+2,jj)+
+        -:  443:     *   A(i,j,ii,jj+2)+ A(i-2,j,ii,jj)+
+        -:  444:     *   A(i,j-2,ii,jj)+ A(i,j,ii,jj-2)+
+        -:  445:     *   A(i+1,j,ii,jj)+ A(i,j,ii+1,jj)+
+        -:  446:     *   A(i,j,ii,jj+1)+ A(i-1,j,ii,jj)+
+    22464:  447:     *   A(i,j-1,ii,jj)+ A(i,j,ii,jj-1)
+        -:  448:         enddo
+        -:  449:        enddo
+        -:  450:       enddo
+        -:  451:      enddo
+        -:  452:  
+        -:  453:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj),
+        -:  454:!dvm$*reduction( min( nloopi),min(nloopj),min(nloopii),min(nloopjj))
+       13:  455:      do jj=3,L-2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      157:  456:       do ii=3,K-2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+     1884:  457:        do j=3,M-2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+    22608:  458:         do i=3,N-2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+    22464:  459:          if (A(i,j,ii,jj).ne.C(i,j,ii,jj)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  460:           nloopi=min(nloopi,i)
+        -:  461:           nloopj=min(nloopj,j)
+        -:  462:           nloopii=min(nloopii,ii)
+        -:  463:           nloopjj=min(nloopjj,jj)
+        -:  464:          endif
+        -:  465:         enddo
+        -:  466:        enddo
+        -:  467:       enddo
+        -:  468:      enddo
+        -:  469:
+        -:  470:!dvm$ end region
+        -:  471:!dvm$ get_actual (nloopi)
+        -:  472:
+        1:  473:      if (nloopi .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  474:       call ansyes(tname)
+call    0 returned 100%
+        -:  475:      else
+    #####:  476:       call ansno(tname)
+call    0 never executed
+        -:  477:      endif
+       1*:  478:      deallocate (A, B, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  479:      end  
+        -:  480:C --------------------------------------------ACR4306  
+function acr4306_ called 1 returned 100% blocks executed 90%
+        1:  481:      subroutine ACR4306
+        -:  482:      integer, parameter :: N = 32,M=16,K=16,L=16, NL=1000
+        1:  483:      integer, allocatable :: A(:,:,:,:), B(:,:,:,:), C(:,:,:,:)
+        -:  484:      integer nloopi,nloopj,nloopii,nloopjj
+        -:  485:      character*7 tname 
+        -:  486:!dvm$ distribute B(*,BLOCK,BLOCK,BLOCK)   
+        -:  487:!dvm$ shadow(3:3,3:3,3:3,3:3) :: A      
+        -:  488:!dvm$ align (i,j,ii,jj) with B(i,j,ii,jj) ::A
+        1:  489:      tname='ACR4306'     
+       1*:  490:      allocate (B(N,M,K,L), A(N,M,K,L), C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  491:      NNL=NL    
+        1:  492:      call serial4(C,N,M,K,L,NNL)
+       27:  493:      do i=4,N-3
+call    0 returned 100%
+branch  1 taken 96% (fallthrough)
+branch  2 taken 4%
+      287:  494:       do j=4,M-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     2886:  495:        do ii=4,K-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+    28860:  496:         do jj=4,L-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+        -:  497:          C(i,j,ii,jj) =
+        -:  498:     *   C(i+3,j,ii,jj)+ C(i,j+3,ii,jj)+
+        -:  499:     *   C(i,j,ii+3,jj)+ C(i,j,ii,jj+3)+
+        -:  500:     *   C(i-3,j,ii,jj)+ C(i,j-3,ii,jj)+
+        -:  501:     *   C(i,j,ii-3,jj)+ C(i,j,ii,jj-3)+
+        -:  502:     *   C(i+2,j,ii,jj)+ C(i,j+2,ii,jj)+
+        -:  503:     *   C(i,j,ii+2,jj)+ C(i,j,ii,jj+2)+
+        -:  504:     *   C(i-2,j,ii,jj)+ C(i,j-2,ii,jj)+
+        -:  505:     *   C(i,j,ii-2,jj)+ C(i,j,ii,jj-2)+
+        -:  506:     *   C(i+1,j,ii,jj)+ C(i,j+1,ii,jj)+
+        -:  507:     *   C(i,j,ii+1,jj)+ C(i,j,ii,jj+1)+
+        -:  508:     *   C(i-1,j,ii,jj)+ C(i,j-1,ii,jj)+
+    28600:  509:     *   C(i,j,ii-1,jj)+ C(i,j,ii,jj-1)
+        -:  510:         enddo
+        -:  511:        enddo 
+        -:  512:       enddo
+        -:  513:      enddo
+       17:  514:      nloopi=NL
+        -:  515:      nloopj=NL
+        -:  516:      nloopii=NL
+        -:  517:      nloopjj=NL
+        -:  518:
+        -:  519:!dvm$ actual (nloopi,nloopj,nloopii,nloopjj,C)
+        -:  520:!dvm$ region in (C) 
+        -:  521:
+        -:  522:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj)
+       17:  523:      do jj=1,L
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  524:       do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368:  525:        do j=1,M
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+   135424:  526:         do i=1,N
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+   135168:  527:          A(i,j,ii,jj) = NL+i+j+ii+jj
+        -:  528:         enddo
+        -:  529:        enddo
+        -:  530:       enddo
+        -:  531:      enddo
+        -:  532: 
+        -:  533:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj),
+        -:  534:!dvm$*across(A(3:3,3:3,3:3,3:3))
+       11:  535:      do jj=4,L-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  536:       do ii=4,K-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  537:        do j=4,M-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+    27100:  538:         do i=4,N-3
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+        -:  539:          A(i,j,ii,jj) =
+        -:  540:     *   A(i+3,j,ii,jj)+ A(i,j+3,ii,jj)+
+        -:  541:     *   A(i,j,ii+3,jj)+ A(i,j,ii,jj+3)+
+        -:  542:     *   A(i-3,j,ii,jj)+ A(i,j-3,ii,jj)+
+        -:  543:     *   A(i,j,ii-3,jj)+ A(i,j,ii,jj-3)+
+        -:  544:     *   A(i+2,j,ii,jj)+ A(i,j+2,ii,jj)+
+        -:  545:     *   A(i,j,ii+2,jj)+ A(i,j,ii,jj+2)+
+        -:  546:     *   A(i-2,j,ii,jj)+ A(i,j-2,ii,jj)+
+        -:  547:     *   A(i,j,ii-2,jj)+ A(i,j,ii,jj-2)+
+        -:  548:     *   A(i+1,j,ii,jj)+ A(i,j+1,ii,jj)+
+        -:  549:     *   A(i,j,ii+1,jj)+ A(i,j,ii,jj+1)+
+        -:  550:     *   A(i-1,j,ii,jj)+ A(i,j-1,ii,jj)+
+    27000:  551:     *   A(i,j,ii-1,jj)+ A(i,j,ii,jj-1)
+        -:  552:         enddo
+        -:  553:        enddo
+        -:  554:       enddo
+        -:  555:      enddo
+        -:  556:  
+        -:  557:!dvm$ parallel (jj,ii,j,i) on B(i,j,ii,jj),
+        -:  558:!dvm$*reduction( min( nloopi),min(nloopj),min(nloopii),min(nloopjj))
+       11:  559:      do jj=4,L-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  560:       do ii=4,K-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  561:        do j=4,M-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+    27100:  562:         do i=4,N-3
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+    27000:  563:          if (A(i,j,ii,jj).ne.C(i,j,ii,jj)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  564:           nloopi=min(nloopi,i)
+        -:  565:           nloopj=min(nloopj,j)
+        -:  566:           nloopii=min(nloopii,ii)
+        -:  567:           nloopjj=min(nloopjj,jj)
+        -:  568:          endif
+        -:  569:         enddo
+        -:  570:        enddo
+        -:  571:       enddo
+        -:  572:      enddo
+        -:  573:
+        -:  574:!dvm$ end region
+        -:  575:!dvm$ get_actual (nloopi)
+        -:  576:
+        1:  577:      if (nloopi .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  578:       call ansyes(tname)
+call    0 returned 100%
+        -:  579:      else
+    #####:  580:       call ansno(tname)
+call    0 never executed
+        -:  581:      endif
+       1*:  582:      deallocate (A, B, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  583:      end 
+        -:  584:C -------------------------------------------ACR4307   
+function acr4307_ called 1 returned 100% blocks executed 90%
+        1:  585:      subroutine ACR4307
+        -:  586:      integer, parameter :: N = 16,M=16,K=16,L=16, NL=1000
+        1:  587:      integer, allocatable :: A(:,:,:,:), B(:,:,:,:), C(:,:,:,:)
+        -:  588:      integer nloopi,nloopj,nloopii,nloopjj
+        -:  589:      character*7 tname 
+        -:  590:!dvm$ distribute B(*,BLOCK,BLOCK,BLOCK)   
+        -:  591:!dvm$ shadow(0:3,3:3,0:3,0:3) :: A      
+        -:  592:!dvm$ align (i,j,ii,jj) with B(i,j,ii,jj) ::A
+        1:  593:      tname='ACR4307'     
+       1*:  594:      allocate (B(N,M,K,L), A(N,M,K,L), C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  595:      NNL=NL    
+        1:  596:      call serial4(C,N,M,K,L,NNL)
+       11:  597:      do i=4,N-3
+call    0 returned 100%
+branch  1 taken 91% (fallthrough)
+branch  2 taken 9%
+      111:  598:       do j=4,M-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  599:        do ii=4,K-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+    11100:  600:         do jj=4,L-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+        -:  601:          C(i,j,ii,jj) =
+        -:  602:     *   C(i+3,j,ii,jj)+ C(i,j+3,ii,jj)+
+        -:  603:     *   C(i,j,ii+3,jj)+ C(i,j,ii,jj+3)+ 
+        -:  604:     *   C(i,j-3,ii,jj)+ C(i+2,j,ii,jj)+
+        -:  605:     *   C(i,j+2,ii,jj)+ C(i,j,ii+2,jj)+
+        -:  606:     *   C(i,j,ii,jj+2)+ C(i,j-2,ii,jj)+
+        -:  607:     *   C(i+1,j,ii,jj)+ C(i,j+1,ii,jj)+
+        -:  608:     *   C(i,j,ii+1,jj)+ C(i,j,ii,jj+1)+ 
+    11000:  609:     *   C(i,j-1,ii,jj)
+        -:  610:         enddo
+        -:  611:        enddo
+        -:  612:       enddo
+        -:  613:      enddo
+       17:  614:      nloopi=NL
+        -:  615:      nloopj=NL
+        -:  616:      nloopii=NL
+        -:  617:      nloopjj=NL
+        -:  618:
+        -:  619:!dvm$ actual (nloopi,nloopj,nloopii,nloopjj,C)
+        -:  620:!dvm$ region in (C),out (A)
+        -:  621:
+        -:  622:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj)
+       17:  623:      do jj=1,L
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  624:       do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368:  625:        do j=1,M
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69888:  626:         do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69632:  627:          A(i,j,ii,jj) = NL+i+j+ii+jj
+        -:  628:         enddo
+        -:  629:        enddo
+        -:  630:       enddo
+        -:  631:      enddo
+        -:  632: 
+        -:  633:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj),
+        -:  634:!dvm$*across(A(0:3,3:3,0:3,0:3))
+       11:  635:      do jj=4,L-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  636:       do ii=4,K-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  637:        do j=4,M-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+    11100:  638:         do i=4,N-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+        -:  639:          A(i,j,ii,jj) =
+        -:  640:     *   A(i+3,j,ii,jj)+ A(i,j+3,ii,jj)+
+        -:  641:     *   A(i,j,ii+3,jj)+ A(i,j,ii,jj+3)+ 
+        -:  642:     *   A(i,j-3,ii,jj)+ A(i+2,j,ii,jj)+
+        -:  643:     *   A(i,j+2,ii,jj)+ A(i,j,ii+2,jj)+
+        -:  644:     *   A(i,j,ii,jj+2)+ A(i,j-2,ii,jj)+
+        -:  645:     *   A(i+1,j,ii,jj)+ A(i,j+1,ii,jj)+
+        -:  646:     *   A(i,j,ii+1,jj)+ A(i,j,ii,jj+1)+ 
+    11000:  647:     *   A(i,j-1,ii,jj)
+        -:  648:         enddo
+        -:  649:        enddo
+        -:  650:       enddo
+        -:  651:      enddo
+        -:  652:
+        -:  653:!dvm$ parallel (jj,ii,j,i) on B(i,j,ii,jj),
+        -:  654:!dvm$*reduction( min( nloopi),min(nloopj),min(nloopii),min(nloopjj))
+       11:  655:      do jj=4,L-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  656:       do ii=4,K-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  657:        do j=4,M-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+    11100:  658:         do i=4,N-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+    11000:  659:          if (A(i,j,ii,jj).ne.C(i,j,ii,jj)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  660:           nloopi=min(nloopi,i)
+        -:  661:           nloopj=min(nloopj,j)
+        -:  662:           nloopii=min(nloopii,ii)
+        -:  663:           nloopjj=min(nloopjj,jj)
+        -:  664:          endif
+        -:  665:         enddo
+        -:  666:        enddo
+        -:  667:       enddo
+        -:  668:      enddo
+        -:  669:
+        -:  670:!dvm$ end region
+        -:  671:!dvm$ get_actual (nloopi)
+        -:  672:
+        1:  673:      if (nloopi .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  674:       call ansyes(tname)
+call    0 returned 100%
+        -:  675:      else
+    #####:  676:       call ansno(tname)
+call    0 never executed
+        -:  677:      endif
+       1*:  678:      deallocate (A, B, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  679:      end
+        -:  680:C -------------------------------------------ACR4308   
+function acr4308_ called 1 returned 100% blocks executed 90%
+        1:  681:      subroutine ACR4308
+        -:  682:      integer, parameter :: N = 16,M=16,K=16,L=16, NL=1000
+        1:  683:      integer, allocatable :: A(:,:,:,:), B(:,:,:,:), C(:,:,:,:)
+        -:  684:      integer nloopi,nloopj,nloopii,nloopjj
+        -:  685:      character*7 tname 
+        -:  686:!dvm$ distribute B(*,BLOCK,BLOCK,BLOCK)   
+        -:  687:!dvm$ shadow(0:3,3:3,0:3,3:0) :: A      
+        -:  688:!dvm$ align (i,j,ii,jj) with B(i,j,ii,jj) ::A
+        1:  689:      tname='ACR4308'     
+       1*:  690:      allocate (B(N,M,K,L), A(N,M,K,L), C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  691:      NNL=NL    
+        1:  692:      call serial4(C,N,M,K,L,NNL)
+       11:  693:      do i=4,N-3
+call    0 returned 100%
+branch  1 taken 91% (fallthrough)
+branch  2 taken 9%
+      111:  694:       do j=4,M-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  695:        do ii=4,K-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+    11100:  696:         do jj=4,L-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+        -:  697:          C(i,j,ii,jj) = 
+        -:  698:     *   C(i+3,j,ii,jj)+ C(i,j+3,ii,jj)+
+        -:  699:     *   C(i,j,ii+3,jj)+ C(i,j,ii,jj-3)+
+        -:  700:     *   C(i+2,j,ii,jj)+ C(i,j+2,ii,jj)+
+        -:  701:     *   C(i,j,ii+2,jj)+ C(i,j,ii,jj-2)+
+        -:  702:     *   C(i+1,j,ii,jj)+ C(i,j+1,ii,jj)+
+    11000:  703:     *   C(i,j,ii+1,jj)+ C(i,j,ii,jj-1)
+        -:  704:         enddo
+        -:  705:        enddo
+        -:  706:       enddo 
+        -:  707:      enddo
+       17:  708:      nloopi=NL
+        -:  709:      nloopj=NL
+        -:  710:      nloopii=NL
+        -:  711:      nloopjj=NL
+        -:  712:
+        -:  713:!dvm$ actual (nloopi,nloopj,nloopii,nloopjj,C)
+        -:  714:!dvm$ region in (C)
+        -:  715:
+        -:  716:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj)
+       17:  717:      do jj=1,L
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  718:       do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368:  719:        do j=1,M
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69888:  720:         do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69632:  721:          A(i,j,ii,jj) = NL+i+j+ii+jj
+        -:  722:         enddo
+        -:  723:        enddo
+        -:  724:       enddo
+        -:  725:      enddo
+        -:  726: 
+        -:  727:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj),
+        -:  728:!dvm$*across(A(0:3,0:3,0:3,3:0))
+       11:  729:      do jj=4,L-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  730:       do ii=4,K-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  731:        do j=4,M-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+    11100:  732:         do i=4,N-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+        -:  733:          A(i,j,ii,jj) = 
+        -:  734:     *   A(i+3,j,ii,jj)+ A(i,j+3,ii,jj)+
+        -:  735:     *   A(i,j,ii+3,jj)+ A(i,j,ii,jj-3)+
+        -:  736:     *   A(i+2,j,ii,jj)+ A(i,j+2,ii,jj)+
+        -:  737:     *   A(i,j,ii+2,jj)+ A(i,j,ii,jj-2)+
+        -:  738:     *   A(i+1,j,ii,jj)+ A(i,j+1,ii,jj)+
+    11000:  739:     *   A(i,j,ii+1,jj)+ A(i,j,ii,jj-1)
+        -:  740:         enddo
+        -:  741:        enddo
+        -:  742:       enddo
+        -:  743:      enddo
+        -:  744:  
+        -:  745:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj),
+        -:  746:!dvm$*reduction( min( nloopi),min(nloopj),min(nloopii),min(nloopjj))
+       11:  747:      do jj=4,L-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  748:       do ii=4,K-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  749:        do j=4,M-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+    11100:  750:         do i=4,N-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+    11000:  751:          if (A(i,j,ii,jj).ne.C(i,j,ii,jj)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  752:           nloopi=min(nloopi,i)
+        -:  753:           nloopj=min(nloopj,j)
+        -:  754:           nloopii=min(nloopii,ii)
+        -:  755:           nloopjj=min(nloopjj,jj)
+        -:  756:          endif
+        -:  757:         enddo
+        -:  758:        enddo
+        -:  759:       enddo
+        -:  760:      enddo
+        -:  761:
+        -:  762:!dvm$ end region
+        -:  763:!dvm$ get_actual (nloopi)
+        -:  764:
+        1:  765:      if (nloopi .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  766:       call ansyes(tname)
+call    0 returned 100%
+        -:  767:      else
+    #####:  768:       call ansno(tname)
+call    0 never executed
+        -:  769:      endif
+       1*:  770:      deallocate (A, B, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  771:      end
+        -:  772:C -------------------------------------------ACR4309   
+function acr4309_ called 1 returned 100% blocks executed 90%
+        1:  773:      subroutine ACR4309
+        -:  774:      integer, parameter :: N = 58,M=58,K=58,L=58, NL=1000
+        1:  775:      integer, allocatable :: A(:,:,:,:), B(:,:,:,:), C(:,:,:,:)
+        -:  776:      integer nloopi,nloopj,nloopii,nloopjj
+        -:  777:      character*7 tname 
+        -:  778:!dvm$ distribute B(*,BLOCK,BLOCK,BLOCK)   
+        -:  779:!dvm$ shadow(11:11,11:11,11:11,11:11) :: A      
+        -:  780:!dvm$ align (i,j,ii,jj) with B(i,j,ii,jj) ::A
+        1:  781:      tname='ACR4309'     
+       1*:  782:      allocate (B(N,M,K,L), A(N,M,K,L), C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  783:      NNL=NL    
+        1:  784:      call serial4(C,N,M,K,L,NNL)
+       37:  785:      do i=12,N-11
+call    0 returned 100%
+branch  1 taken 97% (fallthrough)
+branch  2 taken 3%
+     1333:  786:       do j=12,M-11
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+    47988:  787:        do ii=12,K-11
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+  1727568:  788:         do jj=12,L-11
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+        -:  789:          C(i,j,ii,jj) =
+        -:  790:     *   C(i+11,j,ii,jj)+ C(i,j+11,ii,jj)+
+        -:  791:     *   C(i,j,ii+11,jj)+ C(i,j,ii,jj+11)+
+        -:  792:     *   C(i-11,j,ii,jj)+ C(i,j-11,ii,jj)+
+  1726272:  793:     *   C(i,j,ii-11,jj)+ C(i,j,ii,jj-11)
+        -:  794:         enddo
+        -:  795:        enddo
+        -:  796:       enddo 
+        -:  797:      enddo
+       59:  798:      nloopi=NL
+        -:  799:      nloopj=NL
+        -:  800:      nloopii=NL
+        -:  801:      nloopjj=NL
+        -:  802:
+        -:  803:!dvm$ actual (nloopi,nloopj,nloopii,nloopjj,C)
+        -:  804:!dvm$ region in (C)
+        -:  805:
+        -:  806:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj)
+       59:  807:      do jj=1,L
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
+     3423:  808:       do ii=1,K
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
+   198534:  809:        do j=1,M
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
+ 11514972:  810:         do i=1,N
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
+ 11511608:  811:          A(i,j,ii,jj) = NL+i+j+ii+jj
+        -:  812:         enddo
+        -:  813:        enddo
+        -:  814:       enddo
+        -:  815:      enddo
+        -:  816: 
+        -:  817:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj),
+        -:  818:!dvm$*across(A(11:11,11:11,11:11,11:11))
+       37:  819:      do jj=12,L-11
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+     1333:  820:       do ii=12,K-11
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+    47988:  821:        do j=12,M-11
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+  1727568:  822:         do i=12,N-11
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+        -:  823:          A(i,j,ii,jj) =
+        -:  824:     *   A(i+11,j,ii,jj)+ A(i,j+11,ii,jj)+
+        -:  825:     *   A(i,j,ii+11,jj)+ A(i,j,ii,jj+11)+
+        -:  826:     *   A(i-11,j,ii,jj)+ A(i,j-11,ii,jj)+
+  1726272:  827:     *   A(i,j,ii-11,jj)+ A(i,j,ii,jj-11)
+        -:  828:         enddo
+        -:  829:        enddo
+        -:  830:       enddo
+        -:  831:      enddo
+        -:  832:
+        -:  833:!dvm$ parallel (jj,ii,j,i) on A(i,j,ii,jj),
+        -:  834:!dvm$*reduction( min( nloopi),min(nloopj),min(nloopii),min(nloopjj))
+       37:  835:      do jj=12,L-11
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+     1333:  836:       do ii=12,K-11
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+    47988:  837:        do j=12,M-11
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+  1727568:  838:         do i=12,N-11
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+  1726272:  839:          if (A(i,j,ii,jj).ne.C(i,j,ii,jj)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  840:           nloopi=min(nloopi,i)
+        -:  841:           nloopj=min(nloopj,j)
+        -:  842:           nloopii=min(nloopii,ii)
+        -:  843:           nloopjj=min(nloopjj,jj)
+        -:  844:          endif
+        -:  845:         enddo
+        -:  846:        enddo
+        -:  847:       enddo
+        -:  848:      enddo
+        -:  849:
+        -:  850:!dvm$ end region
+        -:  851:!dvm$ get_actual (nloopi)
+        -:  852:
+        1:  853:      if (nloopi .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  854:       call ansyes(tname)
+call    0 returned 100%
+        -:  855:      else
+    #####:  856:       call ansno(tname)
+call    0 never executed
+        -:  857:      endif
+       1*:  858:      deallocate (A, B, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  859:      end
+        -:  860:C -----------------------------------------------         
+function serial4_ called 9 returned 100% blocks executed 100%
+        9:  861:      subroutine serial4(AR,N,M,K,L,NL)
+        -:  862:      integer AR(N,M,K,L)
+        -:  863:      integer NL
+      211:  864:      do i=1,N
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+     5463:  865:       do j=1,M
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+   226870:  866:        do ii=1,K
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
+ 11927036:  867:         do jj=1,L
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
+ 11921784:  868:          AR(i,j,ii,jj) = NL+i+j+ii+jj
+        -:  869:         enddo
+        -:  870:        enddo
+        -:  871:       enddo
+        -:  872:      enddo
+        9:  873:      end
+        -:  874:
+function ansyes_ called 9 returned 100% blocks executed 100%
+        9:  875:      subroutine ansyes(name)
+        -:  876:      character*7 name
+        9:  877:      print *,name,'  -  complete'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+        9:  878:      end
+function ansno_ called 0 returned 0% blocks executed 0%
+    #####:  879:      subroutine ansno(name)
+        -:  880:      character*7 name
+    #####:  881:      print *,name,'  -  ***error'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+    #####:  882:      end
+        -:  883:      

@@ -1,0 +1,539 @@
+=== Processing file: taskst31.f ===
+Date and time: 2025-04-23 11:58:00
+Dimension: 3d
+==================================================
+
+Copied ./sources\3d\taskst31.f to ./results\3d\taskst31\taskst31.f
+Command: gfortran -O3 -g -fprofile-arcs -ftest-coverage "./results\3d\taskst31\taskst31.f" -o "./results\3d\taskst31\taskst31"
+Output: 
+
+Error output: 
+./results\3d\taskst31\taskst31.f:1:2:
+
+    1 | program taskst31
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:2:6:
+
+    2 |     integer, parameter :: k = 8, n1 = 4, itmax = 20, n2 = k - n1, er = 10000
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:3:6:
+
+    3 |     real, allocatable :: a( :, :, :, : ), a1( :, :, :, : ), a2( :, :, :, : )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:4:6:
+
+    4 |     real, allocatable :: b( :, :, :, : ), b1( :, :, :, : ), b2( :, :, :, : )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:5:6:
+
+    5 |     integer lp( 2 ), hp( 2 ), errt
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:6:6:
+
+    6 |     character*8 :: tname = 'taskst31'
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:17:6:
+
+   17 |     print *,  '===START OF taskst31 ====================='
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:19:6:
+
+   19 |     call dpt( lp, hp, 2 )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:21:6:
+
+   21 |     allocate( a1( n1 + 1, k, k, k ) )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:23:6:
+
+   23 |     allocate( b1( n1 + 1, k, k, k ) )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:26:6:
+
+   26 |     allocate( a2( n2 + 1, k, k, k ) )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:28:6:
+
+   28 |     allocate( b2( n2 + 1, k, k, k ) )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:30:6:
+
+   30 |     allocate( a( k, k, k, k ), b( k, k, k, k ) )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:41:41:
+
+   41 |                         if( i .eq. 1 .or. &
+      |                                                1
+Error: Syntax error in expression at (1)
+./results\3d\taskst31\taskst31.f:47:72:
+
+   47 |                         else
+      |                                                                               1
+Error: Unexpected ELSE statement at (1)
+./results\3d\taskst31\taskst31.f:50:25:
+
+   50 |                         endif
+      |                                1
+Error: Expecting END DO statement at (1)
+./results\3d\taskst31\taskst31.f:65:48:
+
+   65 |                         if( i .eq. n2 + 1 .or. &
+      |                                                1
+Error: Syntax error in expression at (1)
+./results\3d\taskst31\taskst31.f:71:72:
+
+   71 |                         else
+      |                                                                        1
+Error: Unexpected ELSE statement at (1)
+./results\3d\taskst31\taskst31.f:74:27:
+
+   74 |                         endif
+      |                           1
+Error: Expecting END DO statement at (1)
+./results\3d\taskst31\taskst31.f:83:6:
+
+   83 |     do it = 1, itmax
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:115:39:
+
+  115 |                                     b1( i, j, ii, jj ) = ( a1( i - 1, j, ii, jj ) + a1( i + 1, j, ii, jj ) + &
+      |                                       1
+Error: 'b1' at (1) is not a variable
+./results\3d\taskst31\taskst31.f:116:62:
+
+  116 |                                                            a1( i, j - 1, ii, jj ) + a1( i, j + 1, ii, jj ) + &
+      |                                                              1
+Error: 'a1' at (1) is not a variable
+./results\3d\taskst31\taskst31.f:117:62:
+
+  117 |                                                            a1( i, j, ii - 1, jj ) + a1( i, j, ii + 1, jj ) + &
+      |                                                              1
+Error: 'a1' at (1) is not a variable
+./results\3d\taskst31\taskst31.f:118:62:
+
+  118 |                                                            a1( i, j, ii, jj - 1 ) + a1( i, j, ii, jj + 1 ) ) / 8
+      |                                                              1
+Error: 'a1' at (1) is not a variable
+./results\3d\taskst31\taskst31.f:129:39:
+
+  129 |                                     a1( i, j, ii, jj ) = b1( i, j, ii, jj )
+      |                                       1
+Error: 'a1' at (1) is not a variable
+./results\3d\taskst31\taskst31.f:144:39:
+
+  144 |                                     b2( i, j, ii, jj ) = ( a2( i - 1, j, ii, jj ) + a2( i + 1, j, ii, jj ) + &
+      |                                       1
+Error: 'b2' at (1) is not a variable
+./results\3d\taskst31\taskst31.f:145:62:
+
+  145 |                                                            a2( i, j - 1, ii, jj ) + a2( i, j + 1, ii, jj ) + &
+      |                                                              1
+Error: 'a2' at (1) is not a variable
+./results\3d\taskst31\taskst31.f:146:62:
+
+  146 |                                                            a2( i, j, ii - 1, jj ) + a2( i, j, ii + 1, jj ) + &
+      |                                                              1
+Error: 'a2' at (1) is not a variable
+./results\3d\taskst31\taskst31.f:147:62:
+
+  147 |                                                            a2( i, j, ii, jj - 1 ) + a2( i, j, ii, jj + 1 ) ) / 8
+      |                                                              1
+Error: 'a2' at (1) is not a variable
+./results\3d\taskst31\taskst31.f:157:39:
+
+  157 |                                     a2( i, j, ii, jj ) = b2( i, j, ii, jj )
+      |                                       1
+Error: 'a2' at (1) is not a variable
+./results\3d\taskst31\taskst31.f:165:6:
+
+  165 |     enddo
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:175:57:
+
+  175 |                         if( i .eq. 1 .or. j .eq. 1 .or. &
+      |                                                         1
+Error: Syntax error in expression at (1)
+./results\3d\taskst31\taskst31.f:180:72:
+
+  180 |                         else
+      |                                                                        1
+Error: Unexpected ELSE statement at (1)
+./results\3d\taskst31\taskst31.f:182:27:
+
+  182 |                         endif
+      |                           1
+Error: Expecting END DO statement at (1)
+./results\3d\taskst31\taskst31.f:189:6:
+
+  189 |     do it = 1, itmax
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:206:30:
+
+  206 |                             b( i, j, ii, jj ) = ( a( i - 1, j, ii, jj ) + a( i + 1, j, ii, jj ) + &
+      |                              1
+Error: 'b' at (1) is not a variable
+./results\3d\taskst31\taskst31.f:207:52:
+
+  207 |                                                   a( i, j - 1, ii, jj ) + a( i, j + 1, ii, jj ) + &
+      |                                                    1
+Error: 'a' at (1) is not a variable
+./results\3d\taskst31\taskst31.f:208:52:
+
+  208 |                                                   a( i, j, ii - 1, jj ) + a( i, j, ii + 1, jj ) + &
+      |                                                    1
+Error: 'a' at (1) is not a variable
+./results\3d\taskst31\taskst31.f:209:52:
+
+  209 |                                                   a( i, j, ii, jj - 1 ) + a( i, j, ii, jj + 1 ) ) / 8
+      |                                                    1
+Error: 'a' at (1) is not a variable
+./results\3d\taskst31\taskst31.f:215:6:
+
+  215 |     enddo
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:219:6:
+
+  219 |     a(2:n1,:,:,:) = b1(2:n1,:,:,:)
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:220:6:
+
+  220 |     a(n1+1:n1+n2-1,:,:,:) = b2(2:n2,:,:,:)
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:221:6:
+
+  221 |     errt = er
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:223:6:
+
+  223 |     do jj = 2, k - 1
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:231:6:
+
+  231 |     enddo
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:232:6:
+
+  232 |     if (errt .eq. er)  then
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:234:6:
+
+  234 |     else
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:236:6:
+
+  236 |     endif
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:237:6:
+
+  237 |     deallocate(b,b1,b2,a,a1,a2)
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:238:6:
+
+  238 |     print *,  '=== END OF taskst31 ====================='
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:239:2:
+
+  239 | end
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:241:2:
+
+  241 | subroutine dpt( lp, hp, nt )
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:243:6:
+
+  243 |     integer lp( 2 ), hp( 2 )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:244:6:
+
+  244 |     processors_size( i ) = 1
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:260:2:
+
+  260 | end
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:262:2:
+
+  262 | subroutine ansyes(name)
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:263:6:
+
+  263 |     character*8 name
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:264:6:
+
+  264 |     print *, name, '  -  complete'
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:265:2:
+
+  265 | end
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:267:2:
+
+  267 | subroutine ansno(name)
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:268:6:
+
+  268 |     character*8 name
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:269:6:
+
+  269 |     print *, name, '  -  ***error'
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst31\taskst31.f:270:2:
+
+  270 | end
+      |  1
+Error: Non-numeric character in statement label at (1)
+f951.exe: Error: Unexpected end of file in './results\3d\taskst31\taskst31.f'
+
+--------------------------------------------------
+Command: "./results\3d\taskst31\taskst31"
+Output: 
+
+Error output: 
+'"./results\3d\taskst31\taskst31"' is not recognized as an internal or external command,
+operable program or batch file.
+
+--------------------------------------------------
+Command: gcov -b "./results\3d\taskst31\taskst31.f"
+Output: 
+No executable lines
+
+Error output: 
+./results\3d\taskst31\taskst31.gcno:cannot open notes file
+./results\3d\taskst31\taskst31.gcda:cannot open data file, assuming not executed
+
+--------------------------------------------------
+GCOV file copied from ./taskst31.f.gcov to ./results\3d\taskst31\taskst31.f.gcov
+Command: "../SAPFOR/_bin/Release/Sapfor_F.exe" -parse -spf "./results\3d\taskst31\taskst31.f"
+Output: 
+SAPFOR version is 2410, build date: Apr 23 2025 11:52:44, c++ version 201703
+  parse file './results\3d\taskst31\taskst31.f'
+  options: -spf 
+files compilation order:
+  ./results\3d\taskst31\taskst31.f
+Error 009 on line 1 of ./results\3d\taskst31\taskst31.f: Illegal continuation line ignored
+Error 009 on line 2 of ./results\3d\taskst31\taskst31.f: Illegal continuation line ignored
+Error 009 on line 3 of ./results\3d\taskst31\taskst31.f: Illegal continuation line ignored
+Error 009 on line 4 of ./results\3d\taskst31\taskst31.f: Illegal continuation line ignored
+Error 009 on line 5 of ./results\3d\taskst31\taskst31.f: Illegal continuation line ignored
+Error 009 on line 6 of ./results\3d\taskst31\taskst31.f: Illegal continuation line ignored
+Error 009 on line 17 of ./results\3d\taskst31\taskst31.f: Illegal continuation line ignored
+Error 009 on line 19 of ./results\3d\taskst31\taskst31.f: Illegal continuation line ignored
+Error 009 on line 21 of ./results\3d\taskst31\taskst31.f: Illegal continuation line ignored
+Error 009 on line 23 of ./results\3d\taskst31\taskst31.f: Illegal continuation line ignored
+Error 009 on line 26 of ./results\3d\taskst31\taskst31.f: Illegal continuation line ignored
+Error 009 on line 28 of ./results\3d\taskst31\taskst31.f: Illegal continuation line ignored
+Error 009 on line 30 of ./results\3d\taskst31\taskst31.f: Illegal continuation line ignored
+Error 013 on line 41 of ./results\3d\taskst31\taskst31.f: Unbalanced parentheses, statement skipped
+Error 010 on line 41 of ./results\3d\taskst31\taskst31.f: Unclassifiable statement
+Error 010 on line 42 of ./results\3d\taskst31\taskst31.f: Unclassifiable statement
+Error 010 on line 43 of ./results\3d\taskst31\taskst31.f: Unclassifiable statement
+Error 013 on line 44 of ./results\3d\taskst31\taskst31.f: Unbalanced parentheses, statement skipped
+Error 010 on line 44 of ./results\3d\taskst31\taskst31.f: Unclassifiable statement
+Error 030 on line 45 of ./results\3d\taskst31\taskst31.f: Declaration among executables
+Error 030 on line 46 of ./results\3d\taskst31\taskst31.f: Declaration among executables
+Error 032 on line 47 of ./results\3d\taskst31\taskst31.f: ELSE out of place
+Error 030 on line 48 of ./results\3d\taskst31\taskst31.f: Declaration among executables
+Error 030 on line 49 of ./results\3d\taskst31\taskst31.f: Declaration among executables
+Error 260 on line 50 of ./results\3d\taskst31\taskst31.f: Illegal END IF
+Parsing was completed with errors, throw code 0, errors count 25
+
+--------------------------------------------------
+Command: "../SAPFOR/_bin/Release/Sapfor_F.exe" -passN GET_STATS_FOR_PREDICTOR -keepDVM
+Output: 
+SAPFOR version is 2410, build date: Apr 23 2025 11:52:44, c++ version 201703
+code for pass GET_STATS_FOR_PREDICTOR is 79
+RUN PASS with name VERIFY_FUNC_DECL
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.002000 sec)
+RUN PASS with name FILE_LINE_INFO
+  Analyzing: results\3d\sha32\sha32.f
+  All lines in project 335
+PROFILE: time for this pass = 0.000000 sec (total 0.003000 sec)
+RUN PASS with name BUILD_INCLUDE_DEPENDENCIES
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.003000 sec)
+RUN PASS with name CORRECT_VAR_DECL
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.004000 sec)
+RUN PASS with name VERIFY_OPERATORS
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.004000 sec)
+RUN PASS with name VERIFY_ENDDO
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.005000 sec)
+RUN PASS with name VERIFY_INCLUDES
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.005000 sec)
+RUN PASS with name PREPROC_ALLOCATES
+  Analyzing: results\3d\sha32\sha32.f
+  attribute (37 results\3d\sha32\sha32.f) is added to declaration on line 27 of results\3d\sha32\sha32.f file
+  attribute (38 results\3d\sha32\sha32.f) is added to declaration on line 28 of results\3d\sha32\sha32.f file
+  attribute (98 results\3d\sha32\sha32.f) is added to declaration on line 28 of results\3d\sha32\sha32.f file
+  attribute (98 results\3d\sha32\sha32.f) is added to declaration on line 27 of results\3d\sha32\sha32.f file
+  attribute (116 results\3d\sha32\sha32.f) is added to declaration on line 106 of results\3d\sha32\sha32.f file
+  attribute (117 results\3d\sha32\sha32.f) is added to declaration on line 107 of results\3d\sha32\sha32.f file
+  attribute (170 results\3d\sha32\sha32.f) is added to declaration on line 107 of results\3d\sha32\sha32.f file
+  attribute (170 results\3d\sha32\sha32.f) is added to declaration on line 106 of results\3d\sha32\sha32.f file
+  attribute (188 results\3d\sha32\sha32.f) is added to declaration on line 178 of results\3d\sha32\sha32.f file
+  attribute (189 results\3d\sha32\sha32.f) is added to declaration on line 179 of results\3d\sha32\sha32.f file
+  attribute (242 results\3d\sha32\sha32.f) is added to declaration on line 178 of results\3d\sha32\sha32.f file
+  attribute (242 results\3d\sha32\sha32.f) is added to declaration on line 179 of results\3d\sha32\sha32.f file
+  attribute (260 results\3d\sha32\sha32.f) is added to declaration on line 250 of results\3d\sha32\sha32.f file
+  attribute (261 results\3d\sha32\sha32.f) is added to declaration on line 251 of results\3d\sha32\sha32.f file
+  attribute (312 results\3d\sha32\sha32.f) is added to declaration on line 251 of results\3d\sha32\sha32.f file
+  attribute (312 results\3d\sha32\sha32.f) is added to declaration on line 250 of results\3d\sha32\sha32.f file
+PROFILE: time for this pass = 0.000000 sec (total 0.006000 sec)
+RUN PASS with name CHECK_PAR_REG_DIR
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.007000 sec)
+RUN PASS with name FILL_PARALLEL_REG_IR
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.008000 sec)
+RUN PASS with name GET_ALL_ARRAY_DECL
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.004000 sec (total 0.012000 sec)
+RUN PASS with name FILL_COMMON_BLOCKS
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.012000 sec)
+RUN PASS with name PARSE_OMP_DIRS
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.013000 sec)
+RUN PASS with name PREPROC_SPF
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.013000 sec)
+RUN PASS with name CREATE_INTER_TREE
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.014000 sec)
+RUN PASS with name GCOV_PARSER
+  Analyzing: results\3d\sha32\sha32.f
+   Error: unable to open file statistic.txt
+PROFILE: time for this pass = 0.001000 sec (total 0.015000 sec)
+RUN PASS with name VERIFY_FORMAT
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.016000 sec)
+RUN PASS with name VERIFY_DVM_DIRS
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.016000 sec)
+RUN PASS with name PRIVATE_CALL_GRAPH_STAGE1
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.017000 sec)
+RUN PASS with name PRIVATE_CALL_GRAPH_STAGE2
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.017000 sec)
+RUN PASS with name MACRO_EXPANSION
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.018000 sec)
+RUN PASS with name CONVERT_ASSIGN_TO_LOOP
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.019000 sec)
+RUN PASS with name DEF_USE_STAGE1
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.002000 sec (total 0.021000 sec)
+RUN PASS with name DEF_USE_STAGE2
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.022000 sec)
+RUN PASS with name VERIFY_COMMON
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.022000 sec)
+RUN PASS with name CALL_GRAPH_IR
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.002000 sec (total 0.025000 sec)
+RUN PASS with name BUILD_IR
+  Analyzing: results\3d\sha32\sha32.f
+  count of functions 8, count of lvls 3
+     RD time for 'serial3' function is 0.000 sec, iters 5
+     RD time for 'ansyes' function is 0.000 sec, iters 1
+     RD time for 'ansno' function is 0.000 sec, iters 1
+
+     RD time for 'sha3201' function is 0.000 sec, iters 5
+     RD time for 'sha3202' function is 0.000 sec, iters 5
+     RD time for 'sha3203' function is 0.000 sec, iters 5
+     RD time for 'sha3204' function is 0.000 sec, iters 5
+
+     RD time for 'sha32' function is 0.000 sec, iters 1
+
+PROFILE: time for this pass = 0.005000 sec (total 0.030000 sec)
+RUN PASS with name SUBST_EXPR_RD
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.002000 sec (total 0.032000 sec)
+RUN PASS with name LOOP_GRAPH
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.002000 sec (total 0.035000 sec)
+RUN PASS with name CALL_GRAPH
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.003000 sec (total 0.038000 sec)
+RUN PASS with name CALL_GRAPH2
+  Analyzing: results\3d\sha32\sha32.f
+  run for func sha32
+  run for func sha3201
+  run for func sha3202
+  run for func sha3203
+  run for func sha3204
+  run for func serial3
+  run for func ansyes
+  run for func ansno
+PROFILE: time for this pass = 0.001000 sec (total 0.040000 sec)
+RUN PASS with name GET_STATS_FOR_PREDICTOR
+  Analyzing: results\3d\sha32\sha32.f
+    PAR LOOP [48 results\3d\sha32\sha32.f] total exec 21843, total exec lines 8, avg 2.7303750000000000e+03
+    PAR LOOP [67 results\3d\sha32\sha32.f] total exec 5553, total exec lines 8, avg 6.9412500000000000e+02
+    PAR LOOP [80 results\3d\sha32\sha32.f] total exec 8453, total exec lines 11, avg 7.6845454545454550e+02
+    PAR LOOP [127 results\3d\sha32\sha32.f] total exec 21843, total exec lines 8, avg 2.7303750000000000e+03
+    PAR LOOP [140 results\3d\sha32\sha32.f] total exec 5553, total exec lines 8, avg 6.9412500000000000e+02
+    PAR LOOP [152 results\3d\sha32\sha32.f] total exec 8453, total exec lines 11, avg 7.6845454545454550e+02
+    PAR LOOP [199 results\3d\sha32\sha32.f] total exec 21843, total exec lines 8, avg 2.7303750000000000e+03
+    PAR LOOP [212 results\3d\sha32\sha32.f] total exec 5553, total exec lines 8, avg 6.9412500000000000e+02
+    PAR LOOP [224 results\3d\sha32\sha32.f] total exec 8453, total exec lines 11, avg 7.6845454545454550e+02
+    PAR LOOP [271 results\3d\sha32\sha32.f] total exec 21843, total exec lines 8, avg 2.7303750000000000e+03
+    PAR LOOP [282 results\3d\sha32\sha32.f] total exec 5553, total exec lines 8, avg 6.9412500000000000e+02
+    PAR LOOP [294 results\3d\sha32\sha32.f] total exec 8453, total exec lines 11, avg 7.6845454545454550e+02
+    average_parallel_exec 1.3277407407407406e+03
+    parallel_rate 7.2317763230888721e-01
+PROFILE: time for this pass = 0.016000 sec (total 0.056000 sec)
+
+--------------------------------------------------
+INFO.JSON file copied from ./info.json to ./results\3d\taskst31\info.json
+
+==================================================
+Processing of taskst31.f completed successfully at 2025-04-23 11:58:01

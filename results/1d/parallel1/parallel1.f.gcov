@@ -1,0 +1,445 @@
+        -:    0:Source:results/1d/parallel1/parallel1.f
+        -:    0:Graph:./results\1d\parallel1\parallel1.gcno
+        -:    0:Data:./results\1d\parallel1\parallel1.gcda
+        -:    0:Runs:1
+function MAIN__ called 1 returned 100% blocks executed 100%
+        1:    1:      program PARALLEL1
+        -:    2:
+        -:    3:c    TESTING parallel CLAUSE .       
+        -:    4:
+        1:    5:      print *,'===START OF parallel1========================'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:    6:C --------------------------------------------------
+        -:    7:c 11  arrA1[BLOCK]  PARALLEL ON arrA[i+4] normal
+        1:    8:      call parallel11
+call    0 returned 100%
+        -:    9:C --------------------------------------------------
+        -:   10:c 12  arrA1[BLOCK]  PARALLEL ON arrA[-i+8]  reverse
+        -:   11:c      call parallel12
+        -:   12:C --------------------------------------------------
+        -:   13:c 13  arrA1[BLOCK]  PARALLEL ON arrA[2*i+8] stretch
+        1:   14:      call parallel13
+call    0 returned 100%
+        -:   15:C --------------------------------------------------
+        -:   16:c 131 arrA1[BLOCK]  PARALLEL ON arrA[2*i+1] small array
+        1:   17:      call parallel13
+call    0 returned 100%
+        -:   18:C --------------------------------------------------
+        -:   19:c 14  arrA1[BLOCK]  PARALLEL ON arrA[] 
+        1:   20:      call parallel14
+call    0 returned 100%
+        -:   21:C --------------------------------------------------
+        -:   22:c 15  arrA1[BLOCK]  PARALLEL ON arrA[2] 
+        1:   23:      call parallel15
+call    0 returned 100%
+        -:   24:C --------------------------------------------------
+        1:   25:      print *,'=== END OF parallel1 ========================= '    
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+function main called 1 returned 100% blocks executed 100%
+        1:   26:      end
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   27:
+        -:   28:C ----------------------------------------------------parallel11
+        -:   29:c 11  arrA1[BLOCK]  PARALLEL ON arrA[i+4] normal
+function parallel11_ called 1 returned 100% blocks executed 78%
+        1:   30:      subroutine parallel11
+        -:   31:      integer, parameter :: AN1=8,NL=1000,ER=10000
+        -:   32:c     parameters for PARALLEL arrA1[k1i * i + li]                                                 
+        -:   33:      integer, parameter :: k1i=1,k2i=0,li=4      
+        -:   34:      character*9 tname
+        1:   35:      integer, allocatable :: A1(:)
+        -:   36:      integer erri,i
+        -:   37:               
+        -:   38:!dvm$ distribute A1(BLOCK)    
+        -:   39:
+        1:   40:      tname='paral11'
+       1*:   41:      allocate (A1(AN1))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        9:   42:      erri= ER
+        -:   43:      NNL=NL 
+        -:   44:
+        -:   45:!dvm$ actual(erri)
+        -:   46:!dvm$ region local(A1)
+        -:   47:!dvm$ parallel (i) on A1(i)
+        9:   48:      do i=1,AN1
+branch  0 taken 11% (fallthrough)
+branch  1 taken 89%
+        9:   49:            A1(i) =i     
+        -:   50:      enddo
+        -:   51:
+        -:   52:!dvm$ parallel (i) on A1(k1i * i + li), reduction( min( erri ) )
+        -:   53:!dvm$*, private(ia)
+        5:   54:      do i=1,((AN1-li)/k1i)
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+        4:   55:            ia=k1i * i + li
+        5:   56:            if (A1(ia) .eq.(ia)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:   57:            else
+    #####:   58:               erri = min(erri,i)
+        -:   59:            endif 
+        -:   60:      enddo
+        -:   61:!dvm$ end region   
+        -:   62:!dvm$ get_actual(erri) 
+        -:   63:     
+        1:   64:      if (erri .eq.ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:   65:          call ansyes(tname)
+call    0 returned 100%
+        -:   66:      else
+    #####:   67:          call ansno(tname)
+call    0 never executed
+        -:   68:      endif 
+       1*:   69:      deallocate (A1)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:   70:
+        1:   71:      end
+        -:   72:C ----------------------------------------------------parallel12
+        -:   73:c 12  arrA1[BLOCK]  PARALLEL ON arrA[-i+8]  reverse
+function parallel12_ called 0 returned 0% blocks executed 0%
+    #####:   74:      subroutine parallel12
+        -:   75:      integer, parameter :: AN1=8,NL=1000,ER=10000
+        -:   76:c     parameters for PARALLEL arrA1[k1i * i + li]                                                 
+        -:   77:      integer, parameter :: k1i=-1,k2i=0,li=9      
+        -:   78:      character*9 tname
+    #####:   79:      integer, allocatable :: A1(:)
+        -:   80:      integer erri,i
+        -:   81:               
+        -:   82:!dvm$ distribute A1(BLOCK)   
+        -:   83:
+    #####:   84:      tname='paral12'
+    #####:   85:      allocate (A1(AN1))
+branch  0 never executed (fallthrough)
+branch  1 never executed
+call    2 never executed
+    #####:   86:      erri= ER
+        -:   87:      NNL=NL 
+        -:   88:
+        -:   89:!dvm$ actual(erri)
+        -:   90:!dvm$ region local(A1)
+        -:   91:!dvm$ parallel (i) on A1(i)
+    #####:   92:      do i=1,AN1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   93:            A1(i) =i     
+        -:   94:      enddo
+        -:   95:
+        -:   96:!dvm$ parallel (i) on A1(k1i * i + li), reduction( min( erri ) )
+        -:   97:!dvm$*, private(ia)
+    #####:   98:      do i=1,AN1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   99:            ia=k1i * i + li
+    #####:  100:            if (A1(ia) .eq.(ia)) then     
+branch  0 never executed (fallthrough)
+branch  1 never executed
+        -:  101:            else
+    #####:  102:               erri = min(erri,i)
+        -:  103:            endif 
+        -:  104:      enddo
+        -:  105:!dvm$ end region   
+        -:  106:!dvm$ get_actual(erri) 
+        -:  107:     
+    #####:  108:      if (erri .eq.ER) then     
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  109:          call ansyes(tname)
+call    0 never executed
+        -:  110:      else
+    #####:  111:          call ansno(tname)
+call    0 never executed
+        -:  112:      endif 
+    #####:  113:      deallocate (A1)
+branch  0 never executed (fallthrough)
+branch  1 never executed
+call    2 never executed
+        -:  114:
+    #####:  115:      end
+        -:  116:C ----------------------------------------------------parallel13
+        -:  117:c 13  arrA1[BLOCK]  PARALLEL ON arrA[2*i+8] stretch
+function parallel13_ called 2 returned 100% blocks executed 78%
+        2:  118:      subroutine parallel13
+        -:  119:      integer, parameter :: AN1=20,NL=1000,ER=10000
+        -:  120:c     parameters for PARALLEL arrA1[k1i * i + li]                                                 
+        -:  121:      integer, parameter :: k1i=2,k2i=0,li=8      
+        -:  122:      character*9 tname
+        2:  123:      integer, allocatable :: A1(:)
+        -:  124:      integer erri,i
+        -:  125:               
+        -:  126:!dvm$ distribute A1(BLOCK)   
+        -:  127:
+        2:  128:      tname='paral13'
+       2*:  129:      allocate (A1(AN1))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+       42:  130:      erri= ER
+        -:  131:      NNL=NL 
+        -:  132:
+        -:  133:!dvm$ actual(erri)
+        -:  134:!dvm$ region local(A1)
+        -:  135:!dvm$ parallel (i) on A1(i)
+       42:  136:      do i=1,AN1
+branch  0 taken 5% (fallthrough)
+branch  1 taken 95%
+       42:  137:            A1(i) =i     
+        -:  138:      enddo
+        -:  139:
+        -:  140:!dvm$ parallel (i) on A1(k1i * i + li), reduction( min( erri ) )
+        -:  141:!dvm$*, private(ia)
+       14:  142:      do i=1,((AN1-li)/k1i)
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+       12:  143:            ia=k1i * i + li
+       14:  144:            if (A1(ia) .eq.(ia)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  145:            else
+    #####:  146:               erri = min(erri,i)
+        -:  147:            endif 
+        -:  148:      enddo
+        -:  149:!dvm$ end region   
+        -:  150:!dvm$ get_actual(erri) 
+        -:  151:     
+        2:  152:      if (erri .eq.ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        2:  153:          call ansyes(tname)
+call    0 returned 100%
+        -:  154:      else
+    #####:  155:          call ansno(tname)
+call    0 never executed
+        -:  156:      endif 
+       2*:  157:      deallocate (A1)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  158:
+        2:  159:      end
+        -:  160:C ----------------------------------------------------parallel131
+        -:  161:c 131  arrA1[BLOCK]  PARALLEL ON arrA[2*i+1] small array
+function parallel131_ called 0 returned 0% blocks executed 0%
+    #####:  162:      subroutine parallel131
+        -:  163:      integer, parameter :: AN1=5,NL=1000,ER=10000
+        -:  164:c     parameters for PARALLEL arrA1[k1i * i + li]                                                 
+        -:  165:      integer, parameter :: k1i=2,k2i=0,li=1      
+        -:  166:      character*9 tname
+    #####:  167:      integer, allocatable :: A1(:)
+        -:  168:      integer erri,i
+        -:  169:               
+        -:  170:!dvm$ distribute A1(BLOCK)   
+        -:  171:
+    #####:  172:      tname='paral131'
+    #####:  173:      allocate (A1(AN1))
+branch  0 never executed (fallthrough)
+branch  1 never executed
+call    2 never executed
+    #####:  174:      erri= ER
+        -:  175:      NNL=NL 
+        -:  176:
+        -:  177:!dvm$ actual(erri)
+        -:  178:!dvm$ region local(A1)
+        -:  179:!dvm$ parallel (i) on A1(i)
+    #####:  180:      do i=1,AN1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  181:            A1(i) =i     
+        -:  182:      enddo
+        -:  183:
+        -:  184:!dvm$ parallel (i) on A1(k1i * i + li), reduction( min( erri ) )
+        -:  185:!dvm$*, private(ia)
+    #####:  186:      do i=1,((AN1-li)/k1i)
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  187:            ia=k1i * i + li
+    #####:  188:            if (A1(ia) .eq.(ia)) then     
+branch  0 never executed (fallthrough)
+branch  1 never executed
+        -:  189:            else
+    #####:  190:               erri = min(erri,i)
+        -:  191:            endif 
+        -:  192:      enddo
+        -:  193:!dvm$ end region   
+        -:  194:!dvm$ get_actual(erri) 
+        -:  195:     
+    #####:  196:      if (erri .eq.ER) then     
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  197:          call ansyes(tname)
+call    0 never executed
+        -:  198:      else
+    #####:  199:          call ansno(tname)
+call    0 never executed
+        -:  200:      endif 
+    #####:  201:      deallocate (A1)
+branch  0 never executed (fallthrough)
+branch  1 never executed
+call    2 never executed
+        -:  202:
+    #####:  203:      end
+        -:  204:C ----------------------------------------------------parallel14
+        -:  205:c 14  arrA1[BLOCK]  PARALLEL ON arrA[] 
+function parallel14_ called 1 returned 100% blocks executed 77%
+        1:  206:      subroutine parallel14
+        -:  207:      integer, parameter :: AN1=20,BN1=10,NL=1000,ER=10000
+        -:  208:c     parameters for PARALLEL arrA1[*]                                                 
+        -:  209:      integer, parameter :: k1i=0,k2i=0,li=0
+        -:  210:      character*9 tname
+        1:  211:      integer, allocatable :: A1(:),B1(:)
+        -:  212:      integer erri,i
+        -:  213:               
+        -:  214:!dvm$ distribute A1(BLOCK)   
+        -:  215:!dvm$ distribute B1(*)
+        -:  216:
+        1:  217:      tname='paral14'
+       1*:  218:      allocate (A1(AN1),B1(BN1))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+       21:  219:      erri= ER
+        -:  220:      NNL=NL 
+        -:  221:
+        -:  222:!dvm$ actual(erri)
+        -:  223:!dvm$ region local(A1,B1)
+        -:  224:!dvm$ parallel (i) on A1(i)
+       21:  225:      do i=1,AN1
+branch  0 taken 5% (fallthrough)
+branch  1 taken 95%
+       21:  226:            A1(i) =i     
+        -:  227:      enddo
+        -:  228:
+        -:  229:!dvm$ parallel (i) on B1(i)
+       11:  230:      do i=1,BN1
+branch  0 taken 9% (fallthrough)
+branch  1 taken 91%
+       11:  231:            B1(i) =i     
+        -:  232:      enddo
+        -:  233:
+        -:  234:!dvm$ parallel (i) on A1(*), reduction( min( erri ) )
+       11:  235:      do i=1,BN1
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+       11:  236:            if (B1(i) .eq.(i)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  237:            else
+    #####:  238:               erri = min(erri,i)
+        -:  239:            endif 
+        -:  240:      enddo
+        -:  241:!dvm$ end region   
+        -:  242:!dvm$ get_actual(erri) 
+        -:  243:     
+        1:  244:      if (erri .eq.ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  245:          call ansyes(tname)
+call    0 returned 100%
+        -:  246:      else
+    #####:  247:          call ansno(tname)
+call    0 never executed
+        -:  248:      endif 
+       1*:  249:      deallocate (A1,B1)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  250:
+        1:  251:      end
+        -:  252:C ----------------------------------------------------parallel15
+        -:  253:c 15  arrA1[BLOCK]  PARALLEL ON arrA[2] 
+function parallel15_ called 1 returned 100% blocks executed 78%
+        1:  254:      subroutine parallel15
+        -:  255:      integer, parameter :: AN1=20,NL=1000,ER=10000
+        -:  256:c     parameters for PARALLEL arrA1[li]                                                 
+        -:  257:      integer, parameter :: k1i=0,k2i=0,li=2
+        -:  258:      character*9 tname
+        1:  259:      integer, allocatable :: A1(:)
+        -:  260:      integer erri,i
+        -:  261:               
+        -:  262:!dvm$ distribute A1(BLOCK)   
+        -:  263:
+        1:  264:      tname='paral15'
+       1*:  265:      allocate (A1(AN1))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+       21:  266:      erri= ER
+        -:  267:      NNL=NL 
+        -:  268:
+        -:  269:!dvm$ actual(erri)
+        -:  270:!dvm$ region local(A1)
+        -:  271:!dvm$ parallel (i) on A1(i)
+       21:  272:      do i=1,AN1
+branch  0 taken 5% (fallthrough)
+branch  1 taken 95%
+       21:  273:            A1(i) =i     
+        -:  274:      enddo
+        -:  275:
+        -:  276:!dvm$ parallel (i) on A1(li), reduction( min( erri ) )
+        -:  277:!dvm$*, private(ia)
+       21:  278:      do i=1,AN1
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+       20:  279:            ia=li
+       21:  280:            if (A1(ia) .eq.(ia)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  281:            else
+    #####:  282:               erri = min(erri,i)
+        -:  283:            endif 
+        -:  284:      enddo
+        -:  285:!dvm$ end region   
+        -:  286:!dvm$ get_actual(erri) 
+        -:  287:     
+        1:  288:      if (erri .eq.ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  289:          call ansyes(tname)
+call    0 returned 100%
+        -:  290:      else
+    #####:  291:          call ansno(tname)
+call    0 never executed
+        -:  292:      endif 
+       1*:  293:      deallocate (A1)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  294:
+        1:  295:      end
+        -:  296:C -------------------------------------------------
+        -:  297:
+function ansyes_ called 5 returned 100% blocks executed 100%
+        5:  298:      subroutine ansyes(name)
+        -:  299:      character*9 name
+        5:  300:      print *,name,'  -  complete'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+        5:  301:      end
+function ansno_ called 0 returned 0% blocks executed 0%
+    #####:  302:      subroutine ansno(name)
+        -:  303:      character*9 name
+    #####:  304:      print *,name,'  -  ***error'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+    #####:  305:      end

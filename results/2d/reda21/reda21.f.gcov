@@ -1,0 +1,752 @@
+        -:    0:Source:results/2d/reda21/reda21.f
+        -:    0:Graph:./results\2d\reda21\reda21.gcno
+        -:    0:Data:./results\2d\reda21\reda21.gcda
+        -:    0:Runs:1
+function MAIN__ called 1 returned 100% blocks executed 100%
+        1:    1:      program REDA21
+        -:    2:
+        -:    3:c    TESTING OF THE REDUCTION_GROUP DIRECTIVE,REDUCTION_START
+        -:    4:c    DIRECTIVE,REDUCTION_WAIT DIRECTIVE.
+        -:    5:c    REDUCTION GROUPE IS EXECUTED FOR DISTRIBUTED ARRAY A(N,M).  
+        -:    6:c
+        1:    7:      print *,'===START OF REDA21======================='
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:    8:C --------------------------------------------------
+        1:    9:      call reda2101
+call    0 returned 100%
+        -:   10:C --------------------------------------------------
+        1:   11:      call reda2102
+call    0 returned 100%
+        -:   12:C --------------------------------------------------
+        1:   13:      call reda2103
+call    0 returned 100%
+        -:   14:C -------------------------------------------------
+        1:   15:      call reda2104
+call    0 returned 100%
+        -:   16:C -------------------------------------------------
+        -:   17:
+        -:   18:C
+        -:   19:C
+        1:   20:      print *,'=== END OF REDA21 ========================= '    
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+function main called 1 returned 100% blocks executed 100%
+        1:   21:      end
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   22:
+        -:   23:
+        -:   24: 
+        -:   25:
+        -:   26:C ----------------------------------------------------REDA2101
+function reda2101_ called 1 returned 100% blocks executed 85%
+        1:   27:      subroutine REDA2101
+        -:   28:      integer, parameter :: N = 16,M=8,NL=1000
+        -:   29:      character*8 tname
+        1:   30:      integer, allocatable :: A(:,:),C(:,:)
+        -:   31:      integer imin1,imint1 ,ni
+        -:   32:      integer isum1,isumt1 
+        -:   33:      integer imax1,imaxt1
+        -:   34:                      
+        -:   35:cdvm$ distribute A(BLOCK,BLOCK)
+        -:   36:cdvm$ reduction_group smaxmin
+        1:   37:      tname='REDA2101'
+       1*:   38:      allocate (A(N,M),C(N,M))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        1:   39:      NNL=NL 
+        1:   40:      NN=N
+        1:   41:      MM=M
+        1:   42:      call sersum2m(C,NN,MM,NNL,isum1)
+        -:   43:
+        -:   44:*dvm$ parallel (i,j) on A(i,j)
+       17:   45:      do i=1,N
+call    0 returned 100%
+branch  1 taken 94% (fallthrough)
+branch  2 taken 6%
+      145:   46:         do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      144:   47:           A(i,j) = i+j+NL
+        -:   48:         enddo
+        -:   49:      enddo
+        1:   50:      ni=N/2-1
+        1:   51:      nj=M/2-1
+        1:   52:      A(ni,nj)=N+M+1+NL
+        1:   53:      imax1=N+M+1+NL
+        -:   54:
+        -:   55:cdvm$ remote_access (A(1,1))
+        1:   56:      imaxt1=A(1,1)  
+        -:   57:
+        1:   58:      ni=N/2
+        1:   59:      nj=M/2
+        1:   60:      A(ni,nj)=-(N+M+1+NL)
+        1:   61:      imin1=-(N+M+1+NL)
+        -:   62:
+        -:   63:cdvm$ remote_access (A(1,1))
+        1:   64:      imint1=A(1,1)
+        -:   65:
+        1:   66:      isumt1 = 0
+        -:   67:
+        -:   68:*dvm$ parallel (i,j) on A(i,j),
+        -:   69:*dvm$*reduction(smaxmin:sum(isumt1),max(imaxt1),min(imint1))
+       17:   70:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:   71:         do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      128:   72:           isumt1 = isumt1+A(i,j)
+      128:   73:           if (A(i,j).GT.imaxt1) imaxt1=A(i,j)
+      144:   74:           if (A(i,j).LT.imint1) imint1=A(i,j)
+        -:   75:         enddo
+        -:   76:      enddo
+        -:   77:
+        -:   78:cdvm$ reduction_start smaxmin
+        -:   79:cdvm$ reduction_wait smaxmin
+        -:   80:c      print *,isumt1,isum1
+        -:   81:c      print *,imaxt1,imax1
+        -:   82:c      print *,imint1,imin1
+        -:   83:      if ((isum1 .eq.isumt1) .and.(imax1 .eq.imaxt1)
+        1:   84:     *   .and.(imin1 .eq.imint1))   then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+        1:   85:          call ansyes(tname)
+call    0 returned 100%
+        -:   86:      else
+    #####:   87:          call ansno(tname)
+call    0 never executed
+        -:   88:      endif 
+       1*:   89:      deallocate (A,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:   90:
+        1:   91:      end
+        -:   92:C ----------------------------------------------------REDA2102
+function reda2102_ called 1 returned 100% blocks executed 87%
+        1:   93:      subroutine REDA2102
+        -:   94:      integer, parameter :: N = 16,M=8,NL=1000
+        -:   95:      character*8 tname
+        1:   96:      integer, allocatable :: A(:,:),C(:,:)
+        -:   97:      integer iprod1,iprodt1 
+        1:   98:      logical, allocatable :: B(:,:),CL(:,:)
+        -:   99:      logical land1,landt1,lor1,leqv1,lneqv1
+        -:  100:                 
+        -:  101:cdvm$ distribute A(BLOCK,BLOCK)    
+        -:  102:cdvm$ align B(I,J) with A(I,J)      
+        -:  103:cdvm$ reduction_group prodand
+        -:  104:
+        1:  105:      tname='REDA2102'
+       1*:  106:      allocate (A(N,M),C(N,M))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+       1*:  107:      allocate (B(N,M),CL(N,M))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        1:  108:      NNL=NL
+        1:  109:      NN=N
+        1:  110:      MM=M
+        1:  111:      call serprod2(C,NN,MM,NNL,iprod1)
+call    0 returned 100%
+        1:  112:      call serlog2(CL,NN,MM,land1,lor1,leqv1,lneqv1)
+        -:  113:
+        -:  114:*dvm$ parallel (i,j) on B(i,j)
+       17:  115:      do i=1,N
+call    0 returned 100%
+branch  1 taken 6% (fallthrough)
+branch  2 taken 94%
+        1:  116:         do j=1,M,2
+       64:  117:            B(i,j) = .true.
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  118:         enddo         
+        -:  119:      enddo
+        -:  120:
+        -:  121:*dvm$ parallel (i,j) on B(i,j)
+       17:  122:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+        1:  123:         do j=2,M,2
+       64:  124:            B(i,j)=.false.
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  125:         enddo
+        -:  126:      enddo
+        -:  127:cdvm$ remote_access (B(1,1))
+        1:  128:      landt1 = B(1,1)    
+        -:  129:
+        -:  130:*dvm$ parallel (i,j) on A(i,j)
+       17:  131:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  132:         do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      144:  133:            A(i,j) = i+j+NL
+        -:  134:         enddo
+        -:  135:      enddo
+        -:  136:  
+        -:  137:      iprodt1 = 1
+        -:  138:
+        -:  139:*dvm$ parallel (i,j) on A(i,j),
+        -:  140:*dvm$*reduction(prodand:product( iprodt1 ),and(landt1))
+       17:  141:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  142:         do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      128:  143:           iprodt1 = iprodt1*A(i,j)
+      271:  144:           landt1 = landt1 .and.B(i,j)
+branch  0 taken 2% (fallthrough)
+branch  1 taken 98%
+branch  2 taken 50% (fallthrough)
+branch  3 taken 50%
+        -:  145:         enddo
+        -:  146:      enddo
+        -:  147:cdvm$ reduction_start prodand
+        -:  148:
+        -:  149:*dvm$ parallel (i,j) on A(i,j)
+       17:  150:      do  i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  151:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      144:  152:          A(i,j) = i+j+NL
+        -:  153:        enddo
+        -:  154:      enddo
+        -:  155:
+        -:  156:cdvm$ reduction_wait prodand 
+        -:  157:      if ((iprod1 .eq.iprodt1)
+        1:  158:     *.and. (land1 .eqv.landt1)) then       
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+        1:  159:          call ansyes(tname)
+call    0 returned 100%
+        -:  160:      else
+    #####:  161:          call ansno(tname)
+call    0 never executed
+        -:  162:      endif 
+       1*:  163:      deallocate (A,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+       1*:  164:      deallocate (B,CL)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  165: 
+        1:  166:      end   
+        -:  167:
+        -:  168:
+        -:  169:C ----------------------------------------------------REDA2103
+function reda2103_ called 1 returned 100% blocks executed 88%
+        1:  170:      subroutine REDA2103
+        -:  171:      integer, parameter :: N = 8, M=4,PN = 2,NL=1000
+        -:  172:      character*8 tname
+        1:  173:      integer, allocatable :: A(:,:),C(:,:)
+        -:  174:      integer imax1,imaxt1 ,ni,imin1,imint1,it1,it2,jt1,jt2
+        -:  175:      integer imaxloct1,iminloct1,lcoor
+        -:  176:      integer coor1(2),coor2(2)          
+        -:  177:cdvm$ distribute A(BLOCK,BLOCK)    
+        -:  178:cdvm$ reduction_group locmaxmin
+        1:  179:      tname='REDA2103'
+       1*:  180:      allocate (A(N,M),C(N,M))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        -:  181:      
+        -:  182:*dvm$ parallel (i,j) on A(i,j)
+        9:  183:      do i=1,N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       41:  184:        do j=1,M
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       40:  185:           A(i,j) = i+j+NL
+        -:  186:        enddo
+        -:  187:      enddo
+        -:  188:
+        1:  189:      ni=N/2
+        1:  190:      nj=M/2
+        1:  191:      A(ni,nj)=N+M+1+NL
+        1:  192:      imax1=N+M+1+NL
+        -:  193:
+        -:  194:cdvm$ remote_access (A(1,1))
+        1:  195:      imaxt1=A(1,1)
+        -:  196:
+        1:  197:      imaxloct1=imaxt1
+        1:  198:      ni1=N/2-1
+        1:  199:      nj1=M/2-1
+        1:  200:      A(ni1,nj1)=-(N+M+1+NL)
+        1:  201:      imin1=-(N+M+1+NL)
+        -:  202:
+        -:  203:cdvm$ remote_access (A(1,1))      
+        1:  204:      imint1=A(1,1)
+        -:  205:
+        1:  206:      iminloct1=imint1
+        1:  207:      lcoor=2
+        1:  208:      coor1(1)=0
+        1:  209:      coor1(2)=0
+        1:  210:      coor2(1)=0
+        1:  211:      coor2(2)=0
+        -:  212:
+        -:  213:*dvm$ parallel (i,j) on A(i,j),
+        -:  214:*dvm$*reduction(locmaxmin:max( imaxt1 ),
+        -:  215:*dvm$*maxloc( imaxloct1,coor1,lcoor),
+        -:  216:*dvm$*minloc( iminloct1,coor2,lcoor))
+        9:  217:      do i=1,N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       41:  218:        do j=1,M
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       32:  219:         if (A(i,j).GT.imaxt1) imaxt1 =A(i,j)
+       32:  220:         if (A(i,j).GT.imaxloct1) then
+branch  0 taken 19% (fallthrough)
+branch  1 taken 81%
+        6:  221:           imaxloct1=A(i,j)
+        6:  222:           coor1(1)=i
+        6:  223:           coor1(2)=j 
+        -:  224:         endif
+       40:  225:         if (A(i,j).LT.iminloct1) then
+branch  0 taken 3% (fallthrough)
+branch  1 taken 97%
+        1:  226:           iminloct1=A(i,j)
+        1:  227:           coor2(1)=i
+        1:  228:           coor2(2)=j
+        -:  229:         endif
+        -:  230:        enddo 
+        -:  231:      enddo
+        -:  232:
+        -:  233:cdvm$ reduction_start locmaxmin
+        -:  234:cdvm$ reduction_wait locmaxmin
+        -:  235:
+        -:  236:c      print *,imax1,imaxt1,imaxloct1
+        -:  237:c      print *,imin1,imint1,iminloct1
+        -:  238:c      print *,it1,ni
+        -:  239:c      print *,it2,ni1
+        -:  240:c      print *,jt1,nj
+        -:  241:c      print *,jt2,nj1
+        -:  242:      if ((imaxloct1.eq.imax1).and.(iminloct1.eq.imin1)
+        -:  243:     *.and.(imaxt1.eq.imaxloct1).and.(coor1(1).eq.ni)
+        -:  244:     *.and.(coor2(1).eq.ni1) 
+        1:  245:     *.and.(coor1(2).eq.nj) .and.(coor2(2).eq.nj1))then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 100% (fallthrough)
+branch  5 taken 0%
+branch  6 taken 100% (fallthrough)
+branch  7 taken 0%
+branch  8 taken 100% (fallthrough)
+branch  9 taken 0%
+        1:  246:          call ansyes(tname)
+call    0 returned 100%
+        -:  247:      else
+    #####:  248:          call ansno(tname)
+call    0 never executed
+        -:  249:      endif 
+       1*:  250:      deallocate (A,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  251:
+        1:  252:      end
+        -:  253:
+        -:  254:
+        -:  255:C ----------------------------------------------------REDA2104
+function reda2104_ called 1 returned 100% blocks executed 89%
+        1:  256:      subroutine REDA2104
+        -:  257:
+        -:  258:      integer, parameter :: N = 8,M=6
+        -:  259:      real, parameter :: NL=1000.
+        -:  260:      character*8 tname
+        1:  261:      real, allocatable :: A(:,:),C(:,:)
+        -:  262:      real isum1,isumt1
+        -:  263:      real imax1,imaxt1 ,imin1,imint1
+        -:  264:      real imaxloct1,iminloct1,NNL
+        -:  265:      integer it1,it2,ni,ni1,jt1,jt2
+        -:  266:      integer coor1(2),coor2(2),lcoor          
+        -:  267:cdvm$ distribute A(BLOCK,BLOCK)     
+        -:  268:cdvm$ reduction_group locsum
+        -:  269:
+        1:  270:      tname='REDA2104'
+       1*:  271:      allocate (A(N,M),C(N,M))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        1:  272:      NNL=NL 
+        1:  273:      NN=N
+        1:  274:      MM=M
+        1:  275:      call sersum2mr(C,NN,MM,NNL,isum1)
+        -:  276:*dvm$ parallel (i,j) on A(i,j)
+        9:  277:      do i=1,N
+call    0 returned 100%
+branch  1 taken 89% (fallthrough)
+branch  2 taken 11%
+       57:  278:         do j=1,M
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+       56:  279:           A(i,j) = i+j+NL
+        -:  280:         enddo
+        -:  281:      enddo
+        -:  282:
+        -:  283:c      ni=N/2+1
+        -:  284:c      nj=M/2+1
+        1:  285:      ni=N/2
+        1:  286:      nj=M/2
+        1:  287:      A(ni,nj)=N+M+1.+NL
+        1:  288:      imax1=N+M+1.+NL
+        -:  289:
+        -:  290:cdvm$ remote_access (A(1,1))
+        1:  291:      imaxt1=A(1,1)  
+        -:  292:
+        1:  293:      imaxloct1=imaxt1
+        1:  294:      ni1=N/2-1
+        1:  295:      nj1=M/2-1
+        1:  296:      A(ni1,nj1)=-(N+M+1.+NL)
+        1:  297:      imin1=-(N+M+1.+NL)
+        -:  298:
+        -:  299:cdvm$ remote_access (A(1,1))      
+        1:  300:      imint1=A(1,1)
+        -:  301:
+        1:  302:      iminloct1=imint1
+        1:  303:      isumt1 = 0.
+        1:  304:      lcoor=2
+        1:  305:      coor1(1)=0
+        1:  306:      coor1(2)=0
+        1:  307:      coor2(1)=0
+        1:  308:      coor2(2)=0
+        -:  309:
+        -:  310:*dvm$ parallel (i,j) on A(i,j),
+        -:  311:*dvm$*reduction(locsum:sum( isumt1 ),
+        -:  312:*dvm$*maxloc( imaxloct1,coor1,lcoor ),minloc( iminloct1,coor2,lcoor ))
+        9:  313:      do i=1,N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       57:  314:        do j=1,M
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+       48:  315:          isumt1 = isumt1+A(i,j)
+       48:  316:          if (A(i,j).GT.imaxloct1) then
+branch  0 taken 17% (fallthrough)
+branch  1 taken 83%
+        8:  317:           imaxloct1=A(i,j)
+        8:  318:           coor1(1)=i
+        8:  319:           coor1(2)=j  
+        -:  320:          endif
+       56:  321:          if (A(i,j).LT.iminloct1) then
+branch  0 taken 2% (fallthrough)
+branch  1 taken 98%
+        1:  322:           iminloct1=A(i,j)
+        1:  323:           coor2(1)=i
+        1:  324:           coor2(2)=j  
+        -:  325:          endif
+        -:  326:        enddo
+        -:  327:      enddo
+        -:  328:
+        -:  329:cdvm$ reduction_start locsum
+        -:  330:cdvm$ reduction_wait locsum
+        -:  331:c      print *,A
+        -:  332:c      print *,imax1,imaxt1,imaxloct1
+        -:  333:c      print *,imin1,imint1,iminloct1
+        -:  334:     
+        -:  335:c      print *,isum1,isumt1
+        -:  336:c      print *,it1,ni
+        -:  337:c      print *,it2,ni1
+        -:  338:c      print *,jt1,nj
+        -:  339:c      print *,jt2,nj1
+        -:  340:      if ((imaxloct1.eq.imax1).and.(iminloct1.eq.imin1)
+        -:  341:     *.and.(isumt1.eq.isum1).and.(coor1(1).eq.ni)
+        -:  342:     *.and.(coor2(1).eq.ni1)
+        1:  343:     *.and.(coor1(2).eq.nj) .and.(coor2(2).eq.nj1))then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 100% (fallthrough)
+branch  5 taken 0%
+branch  6 taken 100% (fallthrough)
+branch  7 taken 0%
+branch  8 taken 100% (fallthrough)
+branch  9 taken 0%
+branch 10 taken 100% (fallthrough)
+branch 11 taken 0%
+        1:  344:          call ansyes(tname)
+call    0 returned 100%
+        -:  345:      else
+    #####:  346:          call ansno(tname)
+call    0 never executed
+        -:  347:      endif 
+       1*:  348:      deallocate (A,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  349:
+        1:  350:      end
+        -:  351:
+        -:  352:
+        -:  353:C -----------------------------------------------------
+function sersum2_ called 0 returned 0% blocks executed 0%
+    #####:  354:      subroutine sersum2(AR,N,M,NL,S)
+        -:  355:      integer AR(N,M)
+        -:  356:      integer S,NL
+        -:  357:
+    #####:  358:      do i=1,N
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  359:         do j=1,M
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  360:           AR(i,j) = i+j+NL
+        -:  361:         enddo          
+        -:  362:      enddo
+    #####:  363:      S=0
+    #####:  364:      do i=1,N
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  365:         do j=1,M
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  366:           s = s+ AR(i,j)
+        -:  367:         enddo
+        -:  368:      enddo
+    #####:  369:      end   
+        -:  370:   
+function sersum2m_ called 1 returned 100% blocks executed 100%
+        1:  371:      subroutine sersum2m(AR,N,M,NL,S)
+        -:  372:      integer AR(N,M)
+        -:  373:      integer S,NL
+        -:  374:
+       17:  375:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  376:         do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      144:  377:           AR(i,j) = i+j+NL
+        -:  378:         enddo          
+        -:  379:      enddo
+        -:  380:     
+        1:  381:      ni=N/2-1
+        1:  382:      nj=M/2-1
+        1:  383:      AR(ni,nj)=N+M+1+NL
+        1:  384:      ni=N/2
+        1:  385:      nj=M/2
+        1:  386:      AR(ni,nj)=-(N+M+1+NL)
+        1:  387:      S=0
+        -:  388:
+       17:  389:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  390:         do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      144:  391:           s = s+ AR(i,j)
+        -:  392:         enddo
+        -:  393:      enddo
+        -:  394:    
+        1:  395:      end   
+        -:  396:
+function sersum2mr_ called 1 returned 100% blocks executed 100%
+        1:  397:      subroutine sersum2mr(AR,N,M,NL,S)
+        -:  398:      real AR(N,M)
+        -:  399:      real S,NL
+        -:  400:
+        9:  401:      do i=1,N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       57:  402:         do j=1,M
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+       56:  403:           AR(i,j) = i+j+NL
+        -:  404:         enddo 
+        -:  405:         enddo 
+        1:  406:      ni=N/2
+        1:  407:      nj=M/2
+        1:  408:      AR(ni,nj)=N+M+1.+NL
+        1:  409:      ni1=N/2-1
+        1:  410:      nj1=M/2-1
+        1:  411:      AR(ni1,nj1)=-(N+M+1.+NL)
+        1:  412:      S=0.
+        9:  413:      do i=1,N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       57:  414:         do j=1,M
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+       56:  415:           s = s+ AR(i,j)
+        -:  416:         enddo
+        -:  417:      enddo
+        1:  418:      end  
+        -:  419:  
+function serprod2_ called 1 returned 100% blocks executed 100%
+        1:  420:      subroutine serprod2(AR,N,M,NL,P)
+        -:  421:      integer AR(N,M)
+        -:  422:      integer P,NL
+       17:  423:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  424:         do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      144:  425:           AR(i,j) = i+j+NL
+        -:  426:         enddo
+        -:  427:      enddo   
+        1:  428:      P=1
+       17:  429:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  430:         do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      144:  431:           P = P* AR(i,j)
+        -:  432:         enddo
+        -:  433:      enddo
+        1:  434:      end   
+        -:  435: 
+function serprodr2_ called 0 returned 0% blocks executed 0%
+    #####:  436:      subroutine serprodr2(AR,N,M,NL,P)
+        -:  437:      real AR(N,M)
+        -:  438:      real P,NL
+        -:  439:
+    #####:  440:      do i=1,N
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  441:         do j=1,M
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  442:           AR(i,j) = i+j+NL
+        -:  443:         enddo
+        -:  444:      enddo 
+    #####:  445:      P=1.
+    #####:  446:      do i=1,N
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  447:         do j=1,M
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  448:           P = P* AR(i,j)
+        -:  449:         enddo
+        -:  450:      enddo
+    #####:  451:      end
+        -:  452:     
+function serlog2_ called 1 returned 100% blocks executed 94%
+        1:  453:      subroutine serlog2(AR,N,M,LAND,LOR,LEQV,LNEQV)
+        -:  454:      logical AR(N,M)
+        -:  455:      logical LAND,LOR,LEQV,LNEQV
+       17:  456:      do  i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       17:  457:         do j=1,M,2
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+      64*:  458:           AR(i,J) = .true.
+branch  0 taken 25% (fallthrough)
+branch  1 taken 75%
+        -:  459:         enddo         
+        -:  460:      enddo
+       17:  461:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+       17:  462:         do j=2,M,2
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+      64*:  463:           AR(i,j)=.false.
+branch  0 taken 25% (fallthrough)
+branch  1 taken 75%
+        -:  464:         enddo
+        -:  465:      enddo 
+        1:  466:      LAND=AR(1,1)
+        1:  467:      LOR=AR(1,1)
+        1:  468:      LEQV=AR(1,1)
+        1:  469:      LNEQV=AR(1,1)
+       17:  470:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  471:         do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      128:  472:           LAND = LAND .and. AR(i,j)
+branch  0 taken 2% (fallthrough)
+branch  1 taken 98%
+branch  2 taken 50% (fallthrough)
+branch  3 taken 50%
+     272*:  473:           LOR = LOR .or.AR(i,j)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+branch  2 never executed (fallthrough)
+branch  3 never executed
+        -:  474:         enddo
+        -:  475:      enddo
+       17:  476:       do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  477:         do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      144:  478:           LEQV = LEQV .eqv. AR(i,j)
+        -:  479:         enddo
+        -:  480:      enddo
+       17:  481:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  482:         do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      144:  483:           LNEQV = LNEQV .neqv. AR(i,j)
+        -:  484:         enddo
+        -:  485:      enddo
+        1:  486:      end   
+        -:  487:
+function ansyes_ called 4 returned 100% blocks executed 100%
+        4:  488:      subroutine ansyes(name)
+        -:  489:      character*8 name
+        4:  490:      print *,name,'  -  complete'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+        4:  491:      end
+function ansno_ called 0 returned 0% blocks executed 0%
+    #####:  492:      subroutine ansno(name)
+        -:  493:      character*8 name
+    #####:  494:      print *,name,'  -  ***error'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+    #####:  495:      end

@@ -1,0 +1,721 @@
+        -:    0:Source:results/1d/distrmix1/distrmix1.f
+        -:    0:Graph:./results\1d\distrmix1\distrmix1.gcno
+        -:    0:Data:./results\1d\distrmix1\distrmix1.gcda
+        -:    0:Runs:1
+function MAIN__ called 1 returned 100% blocks executed 100%
+        1:    1:      program DISTRMIX1
+        -:    2:
+        -:    3:      integer nproc
+        -:    4:      number_of_processors()=1  
+        -:    5:
+        -:    6:!    Testing DISTRIBUTE and REDISTRIBUTE directive       
+        -:    7:!            GEN_BLOCK, WGT_BLOCK, MULT_BLOCK distributions
+        -:    8:
+        1:    9:      print *,'===START OF distrmix1========================'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   10:
+        1:   11:      nproc = number_of_processors()  
+        -:   12:
+        -:   13:C --------------------------------------------------
+        -:   14:c 11  DISTRIBUTE arrA1[MULT_BLOCK]
+        -:   15:c                     REDISTRIBUTE arrA1[WGT_BLOCK] 
+        -:   16:c                     REDISTRIBUTE arrA1[MULT_BLOCK]  
+        1:   17:      call distrmix11
+call    0 returned 100%
+        -:   18:C --------------------------------------------------
+        -:   19:c 12  DISTRIBUTE arrA1[WGT_BLOCK]
+        -:   20:c                     REDISTRIBUTE arrA1[MULT_BLOCK]  
+        -:   21:c                     REDISTRIBUTE arrA1[WGT_BLOCK]  
+        1:   22:      call distrmix12
+call    0 returned 100%
+        -:   23:C --------------------------------------------------
+        -:   24:
+        -:   25:      if (nproc > 4 ) then     ! may be temporary
+        -:   26:         goto 1
+        -:   27:      endif
+        -:   28:
+        -:   29:C --------------------------------------------------
+        -:   30:c 13  DISTRIBUTE arrA1[MULT_BLOCK]
+        -:   31:c                     REDISTRIBUTE arrA1[GEN_BLOCK] 
+        -:   32:c                     REDISTRIBUTE arrA1[MULT_BLOCK]  
+        1:   33:      call distrmix13 (nproc)
+call    0 returned 100%
+        -:   34:C --------------------------------------------------
+        -:   35:c 14  DISTRIBUTE arrA1[GEN_BLOCK]
+        -:   36:c                     REDISTRIBUTE arrA1[MULT_BLOCK]
+        -:   37:c                     REDISTRIBUTE arrA1[GEN_BLOCK] 
+        1:   38:      call distrmix14 (nproc)
+call    0 returned 100%
+        -:   39:C --------------------------------------------------
+        -:   40:c 15  DISTRIBUTE arrA1[WGT_BLOCK]    
+        -:   41:c                     REDISTRIBUTE arrA1[GEN_BLOCK] 
+        -:   42:c                     REDISTRIBUTE arrA1[WGT_BLOCK] 
+        1:   43:      call distrmix15 (nproc)
+call    0 returned 100%
+        -:   44:C --------------------------------------------------
+        -:   45:c 16  DISTRIBUTE arrA1[GEN_BLOCK]
+        -:   46:c                     REDISTRIBUTE arrA1[WGT_BLOCK] 
+        -:   47:c                     REDISTRIBUTE arrA1[GEN_BLOCK] 
+        1:   48:      call distrmix16 (nproc)
+call    0 returned 100%
+        -:   49:C -------------------------------------------------
+        -:   50:C
+        1:   51: 1    print *,'=== END OF distrmix1 ========================= '    
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   52:
+function main called 1 returned 100% blocks executed 100%
+        1:   53:      end
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   54:
+        -:   55:C ----------------------------------------------------distrmix11
+        -:   56:c 11  DISTRIBUTE arrA1[MULT_BLOCK]
+        -:   57:c                     REDISTRIBUTE arrA1[WGT_BLOCK] 
+        -:   58:c                     REDISTRIBUTE arrA1[MULT_BLOCK]  
+        -:   59: 
+function distrmix11_ called 1 returned 100% blocks executed 84%
+        1:   60:      subroutine distrmix11
+        -:   61:      integer nproc
+        -:   62:      
+        -:   63:      integer, parameter :: AN1=64,ER=10000
+        -:   64:      integer :: erri=ER,i
+        -:   65:
+        -:   66:      integer, parameter :: m1 = 4, m2 = 2
+        -:   67:
+        -:   68:      double precision :: WB(7) = (/2.1,4.6,3.,2.0,1.5,2.,3.1/)
+        -:   69:
+        1:   70:      integer, allocatable :: A1(:)
+        -:   71:      character(*), parameter :: tname='distrmix11  '
+        -:   72:               
+        -:   73:!dvm$ distribute :: A1    
+        -:   74:!dvm$ dynamic A1
+        -:   75:
+       1*:   76:      allocate (A1(AN1))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:   77:
+        -:   78:!dvm$ redistribute A1(MULT_BLOCK(m1))    
+        -:   79:
+       65:   80:      A1 = 5
+branch  0 taken 2% (fallthrough)
+branch  1 taken 98%
+        -:   81:
+        -:   82:!dvm$ actual(A1)
+        -:   83:
+        -:   84:!dvm$ region 
+        -:   85:!dvm$ parallel (i) on A1(i)
+       65:   86:      do i=1,AN1
+branch  0 taken 2% (fallthrough)
+branch  1 taken 98%
+       65:   87:            A1(i) = A1(i) + i    
+        -:   88:      enddo
+        -:   89:!dvm$ end region   
+        -:   90:
+        -:   91:!dvm$ redistribute A1(WGT_BLOCK(WB,7))    
+        -:   92:
+        -:   93:!dvm$ region 
+        -:   94:!dvm$ parallel (i) on A1(i)
+       65:   95:      do i=1,AN1
+branch  0 taken 2% (fallthrough)
+branch  1 taken 98%
+       65:   96:            A1(i) = A1(i) + 5 
+        -:   97:      enddo
+        -:   98:!dvm$ end region   
+        -:   99:
+        -:  100:!dvm$ redistribute A1(MULT_BLOCK(m2))    
+        -:  101:
+        -:  102:!dvm$ actual(erri)
+        -:  103:
+        -:  104:!dvm$ region 
+        -:  105:!dvm$ parallel (i) on A1(i), reduction(min(erri))
+       65:  106:      do i=1,AN1
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
+       65:  107:          if (A1(i) /= i + 10) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  108:             erri = min(erri,i)
+        -:  109:          endif 
+        -:  110:      enddo
+        -:  111:!dvm$ end region   
+        -:  112:
+        -:  113:!dvm$ get_actual(erri)
+        -:  114:
+        1:  115:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  116:          call ansyes(tname)
+call    0 returned 100%
+        -:  117:      else
+    #####:  118:          call ansno(tname)
+call    0 never executed
+        -:  119:      endif 
+        -:  120: 
+       1*:  121:      deallocate (A1)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  122:
+        1:  123:      end subroutine distrmix11
+        -:  124:
+        -:  125:C ---------------------------------------------distrmix12
+        -:  126:c 12  DISTRIBUTE arrA1[WGT_BLOCK]
+        -:  127:c                     REDISTRIBUTE arrA1[MULT_BLOCK]  
+        -:  128:c                     REDISTRIBUTE arrA1[WGT_BLOCK]  
+        -:  129:
+function distrmix12_ called 1 returned 100% blocks executed 84%
+        1:  130:      subroutine distrmix12
+        -:  131:
+        -:  132:      integer, parameter :: AN1=75,ER=10000
+        -:  133:      integer :: erri=ER,i
+        -:  134:
+        -:  135:      integer, parameter :: m1 = 15
+        -:  136:
+        -:  137:      double precision :: WB1(6) = (/3.1,1.6,2.,3.0,0.5,2./)
+        -:  138:      double precision :: WB2(8) 
+        -:  139:     >                    = (/1.5,2.1,2.6,4.2,2.5,3.5,1.,2.1/)
+        -:  140:
+        1:  141:      integer, allocatable :: A1(:)
+        -:  142:      character(*), parameter :: tname='distrmix12  '
+        -:  143:               
+        -:  144:!dvm$ distribute :: A1    
+        -:  145:!dvm$ dynamic A1
+        -:  146:
+       1*:  147:      allocate (A1(AN1))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  148:
+        -:  149:!dvm$ redistribute A1(WGT_BLOCK(WB1,6))    
+        -:  150:
+       76:  151:      A1 = 0
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+        -:  152:
+        -:  153:!dvm$ actual(A1)
+        -:  154:
+        -:  155:!dvm$ region 
+        -:  156:!dvm$ parallel (i) on A1(i)
+       76:  157:      do i=1,AN1
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+       76:  158:            A1(i) = A1(i) + i    
+        -:  159:      enddo
+        -:  160:!dvm$ end region   
+        -:  161:
+        -:  162:!dvm$ redistribute A1(MULT_BLOCK(m1))    
+        -:  163:
+        -:  164:!dvm$ region 
+        -:  165:!dvm$ parallel (i) on A1(i)
+       76:  166:      do i=1,AN1
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+       76:  167:            A1(i) = A1(i)**2 
+        -:  168:      enddo
+        -:  169:!dvm$ end region   
+        -:  170:
+        -:  171:!dvm$ redistribute A1(WGT_BLOCK(WB2,8))    
+        -:  172:
+        -:  173:!dvm$ actual(erri)
+        -:  174:
+        -:  175:!dvm$ region 
+        -:  176:!dvm$ parallel (i) on A1(i), reduction(min(erri))
+       76:  177:      do i=1,AN1
+branch  0 taken 99% (fallthrough)
+branch  1 taken 1%
+       76:  178:          if (A1(i) /= i**2) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  179:             erri = min(erri,i)
+        -:  180:          endif 
+        -:  181:      enddo
+        -:  182:!dvm$ end region   
+        -:  183:
+        -:  184:!dvm$ get_actual(erri)
+        -:  185:
+        1:  186:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  187:          call ansyes(tname)
+call    0 returned 100%
+        -:  188:      else
+    #####:  189:          call ansno(tname)
+call    0 never executed
+        -:  190:      endif 
+        -:  191: 
+       1*:  192:      deallocate (A1)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  193:
+        1:  194:      end subroutine distrmix12
+        -:  195:
+        -:  196:C ----------------------------------------------------distrm13
+        -:  197:c 13  DISTRIBUTE arrA1[MULT_BLOCK]
+        -:  198:c                     REDISTRIBUTE arrA1[GEN_BLOCK] 
+        -:  199:c                     REDISTRIBUTE arrA1[MULT_BLOCK]  
+        -:  200:
+function distrmix13_ called 1 returned 100% blocks executed 83%
+        1:  201:      subroutine distrmix13 (nproc)
+        -:  202:      integer nproc
+        -:  203:
+        -:  204:      integer, parameter :: AN1=30,ER=10000
+        -:  205:      integer :: erri=ER,i
+        -:  206:
+        -:  207:      integer, parameter :: m1 = 5, m2 = 3
+        -:  208:
+        -:  209:      integer :: BS1(1) = (/30/)
+        -:  210:      integer :: BS2(2) = (/25,5/)
+        -:  211:      integer :: BS3(3) = (/3,15,12/)
+        -:  212:      integer :: BS4(4) = (/14,3,11,2/)
+        -:  213:
+        1:  214:      integer, allocatable :: A1(:)
+        -:  215:      character(*), parameter :: tname='distrmix13  '
+        -:  216:               
+        -:  217:!dvm$ distribute A1(MULT_BLOCK(m1))    
+        -:  218:!dvm$ dynamic A1
+        -:  219:
+       1*:  220:      allocate (A1(AN1))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  221:
+        -:  222:!dvm$ region   
+        -:  223:!dvm$ parallel (i) on A1(i)
+       31:  224:      do i=1,AN1
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+       31:  225:            A1(i) = i
+        -:  226:      enddo
+        -:  227:!dvm$ end region   
+        -:  228:
+        -:  229:!!!!dvm$ redistribute A1(GEN_BLOCK(BSnproc))    
+        -:  230:
+        1:  231:      select case(nproc)
+        -:  232:      case(1) 
+        -:  233:!dvm$ redistribute A1(GEN_BLOCK(BS1))    
+        -:  234:      case(2)
+        -:  235:!dvm$ redistribute A1(GEN_BLOCK(BS2))    
+        -:  236:      case (3)
+        -:  237:!dvm$ redistribute A1(GEN_BLOCK(BS3))    
+        -:  238:      case(4)
+        -:  239:!dvm$ redistribute A1(GEN_BLOCK(BS4))    
+        -:  240:      case default 
+        1:  241:         goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  242:      endselect  
+        -:  243:
+        -:  244:!dvm$ region 
+        -:  245:!dvm$ parallel (i) on A1(i)
+       31:  246:      do i=1,AN1
+branch  0 taken 3% (fallthrough)
+branch  1 taken 97%
+       31:  247:            A1(i) = A1(i)*2
+        -:  248:      enddo
+        -:  249:!dvm$ end region   
+        -:  250:
+        -:  251:!dvm$ redistribute A1(MULT_BLOCK(m2))    
+        -:  252:
+        -:  253:!dvm$ actual(erri)
+        -:  254:
+        -:  255:!dvm$ region 
+        -:  256:!dvm$ parallel (i) on A1(i), reduction( min(erri) )
+       31:  257:      do i=1,AN1
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+       31:  258:          if (A1(i) /= i*2) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  259:             erri = min(erri,i)
+        -:  260:          endif 
+        -:  261:      enddo
+        -:  262:!dvm$ end region   
+        -:  263:
+        -:  264:!dvm$ get_actual(erri)
+        -:  265:
+        1:  266:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  267:          call ansyes(tname)
+call    0 returned 100%
+        -:  268:      else
+    #####:  269:          call ansno(tname)
+call    0 never executed
+        -:  270:      endif 
+        -:  271: 
+       1*:  272: 10   deallocate (A1)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  273:
+        1:  274:      end subroutine distrmix13
+        -:  275:
+        -:  276:C ----------------------------------------------------distrmmix14
+        -:  277:c 14  DISTRIBUTE arrA1[GEN_BLOCK]
+        -:  278:c                     REDISTRIBUTE arrA1[MULT_BLOCK]
+        -:  279:c                     REDISTRIBUTE arrA1[GEN_BLOCK] 
+        -:  280:
+function distrmix14_ called 1 returned 100% blocks executed 83%
+        1:  281:      subroutine distrmix14 (nproc)
+        -:  282:      integer nproc
+        -:  283:
+        -:  284:      integer, parameter :: AN1=35,ER=10000
+        -:  285:      integer :: m1 = 7
+        -:  286:      integer :: erri= ER, i
+        -:  287:
+        -:  288:      integer :: BS11(1) = (/35/)
+        -:  289:      integer :: BS12(1) = (/35/)
+        -:  290:      integer :: BS21(2) = (/15,20/)
+        -:  291:      integer :: BS22(2) = (/8,27/)
+        -:  292:      integer :: BS31(3) = (/12,17,6/)
+        -:  293:      integer :: BS32(3) = (/14,4,17/)
+        -:  294:      integer :: BS41(4) = (/5,7,12,11/)  
+        -:  295:      integer :: BS42(4) = (/14,10,5,6/)
+        -:  296:
+        1:  297:      integer, allocatable :: A1(:)
+        -:  298:      character(*), parameter ::  tname='distrmix14  '
+        -:  299:     
+        -:  300:!dvm$ distribute :: A1   
+        -:  301:!dvm$ dynamic A1
+        -:  302:       
+       1*:  303:      allocate (A1(AN1))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  304:
+        -:  305:!!!!dvm$ redistribute A1(GEN_BLOCK(BS1))   
+        -:  306:
+        1:  307:      select case(nproc)
+        -:  308:      case(1) 
+        -:  309:!dvm$ redistribute A1(GEN_BLOCK(BS11))    
+        -:  310:      case(2)
+        -:  311:!dvm$ redistribute A1(GEN_BLOCK(BS21))    
+        -:  312:      case (3)
+        -:  313:!dvm$ redistribute A1(GEN_BLOCK(BS31))    
+        -:  314:      case(4)
+        -:  315:!dvm$ redistribute A1(GEN_BLOCK(BS41))    
+        -:  316:      case default 
+        1:  317:         goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  318:      endselect  
+        -:  319:
+        -:  320:!dvm$ region 
+        -:  321:!dvm$ parallel (i) on A1(i)
+       36:  322:      do i=1,AN1
+branch  0 taken 3% (fallthrough)
+branch  1 taken 97%
+       36:  323:            A1(i) =i*4     
+        -:  324:      enddo
+        -:  325:!dvm$ end region   
+        -:  326:
+        -:  327:!dvm$ redistribute A1(MULT_BLOCK(m1))    
+        -:  328:
+        -:  329:!dvm$ region 
+        -:  330:!dvm$ parallel (i) on A1(i)
+       36:  331:      do i=1,AN1
+branch  0 taken 3% (fallthrough)
+branch  1 taken 97%
+       36:  332:            A1(i) = A1(i) + 4     
+        -:  333:      enddo
+        -:  334:!dvm$ end region   
+        -:  335:
+        -:  336:!!!!dvm$ redistribute A1(GEN_BLOCK(BS2))   
+        -:  337:
+        -:  338:      select case(nproc)
+        -:  339:      case(1) 
+        -:  340:!dvm$ redistribute A1(GEN_BLOCK(BS12))    
+        -:  341:      case(2)
+        -:  342:!dvm$ redistribute A1(GEN_BLOCK(BS22))    
+        -:  343:      case (3)
+        -:  344:!dvm$ redistribute A1(GEN_BLOCK(BS32))    
+        -:  345:      case(4)
+        -:  346:!dvm$ redistribute A1(GEN_BLOCK(BS42))    
+        -:  347:      case default 
+        -:  348:         goto 10
+        -:  349:      endselect  
+        -:  350:
+        -:  351:!dvm$ actual(erri)
+        -:  352:
+        -:  353:!dvm$ region 
+        -:  354:!dvm$ parallel (i) on A1(i), reduction( min( erri ) )
+       36:  355:      do i=1,AN1
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+       36:  356:            if (A1(i) /= i*4 + 4) then     
+branch  0 taken 100%
+branch  1 taken 0% (fallthrough)
+    #####:  357:               erri = min(erri,i)
+        -:  358:            endif 
+        -:  359:      enddo
+        -:  360:!dvm$ end region   
+        -:  361:
+        -:  362:!dvm$ get_actual(erri)
+        -:  363:
+        1:  364:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  365:          call ansyes(tname)
+call    0 returned 100%
+        -:  366:      else
+    #####:  367:          call ansno(tname)
+call    0 never executed
+        -:  368:      endif 
+        -:  369:
+       1*:  370: 10   deallocate (A1)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  371:
+        1:  372:      end subroutine distrmix14
+        -:  373:
+        -:  374:C ----------------------------------------------------distrmix15
+        -:  375:c 15  DISTRIBUTE arrA1[WGT_BLOCK]    
+        -:  376:c                     REDISTRIBUTE arrA1[GEN_BLOCK] 
+        -:  377:c                     REDISTRIBUTE arrA1[WGT_BLOCK] 
+        -:  378:
+function distrmix15_ called 1 returned 100% blocks executed 83%
+        1:  379:      subroutine distrmix15 (nproc)
+        -:  380:      integer nproc
+        -:  381:       
+        -:  382:      integer, parameter :: AN1=10,ER=10000
+        -:  383:      integer :: erri= ER, i
+        -:  384:
+        -:  385:      integer :: BS1(1) = (/10/)
+        -:  386:      integer :: BS2(2) = (/6,4/)
+        -:  387:      integer :: BS3(3) = (/2,4,4/)
+        -:  388:      integer :: BS4(4) = (/3,1,4,2/)
+        -:  389:
+        -:  390:      double precision, dimension(6) :: WB1=(/1.0, 2., 2., 3.0, 1., 1./)     
+        -:  391:      double precision, dimension(5) :: WB2=(/2.0, 1., 2., 2.0, 2./)     
+        -:  392:
+        1:  393:      integer, allocatable :: A1(:)
+        -:  394:      character(*), parameter :: tname='distrmix15  '
+        -:  395:
+        -:  396:!dvm$ distribute A1(WGT_BLOCK(WB1,6))    
+        -:  397:!dvm$ dynamic A1
+        -:  398:
+       1*:  399:      allocate (A1(AN1))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  400:
+        -:  401:!dvm$ region 
+        -:  402:!dvm$ parallel (i) on A1(i)
+       11:  403:      do i=1,AN1
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+       11:  404:            A1(i) = i
+        -:  405:      enddo
+        -:  406:!dvm$ end region   
+        -:  407:     
+        1:  408:      select case(nproc)
+        -:  409:      case(1) 
+        -:  410:!dvm$ redistribute A1(GEN_BLOCK(BS1))    
+        -:  411:      case(2)
+        -:  412:!dvm$ redistribute A1(GEN_BLOCK(BS2))    
+        -:  413:      case (3)
+        -:  414:!dvm$ redistribute A1(GEN_BLOCK(BS3))    
+        -:  415:      case(4)
+        -:  416:!dvm$ redistribute A1(GEN_BLOCK(BS4))    
+        -:  417:      case default 
+        1:  418:         goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  419:      endselect  
+        -:  420:
+        -:  421:!dvm$ region 
+        -:  422:!dvm$ parallel (i) on A1(i)
+       11:  423:      do i=1,AN1
+branch  0 taken 9% (fallthrough)
+branch  1 taken 91%
+       11:  424:            A1(i) = A1(i)*A1(i)
+        -:  425:      enddo
+        -:  426:!dvm$ end region   
+        -:  427:
+        -:  428:!dvm$ redistribute A1(WGT_BLOCK(WB2,5))    
+        -:  429:
+        -:  430:!dvm$ actual(erri)
+        -:  431:
+        -:  432:!dvm$ region 
+        -:  433:!dvm$ parallel (i) on A1(i), reduction( min( erri ) )
+       11:  434:      do i=1,AN1
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+       11:  435:            if (A1(i) .ne.i**2) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  436:                erri = min(erri,i)
+        -:  437:            endif 
+        -:  438:      enddo
+        -:  439:!dvm$ end region   
+        -:  440:
+        -:  441:!dvm$ get_actual(erri)
+        -:  442:
+        1:  443:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  444:          call ansyes(tname)
+call    0 returned 100%
+        -:  445:      else
+    #####:  446:          call ansno(tname)
+call    0 never executed
+        -:  447:      endif 
+        -:  448:
+       1*:  449: 10   deallocate (A1)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  450:
+        1:  451:      end subroutine distrmix15
+        -:  452:
+        -:  453:C ----------------------------------------------------distrmix16
+        -:  454:c 16  DISTRIBUTE arrA1[GEN_BLOCK]     
+        -:  455:c                     REDISTRIBUTE arrA1[WGT_BLOCK] 
+        -:  456:c                     REDISTRIBUTE arrA1[GEN_BLOCK] 
+        -:  457:
+function distrmix16_ called 1 returned 100% blocks executed 83%
+        1:  458:      subroutine distrmix16 (nproc)
+        -:  459:      integer nproc
+        -:  460:
+        -:  461:      integer, parameter :: AN1=12,ER=10000
+        -:  462:      integer :: erri= ER, i
+        -:  463:
+        -:  464:      integer :: BS11(1) = (/12/)
+        -:  465:      integer :: BS12(1) = (/12/)
+        -:  466:      integer :: BS21(2) = (/8,4/)
+        -:  467:      integer :: BS22(2) = (/2,10/)	!rem
+        -:  468:      integer :: BS31(3) = (/4,4,4/)
+        -:  469:      integer :: BS32(3) = (/2,3,7/)
+        -:  470:      integer :: BS41(4) = (/2,3,4,3/)
+        -:  471:      integer :: BS42(4) = (/6,1,3,2/)
+        -:  472:
+        -:  473:      double precision, dimension(7) ::
+        -:  474:     >         WB1=(/1.0, 2., 2., 3.0, 1., 1., 0.5/)     
+        -:  475:      double precision, dimension(6) ::
+        -:  476:     >         WB2=(/2.0, 0.1, 2.5, 2.0, 2., 0.7/)     
+        -:  477:
+        1:  478:      integer, allocatable :: A1(:)
+        -:  479:      character(*), parameter :: tname='distrmix16  '
+        -:  480:
+        -:  481:!dvm$ distribute :: A1    
+        -:  482:!dvm$ dynamic A1
+        -:  483:
+       1*:  484:      allocate (A1(AN1))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  485:
+        -:  486:!!!!dvm$ redistribute A1(GEN_BLOCK(BS1))   
+        -:  487:
+        1:  488:      select case(nproc)
+        -:  489:      case(1) 
+        -:  490:!dvm$ redistribute A1(GEN_BLOCK(BS11))    
+        -:  491:      case(2)
+        -:  492:!dvm$ redistribute A1(GEN_BLOCK(BS21))    
+        -:  493:      case (3)
+        -:  494:!dvm$ redistribute A1(GEN_BLOCK(BS31))    
+        -:  495:      case(4)
+        -:  496:!dvm$ redistribute A1(GEN_BLOCK(BS41))    
+        -:  497:      case default 
+        1:  498:         goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  499:      endselect  
+        -:  500:
+        -:  501:!dvm$ region 
+        -:  502:!dvm$ parallel (i) on A1(i)
+       13:  503:      do i=1,AN1
+branch  0 taken 8% (fallthrough)
+branch  1 taken 92%
+       13:  504:            A1(i) = i
+        -:  505:      enddo
+        -:  506:!dvm$ end region   
+        -:  507:
+        -:  508:!dvm$ redistribute A1(WGT_BLOCK(WB1,7))    
+        -:  509:
+        -:  510:!dvm$ region 
+        -:  511:!dvm$ parallel (i) on A1(i)
+       13:  512:      do i=1,AN1
+branch  0 taken 8% (fallthrough)
+branch  1 taken 92%
+       13:  513:            A1(i) = A1(i) + A1(i)
+        -:  514:      enddo
+        -:  515:!dvm$ end region   
+        -:  516:
+        -:  517:!!!!dvm$ redistribute A1(GEN_BLOCK(BS2))   
+        -:  518:
+        -:  519:      select case(nproc)
+        -:  520:      case(1) 
+        -:  521:!dvm$ redistribute A1(GEN_BLOCK(BS12))    
+        -:  522:      case(2)
+        -:  523:!dvm$ redistribute A1(GEN_BLOCK(BS22))    
+        -:  524:      case (3)
+        -:  525:!dvm$ redistribute A1(GEN_BLOCK(BS32))    
+        -:  526:      case(4)
+        -:  527:!dvm$ redistribute A1(GEN_BLOCK(BS42))    
+        -:  528:      case default 
+        -:  529:         goto 10
+        -:  530:      endselect  
+        -:  531:
+        -:  532:!dvm$ actual(erri)
+        -:  533:
+        -:  534:!dvm$ region 
+        -:  535:!dvm$ parallel (i) on A1(i), reduction( min( erri ) )
+       13:  536:      do i=1,AN1
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+       13:  537:            if (A1(i) .ne.i*2) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  538:               erri = min(erri,i)
+        -:  539:            endif 
+        -:  540:      enddo
+        -:  541:!dvm$ end region   
+        -:  542:
+        -:  543:!dvm$ get_actual(erri)
+        -:  544:
+        1:  545:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  546:          call ansyes(tname)
+call    0 returned 100%
+        -:  547:      else
+    #####:  548:          call ansno(tname)
+call    0 never executed
+        -:  549:      endif 
+        -:  550:
+       1*:  551: 10   deallocate (A1)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  552:
+        1:  553:      end subroutine distrmix16
+        -:  554:
+        -:  555:C -------------------------------------------------
+        -:  556:
+function ansyes_ called 6 returned 100% blocks executed 100%
+        6:  557:      subroutine ansyes(name)
+        -:  558:      character(*) name
+        6:  559:      print *,name,'  -  complete'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+        6:  560:      end
+function ansno_ called 0 returned 0% blocks executed 0%
+    #####:  561:      subroutine ansno(name)
+        -:  562:      character(*) name
+    #####:  563:      print *,name,'  -  ***error'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+    #####:  564:      end

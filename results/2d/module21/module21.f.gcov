@@ -1,0 +1,183 @@
+        -:    0:Source:results/2d/module21/module21.f
+        -:    0:Graph:./results\2d\module21\module21.gcno
+        -:    0:Data:./results\2d\module21\module21.gcda
+        -:    0:Runs:1
+        -:    1:       MODULE FOR_JAC
+        -:    2:         PARAMETER    (K=8,  ITMAX=20)
+        -:    3:         REAL AA(K,K), EPS, MAXEPS, BB(K,K)
+        -:    4:CDVM$    DISTRIBUTE (BLOCK, BLOCK) :: AA
+        -:    5:CDVM$    ALIGN BB(I,J) WITH  AA(I,J)
+        -:    6:       END MODULE
+        -:    7:
+        -:    8:       MODULE MOD1
+        -:    9:          USE  FOR_JAC
+        -:   10:       END MODULE
+        -:   11:
+function MAIN__ called 1 returned 100% blocks executed 99%
+        1:   12:       PROGRAM  MODULE21
+function main called 1 returned 100% blocks executed 100%
+        1:   13:       USE MOD1,A=>AA,B=>BB  !FOR_JAC
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   14:
+        -:   15:CDVM$  REDUCTION_GROUP REPS 
+        -:   16:       REAL A1(K,K), EPS1, B1(K,K)
+        -:   17:CDVM$  DISTRIBUTE (BLOCK, BLOCK) :: A1
+        -:   18:CDVM$  ALIGN B1(I,J) WITH A1(I,J)
+        -:   19:
+        1:   20:       PRINT *,  '======== START OF MODULE21  ========'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   21:CDVM$  SHADOW_GROUP  SA (A)
+        -:   22:C      creation of descriptor for operations with imported/exported 
+        -:   23:C      elements of array A
+        1:   24:       MAXEPS = 0.5E - 7
+        -:   25:
+        -:   26:CDVM$  PARALLEL  ( J, I)   ON  A( I,  J)
+        9:   27:       DO  J =  1,  K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:   28:         DO  I =  1,  K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       64:   29:             A( I,   J)  =  0.
+       72:   30:             IF(I.EQ.1 .OR. J.EQ.1 .OR. I.EQ.K .OR. J.EQ.K) THEN
+branch  0 taken 77% (fallthrough)
+branch  1 taken 23%
+branch  2 taken 27% (fallthrough)
+branch  3 taken 73%
+       28:   31:                B(I,  J) = 0.
+        -:   32:             ELSE
+       36:   33:                B(I,  J)  = ( 1. + I + J )
+        -:   34:             ENDIF
+        -:   35:         ENDDO
+        -:   36:       ENDDO
+       21:   37:       DO  IT = 1,  ITMAX
+branch  0 taken 5% (fallthrough)
+branch  1 taken 95%
+       20:   38:         EPS = 0.
+        -:   39:CDVM$    PARALLEL  ( J,  I)   ON  A( I,  J), SHADOW_START SA,
+        -:   40:CDVM$*   REDUCTION(REPS:MAX(EPS))
+        -:   41:C        the loops iteration order is changed: at first
+        -:   42:C        exported (boundary) elements of A are calculated and sent
+        -:   43:C        then internal elements of array A are calculated     
+      140:   44:         DO J =  2, K-1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      860:   45:            DO I =  2,  K-1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      720:   46:               EPS =  MAX  ( EPS,  ABS( B( I, J) - A( I, J)))
+      840:   47:               A( I, J) = B( I, J)
+        -:   48:            ENDDO
+        -:   49:         ENDDO
+        -:   50:
+        -:   51:CDVM$    REDUCTION_START  REPS
+        -:   52:CDVM$    PARALLEL  ( J,  I)  ON B( I,   J),  SHADOW_WAIT SA
+      140:   53:         DO  J =  2,  K-1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      860:   54:            DO I =  2,  K-1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+        -:   55:               B(I, J) =   (A( I-1, J ) + A( I, J-1 ) + A( I+1, J ) +
+      840:   56:     *            A( I, J+1 ))/4 
+        -:   57:            ENDDO
+        -:   58:         ENDDO  
+        -:   59:CDVM$    REDUCTION_WAIT REPS
+       21:   60:         IF  (EPS .LT. MAXEPS) GO TO  3
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:   61:      ENDDO
+        -:   62:
+        -:   63:    3 CONTINUE
+        -:   64:CDVM$ PARALLEL  ( J, I)   ON  A( I,  J)
+        -:   65:C		nest of parallel loops for initialization of arrays
+        9:   66:       DO J =  1, K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:   67:         DO I =  1, K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       64:   68:             A1( I,   J)  =  0.
+       72:   69:             IF(I.EQ.1 .OR. J.EQ.1 .OR. I.EQ.K .OR. J.EQ.K) THEN
+branch  0 taken 77% (fallthrough)
+branch  1 taken 23%
+branch  2 taken 27% (fallthrough)
+branch  3 taken 73%
+       28:   70:                B1(I,  J) = 0.
+        -:   71:             ELSE
+       36:   72:                B1(I,  J)  = ( 1. + I + J )
+        -:   73:             ENDIF
+        -:   74:         ENDDO
+        -:   75:       ENDDO
+       21:   76:       DO  IT = 1,  ITMAX
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+        -:   77:         EPS1 = 0.
+        -:   78:CDVM$    PARALLEL  ( J,  I)   ON  A1( I,  J), 
+        -:   79:CDVM$*   REDUCTION (MAX(EPS1))
+      140:   80:         DO J =  2, K-1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      860:   81:            DO I =  2,  K-1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      720:   82:               EPS1 =  MAX (EPS1,  ABS(B1( I, J) - A1(I, J)))
+      840:   83:               A1(I, J) = B1( I, J)
+        -:   84:            ENDDO
+        -:   85:         ENDDO
+        -:   86:
+        -:   87:CDVM$    PARALLEL ( J, I) ON B1 (I,  J),  SHADOW_RENEW(A1)
+      140:   88:         DO  J =  2,  K-1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      860:   89:            DO I =  2,  K-1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+        -:   90:               B1(I, J) = (A1 (I-1, J) + A1 (I, J-1) + A1 (I+1, J) +
+      840:   91:     *            A1( I, J+1 ))/4 
+        -:   92:            ENDDO
+        -:   93:         ENDDO  
+       21:   94:         IF  (EPS1 .LT. MAXEPS ) GO TO 4
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   95:      ENDDO
+        -:   96:       
+        1:   97:    4 IF (EPS .EQ. EPS1) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:   98:          call ansyes('module21')
+call    0 returned 100%
+        -:   99:      ELSE
+    #####:  100:          call ansno('module21')
+call    0 never executed
+        -:  101:      ENDIF
+        1:  102:      PRINT *,  '=== END OF MODULE21 =================='
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:  103:
+        1:  104:      END
+        -:  105:
+function ansyes_ called 1 returned 100% blocks executed 100%
+        1:  106:      subroutine ansyes(name)
+        -:  107:      character(*) name
+        1:  108:      print *,name,'  -  complete'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+        1:  109:      end
+        -:  110:
+function ansno_ called 0 returned 0% blocks executed 0%
+    #####:  111:      subroutine ansno(name)
+        -:  112:      character(*) name
+    #####:  113:      print *,name,'  -  ***error'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+    #####:  114:      end

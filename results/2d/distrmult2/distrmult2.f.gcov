@@ -1,0 +1,1449 @@
+        -:    0:Source:results/2d/distrmult2/distrmult2.f
+        -:    0:Graph:./results\2d\distrmult2\distrmult2.gcno
+        -:    0:Data:./results\2d\distrmult2\distrmult2.gcda
+        -:    0:Runs:1
+function MAIN__ called 1 returned 100% blocks executed 100%
+        1:    1:      program DISTRM2
+        -:    2:
+        -:    3:!    TESTING distribute and redistribute directive       
+        -:    4:!            MULT_BLOCK distribution
+        -:    5:       
+        1:    6:      print *,'===START OF distrmult2========================'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:    7:
+        -:    8:C -------------------------------------------------
+        -:    9:c 24  DISTRIBUTE arrA2[MULT_BLOCK][MULT_BLOCK]  REDISTRIBUTE arrA2[*][*]
+        1:   10:      call distrm24
+call    0 returned 100%
+        -:   11:C -------------------------------------------------
+        -:   12:c 25  DISTRIBUTE arrA2[*][*]  REDISTRIBUTE arrA2[MULT_BLOCK][MULT_BLOCK]
+        1:   13:      call distrm25
+call    0 returned 100%
+        -:   14:C -------------------------------------------------
+        -:   15:c 26  DISTRIBUTE arrA2[MULT_BLOCK][MULT_BLOCK] 
+        -:   16:C                             REDISTRIBUTE arrA2[BLOCK][BLOCK]
+        1:   17:      call distrm26
+call    0 returned 100%
+        -:   18:C -------------------------------------------------
+        -:   19:c 27  DISTRIBUTE arrA2[BLOCK][BLOCK]
+        -:   20:c                             REDISTRIBUTE arrA2[MULT_BLOCK][MULT_BLOCK]
+        1:   21:      call distrm27
+call    0 returned 100%
+        -:   22:C -------------------------------------------------
+        -:   23:c 28  DISTRIBUTE arrA2[MULT_BLOCK][BLOCK]
+        -:   24:c                         REDISTRIBUTE arrA2[BLOCK][MULT_BLOCK]
+        1:   25:      call distrm28
+call    0 returned 100%
+        -:   26:C -------------------------------------------------
+        -:   27:c 29  DISTRIBUTE arrA2[BLOCK][MULT_BLOCK]
+        -:   28:c                         REDISTRIBUTE arrA2[MULT_BLOCK][BLOCK]
+        1:   29:      call distrm29
+call    0 returned 100%
+        -:   30:C -------------------------------------------------
+        -:   31:c 210  DISTRIBUTE arrA2[MULT_BLOCK][MULT_BLOCK]  
+        -:   32:c              REDISTRIBUTE [MULT_BLOCK][MULT_BLOCK]  other m1,m2
+        1:   33:      call distrm210
+call    0 returned 100%
+        -:   34:C -------------------------------------------------
+        -:   35:c 32  DISTRIBUTE  arrA3[MULT_BLOCK][MULT_BLOCK] [*] 
+        -:   36:c                         REDISTRIBUTE arrA3[*][MULT_BLOCK][MULT_BLOCK]
+        1:   37:      call distrm32
+call    0 returned 100%
+        -:   38:C -------------------------------------------------
+        -:   39:c 33  DISTRIBUTE  arrA3[MULT_BLOCK][MULT_BLOCK][*]
+        -:   40:c                          REDISTRIBUTE arrA3[MULT_BLOCK][*][BLOCK]
+        1:   41:      call distrm33
+call    0 returned 100%
+        -:   42:C -------------------------------------------------
+        -:   43:c 34  DISTRIBUTE  arrA3[MULT_BLOCK][*][MULT_BLOCK] 
+        -:   44:c                         REDISTRIBUTE arrA3[MULT_BLOCK][MULT_BLOCK][*]
+        1:   45:      call distrm34
+call    0 returned 100%
+        -:   46:C -------------------------------------------------
+        -:   47:c 35  DISTRIBUTE  arrA3[MULT_BLOCK][MULT_BLOCK][*]
+        -:   48:c                         REDISTRIBUTE arrA3[*][*]MULT_BLOCK]
+        1:   49:      call distrm35
+call    0 returned 100%
+        -:   50:C -------------------------------------------------
+        -:   51:c 36  DISTRIBUTE  arrA3[MULT_BLOCK][*][BLOCK]
+        -:   52:c                         REDISTRIBUTE arrA3[BLOCK][*][MULT_BLOCK]
+        1:   53:      call distrm36
+call    0 returned 100%
+        -:   54:C -------------------------------------------------
+        -:   55:c 37  DISTRIBUTE  arrA3[MULT_BLOCK][BLOCK][*]
+        -:   56:c                         REDISTRIBUTE arrA3[BLOCK][*][MULT_BLOCK]
+        1:   57:      call distrm37
+call    0 returned 100%
+        -:   58:C -------------------------------------------------
+        -:   59:c 38  DISTRIBUTE  arrA3[BLOCK][*][MULT_BLOCK]
+        -:   60:c                         REDISTRIBUTE arrA3[*][MULT_BLOCK][BLOCK]
+        1:   61:      call distrm38
+call    0 returned 100%
+        -:   62:C -------------------------------------------------
+        -:   63:c 41  DISTRIBUTE arrA4[*][*][MULT_BLOCK][MULT_BLOCK]
+        -:   64:c                         REDISTRIBUTE arrA4[*][*][*][*]
+        1:   65:      call distrm41
+call    0 returned 100%
+        -:   66:C -------------------------------------------------
+        -:   67:c 42  DISTRIBUTE arrA4[MULT_BLOCK][*][MULT_BLOCK][*]
+        -:   68:c                        REDISTRIBUTE arrA4[*][MULT_BLOCK][MULT_BLOCK][*]
+        1:   69:      call distrm42                           
+call    0 returned 100%
+        -:   70:C -------------------------------------------------
+        -:   71:C
+        1:   72:      print *,'=== END OF distrmult2 ========================= '    
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   73:
+function main called 1 returned 100% blocks executed 100%
+        1:   74:      end
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   75:
+        -:   76:C ----------------------------------------------------distrm24
+        -:   77:c 24  DISTRIBUTE arrA2[MULT_BLOCK][MULT_BLOCK]  REDISTRIBUTE arrA2[*][*]
+        -:   78:
+function distrm24_ called 1 returned 100% blocks executed 88%
+        1:   79:      subroutine distrm24
+        -:   80:
+        -:   81:      integer, parameter :: AN1=15,AN2=12,NL=1000,ER=10000
+        -:   82:      integer :: erri= ER,i,j
+        -:   83:      integer, parameter :: m1 = 5, m2 = 3
+        1:   84:      integer, allocatable :: A2(:,:)
+        -:   85:      character(*), parameter :: tname='distrm24  '
+        -:   86:               
+        -:   87:!dvm$ distribute A2(MULT_BLOCK(m1),MULT_BLOCK(m2))   
+        -:   88:!dvm$ dynamic A2
+        -:   89:
+       1*:   90:      allocate (A2(AN1,AN2))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:   91:
+      193:   92:      A2 = 4 
+branch  0 taken 8% (fallthrough)
+branch  1 taken 92%
+branch  2 taken 94% (fallthrough)
+branch  3 taken 6%
+        -:   93:
+        -:   94:!dvm$ actual (A2)
+        -:   95:
+        -:   96:!dvm$ region
+        -:   97:!dvm$ parallel (i,j) on A2(i,j)
+       16:   98:      do i=1,AN1
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      196:   99:          do j=1,AN2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      195:  100:            A2(i,j) = A2(i,j)+ (i*NL+j)     
+        -:  101:          enddo
+        -:  102:      enddo
+        -:  103:!dvm$ end region
+        -:  104:
+        -:  105:!dvm$ redistribute A2(*,*)    
+        -:  106:
+        -:  107:!dvm$ actual (erri)
+        -:  108:
+        -:  109:!dvm$ region
+        -:  110:!dvm$ parallel (i,j) on A2(i,j), reduction( min( erri ) )
+       16:  111:      do i=1,AN1
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      196:  112:          do j=1,AN2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      195:  113:            if (A2(i,j) /= (i*NL+j)+4 ) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  114:               erri = min(erri,i*NL/10+j)
+        -:  115:            endif 
+        -:  116:          enddo
+        -:  117:      enddo
+        -:  118:!dvm$ end region
+        -:  119:
+        -:  120:!dvm$ get_actual (erri)
+        -:  121:
+        1:  122:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  123:          call ansyes(tname)
+call    0 returned 100%
+        -:  124:      else
+    #####:  125:          call ansno(tname)
+call    0 never executed
+        -:  126:      endif 
+        -:  127: 
+       1*:  128:      deallocate (A2)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  129:
+        1:  130:      end subroutine distrm24
+        -:  131:
+        -:  132:C ----------------------------------------------------distrm25
+        -:  133:c 25  DISTRIBUTE arrA2[*][*]  REDISTRIBUTE arrA2[MULT_BLOCK][MULT_BLOCK]
+        -:  134:
+function distrm25_ called 1 returned 100% blocks executed 88%
+        1:  135:      subroutine distrm25
+        -:  136:
+        -:  137:      integer, parameter :: AN1=18,AN2=8,NL=1000,ER=10000
+        -:  138:      integer :: erri= ER,i,j
+        -:  139:      integer, parameter :: m1 = 3, m2 = 2
+        1:  140:      integer, allocatable :: A2(:,:)
+        -:  141:      character(*), parameter :: tname='distrm25  '
+        -:  142:               
+        -:  143:!dvm$ distribute A2(*,*)   
+        -:  144:!dvm$ dynamic A2
+        -:  145:
+       1*:  146:       allocate (A2(AN1,AN2))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  147:
+      153:  148:       A2 = 5
+branch  0 taken 11% (fallthrough)
+branch  1 taken 89%
+branch  2 taken 95% (fallthrough)
+branch  3 taken 5%
+        -:  149:
+        -:  150:!dvm$  actual(A2)
+        -:  151:
+        -:  152:!dvm$ region
+        -:  153:!dvm$ parallel (i,j) on A2(i,j)
+       19:  154:      do i=1,AN1
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+      163:  155:          do j=1,AN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      162:  156:            A2(i,j) = A2(i,j) + (i*NL+j)     
+        -:  157:          enddo
+        -:  158:      enddo
+        -:  159:!dvm$ end region
+        -:  160:
+        -:  161:!dvm$ redistribute A2(MULT_BLOCK(m1), MULT_BLOCK(m2))    
+        -:  162:
+        -:  163:!dvm$ actual (erri)
+        -:  164:
+        -:  165:!dvm$ region
+        -:  166:!dvm$ parallel (i,j) on A2(i,j), reduction( min( erri ) )
+       19:  167:      do i=1,AN1
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+      163:  168:          do j=1,AN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      144:  169:            A2(i,j) = A2(i,j) - 5     
+      162:  170:            if (A2(i,j) /= (i*NL+j)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  171:               erri = min(erri,i*NL/10+j)
+        -:  172:            endif 
+        -:  173:          enddo
+        -:  174:      enddo
+        -:  175:!dvm$ end region
+        -:  176:
+        -:  177:!dvm$ get_actual (erri)
+        -:  178:
+        1:  179:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  180:          call ansyes(tname)
+call    0 returned 100%
+        -:  181:      else
+    #####:  182:          call ansno(tname)
+call    0 never executed
+        -:  183:      endif 
+        -:  184:
+       1*:  185:      deallocate (A2)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  186:
+        1:  187:      end subroutine distrm25
+        -:  188:
+        -:  189:C ----------------------------------------------------distrm26
+        -:  190:c 26  DISTRIBUTE arrA2[MULT_BLOCK][MULT_BLOCK]
+        -:  191:c                REDISTRIBUTE arrA2[BLOCK][BLOCK]
+        -:  192:
+function distrm26_ called 1 returned 100% blocks executed 85%
+        1:  193:      subroutine distrm26
+        -:  194:
+        -:  195:      integer, parameter :: AN1=49,AN2=12,NL=1000,ER=10000
+        -:  196:      integer :: erri= ER,i,j
+        -:  197:      integer, parameter :: m1 = 7, m2 = 4
+        1:  198:      integer, allocatable :: A2(:,:)
+        -:  199:      character(10), parameter :: tname='distrm26  '
+        -:  200:               
+        -:  201:!dvm$ distribute A2(MULT_BLOCK(m1),MULT_BLOCK(m2))   
+        -:  202:!dvm$ dynamic A2
+        -:  203:
+       1*:  204:      allocate (A2(AN1,AN2))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  205:
+        -:  206:!dvm$ region
+        -:  207:!dvm$ parallel (i,j) on A2(i,j)
+       50:  208:      do i=1,AN1
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
+      638:  209:          do j=1,AN2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      637:  210:            A2(i,j) =i*NL+j     
+        -:  211:          enddo
+        -:  212:      enddo
+        -:  213:!dvm$ end region
+        -:  214:
+        -:  215:!dvm$ redistribute A2(BLOCK,BLOCK)    
+        -:  216:
+        -:  217:!dvm$ actual (erri)
+        -:  218:
+        -:  219:!dvm$ region
+        -:  220:!dvm$ parallel (i,j) on A2(i,j), reduction( min( erri ) )
+       50:  221:      do i=1,AN1
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
+      638:  222:          do j=1,AN2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      637:  223:            if (A2(i,j) /= (i*NL+j)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  224:               erri = min(erri,i*NL/10+j)
+        -:  225:            endif 
+        -:  226:          enddo
+        -:  227:      enddo
+        -:  228:!dvm$ end region
+        -:  229:
+        -:  230:!dvm$ get_actual (erri)
+        -:  231:
+        1:  232:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  233:          call ansyes(tname)
+call    0 returned 100%
+        -:  234:      else
+    #####:  235:          call ansno(tname)
+call    0 never executed
+        -:  236:      endif 
+        -:  237:
+       1*:  238:      deallocate (A2)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  239:
+        1:  240:      end subroutine distrm26
+        -:  241:
+        -:  242:C ----------------------------------------------------distrm27
+        -:  243:c 27  DISTRIBUTE arrA2[BLOCK][BLOCK]  REDISTRIBUTE arrA2[MULT_BLOCK][MULT_BLOCK]
+        -:  244:
+function distrm27_ called 1 returned 100% blocks executed 85%
+        1:  245:      subroutine distrm27
+        -:  246:
+        -:  247:      integer, parameter :: AN1=8,AN2= 64,NL=1000,ER=10000
+        -:  248:      integer :: erri= ER,i,j
+        -:  249:      integer, parameter :: m1 = 1, m2 = 8
+        1:  250:      integer, allocatable :: A2(:,:)
+        -:  251:      character(10), parameter :: tname='distrm27'
+        -:  252:               
+        -:  253:!dvm$ distribute A2(BLOCK,BLOCK)   
+        -:  254:!dvm$ dynamic A2
+        -:  255:
+       1*:  256:      allocate (A2(AN1,AN2))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  257:
+        -:  258:!dvm$ region
+        -:  259:!dvm$ parallel (i,j) on A2(i,j)
+        9:  260:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      521:  261:          do j=1,AN2
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
+      520:  262:            A2(i,j) =(i*NL+j)*2     
+        -:  263:          enddo
+        -:  264:      enddo
+        -:  265:!dvm$ end region
+        -:  266:
+        -:  267:!dvm$ redistribute A2(MULT_BLOCK(m1),MULT_BLOCK(m2))    
+        -:  268:
+        -:  269:!dvm$ actual (erri)
+        -:  270:
+        -:  271:!dvm$ region
+        -:  272:!dvm$ parallel (i,j) on A2(i,j), reduction( min( erri ) )
+        9:  273:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      521:  274:          do j=1,AN2
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
+      520:  275:            if (A2(i,j)  /= (i*NL+j)*2) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  276:               erri = min(erri,i*NL/10+j)
+        -:  277:            endif 
+        -:  278:          enddo
+        -:  279:      enddo
+        -:  280:!dvm$ end region
+        -:  281:
+        -:  282:!dvm$ get_actual (erri)
+        -:  283:
+        1:  284:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  285:          call ansyes(tname)
+call    0 returned 100%
+        -:  286:      else
+    #####:  287:          call ansno(tname)
+call    0 never executed
+        -:  288:      endif 
+        -:  289:
+       1*:  290:      deallocate (A2)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  291:
+        1:  292:      end subroutine distrm27
+        -:  293:
+        -:  294:C ----------------------------------------------------distrm28
+        -:  295:c 28  DISTRIBUTE arrA2[MULT_BLOCK][BLOCK]  REDISTRIBUTE arrA2[BLOCK][MULT_BLOCK]
+        -:  296:
+function distrm28_ called 1 returned 100% blocks executed 85%
+        1:  297:      subroutine distrm28
+        -:  298:
+        -:  299:      integer, parameter :: AN1=20,AN2=20,NL=1000,ER=10000
+        -:  300:      integer :: erri= ER,i,j
+        -:  301:      integer, parameter :: m1 = 5, m2 = 4
+        1:  302:      integer, allocatable :: A2(:,:)
+        -:  303:      character(10) :: tname='distrm28  '
+        -:  304:               
+        -:  305:!dvm$ distribute A2(MULT_BLOCK(m1),BLOCK)   
+        -:  306:!dvm$ dynamic A2
+        -:  307:
+       1*:  308:      allocate (A2(AN1,AN2))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  309:
+        -:  310:!dvm$ region
+        -:  311:!dvm$ parallel (i,j) on A2(i,j)
+       21:  312:      do i=1,AN1
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+      421:  313:          do j=1,AN2
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+      420:  314:            A2(i,j) =(i*NL+j)*3     
+        -:  315:          enddo
+        -:  316:      enddo
+        -:  317:!dvm$ end region
+        -:  318:
+        -:  319:!dvm$ redistribute A2(BLOCK,MULT_BLOCK(m2))    
+        -:  320:
+        -:  321:!dvm$ actual (erri)
+        -:  322:
+        -:  323:!dvm$ region
+        -:  324:!dvm$ parallel (i,j) on A2(i,j), reduction( min( erri ) )
+       21:  325:      do i=1,AN1
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+      421:  326:          do j=1,AN2
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+      420:  327:            if (A2(i,j) /= (i*NL+j)*3) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  328:               erri = min(erri,i*NL/10+j)
+        -:  329:            endif 
+        -:  330:          enddo
+        -:  331:      enddo
+        -:  332:!dvm$ end region
+        -:  333:
+        -:  334:!dvm$ get_actual (erri)
+        -:  335:
+        1:  336:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  337:          call ansyes(tname)
+call    0 returned 100%
+        -:  338:      else
+    #####:  339:          call ansno(tname)
+call    0 never executed
+        -:  340:      endif 
+        -:  341:
+       1*:  342:      deallocate (A2)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  343:
+        1:  344:      end subroutine distrm28
+        -:  345:
+        -:  346:C ----------------------------------------------------distrm29
+        -:  347:c 29  DISTRIBUTE arrA2[BLOCK][MULT_BLOCK]
+        -:  348:c                REDISTRIBUTE arrA2[MULT_BLOCK][BLOCK]
+        -:  349:
+function distrm29_ called 1 returned 100% blocks executed 88%
+        1:  350:      subroutine distrm29
+        -:  351:
+        -:  352:      integer, parameter :: AN1=30,AN2=60,NL=1000,ER=10000
+        -:  353:      integer :: erri= ER,i,j
+        -:  354:      integer, parameter :: m1 = 10, m2 = 10
+        1:  355:      integer, allocatable :: A2(:,:)
+        -:  356:      character(10), parameter :: tname='distrm29'
+        -:  357:               
+        -:  358:!dvm$ distribute A2(BLOCK,MULT_BLOCK(m2))   
+        -:  359:!dvm$ dynamic A2
+        -:  360:
+       1*:  361:      allocate (A2(AN1,AN2))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  362:
+     1861:  363:      A2 = -1
+branch  0 taken 2% (fallthrough)
+branch  1 taken 98%
+branch  2 taken 97% (fallthrough)
+branch  3 taken 3%
+        -:  364:
+        -:  365:!dvm$ actual (A2)
+        -:  366:
+        -:  367:!dvm$ region
+        -:  368:!dvm$ parallel (i,j) on A2(i,j)
+       31:  369:      do i=1,AN1
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+     1831:  370:          do j=1,AN2
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
+     1830:  371:            A2(i,j) = A2(i,j) + (i*NL+j)     
+        -:  372:          enddo
+        -:  373:      enddo
+        -:  374:!dvm$ end region
+        -:  375:
+        -:  376:!dvm$ redistribute A2(MULT_BLOCK(m1),BLOCK)    
+        -:  377:
+        -:  378:!dvm$ actual (erri)
+        -:  379:
+        -:  380:!dvm$ region
+        -:  381:!dvm$ parallel (i,j) on A2(i,j), reduction( min( erri ) )
+       31:  382:      do i=1,AN1
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+     1831:  383:          do j=1,AN2
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
+     1830:  384:            if (A2(i,j) /= (i*NL+j)-1) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  385:               erri = min(erri,i*NL/10+j)
+        -:  386:            endif 
+        -:  387:          enddo
+        -:  388:      enddo
+        -:  389:!dvm$ end region
+        -:  390:
+        -:  391:!dvm$ get_actual (erri)
+        -:  392:
+        1:  393:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  394:          call ansyes(tname)
+call    0 returned 100%
+        -:  395:      else
+    #####:  396:          call ansno(tname)
+call    0 never executed
+        -:  397:      endif 
+        -:  398:
+       1*:  399:      deallocate (A2)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  400:
+        1:  401:      end subroutine distrm29
+        -:  402:
+        -:  403:C ----------------------------------------------------distrm210
+        -:  404:c 210  DISTRIBUTE arrA2[MULT_BLOCK][MULT_BLOCK]
+        -:  405:c                 REDISTRIBUTE [MULT_BLOCK][MULT_BLOCK]  other m1, m2
+        -:  406:
+function distrm210_ called 1 returned 100% blocks executed 85%
+        1:  407:      subroutine distrm210
+        -:  408:
+        -:  409:      integer, parameter :: AN1=24,AN2=24,NL=1000,ER=10000
+        -:  410:      integer :: erri= ER,i,j
+        -:  411:      integer, parameter :: m1 = 3, m2 = 2
+        1:  412:      integer, allocatable :: A2(:,:)
+        -:  413:      character(*), parameter :: tname='distrm210 '
+        -:  414:               
+        -:  415:!dvm$ distribute A2(MULT_BLOCK(m1),MULT_BLOCK(m2))   
+        -:  416:!dvm$ dynamic A2
+        -:  417:
+       1*:  418:      allocate (A2(AN1,AN2))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  419:
+        -:  420:!dvm$ region
+        -:  421:!dvm$ parallel (i,j) on A2(i,j)
+       25:  422:      do i=1,AN1
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+      601:  423:          do j=1,AN2
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+      600:  424:            A2(i,j) =i*NL+j     
+        -:  425:          enddo
+        -:  426:      enddo
+        -:  427:!dvm$ end region
+        -:  428:
+        -:  429:!dvm$ redistribute A2(MULT_BLOCK(m2),MULT_BLOCK(m1))    
+        -:  430:
+        -:  431:!dvm$ actual (erri)
+        -:  432:
+        -:  433:!dvm$ region
+        -:  434:!dvm$ parallel (i,j) on A2(i,j), reduction( min( erri ) )
+       25:  435:      do i=1,AN1
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+      601:  436:          do j=1,AN2
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+      600:  437:            if (A2(i,j) /= (i*NL+j)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  438:               erri = min(erri,i*NL/10+j)
+        -:  439:            endif 
+        -:  440:          enddo
+        -:  441:      enddo
+        -:  442:!dvm$ end region
+        -:  443:                                                    
+        -:  444:!dvm$ get_actual (erri)
+        -:  445:
+        1:  446:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  447:          call ansyes(tname)
+call    0 returned 100%
+        -:  448:      else
+    #####:  449:          call ansno(tname)
+call    0 never executed
+        -:  450:      endif 
+        -:  451: 
+       1*:  452:      deallocate (A2)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  453:
+        1:  454:      end subroutine distrm210
+        -:  455:
+        -:  456:C ----------------------------------------------------distrm32
+        -:  457:c 32  DISTRIBUTE  arrA3[MULT_BLOCK][MULT_BLOCK] [*]
+        -:  458:c                 REDISTRIBUTE arrA3[*][MULT_BLOCK][MULT_BLOCK]
+        -:  459:
+function distrm32_ called 1 returned 100% blocks executed 88%
+        1:  460:      subroutine distrm32
+        -:  461:
+        -:  462:      integer, parameter :: AN1=16,AN2=12,AN3=8,NL=1000,ER=10000
+        -:  463:      integer :: erri = ER,i,j,k
+        -:  464:      integer, parameter :: m1 = 2, m2 = 3 , m3 = 4
+        1:  465:      integer, allocatable ::  A3(:,:,:)
+        -:  466:      character(10), parameter :: tname='distrm32  '
+        -:  467:               
+        -:  468:!dvm$ distribute A3(MULT_BLOCK(m1),MULT_BLOCK(m2),*)   
+        -:  469:!dvm$ dynamic A3
+        -:  470:
+       1*:  471:      allocate (A3(AN1,AN2,AN3))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  472:
+        -:  473:!dvm$ region
+        -:  474:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       17:  475:      do i=1,AN1
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      209:  476:          do j=1,AN2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+     1744:  477:             do k=1,AN3
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1728:  478:                A3(i,j,k) = i*NL/10 + j*NL/100 + k    
+        -:  479:             enddo
+        -:  480:          enddo
+        -:  481:      enddo
+        -:  482:!dvm$ end region
+        -:  483:
+        -:  484:!dvm$ redistribute A3(*,MULT_BLOCK(m2),MULT_BLOCK(m3))    
+        -:  485:
+        -:  486:!dvm$ actual (erri)
+        -:  487:
+        -:  488:!dvm$ region
+        -:  489:!dvm$ parallel (i,j,k) on A3(i,j,k), reduction( min( erri ) )
+       17:  490:      do i=1,AN1
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      209:  491:          do j=1,AN2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+     1744:  492:            do k=1,AN3
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1728:  493:                if (A3(i,j,k) /= (i*NL/10 + j*NL/100 + k)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  494:                    erri = min(erri,i*NL/10 + j*NL/100 + k)
+        -:  495:                endif 
+        -:  496:            enddo
+        -:  497:          enddo
+        -:  498:      enddo
+        -:  499:!dvm$ end region
+        -:  500: 
+        -:  501:!dvm$ get_actual (erri)
+        -:  502:
+        1:  503:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  504:          call ansyes(tname)
+call    0 returned 100%
+        -:  505:      else
+    #####:  506:          call ansno(tname)
+call    0 never executed
+        -:  507:      endif 
+        -:  508:
+       1*:  509:      deallocate (A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  510:
+        1:  511:      end
+        -:  512:
+        -:  513:C ----------------------------------------------------distrm33
+        -:  514:c 33  DISTRIBUTE  arrA3[MULT_BLOCK][MULT_BLOCK][*]
+        -:  515:c                 REDISTRIBUTE arrA3[MULT_BLOCK][*][BLOCK]
+        -:  516:
+function distrm33_ called 1 returned 100% blocks executed 88%
+        1:  517:      subroutine distrm33
+        -:  518:
+        -:  519:      integer, parameter :: AN1=16,AN2=16,AN3=8,NL=1000,ER=10000
+        -:  520:      integer :: erri = ER,i,j,k
+        -:  521:      integer, parameter :: m1 = 4, m2 = 2, m3 = 2
+        1:  522:      integer, allocatable :: A3(:,:,:)
+        -:  523:      character(*), parameter :: tname='distrm33  '
+        -:  524:               
+        -:  525:!dvm$ distribute A3(MULT_BLOCK(m1),MULT_BLOCK(m2),*)   
+        -:  526:!dvm$ dynamic A3
+        -:  527:
+       1*:  528:      allocate (A3(AN1,AN2,AN3))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  529:
+        -:  530:!dvm$ region
+        -:  531:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       17:  532:      do i=1,AN1
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  533:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     2320:  534:             do k=1,AN3
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2304:  535:                A3(i,j,k) = i*NL/10 + j*NL/100 + k*2    
+        -:  536:             enddo
+        -:  537:          enddo
+        -:  538:      enddo
+        -:  539:!dvm$ end region
+        -:  540:
+        -:  541:!dvm$ redistribute A3(MULT_BLOCK(m1),*,MULT_BLOCK(m3))    
+        -:  542:
+        -:  543:!dvm$ actual (erri)
+        -:  544:
+        -:  545:!dvm$ region
+        -:  546:!dvm$ parallel (i,j,k) on A3(i,j,k), reduction( min( erri ) )
+       17:  547:      do i=1,AN1
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  548:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     2320:  549:            do k=1,AN3
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2304:  550:                if (A3(i,j,k) /= (i*NL/10 + j*NL/100 + k*2)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  551:                    erri = min(erri,i*NL/10 + j*NL/100 + k)
+        -:  552:                endif 
+        -:  553:            enddo
+        -:  554:          enddo
+        -:  555:      enddo
+        -:  556:!dvm$ end region
+        -:  557: 
+        -:  558:!dvm$ get_actual (erri)
+        -:  559:
+        1:  560:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  561:          call ansyes(tname)
+call    0 returned 100%
+        -:  562:      else
+    #####:  563:          call ansno(tname)
+call    0 never executed
+        -:  564:      endif 
+        -:  565:
+       1*:  566:      deallocate (A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  567:
+        1:  568:      end
+        -:  569:
+        -:  570:C ----------------------------------------------------distrm34
+        -:  571:c 34  DISTRIBUTE  arrA3[MULT_BLOCK][*][MULT_BLOCK]
+        -:  572:c                 REDISTRIBUTE arrA3[MULT_BLOCK][MULT_BLOCK][*]
+        -:  573:
+function distrm34_ called 1 returned 100% blocks executed 91%
+        1:  574:      subroutine distrm34
+        -:  575:
+        -:  576:      integer, parameter :: AN1=8,AN2=8,AN3=8,NL=1000,ER=10000
+        -:  577:      integer :: erri=ER,i,j,k
+        -:  578:      integer, parameter :: m1 = 2, m2 = 1, m3 = 4
+        1:  579:      integer, allocatable ::  A3(:,:,:)
+        -:  580:      character(10) :: tname='distrm34'
+        -:  581:               
+        -:  582:!dvm$ distribute A3(MULT_BLOCK(m1),*,MULT_BLOCK(m3))   
+        -:  583:!dvm$ dynamic A3
+        -:  584:
+       1*:  585:      allocate (A3(AN1,AN2,AN3))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  586:
+      585:  587:      A3 = 3
+branch  0 taken 11% (fallthrough)
+branch  1 taken 89%
+branch  2 taken 89% (fallthrough)
+branch  3 taken 11%
+branch  4 taken 89% (fallthrough)
+branch  5 taken 11%
+        -:  588:     
+        -:  589:!dvm$ actual(A3)
+        -:  590:
+        -:  591:!dvm$ region
+        -:  592:!dvm$ parallel (i,j,k) on A3(i,j,k)
+        9:  593:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  594:          do j=1,AN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  595:             do k=1,AN3
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      576:  596:                A3(i,j,k) = A3(i,j,k) + i*NL/10 + j*NL/100 + k    
+        -:  597:             enddo
+        -:  598:          enddo
+        -:  599:      enddo
+        -:  600:!dvm$ end region
+        -:  601:
+        -:  602:!dvm$ redistribute A3(MULT_BLOCK(m1),MULT_BLOCK(m2),*)    
+        -:  603:
+        -:  604:!dvm$ actual (erri)
+        -:  605:
+        -:  606:!dvm$ region
+        -:  607:!dvm$ parallel (i,j,k) on A3(i,j,k), reduction( min( erri ) )
+        9:  608:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  609:          do j=1,AN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  610:            do k=1,AN3
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      576:  611:                if (A3(i,j,k) /= (i*NL/10 + j*NL/100 + k + 3)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  612:                    erri = min(erri,i*NL/10 + j*NL/100 + k)
+        -:  613:                endif 
+        -:  614:            enddo
+        -:  615:          enddo
+        -:  616:      enddo
+        -:  617:!dvm$ end region
+        -:  618: 
+        -:  619:!dvm$ get_actual (erri)
+        -:  620:
+        1:  621:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  622:          call ansyes(tname)
+call    0 returned 100%
+        -:  623:      else
+    #####:  624:          call ansno(tname)
+call    0 never executed
+        -:  625:      endif 
+        -:  626:
+       1*:  627:      deallocate (A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  628:
+        1:  629:      end
+        -:  630:
+        -:  631:C ----------------------------------------------------distrm35
+        -:  632:c 35  DISTRIBUTE  arrA3[MULT_BLOCK][MULT_BLOCK][*]
+        -:  633:c                         REDISTRIBUTE arrA3[*][*][MULT_BLOCK]
+        -:  634:
+function distrm35_ called 1 returned 100% blocks executed 88%
+        1:  635:      subroutine distrm35
+        -:  636:
+        -:  637:      integer, parameter :: AN1=18,AN2=28,AN3=38,NL=1000,ER=10000
+        -:  638:      integer :: erri=ER,i,j,k
+        -:  639:      integer, parameter :: m1 = 3, m2 = 7 , m3 = 19
+        1:  640:      integer, allocatable :: A3(:,:,:)
+        -:  641:      character(10), parameter :: tname='distrm35  '
+        -:  642:               
+        -:  643:!dvm$ distribute A3(MULT_BLOCK(m1),MULT_BLOCK(m2),*)   
+        -:  644:!dvm$ dynamic A3
+        -:  645:
+       1*:  646:      allocate (A3(AN1,AN2,AN3))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  647:
+        -:  648:!dvm$ region
+        -:  649:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       19:  650:      do i=1,AN1
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+      523:  651:          do j=1,AN2
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+    19674:  652:             do k=1,AN3
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+    19656:  653:                A3(i,j,k) = i*NL/10 + j*NL/100 + k    
+        -:  654:             enddo
+        -:  655:          enddo
+        -:  656:      enddo
+        -:  657:!dvm$ end region
+        -:  658:
+        -:  659:!dvm$ redistribute A3(*,*,MULT_BLOCK(m3))    
+        -:  660:
+        -:  661:!dvm$ actual (erri)
+        -:  662:
+        -:  663:!dvm$ region
+        -:  664:!dvm$ parallel (i,j,k) on A3(i,j,k), reduction( min( erri ) )
+       19:  665:      do i=1,AN1
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+      523:  666:          do j=1,AN2
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+    19674:  667:            do k=1,AN3
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+    19656:  668:                if (A3(i,j,k) /= (i*NL/10 + j*NL/100 + k)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  669:                    erri = min(erri,i*NL/10 + j*NL/100 + k)
+        -:  670:                endif 
+        -:  671:            enddo
+        -:  672:          enddo
+        -:  673:      enddo
+        -:  674:!dvm$ end region
+        -:  675: 
+        -:  676:!dvm$ get_actual (erri)
+        -:  677:
+        1:  678:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  679:          call ansyes(tname)
+call    0 returned 100%
+        -:  680:      else
+    #####:  681:          call ansno(tname)
+call    0 never executed
+        -:  682:      endif 
+        -:  683: 
+       1*:  684:      deallocate (A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  685:
+        1:  686:      end
+        -:  687:
+        -:  688:C ----------------------------------------------------distrm36
+        -:  689:c 36  DISTRIBUTE  arrA3[MULT_BLOCK][*][BLOCK]
+        -:  690:c                         REDISTRIBUTE arrA3[BLOCK][*][MULT_BLOCK]
+        -:  691:
+function distrm36_ called 1 returned 100% blocks executed 91%
+        1:  692:      subroutine distrm36
+        -:  693:
+        -:  694:      integer, parameter :: AN1=121,AN2=12,AN3=35,NL=1000,ER=10000
+        -:  695:      integer :: erri=ER,i,j,k
+        -:  696:      integer, parameter :: m1 = 11, m2 = 2, m3 = 7
+        1:  697:      integer, allocatable ::  A3(:,:,:)
+        -:  698:      character(10), parameter :: tname='distrm36  '
+        -:  699:               
+        -:  700:!dvm$ distribute A3(MULT_BLOCK(m1),*,BLOCK)   
+        -:  701:!dvm$ dynamic A3
+        -:  702:
+       1*:  703:      allocate (A3(AN1,AN2,AN3))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  704:
+    51276:  705:      A3 = 10
+branch  0 taken 3% (fallthrough)
+branch  1 taken 97%
+branch  2 taken 92% (fallthrough)
+branch  3 taken 8%
+branch  4 taken 99% (fallthrough)
+branch  5 taken 1%
+        -:  706:
+        -:  707:!dvm$ actual (A3)
+        -:  708:
+        -:  709:!dvm$ region
+        -:  710:!dvm$ parallel (i,j,k) on A3(i,j,k)
+      122:  711:      do i=1,AN1
+branch  0 taken 99% (fallthrough)
+branch  1 taken 1%
+     1574:  712:          do j=1,AN2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+    52393:  713:             do k=1,AN3
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+    52272:  714:                A3(i,j,k) = A3(i,j,k) + i*NL/10 + j*NL/100 + k    
+        -:  715:             enddo
+        -:  716:          enddo
+        -:  717:      enddo
+        -:  718:!dvm$ end region
+        -:  719:
+        -:  720:!dvm$ redistribute A3(BLOCK,*,MULT_BLOCK(m3))    
+        -:  721:
+        -:  722:!dvm$ actual (erri)
+        -:  723:
+        -:  724:!dvm$ region
+        -:  725:!dvm$ parallel (i,j,k) on A3(i,j,k), reduction( min( erri ) )
+      122:  726:      do i=1,AN1
+branch  0 taken 99% (fallthrough)
+branch  1 taken 1%
+     1574:  727:          do j=1,AN2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+    52393:  728:            do k=1,AN3
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+    52272:  729:                if (A3(i,j,k) /= (i*NL/10 + j*NL/100 + k + 10)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  730:                    erri = min(erri,i*NL/10 + j*NL/100 + k)
+        -:  731:                endif 
+        -:  732:            enddo
+        -:  733:          enddo
+        -:  734:      enddo
+        -:  735:!dvm$ end region
+        -:  736: 
+        -:  737:!dvm$ get_actual (erri)
+        -:  738:
+        1:  739:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  740:          call ansyes(tname)
+call    0 returned 100%
+        -:  741:      else
+    #####:  742:          call ansno(tname)
+call    0 never executed
+        -:  743:      endif 
+        -:  744:
+       1*:  745:      deallocate (A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  746:
+        1:  747:      end
+        -:  748:
+        -:  749:C ----------------------------------------------------distrm37
+        -:  750:c 37  DISTRIBUTE  arrA3[MULT_BLOCK][BLOCK][*]
+        -:  751:c                         REDISTRIBUTE arrA3[BLOCK][*][MULT_BLOCK]
+        -:  752:
+function distrm37_ called 1 returned 100% blocks executed 88%
+        1:  753:      subroutine distrm37
+        -:  754:
+        -:  755:      integer, parameter :: AN1=8,AN2=28,AN3=8,NL=1000,ER=10000
+        -:  756:      integer :: erri=ER,i,j,k
+        -:  757:      integer, parameter :: m1 = 2, m2 = 4, m3 = 2
+        1:  758:      integer, allocatable :: A3(:,:,:)
+        -:  759:      character(*), parameter :: tname='distrm37  '
+        -:  760:               
+        -:  761:!dvm$ distribute A3(MULT_BLOCK(m1),BLOCK,*)   
+        -:  762:!dvm$ dynamic A3
+        -:  763:
+       1*:  764:      allocate (A3(AN1,AN2,AN3))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  765:
+        -:  766:!dvm$ region
+        -:  767:!dvm$ parallel (i,j,k) on A3(i,j,k)
+        9:  768:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      233:  769:          do j=1,AN2
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+     2024:  770:             do k=1,AN3
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2016:  771:                A3(i,j,k) = i*NL/10 + j*NL/100 + k    
+        -:  772:             enddo
+        -:  773:          enddo
+        -:  774:      enddo
+        -:  775:!dvm$ end region
+        -:  776:
+        -:  777:!dvm$ redistribute A3(BLOCK,*,MULT_BLOCK(m3))    
+        -:  778:
+        -:  779:!dvm$ actual (erri)
+        -:  780:
+        -:  781:!dvm$ region
+        -:  782:!dvm$ parallel (i,j,k) on A3(i,j,k), reduction( min( erri ) )
+        9:  783:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      233:  784:          do j=1,AN2
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+     2024:  785:            do k=1,AN3
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2016:  786:                if (A3(i,j,k) /= (i*NL/10 + j*NL/100 + k)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  787:                    erri = min(erri,i*NL/10 + j*NL/100 + k)
+        -:  788:                endif 
+        -:  789:            enddo
+        -:  790:          enddo
+        -:  791:      enddo
+        -:  792:!dvm$ end region
+        -:  793: 
+        -:  794:!dvm$ get_actual (erri)
+        -:  795:
+        1:  796:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  797:          call ansyes(tname)
+call    0 returned 100%
+        -:  798:      else
+    #####:  799:          call ansno(tname)
+call    0 never executed
+        -:  800:      endif 
+        -:  801:
+       1*:  802:      deallocate (A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  803:
+        1:  804:      end
+        -:  805:
+        -:  806:C ----------------------------------------------------distrm38
+        -:  807:c 38  DISTRIBUTE  arrA3[BLOCK][*][MULT_BLOCK] REDISTRIBUTE arrA3[*][MULT_BLOCK][MULT_BLOCK]
+        -:  808:
+function distrm38_ called 1 returned 100% blocks executed 88%
+        1:  809:      subroutine distrm38
+        -:  810:
+        -:  811:      integer, parameter :: AN1=50,AN2=40,AN3=30,NL=1000,ER=10000
+        -:  812:      integer :: erri=ER,i,j,k
+        -:  813:      integer, parameter :: m1 = 5, m2 = 4, m3 = 3
+        1:  814:      integer, allocatable :: A3(:,:,:)
+        -:  815:      character(10) :: tname='distrm38'
+        -:  816:               
+        -:  817:!dvm$ distribute A3(BLOCK, *, MULT_BLOCK(m3))   
+        -:  818:!dvm$ dynamic A3
+        -:  819:
+       1*:  820:      allocate (A3(AN1,AN2,AN3))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  821:
+        -:  822:!dvm$ region
+        -:  823:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       51:  824:      do i=1,AN1
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
+     2051:  825:          do j=1,AN2
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
+    62050:  826:             do k=1,AN3
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+    62000:  827:                A3(i,j,k) = i*NL/10 + j*NL/100 + k*5    
+        -:  828:             enddo
+        -:  829:          enddo
+        -:  830:      enddo
+        -:  831:!dvm$ end region
+        -:  832:
+        -:  833:!dvm$ redistribute A3(*,MULT_BLOCK(m2),MULT_BLOCK(m3))    
+        -:  834:
+        -:  835:!dvm$ actual (erri)
+        -:  836:
+        -:  837:!dvm$ region
+        -:  838:!dvm$ parallel (i,j,k) on A3(i,j,k), reduction( min( erri ) )
+       51:  839:      do i=1,AN1
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
+     2051:  840:          do j=1,AN2
+branch  0 taken 98% (fallthrough)
+branch  1 taken 2%
+    62050:  841:            do k=1,AN3
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+    62000:  842:                if (A3(i,j,k) /= (i*NL/10 + j*NL/100 + k*5)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  843:                    erri = min(erri,i*NL/10 + j*NL/100 + k)
+        -:  844:                endif 
+        -:  845:            enddo
+        -:  846:          enddo
+        -:  847:      enddo
+        -:  848:!dvm$ end region
+        -:  849: 
+        -:  850:!dvm$ get_actual (erri)
+        -:  851:
+        1:  852:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  853:          call ansyes(tname)
+call    0 returned 100%
+        -:  854:      else
+    #####:  855:          call ansno(tname)
+call    0 never executed
+        -:  856:      endif 
+        -:  857:
+       1*:  858:      deallocate (A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  859:
+        1:  860:      end
+        -:  861:
+        -:  862:C ----------------------------------------------------distrm41
+        -:  863:c 41  DISTRIBUTE arrA4[*][*][MULT_BLOCK][MULT_BLOCK] REDISTRIBUTE arrA4[*][*][*][*]
+        -:  864:
+function distrm41_ called 1 returned 100% blocks executed 90%
+        1:  865:      subroutine distrm41
+        -:  866:
+        -:  867:      integer, parameter :: AN1=16,AN2=16,AN3=16,AN4=16,NL=1000,ER=100000
+        -:  868:      integer :: erri=ER,i,j,n,m
+        -:  869:      integer, parameter :: m1 = 2, m2 = 4, m3 = 2, m4 = 4
+        1:  870:      integer, allocatable :: A4(:,:,:,:)
+        -:  871:      character(10), parameter :: tname='distrm41  '
+        -:  872:               
+        -:  873:!dvm$ distribute A4(*,*,MULT_BLOCK(m3),MULT_BLOCK(m4))   
+        -:  874:!dvm$ dynamic A4
+        -:  875:
+       1*:  876:      allocate (A4(AN1,AN2,AN3,AN4))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  877:
+        -:  878:!dvm$ region
+        -:  879:!dvm$ parallel (i,j,n,m) on A4(i,j,n,m)
+       17:  880:      do i=1,AN1
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  881:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368:  882:             do n=1,AN3
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69888:  883:                do m=1,AN4
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69632:  884:                     A4(i,j,n,m) = i*NL/10+j*NL/100+n*NL/1000+m
+        -:  885:                enddo
+        -:  886:             enddo
+        -:  887:          enddo
+        -:  888:      enddo
+        -:  889:!dvm$ end region
+        -:  890:
+        -:  891:!dvm$ redistribute A4(*,*,*,*)    
+        -:  892:
+        -:  893:!dvm$ actual (erri)
+        -:  894:
+        -:  895:!dvm$ region
+        -:  896:!dvm$ parallel (i,j,n,m) on A4(i,j,n,m), reduction( min( erri ) )
+       17:  897:      do i=1,AN1
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  898:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368:  899:            do n=1,AN3
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69888:  900:              do m=1,AN4
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69632:  901:                if (A4(i,j,n,m) /= (i*NL/10+j*NL/100+n*NL/1000+m)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  902:                    erri = min(erri,i*NL/10+j*NL/100+n*NL/1000+m)
+        -:  903:                endif 
+        -:  904:              enddo
+        -:  905:            enddo
+        -:  906:          enddo
+        -:  907:      enddo
+        -:  908:!dvm$ end region
+        -:  909: 
+        -:  910:!dvm$ get_actual (erri)
+        -:  911:
+        1:  912:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  913:          call ansyes(tname)
+call    0 returned 100%
+        -:  914:      else
+    #####:  915:          call ansno(tname)
+call    0 never executed
+        -:  916:      endif 
+        -:  917:
+       1*:  918:      deallocate (A4)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  919:
+        1:  920:      end
+        -:  921:
+        -:  922:C ----------------------------------------------------distrm42
+        -:  923:c 42  DISTRIBUTE arrA4[MULT_BLOCK][*][MULT_BLOCK][*] 
+        -:  924:c                REDISTRIBUTE arrA4[*][MULT_BLOCK][MULT_BLOCK][*]
+        -:  925:
+function distrm42_ called 1 returned 100% blocks executed 93%
+        1:  926:      subroutine distrm42
+        -:  927:
+        -:  928:      integer, parameter :: AN1=28,AN2=25,AN3=27,AN4=21,NL=1000,ER=100000
+        -:  929:      integer :: erri=ER,i,j,n,m
+        -:  930:      integer, parameter :: m1 = 7, m2 = 5, m3 = 9, m4  = 3
+        1:  931:      integer, allocatable :: A4(:,:,:,:)
+        -:  932:      character(10) :: tname='distrm42  '
+        -:  933:               
+        -:  934:!dvm$ distribute A4(MULT_BLOCK(m1),*,MULT_BLOCK(m3),*)   
+        -:  935:!dvm$ dynamic A4
+        -:  936:
+       1*:  937:      allocate (A4(AN1,AN2,AN3,AN4))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  938:
+   411664:  939:      A4 = 6   
+branch  0 taken 5% (fallthrough)
+branch  1 taken 95%
+branch  2 taken 96% (fallthrough)
+branch  3 taken 4%
+branch  4 taken 96% (fallthrough)
+branch  5 taken 4%
+branch  6 taken 97% (fallthrough)
+branch  7 taken 3%
+        -:  940:
+        -:  941:!dvm$ actual (A4)
+        -:  942:
+        -:  943:!dvm$ region
+        -:  944:!dvm$ parallel (i,j,n,m) on A4(i,j,n,m)
+       29:  945:      do i=1,AN1
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+      729:  946:         do j=1,AN2
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+    19628:  947:            do n=1,AN3
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+   416500:  948:               do m=1,AN4
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+   415800:  949:                A4(i,j,n,m) = A4(i,j,n,m)+ i*NL/10+j*NL/100+n*NL/1000+m
+        -:  950:               enddo
+        -:  951:            enddo
+        -:  952:         enddo
+        -:  953:      enddo
+        -:  954:!dvm$ end region
+        -:  955:
+        -:  956:!dvm$ redistribute A4(*,MULT_BLOCK(m2),MULT_BLOCK(m3),*)    
+        -:  957:
+        -:  958:!dvm$ actual (erri)
+        -:  959:
+        -:  960:!dvm$ region
+        -:  961:!dvm$ parallel (i,j,n,m) on A4(i,j,n,m), reduction( min( erri ) )
+       29:  962:      do i=1,AN1
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+      729:  963:        do j=1,AN2
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+    19628:  964:          do n=1,AN3
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+   416500:  965:            do m=1,AN4
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+   415800:  966:              if (A4(i,j,n,m) /= (i*NL/10+j*NL/100+n*NL/1000+m+6)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  967:                  erri = min(erri,i*NL/10+j*NL/100+n*NL/1000+m)
+        -:  968:              endif 
+        -:  969:            enddo
+        -:  970:          enddo
+        -:  971:        enddo
+        -:  972:      enddo
+        -:  973:!dvm$ end region
+        -:  974: 
+        -:  975:!dvm$ get_actual (erri)
+        -:  976:
+        1:  977:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  978:          call ansyes(tname)
+call    0 returned 100%
+        -:  979:      else
+    #####:  980:          call ansno(tname)
+call    0 never executed
+        -:  981:      endif 
+        -:  982:
+       1*:  983:      deallocate (A4)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  984:
+        1:  985:      end
+        -:  986:
+        -:  987:C -------------------------------------------------
+        -:  988:
+function ansyes_ called 16 returned 100% blocks executed 100%
+       16:  989:      subroutine ansyes(name)
+        -:  990:      character(*) name
+       16:  991:      print *,name,'  -  complete'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+       16:  992:      end
+function ansno_ called 0 returned 0% blocks executed 0%
+    #####:  993:      subroutine ansno(name)
+        -:  994:      character(*) name
+    #####:  995:      print *,name,'  -  ***error'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+    #####:  996:      end

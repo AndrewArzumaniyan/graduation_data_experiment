@@ -1,0 +1,935 @@
+        -:    0:Source:results/1d/acr12/acr12.f
+        -:    0:Graph:./results\1d\acr12\acr12.gcno
+        -:    0:Data:./results\1d\acr12\acr12.gcda
+        -:    0:Runs:1
+function MAIN__ called 1 returned 100% blocks executed 100%
+        1:    1:      program ACR12
+        -:    2:     
+        -:    3:c    TESTING OF THE ACROSS CLAUSE'.       
+        -:    4:c    DISTRIBUTED ARRAY A(N) IS TO HAVE DIFFERENT 
+        -:    5:c    FLOW-DEP-LENGTH ON BOTH SIDES 
+        -:    6:
+        1:    7:      print *,'===START OF ACR12========================'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:    8:C --------------------------------------------------
+        1:    9:      call acr1201
+call    0 returned 100%
+        -:   10:C --------------------------------------------------
+        1:   11:      call acr1202
+call    0 returned 100%
+        -:   12:C --------------------------------------------------
+        1:   13:      call acr1203
+call    0 returned 100%
+        -:   14:C -------------------------------------------------
+        1:   15:      call acr1204
+call    0 returned 100%
+        -:   16:C -------------------------------------------------
+        1:   17:      call acr1205
+call    0 returned 100%
+        -:   18:C -------------------------------------------------
+        1:   19:      call acr1206
+call    0 returned 100%
+        -:   20:C --------------------------------------------------
+        1:   21:      call acr1207
+call    0 returned 100%
+        -:   22:C --------------------------------------------------
+        1:   23:      call acr1208
+call    0 returned 100%
+        -:   24:C --------------------------------------------------
+        1:   25:      call acr1209
+call    0 returned 100%
+        -:   26:C -------------------------------------------------
+        1:   27:      call acr1210
+call    0 returned 100%
+        -:   28:C -------------------------------------------------
+        -:   29:
+        -:   30:C
+        1:   31:      print *,'=== END OF ACR12 ========================= '    
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+function main called 1 returned 100% blocks executed 100%
+        1:   32:      end
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   33:C ---------------------------------------------ACR1201
+function acr1201_ called 1 returned 100% blocks executed 84%
+        1:   34:      subroutine acr1201
+        -:   35:     
+        -:   36:      integer, parameter :: N = 8, NL=1000
+        -:   37:      character*7 tname 
+        1:   38:      integer,allocatable::  A(:), C(:)
+        -:   39:      integer nloop 
+        -:   40:                      
+        -:   41:!dvm$ distribute A(*)    
+        -:   42:
+        1:   43:      tname='ACR1201'
+       1*:   44:      allocate (A(N), C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        4:   45:      nloop=NL
+        -:   46:      
+        4:   47:      do iloop=0,2	 
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:   48:      NNL=NL    
+       21:   49:      call serial1(C,N,NNL)
+        -:   50:      
+       21:   51:      do i=2,N-1
+branch  0 taken 14% (fallthrough)
+branch  1 taken 86%
+       21:   52:         C(i) = C(i-1)+C(i+1)
+        -:   53:      enddo
+        -:   54:!dvm$ actual (nloop, C)
+        -:   55:!dvm$ region
+        -:   56:
+        -:   57:!dvm$ parallel (i) on A(i)
+       27:   58:      do i=1,N
+branch  0 taken 11% (fallthrough)
+branch  1 taken 89%
+       27:   59:        A(i) = NL+i
+        -:   60:      enddo
+        -:   61:               
+        -:   62:
+        -:   63:!dvm$ parallel (i) on A(i),across(A(1:1)),stage(iloop)
+       21:   64:      do i=2,N-1
+branch  0 taken 14% (fallthrough)
+branch  1 taken 86%
+       21:   65:         A(i) = A(i-1)+A(i+1)
+        -:   66:      enddo
+        -:   67:  
+        -:   68:!dvm$ parallel (i) on A(i), reduction( min( nloop ) )
+       22:   69:      do i=2,N-1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+       21:   70:          if (A(i).ne. C(i)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:   71:          nloop=min(nloop,i)
+        -:   72:          endif
+        -:   73:      enddo
+        -:   74:!dvm$ end region
+        -:   75:!dvm$ get_actual (nloop)
+        -:   76:      enddo
+        -:   77:	  
+        1:   78:      if (nloop .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:   79:          call ansyes(tname)
+call    0 returned 100%
+        -:   80:          else
+    #####:   81:          call ansno(tname)
+call    0 never executed
+        -:   82:      endif 
+       1*:   83:      deallocate (A, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:   84:      
+        1:   85:      end
+        -:   86:C ---------------------------------------------ACR1202     
+function acr1202_ called 1 returned 100% blocks executed 84%
+        1:   87:      subroutine acr1202
+        -:   88:      integer, parameter :: N = 16, NL=1000
+        -:   89:     
+        -:   90:      character*7 tname 
+        1:   91:      integer,allocatable:: A(:), C(:)
+        -:   92:      integer nloop 
+        -:   93:                      
+        -:   94:!dvm$ distribute A(*)    
+        -:   95:
+        1:   96:      tname='ACR1202'
+       1*:   97:      allocate (A(N), C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        4:   98:	  nloop=NL
+        -:   99:      
+        4:  100:      do iloop=0,2
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  101:      NNL=NL    
+       48:  102:      call serial1(C,N,NNL)
+       48:  103:      do i=1,N-1
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       48:  104:         C(i) = C(i)+C(i+1)
+        -:  105:      enddo
+        -:  106:      
+        -:  107:!dvm$ actual (nloop, C)
+        -:  108:!dvm$ region
+        -:  109:
+        -:  110:!dvm$ parallel (i) on A(i)
+       51:  111:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       51:  112:        A(i) = NL+i
+        -:  113:      enddo               
+        -:  114:
+        -:  115:!dvm$ parallel (i) on A(i),across(A(0:1)),stage(iloop)
+       48:  116:      do i=1,N-1
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       48:  117:         A(i) = A(i)+A(i+1)
+        -:  118:      enddo
+        -:  119:  
+        -:  120:!dvm$ parallel (i) on A(i), reduction( min( nloop ) )
+       46:  121:      do i=2,N-1
+branch  0 taken 93% (fallthrough)
+branch  1 taken 7%
+       45:  122:          if (A(i).ne. C(i)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  123:          nloop=min(nloop,i)
+        -:  124:          endif          
+        -:  125:      enddo
+        -:  126:!dvm$ end region
+        -:  127:!dvm$ get_actual (nloop)
+        -:  128:      enddo
+        -:  129:	  
+        1:  130:      if (nloop .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  131:          call ansyes(tname)
+call    0 returned 100%
+        -:  132:          else
+    #####:  133:          call ansno(tname)
+call    0 never executed
+        -:  134:      endif 
+       1*:  135:      deallocate (A, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  136:      
+        1:  137:      end
+        -:  138:C -----------------------------------------ACR1203      
+function acr1203_ called 1 returned 100% blocks executed 84%
+        1:  139:      subroutine acr1203
+        -:  140:      integer, parameter :: N = 16, NL=1000
+        -:  141:     
+        -:  142:      character*7 tname 
+        1:  143:      integer,allocatable::  A(:), C(:)
+        -:  144:      integer nloop 
+        -:  145:                     
+        -:  146:!dvm$ distribute A(*)    
+        -:  147:
+        1:  148:      tname='ACR1203'
+       1*:  149:      allocate (A(N), C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        4:  150:      nloop=NL
+        -:  151:  
+        4:  152:      do iloop=0,2  
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  153:      NNL=NL    
+       48:  154:      call serial1(C,N,NNL)
+       48:  155:      do i=2,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       48:  156:         C(i) =C(i)+ C(i-1)
+        -:  157:      enddo
+        -:  158:      
+        -:  159:!dvm$ actual (nloop, C)
+        -:  160:!dvm$ region
+        -:  161:
+        -:  162:!dvm$ parallel (i) on A(i)
+       51:  163:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       51:  164:        A(i) = NL+i
+        -:  165:      enddo               
+        -:  166:
+        -:  167:!dvm$ parallel (i) on A(i),across(A(1:0)),stage(iloop)
+       48:  168:      do i=2,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       48:  169:         A(i) =A(i)+ A(i-1)
+        -:  170:      enddo
+        -:  171:  
+        -:  172:!dvm$ parallel (i) on A(i), reduction( min( nloop ) )
+       46:  173:      do i=2,N-1
+branch  0 taken 93% (fallthrough)
+branch  1 taken 7%
+       45:  174:          if (A(i).ne. C(i)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  175:          nloop=min(nloop,i)
+        -:  176:          endif          
+        -:  177:      enddo
+        -:  178:!dvm$ end region
+        -:  179:!dvm$ get_actual (nloop)
+        -:  180:      enddo
+        -:  181:	  
+        1:  182:      if (nloop .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  183:          call ansyes(tname)
+call    0 returned 100%
+        -:  184:          else
+    #####:  185:          call ansno(tname)
+call    0 never executed
+        -:  186:      endif 
+       1*:  187:      deallocate (A, C)     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  188:
+        1:  189:      end
+        -:  190:      
+        -:  191:C -------------------------------------------ACR1204   
+        -:  192:         
+function acr1204_ called 1 returned 100% blocks executed 84%
+        1:  193:      subroutine acr1204
+        -:  194:      integer, parameter :: N = 16, NL=1000 
+        -:  195:      character*7 tname 
+        1:  196:      integer,allocatable:: A(:), C(:)
+        -:  197:      integer nloop 
+        -:  198:                    
+        -:  199:!dvm$ distribute A(*)    
+        -:  200:!dvm$ shadow A(2:2)
+        -:  201:  
+        1:  202:      tname='ACR1204'
+       1*:  203:      allocate (A(N), C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        4:  204:	  nloop=NL
+        -:  205:      
+        4:  206:      do iloop=0,2
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  207:      NNL=NL
+       39:  208:      call serial1(C,N,NNL)
+       39:  209:      do i=3,N-2
+branch  0 taken 8% (fallthrough)
+branch  1 taken 92%
+       39:  210:         C(i) = C(i-1)+C(i+1)+C(i+2)+C(i-2)
+        -:  211:      enddo
+        -:  212:      
+        -:  213:!dvm$ actual (nloop, C)
+        -:  214:!dvm$ region
+        -:  215:
+        -:  216:!dvm$ parallel (i) on A(i)
+       51:  217:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       51:  218:        A(i) = NL+i
+        -:  219:      enddo
+        -:  220:               
+        -:  221:!dvm$ parallel (i) on A(i),across(A(2:2)),stage(iloop)
+       39:  222:      do i=3,N-2
+branch  0 taken 8% (fallthrough)
+branch  1 taken 92%
+       39:  223:         A(i) = A(i-1)+A(i+1)+A(i+2)+A(i-2)
+        -:  224:      enddo
+        -:  225:  
+        -:  226:!dvm$ parallel (i) on A(i), reduction( min( nloop ) )
+       40:  227:      do i=3,N-2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+       39:  228:          if (A(i).ne. C(i)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  229:          nloop=min(nloop,i)
+        -:  230:          endif
+        -:  231:      enddo
+        -:  232:!dvm$ end region
+        -:  233:!dvm$ get_actual (nloop)
+        -:  234:      enddo
+        -:  235:	  
+        1:  236:      if (nloop .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  237:          call ansyes(tname)
+call    0 returned 100%
+        -:  238:          else
+    #####:  239:          call ansno(tname)
+call    0 never executed
+        -:  240:      endif 
+       1*:  241:      deallocate (A, C)       
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  242:      
+        1:  243:      end      
+        -:  244:C -------------------------------------------ACR1205   
+        -:  245:         
+function acr1205_ called 1 returned 100% blocks executed 84%
+        1:  246:      subroutine acr1205
+        -:  247:      integer, parameter :: N = 16, NL=1000
+        -:  248:     
+        -:  249:      character*7 tname 
+        1:  250:      integer,allocatable:: A(:),C(:)
+        -:  251:      integer nloop 
+        -:  252:                    
+        -:  253:!dvm$ distribute A(*)   
+        -:  254:!dvm$ shadow A(2:2)
+        -:  255:
+        1:  256:      tname='ACR1205'      
+       1*:  257:      allocate (A(N), C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        4:  258:	  nloop=NL
+        -:  259:      
+        4:  260:      do iloop=0,2
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  261:      NNL=NL    
+       42:  262:      call serial1(C,N,NNL)
+       42:  263:      do i=2,N-2
+branch  0 taken 7% (fallthrough)
+branch  1 taken 93%
+       42:  264:         C(i) = C(i+1)+C(i+2)
+        -:  265:      enddo
+        -:  266:      
+        -:  267:!dvm$ actual (nloop, C)
+        -:  268:!dvm$ region
+        -:  269:
+        -:  270:!dvm$ parallel (i) on A(i)
+       51:  271:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       51:  272:        A(i) = NL+i
+        -:  273:      enddo
+        -:  274:               
+        -:  275:!dvm$ parallel (i) on A(i),across(A(0:2)),stage(iloop)
+       42:  276:      do i=2,N-2
+branch  0 taken 7% (fallthrough)
+branch  1 taken 93%
+       42:  277:         A(i) = A(i+1)+A(i+2)
+        -:  278:      enddo
+        -:  279:  
+        -:  280:!dvm$ parallel (i) on A(i), reduction( min( nloop ) )
+       43:  281:      do i=2,N-2
+branch  0 taken 93% (fallthrough)
+branch  1 taken 7%
+       42:  282:          if (A(i).ne. C(i)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  283:          nloop=min(nloop,i)
+        -:  284:          endif          
+        -:  285:      enddo
+        -:  286:!dvm$ end region
+        -:  287:!dvm$ get_actual (nloop)
+        -:  288:      enddo
+        -:  289:	  
+        1:  290:      if (nloop .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  291:        call ansyes(tname)    
+call    0 returned 100%
+        -:  292:      else
+    #####:  293:        call ansno(tname)
+call    0 never executed
+        -:  294:      endif
+       1*:  295:      deallocate (A, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  296:  
+        1:  297:      end   
+        -:  298:      
+        -:  299:C -------------------------------------------ACR1206   
+        -:  300:         
+function acr1206_ called 1 returned 100% blocks executed 84%
+        1:  301:      subroutine acr1206
+        -:  302:      integer, parameter :: N = 16, NL=1000
+        -:  303:     
+        -:  304:      character*7 tname 
+        1:  305:      integer,allocatable::  A(:), C(:)
+        -:  306:      integer nloop                
+        -:  307:!dvm$ distribute A(*)     
+        -:  308:!dvm$ shadow A(2:2)
+        -:  309:
+        1:  310:      tname='ACR1206'      
+       1*:  311:      allocate (A(N), C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        4:  312:	  nloop=NL
+        -:  313:      
+        4:  314:      do iloop=0,2
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  315:      NNL=NL    
+       45:  316:      call serial1(C,N,NNL)
+       45:  317:      do i=3,N
+branch  0 taken 7% (fallthrough)
+branch  1 taken 93%
+       45:  318:         C(i) = C(i-1)+C(i-2)
+        -:  319:      enddo
+        -:  320:      
+        -:  321:!dvm$ actual (nloop, C)
+        -:  322:!dvm$ region
+        -:  323:
+        -:  324:!dvm$ parallel (i) on A(i)
+       51:  325:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       51:  326:        A(i) = NL+i
+        -:  327:      enddo
+        -:  328:               
+        -:  329:!dvm$ parallel (i) on A(i),across(A(2:0)),stage(iloop)
+       45:  330:      do i=3,N
+branch  0 taken 7% (fallthrough)
+branch  1 taken 93%
+       45:  331:         A(i) = A(i-1)+A(i-2)
+        -:  332:      enddo
+        -:  333:  
+        -:  334:!dvm$ parallel (i) on A(i), reduction( min( nloop ) )
+       46:  335:      do i=3,N
+branch  0 taken 93% (fallthrough)
+branch  1 taken 7%
+       45:  336:          if (A(i).ne. C(i)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  337:          nloop=min(nloop,i)
+        -:  338:          endif          
+        -:  339:      enddo
+        -:  340:!dvm$ end region
+        -:  341:!dvm$ get_actual (nloop)
+        -:  342:      enddo
+        -:  343:	  
+        1:  344:      if (nloop .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  345:          call ansyes(tname)
+call    0 returned 100%
+        -:  346:          else
+    #####:  347:          call ansno(tname)
+call    0 never executed
+        -:  348:      endif 
+       1*:  349:      deallocate (A, C)         
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        1:  350:      end   
+        -:  351:
+        -:  352:C -------------------------------------------ACR1207   
+        -:  353:         
+function acr1207_ called 1 returned 100% blocks executed 84%
+        1:  354:      subroutine acr1207
+        -:  355:      integer, parameter :: N = 16, NL=1000
+        -:  356:     
+        -:  357:      character*7 tname 
+        1:  358:      integer,allocatable::  A(:), C(:)
+        -:  359:      integer nloop 
+        -:  360:                     
+        -:  361:!dvm$ distribute A(*)     
+        -:  362:!dvm$ shadow A(3:3)
+        -:  363:
+        1:  364:      tname='ACR1207'      
+       1*:  365:      allocate (A(N), C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        4:  366:	  nloop=NL
+        -:  367:      
+        4:  368:      do iloop=0,2
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  369:      NNL=NL    
+       33:  370:      call serial1(C,N,NNL)
+       33:  371:       do i=4,N-3
+branch  0 taken 9% (fallthrough)
+branch  1 taken 91%
+       33:  372:         C(i) = C(i-1)+C(i+1)+C(i+2)+C(i-2)+C(i-3)+C(i+3)
+        -:  373:      enddo
+        -:  374:      
+        -:  375:!dvm$ actual (nloop, C)
+        -:  376:!dvm$ region
+        -:  377:
+        -:  378:!dvm$ parallel (i) on A(i)
+       51:  379:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       51:  380:        A(i) = NL+i
+        -:  381:      enddo
+        -:  382:               
+        -:  383:!dvm$ parallel (i) on A(i),across(A(3:3)),stage(iloop)
+       33:  384:      do i=4,N-3
+branch  0 taken 9% (fallthrough)
+branch  1 taken 91%
+       33:  385:         A(i) = A(i-1)+A(i+1)+A(i+2)+A(i-2)+A(i-3)+A(i+3)
+        -:  386:      enddo
+        -:  387:  
+        -:  388:!dvm$ parallel (i) on A(i), reduction( min( nloop ) )
+       34:  389:      do i=4,N-3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+       33:  390:          if (A(i).ne. C(i)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  391:          nloop=min(nloop,i)
+        -:  392:          endif
+        -:  393:      enddo
+        -:  394:!dvm$ end region
+        -:  395:!dvm$ get_actual (nloop)
+        -:  396:      enddo
+        -:  397:	  
+        1:  398:      if (nloop .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  399:          call ansyes(tname)
+call    0 returned 100%
+        -:  400:          else
+    #####:  401:          call ansno(tname)
+call    0 never executed
+        -:  402:      endif 
+       1*:  403:      deallocate (A, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  404:         
+        1:  405:      end
+        -:  406:C -------------------------------------------ACR1208  
+        -:  407:         
+function acr1208_ called 1 returned 100% blocks executed 84%
+        1:  408:      subroutine acr1208
+        -:  409:      integer, parameter :: N = 24, NL=1000
+        -:  410:     
+        -:  411:      character*7 tname 
+        1:  412:      integer,allocatable::  A(:), C(:)
+        -:  413:      integer nloop 
+        -:  414:                    
+        -:  415:!dvm$ distribute A(*)     
+        -:  416:!dvm$ shadow A(3:3)
+        -:  417:
+        1:  418:      tname='ACR1208'
+       1*:  419:      allocate (A(N), C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        4:  420: 	  nloop=NL
+        -:  421:      
+        4:  422:      do iloop=0,2   
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  423:      NNL=NL    
+       63:  424:      call serial1(C,N,NNL)
+       63:  425:       do i=2,N-3
+branch  0 taken 5% (fallthrough)
+branch  1 taken 95%
+       63:  426:         C(i) = C(i+1)+C(i+2)+C(i+3)
+        -:  427:      enddo
+        -:  428:      
+        -:  429:!dvm$ actual (nloop, C)
+        -:  430:!dvm$ region
+        -:  431:
+        -:  432:!dvm$ parallel (i) on A(i)
+       75:  433:      do i=1,N
+branch  0 taken 4% (fallthrough)
+branch  1 taken 96%
+       75:  434:        A(i) = NL+i
+        -:  435:      enddo
+        -:  436:               
+        -:  437:!dvm$ parallel (i) on A(i),across(A(0:3)),stage(iloop)
+       63:  438:      do i=2,N-3
+branch  0 taken 5% (fallthrough)
+branch  1 taken 95%
+       63:  439:         A(i) = A(i+1)+A(i+2)+A(i+3)
+        -:  440:      enddo
+        -:  441:  
+        -:  442:!dvm$ parallel (i) on A(i), reduction( min( nloop ) )
+       64:  443:      do i=2,N-3
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+       63:  444:          if (A(i).ne. C(i)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  445:          nloop=min(nloop,i)
+        -:  446:          endif          
+        -:  447:      enddo
+        -:  448:!dvm$ end region
+        -:  449:!dvm$ get_actual (nloop)
+        -:  450:      enddo
+        -:  451:	  
+        1:  452:       if (nloop .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  453:          call ansyes(tname)
+call    0 returned 100%
+        -:  454:          else
+    #####:  455:          call ansno(tname)
+call    0 never executed
+        -:  456:      endif 
+       1*:  457:      deallocate (A, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  458:       
+        1:  459:      end
+        -:  460:C -------------------------------------------ACR1209   
+        -:  461:         
+function acr1209_ called 1 returned 100% blocks executed 84%
+        1:  462:      subroutine acr1209
+        -:  463:      integer, parameter :: N = 24, NL=1000
+        -:  464:
+        -:  465:      character*7 tname 
+        1:  466:      integer,allocatable::  A(:), C(:)
+        -:  467:      integer nloop 
+        -:  468:                    
+        -:  469:!dvm$ distribute A(*)     
+        -:  470:!dvm$ shadow A(3:3)
+        -:  471:
+        1:  472:      tname='ACR1209'
+       1*:  473:      allocate (A(N), C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        4:  474:	  nloop=NL
+        -:  475:      
+        4:  476:      do iloop=0,2	  
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  477:      NNL=NL
+       66:  478:      call serial1(C,N,NNL)
+        -:  479:
+       66:  480:      do i=4,N
+branch  0 taken 5% (fallthrough)
+branch  1 taken 95%
+       66:  481:         C(i) = C(i-1)+C(i-2)+C(i-3)
+        -:  482:      enddo
+        -:  483:      
+        -:  484:!dvm$ actual (nloop, C)
+        -:  485:!dvm$ region
+        -:  486:
+        -:  487:!dvm$ parallel (i) on A(i)
+       75:  488:      do i=1,N
+branch  0 taken 4% (fallthrough)
+branch  1 taken 96%
+       75:  489:        A(i) = NL+i
+        -:  490:      enddo
+        -:  491:   
+        -:  492:!dvm$ parallel (i) on A(i),across(A(3:0)),stage(iloop)
+       66:  493:      do i=4,N
+branch  0 taken 5% (fallthrough)
+branch  1 taken 95%
+       66:  494:         A(i) = A(i-1)+A(i-2)+A(i-3)
+        -:  495:      enddo
+        -:  496:  
+        -:  497:!dvm$ parallel (i) on A(i), reduction( min( nloop ) )
+       67:  498:      do i=4,N
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+       66:  499:          if (A(i).ne. C(i)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  500:          nloop=min(nloop,i)
+        -:  501:          endif
+        -:  502:        enddo
+        -:  503:!dvm$ end region
+        -:  504:!dvm$ get_actual (nloop)
+        -:  505:      enddo
+        -:  506:	  
+        -:  507:      
+        1:  508:       if (nloop .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  509:          call ansyes(tname)
+call    0 returned 100%
+        -:  510:          else
+    #####:  511:          call ansno(tname)
+call    0 never executed
+        -:  512:      endif 
+       1*:  513:      deallocate (A, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  514:        
+        1:  515:      end 
+        -:  516:
+        -:  517:C --------------------------------------------ACR1210  
+        -:  518:         
+function acr1210_ called 1 returned 100% blocks executed 84%
+        1:  519:      subroutine acr1210
+        -:  520:      integer, parameter :: N = 50, NL=1000
+        -:  521:    
+        -:  522:      character*7 tname 
+        1:  523:      integer,allocatable::  A(:), C(:)
+        -:  524:      integer nloop 
+        -:  525:                     
+        -:  526:!dvm$ distribute A(*)     
+        -:  527:!dvm$ shadow A(11:11)
+        -:  528:
+        1:  529:      tname='ACR1210'      
+       1*:  530:      allocate (A(N), C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        4:  531: 	  nloop=NL
+        -:  532:      
+        4:  533:      do iloop=0,2
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  534:      NNL=NL    
+       87:  535:      call serial1(C,N,NNL)
+       87:  536:      do i=12,N-11
+branch  0 taken 3% (fallthrough)
+branch  1 taken 97%
+       87:  537:         C(i) = C(i-9)+C(i+9)+C(i+10)+C(i-10)+C(i-11)+C(i+11)
+        -:  538:      enddo
+        -:  539:      
+        -:  540:!dvm$ actual (nloop, C)
+        -:  541:!dvm$ region
+        -:  542:
+        -:  543:!dvm$ parallel (i) on A(i)
+      153:  544:      do i=1,N
+branch  0 taken 2% (fallthrough)
+branch  1 taken 98%
+      153:  545:        A(i) = NL+i
+        -:  546:      enddo
+        -:  547:
+        -:  548:!dvm$ parallel (i) on A(i),across(A(11:11)),stage(iloop)
+       87:  549:      do i=12,N-11
+branch  0 taken 3% (fallthrough)
+branch  1 taken 97%
+       87:  550:         A(i) = A(i-9)+A(i+9)+A(i+10)+A(i-10)+A(i-11)+A(i+11)
+        -:  551:      enddo
+        -:  552:  
+        -:  553:!dvm$ parallel (i) on A(i), reduction( min( nloop ) )
+       88:  554:      do i=12,N-11
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+       87:  555:          if (A(i).ne. C(i)) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  556:          nloop=min(nloop,i)
+        -:  557:          endif          
+        -:  558:      enddo
+        -:  559:!dvm$ end region
+        -:  560:!dvm$ get_actual (nloop)
+        -:  561:      enddo
+        -:  562:	  
+        1:  563:       if (nloop .eq.NL) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  564:          call ansyes(tname)
+call    0 returned 100%
+        -:  565:          else
+    #####:  566:          call ansno(tname)
+call    0 never executed
+        -:  567:      endif 
+       1*:  568:      deallocate (A, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  569:     
+        1:  570:      end
+        -:  571:C -----------------------------------------------         
+function serial1_ called 0 returned 0% blocks executed 0%
+    #####:  572:      subroutine serial1(AR,N,NL)
+        -:  573:      integer AR(N)
+        -:  574:      integer NL 
+     636*:  575:      do i=1,N
+branch  0 taken 11% (fallthrough)
+branch  1 taken 89%
+branch  2 taken 6% (fallthrough)
+branch  3 taken 94%
+branch  4 taken 6% (fallthrough)
+branch  5 taken 94%
+branch  6 taken 6% (fallthrough)
+branch  7 taken 94%
+branch  8 taken 6% (fallthrough)
+branch  9 taken 94%
+branch 10 taken 6% (fallthrough)
+branch 11 taken 94%
+branch 12 taken 6% (fallthrough)
+branch 13 taken 94%
+branch 14 taken 4% (fallthrough)
+branch 15 taken 96%
+branch 16 taken 4% (fallthrough)
+branch 17 taken 96%
+branch 18 never executed (fallthrough)
+branch 19 never executed
+branch 20 taken 2% (fallthrough)
+branch 21 taken 98%
+     636*:  576:        AR(i) = NL+i
+        -:  577:      enddo                   
+    #####:  578:      end 
+        -:  579:
+function ansyes_ called 10 returned 100% blocks executed 100%
+       10:  580:      subroutine ansyes(name)
+        -:  581:      character*7 name
+       10:  582:      print *,name,'  -  complete'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+       10:  583:      end
+function ansno_ called 0 returned 0% blocks executed 0%
+    #####:  584:      subroutine ansno(name)
+        -:  585:      character*7 name
+    #####:  586:      print *,name,'  -  ***error'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+    #####:  587:      end

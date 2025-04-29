@@ -1,0 +1,515 @@
+=== Processing file: taskst21.f ===
+Date and time: 2025-04-23 11:56:52
+Dimension: 2d
+==================================================
+
+Copied ./sources\2d\taskst21.f to ./results\2d\taskst21\taskst21.f
+Command: gfortran -O3 -g -fprofile-arcs -ftest-coverage "./results\2d\taskst21\taskst21.f" -o "./results\2d\taskst21\taskst21"
+Output: 
+
+Error output: 
+./results\2d\taskst21\taskst21.f:1:2:
+
+    1 | program taskst21
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:2:6:
+
+    2 |     integer, parameter :: k = 8, n1 = 4, itmax = 20, n2 = k - n1, er = 10000
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:3:6:
+
+    3 |     real, allocatable :: a( :, :, : ), a1( :, :, : ), a2( :, :, : )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:4:6:
+
+    4 |     real, allocatable :: b( :, :, : ), b1( :, :, : ), b2( :, :, : )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:5:6:
+
+    5 |     integer lp( 2 ), hp( 2 ), errt
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:6:6:
+
+    6 |     character*8 :: tname = 'taskst21'
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:16:6:
+
+   16 |     print *,  '===START OF taskst21 ====================='
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:17:6:
+
+   17 |     call dpt( lp, hp, 2 )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:19:6:
+
+   19 |     allocate( a1( n1 + 1, k, k ) )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:21:6:
+
+   21 |     allocate( b1( n1 + 1, k, k ) )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:24:6:
+
+   24 |     allocate( a2( n2 + 1, k, k ) )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:26:6:
+
+   26 |     allocate( b2( n2 + 1, k, k ) )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:28:6:
+
+   28 |     allocate( a( k, k, k ), b( k, k, k ) )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:38:72:
+
+   38 |                     if( i .eq. 1 .or. j .eq. 1 .or. j .eq. k .or. ii .eq. 1 .or. ii .eq. k ) then
+      |                                                                        1
+Error: Missing ')' in statement at or before (1)
+./results\2d\taskst21\taskst21.f:41:72:
+
+   41 |                     else
+      |                                                                        1
+Error: Unexpected ELSE statement at (1)
+./results\2d\taskst21\taskst21.f:44:23:
+
+   44 |                     endif
+      |                       1
+Error: Expecting END DO statement at (1)
+./results\2d\taskst21\taskst21.f:56:72:
+
+   56 |                     if( i .eq. n2 + 1 .or. j .eq. 1 .or. j .eq. k .or. ii .eq. 1 .or. ii .eq. k ) then
+      |                                                                        1
+Error: Missing ')' in statement at or before (1)
+./results\2d\taskst21\taskst21.f:59:72:
+
+   59 |                     else
+      |                                                                        1
+Error: Unexpected ELSE statement at (1)
+./results\2d\taskst21\taskst21.f:62:23:
+
+   62 |                     endif
+      |                       1
+Error: Expecting END DO statement at (1)
+./results\2d\taskst21\taskst21.f:70:6:
+
+   70 |     do it = 1, itmax
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:94:35:
+
+   94 |                                 b1( i, j, ii ) = ( a1( i - 1, j, ii ) + a1( i + 1, j, ii ) + &
+      |                                   1
+Error: 'b1' at (1) is not a variable
+./results\2d\taskst21\taskst21.f:95:54:
+
+   95 |                                                    a1( i, j - 1, ii ) + a1( i, j + 1, ii ) + &
+      |                                                      1
+Error: 'a1' at (1) is not a variable
+./results\2d\taskst21\taskst21.f:96:54:
+
+   96 |                                                    a1( i, j, ii - 1 ) + a1( i, j, ii + 1 ) ) / 6
+      |                                                      1
+Error: 'a1' at (1) is not a variable
+./results\2d\taskst21\taskst21.f:118:35:
+
+  118 |                                 b2( i, j, ii ) = ( a2( i - 1, j, ii ) + a2( i + 1, j, ii ) + &
+      |                                   1
+Error: 'b2' at (1) is not a variable
+./results\2d\taskst21\taskst21.f:119:54:
+
+  119 |                                                    a2( i, j - 1, ii ) + a2( i, j + 1, ii ) + &
+      |                                                      1
+Error: 'a2' at (1) is not a variable
+./results\2d\taskst21\taskst21.f:120:54:
+
+  120 |                                                    a2( i, j, ii - 1 ) + a2( i, j, ii + 1 ) ) / 6
+      |                                                      1
+Error: 'a2' at (1) is not a variable
+./results\2d\taskst21\taskst21.f:135:6:
+
+  135 |     enddo
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:144:72:
+
+  144 |                     if( i .eq. 1 .or. j .eq. 1 .or. i .eq. k .or. j .eq. k .or. ii .eq. 1 .or. ii .eq. k ) then
+      |                                                                        1
+Error: Syntax error in expression at (1)
+./results\2d\taskst21\taskst21.f:146:72:
+
+  146 |                     else
+      |                                                                        1
+Error: Unexpected ELSE statement at (1)
+./results\2d\taskst21\taskst21.f:148:23:
+
+  148 |                     endif
+      |                       1
+Error: Expecting END DO statement at (1)
+./results\2d\taskst21\taskst21.f:154:6:
+
+  154 |     do it = 1, itmax
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:168:26:
+
+  168 |                         b( i, j, ii ) = ( a( i - 1, j, ii ) + a( i + 1, j, ii ) + &
+      |                          1
+Error: 'b' at (1) is not a variable
+./results\2d\taskst21\taskst21.f:169:44:
+
+  169 |                                           a( i, j - 1, ii ) + a( i, j + 1, ii ) + &
+      |                                            1
+Error: 'a' at (1) is not a variable
+./results\2d\taskst21\taskst21.f:170:44:
+
+  170 |                                           a( i, j, ii - 1 ) + a( i, j, ii + 1 ) ) / 6
+      |                                            1
+Error: 'a' at (1) is not a variable
+./results\2d\taskst21\taskst21.f:175:6:
+
+  175 |     enddo
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:179:6:
+
+  179 |     a(2:n1,:,:) = b1(2:n1,:,:)
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:180:6:
+
+  180 |     a(n1+1:n1+n2-1,:,:) = b2(2:n2,:,:)
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:181:6:
+
+  181 |     errt = er
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:183:6:
+
+  183 |     do ii = 2, k - 1
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:186:72:
+
+  186 |                 if(a( i, j, ii ) .ne. b( i, j, ii ))  errt = min(errt, i)
+      |                                                                        1
+Error: Missing ')' in statement at or before (1)
+./results\2d\taskst21\taskst21.f:189:6:
+
+  189 |     enddo
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:190:6:
+
+  190 |     if (errt .eq. er)  then
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:192:6:
+
+  192 |     else
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:194:6:
+
+  194 |     endif
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:195:6:
+
+  195 |     deallocate(b,b1,b2,a,a1,a2)
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:196:6:
+
+  196 |     print *,  '=== END OF taskst21 ====================='
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:198:2:
+
+  198 | end
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:200:2:
+
+  200 | subroutine dpt( lp, hp, nt )
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:202:6:
+
+  202 |     integer lp( 2 ), hp( 2 )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:203:6:
+
+  203 |     processors_size( i ) = 1
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:219:2:
+
+  219 | end
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:221:2:
+
+  221 | subroutine ansyes(name)
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:222:6:
+
+  222 |     character*8 name
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:223:6:
+
+  223 |     print *, name, '  -  complete'
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:224:2:
+
+  224 | end
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:226:2:
+
+  226 | subroutine ansno(name)
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:227:6:
+
+  227 |     character*8 name
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:228:6:
+
+  228 |     print *, name, '  -  ***error'
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\2d\taskst21\taskst21.f:229:2:
+
+  229 | end
+      |  1
+Error: Non-numeric character in statement label at (1)
+f951.exe: Error: Unexpected end of file in './results\2d\taskst21\taskst21.f'
+
+--------------------------------------------------
+Command: "./results\2d\taskst21\taskst21"
+Output: 
+
+Error output: 
+'"./results\2d\taskst21\taskst21"' is not recognized as an internal or external command,
+operable program or batch file.
+
+--------------------------------------------------
+Command: gcov -b "./results\2d\taskst21\taskst21.f"
+Output: 
+No executable lines
+
+Error output: 
+./results\2d\taskst21\taskst21.gcno:cannot open notes file
+./results\2d\taskst21\taskst21.gcda:cannot open data file, assuming not executed
+
+--------------------------------------------------
+GCOV file copied from ./taskst21.f.gcov to ./results\2d\taskst21\taskst21.f.gcov
+Command: "../SAPFOR/_bin/Release/Sapfor_F.exe" -parse -spf "./results\2d\taskst21\taskst21.f"
+Output: 
+SAPFOR version is 2410, build date: Apr 23 2025 11:52:44, c++ version 201703
+  parse file './results\2d\taskst21\taskst21.f'
+  options: -spf 
+files compilation order:
+  ./results\2d\taskst21\taskst21.f
+Error 009 on line 1 of ./results\2d\taskst21\taskst21.f: Illegal continuation line ignored
+Error 009 on line 2 of ./results\2d\taskst21\taskst21.f: Illegal continuation line ignored
+Error 009 on line 3 of ./results\2d\taskst21\taskst21.f: Illegal continuation line ignored
+Error 009 on line 4 of ./results\2d\taskst21\taskst21.f: Illegal continuation line ignored
+Error 009 on line 5 of ./results\2d\taskst21\taskst21.f: Illegal continuation line ignored
+Error 009 on line 6 of ./results\2d\taskst21\taskst21.f: Illegal continuation line ignored
+Error 009 on line 16 of ./results\2d\taskst21\taskst21.f: Illegal continuation line ignored
+Error 009 on line 17 of ./results\2d\taskst21\taskst21.f: Illegal continuation line ignored
+Error 009 on line 19 of ./results\2d\taskst21\taskst21.f: Illegal continuation line ignored
+Error 009 on line 21 of ./results\2d\taskst21\taskst21.f: Illegal continuation line ignored
+Error 009 on line 24 of ./results\2d\taskst21\taskst21.f: Illegal continuation line ignored
+Error 009 on line 26 of ./results\2d\taskst21\taskst21.f: Illegal continuation line ignored
+Error 009 on line 28 of ./results\2d\taskst21\taskst21.f: Illegal continuation line ignored
+Error 013 on line 38 of ./results\2d\taskst21\taskst21.f: Unbalanced parentheses, statement skipped
+Error 010 on line 38 of ./results\2d\taskst21\taskst21.f: Unclassifiable statement
+Error 030 on line 39 of ./results\2d\taskst21\taskst21.f: Declaration among executables
+Error 030 on line 40 of ./results\2d\taskst21\taskst21.f: Declaration among executables
+Error 032 on line 41 of ./results\2d\taskst21\taskst21.f: ELSE out of place
+Error 030 on line 42 of ./results\2d\taskst21\taskst21.f: Declaration among executables
+Error 030 on line 43 of ./results\2d\taskst21\taskst21.f: Declaration among executables
+Error 260 on line 44 of ./results\2d\taskst21\taskst21.f: Illegal END IF
+Parsing was completed with errors, throw code 0, errors count 21
+
+--------------------------------------------------
+Command: "../SAPFOR/_bin/Release/Sapfor_F.exe" -passN GET_STATS_FOR_PREDICTOR -keepDVM
+Output: 
+SAPFOR version is 2410, build date: Apr 23 2025 11:52:44, c++ version 201703
+code for pass GET_STATS_FOR_PREDICTOR is 79
+RUN PASS with name VERIFY_FUNC_DECL
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.002000 sec)
+RUN PASS with name FILE_LINE_INFO
+  Analyzing: results\2d\sha22\sha22.f
+  All lines in project 297
+PROFILE: time for this pass = 0.000000 sec (total 0.002000 sec)
+RUN PASS with name BUILD_INCLUDE_DEPENDENCIES
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.003000 sec)
+RUN PASS with name CORRECT_VAR_DECL
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.003000 sec)
+RUN PASS with name VERIFY_OPERATORS
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.004000 sec)
+RUN PASS with name VERIFY_ENDDO
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.005000 sec)
+RUN PASS with name VERIFY_INCLUDES
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.005000 sec)
+RUN PASS with name PREPROC_ALLOCATES
+  Analyzing: results\2d\sha22\sha22.f
+  attribute (37 results\2d\sha22\sha22.f) is added to declaration on line 27 of results\2d\sha22\sha22.f file
+  attribute (38 results\2d\sha22\sha22.f) is added to declaration on line 28 of results\2d\sha22\sha22.f file
+  attribute (89 results\2d\sha22\sha22.f) is added to declaration on line 27 of results\2d\sha22\sha22.f file
+  attribute (89 results\2d\sha22\sha22.f) is added to declaration on line 28 of results\2d\sha22\sha22.f file
+  attribute (107 results\2d\sha22\sha22.f) is added to declaration on line 97 of results\2d\sha22\sha22.f file
+  attribute (108 results\2d\sha22\sha22.f) is added to declaration on line 98 of results\2d\sha22\sha22.f file
+  attribute (152 results\2d\sha22\sha22.f) is added to declaration on line 97 of results\2d\sha22\sha22.f file
+  attribute (152 results\2d\sha22\sha22.f) is added to declaration on line 98 of results\2d\sha22\sha22.f file
+  attribute (172 results\2d\sha22\sha22.f) is added to declaration on line 162 of results\2d\sha22\sha22.f file
+  attribute (173 results\2d\sha22\sha22.f) is added to declaration on line 163 of results\2d\sha22\sha22.f file
+  attribute (217 results\2d\sha22\sha22.f) is added to declaration on line 162 of results\2d\sha22\sha22.f file
+  attribute (217 results\2d\sha22\sha22.f) is added to declaration on line 163 of results\2d\sha22\sha22.f file
+  attribute (234 results\2d\sha22\sha22.f) is added to declaration on line 224 of results\2d\sha22\sha22.f file
+  attribute (235 results\2d\sha22\sha22.f) is added to declaration on line 225 of results\2d\sha22\sha22.f file
+  attribute (276 results\2d\sha22\sha22.f) is added to declaration on line 224 of results\2d\sha22\sha22.f file
+  attribute (276 results\2d\sha22\sha22.f) is added to declaration on line 225 of results\2d\sha22\sha22.f file
+PROFILE: time for this pass = 0.000000 sec (total 0.006000 sec)
+RUN PASS with name CHECK_PAR_REG_DIR
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.006000 sec)
+RUN PASS with name FILL_PARALLEL_REG_IR
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.001000 sec (total 0.007000 sec)
+RUN PASS with name GET_ALL_ARRAY_DECL
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.004000 sec (total 0.012000 sec)
+RUN PASS with name FILL_COMMON_BLOCKS
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.012000 sec)
+RUN PASS with name PARSE_OMP_DIRS
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.013000 sec)
+RUN PASS with name PREPROC_SPF
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.013000 sec)
+RUN PASS with name CREATE_INTER_TREE
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.014000 sec)
+RUN PASS with name GCOV_PARSER
+  Analyzing: results\2d\sha22\sha22.f
+   Error: unable to open file statistic.txt
+PROFILE: time for this pass = 0.001000 sec (total 0.016000 sec)
+RUN PASS with name VERIFY_FORMAT
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.016000 sec)
+RUN PASS with name VERIFY_DVM_DIRS
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.017000 sec)
+RUN PASS with name PRIVATE_CALL_GRAPH_STAGE1
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.017000 sec)
+RUN PASS with name PRIVATE_CALL_GRAPH_STAGE2
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.018000 sec)
+RUN PASS with name MACRO_EXPANSION
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.018000 sec)
+RUN PASS with name CONVERT_ASSIGN_TO_LOOP
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.019000 sec)
+RUN PASS with name DEF_USE_STAGE1
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.002000 sec (total 0.022000 sec)
+RUN PASS with name DEF_USE_STAGE2
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.022000 sec)
+RUN PASS with name VERIFY_COMMON
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.000000 sec (total 0.023000 sec)
+RUN PASS with name CALL_GRAPH_IR
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.002000 sec (total 0.026000 sec)
+RUN PASS with name BUILD_IR
+  Analyzing: results\2d\sha22\sha22.f
+  count of functions 8, count of lvls 3
+     RD time for 'serial2' function is 0.000 sec, iters 4
+     RD time for 'ansyes' function is 0.000 sec, iters 1
+     RD time for 'ansno' function is 0.000 sec, iters 1
+
+     RD time for 'sha2202' function is 0.000 sec, iters 4
+     RD time for 'sha2201' function is 0.000 sec, iters 4
+     RD time for 'sha2203' function is 0.000 sec, iters 4
+     RD time for 'sha2204' function is 0.000 sec, iters 4
+
+     RD time for 'sha22' function is 0.000 sec, iters 1
+
+PROFILE: time for this pass = 0.004000 sec (total 0.031000 sec)
+RUN PASS with name SUBST_EXPR_RD
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.002000 sec (total 0.033000 sec)
+RUN PASS with name LOOP_GRAPH
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.002000 sec (total 0.036000 sec)
+RUN PASS with name CALL_GRAPH
+  Analyzing: results\2d\sha22\sha22.f
+PROFILE: time for this pass = 0.003000 sec (total 0.040000 sec)
+RUN PASS with name CALL_GRAPH2
+  Analyzing: results\2d\sha22\sha22.f
+  run for func sha22
+  run for func sha2201
+  run for func sha2202
+  run for func sha2203
+  run for func sha2204
+  run for func serial2
+  run for func ansyes
+  run for func ansno
+PROFILE: time for this pass = 0.001000 sec (total 0.042000 sec)
+RUN PASS with name GET_STATS_FOR_PREDICTOR
+  Analyzing: results\2d\sha22\sha22.f
+    PAR LOOP [48 results\2d\sha22\sha22.f] total exec 1347, total exec lines 6, avg 2.2450000000000000e+02
+    PAR LOOP [64 results\2d\sha22\sha22.f] total exec 543, total exec lines 6, avg 9.0500000000000000e+01
+    PAR LOOP [76 results\2d\sha22\sha22.f] total exec 853, total exec lines 9, avg 9.4777777777777771e+01
+    PAR LOOP [118 results\2d\sha22\sha22.f] total exec 5251, total exec lines 6, avg 8.7516666666666663e+02
+    PAR LOOP [129 results\2d\sha22\sha22.f] total exec 3487, total exec lines 6, avg 5.8116666666666663e+02
+    PAR LOOP [139 results\2d\sha22\sha22.f] total exec 5541, total exec lines 9, avg 6.1566666666666663e+02
+    PAR LOOP [183 results\2d\sha22\sha22.f] total exec 5251, total exec lines 6, avg 8.7516666666666663e+02
+    PAR LOOP [194 results\2d\sha22\sha22.f] total exec 3487, total exec lines 6, avg 5.8116666666666663e+02
+    PAR LOOP [204 results\2d\sha22\sha22.f] total exec 5541, total exec lines 9, avg 6.1566666666666663e+02
+    PAR LOOP [244 results\2d\sha22\sha22.f] total exec 5251, total exec lines 6, avg 8.7516666666666663e+02
+    PAR LOOP [253 results\2d\sha22\sha22.f] total exec 3487, total exec lines 6, avg 5.8116666666666663e+02
+    PAR LOOP [263 results\2d\sha22\sha22.f] total exec 5541, total exec lines 9, avg 6.1566666666666663e+02
+    average_parallel_exec 5.4261904761904759e+02
+    parallel_rate 8.0046362965824880e-01
+PROFILE: time for this pass = 0.014000 sec (total 0.056000 sec)
+
+--------------------------------------------------
+INFO.JSON file copied from ./info.json to ./results\2d\taskst21\info.json
+
+==================================================
+Processing of taskst21.f completed successfully at 2025-04-23 11:56:52

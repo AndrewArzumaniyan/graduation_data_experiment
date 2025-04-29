@@ -1,0 +1,1052 @@
+        -:    0:Source:results/3d/realign33/realign33.f
+        -:    0:Graph:./results\3d\realign33\realign33.gcno
+        -:    0:Data:./results\3d\realign33\realign33.gcda
+        -:    0:Runs:1
+function MAIN__ called 1 returned 100% blocks executed 100%
+        1:    1:      program REALIGN33
+        -:    2:
+        -:    3:!    Testing  ALIGN and REALIGN directives       
+        -:    4:
+        1:    5:      print *,'===START OF realign33========================'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:    6:
+        -:    7:! --------------------------------------------------
+        -:    8:! 331 ALIGN arrB3(i,j,n)   WITH arrA3(i,j,n)    
+        -:    9:!     REALIGN arrB3(i,j,n) WITH arrA3(i+1,j+2,n+3) 
+        -:   10:
+        1:   11:      call realign331
+call    0 returned 100%
+        -:   12:! --------------------------------------------------
+        -:   13:! 332 ALIGN arrB3(i,j,n)   WITH arrA3(i,j,n)    
+        -:   14:!     REALIGN arrB3(i,j,n) WITH arrA3(2*i,3*j,5*n) 
+        -:   15: 
+        1:   16:      call realign332
+call    0 returned 100%
+        -:   17:! --------------------------------------------------
+        -:   18:! 333 ALIGN arrB3(i,j,n)   WITH arrA3(i+2,j+4,n+3)    
+        -:   19:!     REALIGN arrB3(i,j,n) WITH arrA3(2*i-1,2*n,j+1) 
+        -:   20: 
+        1:   21:      call realign333
+call    0 returned 100%
+        -:   22:! --------------------------------------------------
+        -:   23:! 334 ALIGN arrB3(i,j,n)   WITH arrA3(n+1,3*i+1,j+2)    
+        -:   24:!     REALIGN arrB3(i,j,n) WITH arrA3(2*j,i+1,2*n+1) 
+        -:   25: 
+        1:   26:      call realign334
+call    0 returned 100%
+        -:   27:! --------------------------------------------------
+        -:   28:! 335 ALIGN arrB3(*,*,*)   WITH arrA3(*,*,*)    
+        -:   29:!     REALIGN arrB3(i,j,n) WITH arrA3(i,j,n) 
+        -:   30:       
+        1:   31:      call realign335
+call    0 returned 100%
+        -:   32:! --------------------------------------------------
+        -:   33:! 336 ALIGN arrB3(i,j,n)   WITH arrA3(i,j+1,2*n+1)    
+        -:   34:!     REALIGN arrB3(*,j,n) WITH arrA3(j+1,n,1) 
+        -:   35:
+        1:   36:      call realign336
+call    0 returned 100%
+        -:   37:! -------------------------------------------------
+        -:   38:!
+        1:   39:      print *,'=== END OF realign33 ========================= '    
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   40:
+function main called 1 returned 100% blocks executed 100%
+        1:   41:      end
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   42:
+        -:   43:! ----------------------------------------------------realign331
+        -:   44:! 331 ALIGN arrB3(i,j,n)   WITH arrA3(i,j,n)    
+        -:   45:!     REALIGN arrB3(i,j,n) WITH arrA3(i+1,j+2,n+3) 
+        -:   46:
+function realign331_ called 1 returned 100% blocks executed 90%
+        1:   47:      subroutine realign331
+        -:   48:      integer, parameter :: AN1=10,AN2=10,AN3=10,BN1=9,BN2=8,BN3=6
+        -:   49:      integer, parameter :: NL=10000,ER=100000
+        -:   50:!     parameters for ALIGN                                               
+        -:   51:      integer, parameter :: k1i=1, li=0
+        -:   52:      integer, parameter :: k2j=1, lj=0
+        -:   53:      integer, parameter :: k3n=1, ln=0
+        -:   54:!     parameters for REALIGN                                               
+        -:   55:      integer, parameter :: kr1i=1, lri=1
+        -:   56:      integer, parameter :: kr2j=1, lrj=2
+        -:   57:      integer, parameter :: kr3n=1, lrn=3
+        -:   58:
+        -:   59:      integer :: erria = ER, errib = ER
+        -:   60:      integer s,cs,i,j,n,ia,ja,na,ib,jb,nb
+        -:   61:
+        1:   62:      integer, allocatable :: A3(:,:,:),B3(:,:,:)
+        -:   63:      character(*), parameter :: tname ='realign331'
+        -:   64:             
+        -:   65:!dvm$ distribute A3(BLOCK,BLOCK,BLOCK)    
+        -:   66:!dvm$ ALIGN B3(i,j,n) WITH A3(k1i*i+li,k2j*j+lj,k3n*n+ln)
+        -:   67:!dvm$ DYNAMIC B3
+        -:   68:
+       1*:   69:      allocate (A3(AN1,AN2,AN3), B3(BN1,BN2,BN3))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        -:   70:
+        -:   71:!dvm$ region  out(A3,B3)
+        -:   72:!dvm$ parallel (i,j,n) on B3(i,j,n)
+       10:   73:      do i=1,BN1
+branch  0 taken 90% (fallthrough)
+branch  1 taken 10%
+       82:   74:          do  j=1,BN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      513:   75:             do n=1,BN3
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      504:   76:                    B3(i,j,n) = 0     
+        -:   77:             enddo 
+        -:   78:          enddo 
+        -:   79:      enddo 
+        -:   80:
+        -:   81:!dvm$ parallel (i,j,n) on A3(i,j,n), private(ib,jb,nb)
+       11:   82:      do i=1,AN1
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:   83:          do j=1,AN2
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:   84:            do n=1,AN3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1000:   85:                      A3(i,j,n)=i*NL/10+j*NL/100+n*NL/1000
+        -:   86:                      if ( 
+        -:   87:     *                  ((i-li) .eq.(((i-li)/k1i) * k1i)) .and.
+        -:   88:     *                  ((j-lj) .eq.(((j-lj)/k2j) * k2j)) .and.
+        -:   89:     *                  ((n-ln) .eq.(((n-ln)/k3n) * k3n)) .and.
+        -:   90:     *                  (((i-li)/k1i) .gt. 0)  .and.
+        -:   91:     *                  (((j-lj)/k2j) .gt. 0)  .and.
+        -:   92:     *                  (((n-ln)/k3n) .gt. 0)  .and.
+        -:   93:     *                  (((i-li)/k1i) .le. BN1)  .and.
+     1000:   94:     *                  (((j-lj)/k2j) .le. BN2)  .and.
+branch  0 taken 90% (fallthrough)
+branch  1 taken 10%
+branch  2 taken 48% (fallthrough)
+branch  3 taken 52%
+        -:   95:     *                  (((n-ln)/k3n) .le. BN3)  
+      100:   96:     *                  ) then 
+      432:   97:                            ib = (i-li)/k1i
+      432:   98:                            jb = (j-lj)/k2j
+      432:   99:                            nb = (n-ln)/k3n
+      432:  100:                            B3(ib,jb,nb)=ib*NL/10+jb*NL/100+nb*NL/1000
+        -:  101:                      endif 
+        -:  102:              enddo 
+        -:  103:          enddo 
+        -:  104:      enddo 
+        -:  105:!dvm$ end region
+        -:  106:
+        -:  107:!dvm$ REALIGN B3(i,j,n) WITH A3(kr1i*i+lri,kr2j*j+lrj,kr3n*n+lrn)
+        -:  108:
+        -:  109:      s=0 
+        -:  110:
+        -:  111:!dvm$ actual(erria, errib, s)
+        -:  112:!dvm$ region inlocal(A3,B3)
+        -:  113:!dvm$ parallel (i,j,n) on B3(i,j,n), 
+        -:  114:!dvm$*reduction(min(erria),min(errib),sum(s)),private(ia,ja,na)
+       10:  115:      do i=1,BN1
+branch  0 taken 90% (fallthrough)
+branch  1 taken 10%
+       82:  116:         do j=1,BN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      513:  117:            do n=1,BN3
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      432:  118:               s = s + B3(i,j,n)
+      432:  119:               if (B3(i,j,n) /= (i*NL/10+j*NL/100+n*NL/1000)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  120:                   errib = min(errib,i*NL/10 + j*NL/100 + n*NL/1000)
+        -:  121:               endif
+      432:  122:               ia=kr1i * i + lri
+      432:  123:               ja=kr2j * j + lrj
+      432:  124:               na=kr3n * n + lrn
+      432:  125:               if (A3(ia,ja,na) /= (ia*NL/10+ja*NL/100+na*NL/1000))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+       72:  126:     *         then     
+    #####:  127:                 erria = min(erria,ia*NL/10 + ja*NL/100 + na*NL/1000)
+        -:  128:               endif
+        -:  129:           enddo 
+        -:  130:        enddo 
+        -:  131:      enddo 
+        -:  132:!dvm$ end region
+        -:  133:
+        -:  134:      cs = 0              
+       10:  135:      do i=1,BN1
+branch  0 taken 90% (fallthrough)
+branch  1 taken 10%
+       82:  136:         do j=1,BN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      513:  137:            do n=1,BN3
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      504:  138:                    cs = cs + i*NL/10 + j*NL/100 + n*NL/1000
+        -:  139:            enddo 
+        -:  140:         enddo 
+        -:  141:      enddo 
+        -:  142:     
+        -:  143:!dvm$ get_actual(erria, errib, s)
+        -:  144:      if ((erria == ER) .and. (errib == ER) 
+        1:  145:     *    .and. (s == cs)) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 100% (fallthrough)
+branch  5 taken 0%
+        1:  146:          call ansyes(tname)
+call    0 returned 100%
+        -:  147:      else
+    #####:  148:          call ansno(tname)
+call    0 never executed
+        -:  149:!         write (*,*) erria,errib,s,cs
+        -:  150:      endif 
+        -:  151:
+       1*:  152:      deallocate (B3,A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  153:
+        1:  154:      end subroutine realign331
+        -:  155:
+        -:  156:! ----------------------------------------------------realign332
+        -:  157:! 332 ALIGN arrB3(i,j,n)   WITH arrA3(i,j,n)    
+        -:  158:!     REALIGN arrB3(i,j,n) WITH arrA3(2*i,3*j,5*n) 
+        -:  159:
+function realign332_ called 1 returned 100% blocks executed 91%
+        1:  160:      subroutine realign332
+        -:  161:      integer, parameter :: AN1=12,AN2=16,AN3=25,BN1=4,BN2=3,BN3=5
+        -:  162:      integer, parameter :: NL=10000,ER=100000
+        -:  163:!     parameters for ALIGN                                               
+        -:  164:      integer, parameter :: k1i=1, li=0
+        -:  165:      integer, parameter :: k2j=1, lj=0
+        -:  166:      integer, parameter :: k3n=1, ln=0
+        -:  167:!     parameters for REALIGN                                               
+        -:  168:      integer, parameter :: kr1i=2, lri=0
+        -:  169:      integer, parameter :: kr2j=3, lrj=0
+        -:  170:      integer, parameter :: kr3n=5, lrn=0
+        -:  171:
+        -:  172:      integer :: erria = ER, errib = ER
+        -:  173:      integer s,cs,i,j,n,ia,ja,na,ib,jb,nb
+        -:  174:
+        1:  175:      integer, allocatable :: A3(:,:,:),B3(:,:,:)
+        -:  176:      character(*), parameter :: tname ='realign332'
+        -:  177:             
+        -:  178:!dvm$ distribute A3(BLOCK,BLOCK,BLOCK)    
+        -:  179:!dvm$ ALIGN B3(i,j,n) WITH A3(k1i*i+li,k2j*j+lj,k3n*n+ln)
+        -:  180:!dvm$ DYNAMIC B3
+        -:  181:
+       1*:  182:      allocate (A3(AN1,AN2,AN3), B3(BN1,BN2,BN3))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        -:  183:
+     5226:  184:      A3 = 0
+branch  0 taken 4% (fallthrough)
+branch  1 taken 96%
+branch  2 taken 94% (fallthrough)
+branch  3 taken 6%
+branch  4 taken 92% (fallthrough)
+branch  5 taken 8%
+       81:  185:      B3 = 0
+branch  0 taken 17% (fallthrough)
+branch  1 taken 83%
+branch  2 taken 75% (fallthrough)
+branch  3 taken 25%
+branch  4 taken 80% (fallthrough)
+branch  5 taken 20%
+        -:  186:
+        -:  187:!dvm$ region inout(A3,B3)
+        -:  188:!dvm$ parallel (i,j,n) on A3(i,j,n), private(ib,jb,nb)
+       13:  189:      do i=1,AN1
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      205:  190:        do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     5004:  191:           do n=1,AN3
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+     4800:  192:              A3(i,j,n)=i*NL/10+j*NL/100+n*NL/1000 + 10
+        -:  193:              if ( 
+        -:  194:     *           ((i-li) .eq.(((i-li)/k1i) * k1i)) .and.
+        -:  195:     *           ((j-lj) .eq.(((j-lj)/k2j) *k2j)) .and.
+        -:  196:     *           ((n-ln) .eq.(((n-ln)/k3n) * k3n)) .and.
+        -:  197:     *           (((i-li)/k1i) .gt. 0)  .and.
+        -:  198:     *           (((j-lj)/k2j) .gt. 0)  .and.
+        -:  199:     *           (((n-ln)/k3n) .gt. 0)  .and.
+        -:  200:     *           (((i-li)/k1i) .le. BN1)  .and.
+     4800:  201:     *           (((j-lj)/k2j) .le. BN2)  .and.
+branch  0 taken 33% (fallthrough)
+branch  1 taken 67%
+branch  2 taken 4% (fallthrough)
+branch  3 taken 96%
+        -:  202:     *           (((n-ln)/k3n) .le. BN3)  
+      192:  203:     *           ) then 
+       60:  204:                      ib = (i-li)/k1i
+       60:  205:                      jb = (j-lj)/k2j
+       60:  206:                      nb = (n-ln)/k3n
+       60:  207:                      B3(ib,jb,nb)=ib*NL/10+jb*NL/100+nb*NL/1000 + 5
+        -:  208:               endif 
+        -:  209:           enddo 
+        -:  210:        enddo 
+        -:  211:      enddo 
+        -:  212:!dvm$ end region
+        -:  213:
+        -:  214:!dvm$ REALIGN B3(i,j,n) WITH A3(kr1i*i+lri, kr2j*j+lrj, kr3n*n+lrn)
+        -:  215:
+        -:  216:      s=0 
+        -:  217:
+        -:  218:!dvm$ actual(erria, errib, s)
+        -:  219:!dvm$ region inlocal(A3),inlocal(B3)
+        -:  220:!dvm$ parallel (i,j,n) on B3(i,j,n),
+        -:  221:!dvm$*reduction(min(erria),min(errib),sum(s)),private(ia,ja,na)
+        5:  222:      do i=1,BN1
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       17:  223:         do j=1,BN2
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+       76:  224:            do n=1,BN3
+branch  0 taken 83% (fallthrough)
+branch  1 taken 17%
+       60:  225:               s = s + B3(i,j,n)
+       60:  226:               if (B3(i,j,n) /= (i*NL/10+j*NL/100+n*NL/1000) + 5) then 
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  227:                   errib = min(errib,i*NL/10 + j*NL/100 + n*NL/1000)
+        -:  228:               endif
+       60:  229:               ia=kr1i * i + lri
+       60:  230:               ja=kr2j * j + lrj
+       60:  231:               na=kr3n * n + lrn
+       60:  232:               if (A3(ia,ja,na) /= (ia*NL/10+ja*NL/100+na*NL/1000)+10)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+       12:  233:     *         then
+    #####:  234:                  erria = min(erria,ia*NL/10 + ja*NL/100 + na*NL/1000)
+        -:  235:               endif
+        -:  236:            enddo 
+        -:  237:         enddo 
+        -:  238:      enddo 
+        -:  239:!dvm$ end region
+        -:  240:  
+        -:  241:      cs = 0              
+        5:  242:      do i=1,BN1
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       17:  243:         do j=1,BN2
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+       76:  244:            do n=1,BN3
+branch  0 taken 83% (fallthrough)
+branch  1 taken 17%
+       72:  245:                    cs = cs + i*NL/10 + j*NL/100 + n*NL/1000 + 5
+        -:  246:            enddo 
+        -:  247:         enddo 
+        -:  248:      enddo 
+        -:  249:     
+        -:  250:!dvm$ get_actual(erria, errib, s)
+        -:  251:      if ((erria == ER) .and. (errib == ER) 
+        1:  252:     *    .and. (s == cs)) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 100% (fallthrough)
+branch  5 taken 0%
+        1:  253:          call ansyes(tname)
+call    0 returned 100%
+        -:  254:      else                     
+    #####:  255:          call ansno(tname)
+call    0 never executed
+        -:  256:!          write (*,*) erria,errib,s,cs
+        -:  257:!          print *,B3  
+        -:  258:      endif 
+        -:  259:
+       1*:  260:      deallocate (B3,A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  261:
+        1:  262:      end subroutine realign332
+        -:  263:
+        -:  264:! --------------------------------------------------realign333
+        -:  265:! 333 ALIGN arrB3(i,j,n)   WITH arrA3(i+2,j+4,n+3)    
+        -:  266:!     REALIGN arrB3(i,j,n) WITH arrA3(2*i-1,2*n,j+1) 
+        -:  267:      
+function realign333_ called 1 returned 100% blocks executed 93%
+        1:  268:      subroutine realign333
+        -:  269:      integer, parameter :: AN1=12,AN2=16,AN3=25,BN1=4,BN2=3,BN3=5
+        -:  270:      integer, parameter :: NL=10000,ER=100000
+        -:  271:!     parameters for ALIGN                                                
+        -:  272:      integer, parameter :: k1i=1, li=2
+        -:  273:      integer, parameter :: k2j=1, lj=4
+        -:  274:      integer, parameter :: k3n=1, ln=3
+        -:  275:!     parameters for REALIGN                                                
+        -:  276:      integer, parameter :: kr1i=2, lri=-1
+        -:  277:      integer, parameter :: kr2j=1, lrj=1
+        -:  278:      integer, parameter :: kr3n=2, lrn=0
+        -:  279:
+        -:  280:      integer :: erria = ER, errib = ER
+        -:  281:      integer s,cs,i,j,n,ia,ja,na,ib,jb,nb
+        -:  282:
+        -:  283:      integer A3(AN1,AN2,AN3)
+        1:  284:      integer, allocatable :: B3(:,:,:)
+        -:  285:      character(*), parameter :: tname ='realign333'
+        -:  286:             
+        -:  287:!dvm$ distribute A3(BLOCK,BLOCK,BLOCK)    
+        -:  288:!dvm$ ALIGN B3(i,j,n) WITH A3(k1i*i+li,k2j*j+lj,k3n*n+ln)
+        -:  289:!dvm$ DYNAMIC B3
+        -:  290:
+       1*:  291:      allocate (B3(BN1,BN2,BN3))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  292:
+     5226:  293:      A3 = 1
+branch  0 taken 4% (fallthrough)
+branch  1 taken 96%
+branch  2 taken 94% (fallthrough)
+branch  3 taken 6%
+branch  4 taken 92% (fallthrough)
+branch  5 taken 8%
+       81:  294:      B3 = 2
+branch  0 taken 17% (fallthrough)
+branch  1 taken 83%
+branch  2 taken 75% (fallthrough)
+branch  3 taken 25%
+branch  4 taken 80% (fallthrough)
+branch  5 taken 20%
+        -:  295:
+        -:  296:!dvm$ region inout(A3),inout(B3)
+        -:  297:!dvm$ parallel (i,j,n) on A3(i,j,n), private(ib,jb,nb)
+       13:  298:      do i=1,AN1
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      205:  299:        do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     5004:  300:          do n=1,AN3
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+     4800:  301:             A3(i,j,n) = A3(i,j,n)+ i*NL/10+j*NL/100+n*NL/1000 
+        -:  302:             if ( 
+        -:  303:     *          ((i-li) .eq.(((i-li)/k1i) * k1i)) .and.
+        -:  304:     *          ((j-lj) .eq.(((j-lj)/k2j) *k2j)) .and.
+        -:  305:     *          ((n-ln) .eq.(((n-ln)/k3n) * k3n)) .and.
+        -:  306:     *          (((i-li)/k1i) .gt. 0)  .and.
+        -:  307:     *          (((j-lj)/k2j) .gt. 0)  .and.
+        -:  308:     *          (((n-ln)/k3n) .gt. 0)  .and.
+        -:  309:     *          (((i-li)/k1i) .le. BN1)  .and.
+     4800:  310:     *          (((j-lj)/k2j) .le. BN2)  .and.
+branch  0 taken 62% (fallthrough)
+branch  1 taken 38%
+branch  2 taken 35% (fallthrough)
+branch  3 taken 65%
+branch  4 taken 6% (fallthrough)
+branch  5 taken 94%
+        -:  311:     *          (((n-ln)/k3n) .le. BN3)  
+      192:  312:     *          ) then 
+       60:  313:                   ib = (i-li)/k1i
+       60:  314:                   jb = (j-lj)/k2j
+       60:  315:                   nb = (n-ln)/k3n
+        -:  316:                   B3(ib,jb,nb) = B3(ib,jb,nb) + 
+       60:  317:     *                            ib*NL/10+jb*NL/100+nb*NL/1000
+        -:  318:               endif 
+        -:  319:             enddo 
+        -:  320:          enddo 
+        -:  321:      enddo 
+        -:  322:!dvm$ end region
+        -:  323:
+        -:  324:!dvm$ REALIGN B3(i,j,n) WITH A3(kr1i*i+lri, kr3n*n+lrn, kr2j*j+lrj)
+        -:  325:
+        -:  326:      s=0 
+        -:  327:
+        -:  328:!dvm$ actual(erria, errib, s)
+        -:  329:!dvm$ region
+        -:  330:!dvm$ parallel (i,j,n) on B3(i,j,n), private(ia,ja,na),
+        -:  331:!dvm$*reduction(min(erria),min(errib),sum(s))
+        5:  332:      do i=1,BN1
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       17:  333:         do j=1,BN2
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+       76:  334:            do n=1,BN3
+branch  0 taken 83% (fallthrough)
+branch  1 taken 17%
+       60:  335:               s = s + B3(i,j,n)
+       60:  336:               if (B3(i,j,n) /= (i*NL/10+j*NL/100+n*NL/1000) + 2) then 
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  337:                   errib = min(errib,i*NL/10 + j*NL/100 + n*NL/1000)
+        -:  338:               endif
+       60:  339:               ia=kr1i * i + lri
+       60:  340:               ja=kr3n * n + lrn
+       60:  341:               na=kr2j * j + lrj
+       60:  342:               if (A3(ia,ja,na) /= (ia*NL/10+ja*NL/100+na*NL/1000)+1)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+       12:  343:     *         then  
+    #####:  344:                  erria = min(erria,ia*NL/10 + ja*NL/100 + na*NL/1000)
+        -:  345:               endif
+        -:  346:            enddo 
+        -:  347:         enddo 
+        -:  348:      enddo 
+        -:  349:!dvm$ end region
+        -:  350:  
+        -:  351:      cs = 0              
+        5:  352:      do i=1,BN1
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       17:  353:         do j=1,BN2
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+       76:  354:            do n=1,BN3
+branch  0 taken 83% (fallthrough)
+branch  1 taken 17%
+       72:  355:                    cs = cs + i*NL/10 + j*NL/100 + n*NL/1000 + 2
+        -:  356:            enddo 
+        -:  357:         enddo 
+        -:  358:      enddo 
+        -:  359:     
+        -:  360:!dvm$ get_actual(erria, errib, s)
+        -:  361:      if ((erria == ER) .and. (errib == ER) 
+        1:  362:     *    .and. (s == cs)) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 100% (fallthrough)
+branch  5 taken 0%
+        1:  363:          call ansyes(tname)
+call    0 returned 100%
+        -:  364:      else
+    #####:  365:          call ansno(tname)
+call    0 never executed
+        -:  366:!          write (*,*) erria,errib,s,cs
+        -:  367:!          print *,B3  
+        -:  368:      endif 
+        -:  369:
+       1*:  370:      deallocate (B3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  371:
+        1:  372:      end subroutine realign333
+        -:  373:
+        -:  374:! ----------------------------------------------------realign334
+        -:  375:! 334 ALIGN arrB3(i,j,n)   WITH arrA3(n+1,3*i+1,j+2)    
+        -:  376:!     REALIGN arrB3(i,j,n) WITH arrA3(2*j,i+1,2*n+1) 
+        -:  377:      
+function realign334_ called 1 returned 100% blocks executed 94%
+        1:  378:      subroutine realign334
+        -:  379:      integer, parameter :: AN1=15,AN2=28,AN3=20,BN1=4,BN2=6,BN3=6
+        -:  380:      integer, parameter :: NL=10000,ER=100000
+        -:  381:!     parameters for ALIGN                                              
+        -:  382:      integer, parameter :: k1i=3, li=1
+        -:  383:      integer, parameter :: k2j=1, lj=2
+        -:  384:      integer, parameter :: k3n=1, ln=1
+        -:  385:!     parameters for REALIGN                                                
+        -:  386:      integer, parameter :: kr1i=1, lri=1
+        -:  387:      integer, parameter :: kr2j=2, lrj=0
+        -:  388:      integer, parameter :: kr3n=2, lrn=1
+        -:  389:
+        -:  390:      integer :: erria = ER, errib = ER
+        -:  391:      integer s,cs,i,j,n,ia,ja,na,ib,jb,nb
+        -:  392:
+        -:  393:      integer A3(AN1,AN2,AN3),B3(BN1,BN2,BN3)
+        -:  394:      character(*), parameter :: tname ='realign334'
+        -:  395:             
+        -:  396:!dvm$ distribute A3(BLOCK,BLOCK,BLOCK)    
+        -:  397:!dvm$ ALIGN B3(i,j,n) WITH A3(k3n*n+ln,k1i*i+li,k2j*j+lj)
+        -:  398:!dvm$ DYNAMIC B3
+        -:  399:
+        1:  400:      A3 = 0
+        1:  401:      B3 = 0
+        -:  402:
+        -:  403:!dvm$ region
+        -:  404:!dvm$ parallel (i,j,n) on A3(i,j,n), private(ib,jb,nb)
+       16:  405:      do i=1,AN1
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      436:  406:         do j=1,AN2
+branch  0 taken 97% (fallthrough)
+branch  1 taken 3%
+     8835:  407:            do n=1,AN3
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+     8400:  408:                  A3(i,j,n) = A3(i,j,n) + i*NL/10+j*NL/100+n*NL/1000 
+        -:  409:                  if ( 
+        -:  410:     *               ((i-ln) .eq.(((i-ln)/k3n) * k3n)) .and.
+        -:  411:     *               ((j-li) .eq.(((j-li)/k1i) * k1i)) .and.
+        -:  412:     *               ((n-lj) .eq.(((n-lj)/k2j) * k2j)) .and.
+        -:  413:     *               (((i-ln)/k3n) .gt. 0) .and.
+        -:  414:     *               (((j-li)/k1i) .gt. 0) .and.
+        -:  415:     *               (((n-lj)/k2j) .gt. 0) .and.
+        -:  416:     *               (((i-ln)/k3n) .le. BN3) .and.
+     8400:  417:     *               (((j-li)/k1i) .le. BN1) .and.
+branch  0 taken 36% (fallthrough)
+branch  1 taken 64%
+branch  2 taken 84% (fallthrough)
+branch  3 taken 16%
+branch  4 taken 39% (fallthrough)
+branch  5 taken 61%
+branch  6 taken 15% (fallthrough)
+branch  7 taken 85%
+        -:  418:     *               (((n-lj)/k2j) .le. BN2)  
+      420:  419:     *               ) then 
+      144:  420:                        ib = (j-li)/k1i
+      144:  421:                        jb = (n-lj)/k2j
+      144:  422:                        nb = (i-ln)/k3n
+        -:  423:                        B3(ib,jb,nb) = B3(ib,jb,nb) + 
+      144:  424:     *                         ib*NL/10+jb*NL/100+nb*NL/1000
+        -:  425:                      endif 
+        -:  426:              enddo 
+        -:  427:          enddo 
+        -:  428:      enddo 
+        -:  429:!dvm$ end region
+        -:  430:
+        -:  431:!dvm$ REALIGN B3(i,j,n) WITH A3(kr2j*j+lrj, kr1i*i+lri, kr3n*n+lrn)
+        -:  432:
+        -:  433:      s=0 
+        -:  434:
+        -:  435:!dvm$ actual(erria, errib, s)
+        -:  436:!dvm$ region
+        -:  437:!dvm$ parallel (i,j,n) on B3(i,j,n),
+        -:  438:!dvm$*reduction(min(erria),min(errib),sum(s)),
+        -:  439:!dvm$*private(ia,ja,na)
+        5:  440:      do i=1,BN1
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       29:  441:        do j=1,BN2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      172:  442:          do n=1,BN3
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      144:  443:             s = s + B3(i,j,n)
+      144:  444:             if (B3(i,j,n) /= (i*NL/10+j*NL/100+n*NL/1000)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  445:                 errib = min(errib,i*NL/10 + j*NL/100 + n*NL/1000)
+        -:  446:             endif
+      144:  447:             ia=kr2j * j + lrj
+      144:  448:             ja=kr1i * i + lri
+      144:  449:             na=kr3n * n + lrn
+      168:  450:             if (A3(ia,ja,na) /= (ia*NL/10+ja*NL/100+na*NL/1000)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  451:                  erria = min(erria,ia*NL/10 + ja*NL/100 + na*NL/1000)
+        -:  452:!                 print *, ia, ja, na
+        -:  453:             endif
+        -:  454:          enddo 
+        -:  455:        enddo 
+        -:  456:      enddo 
+        -:  457:!dvm$ end region
+        -:  458:  
+        -:  459:      cs = 0              
+        5:  460:      do i=1,BN1
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       29:  461:         do j=1,BN2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      172:  462:            do n=1,BN3
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      168:  463:                    cs = cs + i*NL/10 + j*NL/100 + n*NL/1000
+        -:  464:            enddo 
+        -:  465:         enddo 
+        -:  466:      enddo 
+        -:  467:     
+        -:  468:!dvm$ get_actual(erria, errib, s)
+        -:  469:      if ((erria == ER) .and. (errib == ER) 
+        1:  470:     *    .and. (s == cs)) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 100% (fallthrough)
+branch  5 taken 0%
+        1:  471:          call ansyes(tname)
+call    0 returned 100%
+        -:  472:      else
+    #####:  473:          call ansno(tname)
+call    0 never executed
+        -:  474:      endif 
+        -:  475:
+        1:  476:      end subroutine realign334
+        -:  477:
+        -:  478:! ----------------------------------------------------realign335
+        -:  479:! 335 ALIGN arrB3(*,*,*)   WITH arrA3(*,*,*)    
+        -:  480:!     REALIGN arrB3(i,j,n) WITH arrA3(i,j,n) 
+        -:  481:
+function realign335_ called 1 returned 100% blocks executed 92%
+        1:  482:      subroutine realign335
+        -:  483:      integer, parameter :: AN1=10,AN2=10,AN3=10,BN1=4,BN2=8,BN3=4
+        -:  484:      integer, parameter :: NL=10000,ER=100000
+        -:  485:!     parameters for  ALIGN        
+        -:  486:      integer, parameter :: k1i=0, li=0
+        -:  487:      integer, parameter :: k2j=0, lj=0
+        -:  488:      integer, parameter :: k3n=0, ln=0
+        -:  489:!     parameters for REALIGN                                               
+        -:  490:      integer, parameter :: kr1i=1, lri=0
+        -:  491:      integer, parameter :: kr2j=1, lrj=0
+        -:  492:      integer, parameter :: kr3n=1, lrn=0
+        -:  493:
+        -:  494:      integer :: erria = ER, errib = ER
+        -:  495:      integer s,cs,i,j,n,ia,ja,na,ib,jb,nb
+        -:  496:
+        1:  497:      integer, allocatable :: A3(:,:,:),B3(:,:,:)
+        -:  498:      character(*), parameter ::  tname = 'realign335'
+        -:  499:               
+        -:  500:!dvm$ distribute A3(BLOCK,BLOCK,BLOCK)    
+        -:  501:!dvm$ ALIGN B3(*,*,*) WITH A3(*,*,*)
+        -:  502:!dvm$ DYNAMIC B3
+        -:  503:
+       1*:  504:      allocate (A3(AN1,AN2,AN3), B3(BN1,BN2,BN3))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        -:  505:
+     1111:  506:      A3 = 0
+branch  0 taken 9% (fallthrough)
+branch  1 taken 91%
+branch  2 taken 91% (fallthrough)
+branch  3 taken 9%
+branch  4 taken 91% (fallthrough)
+branch  5 taken 9%
+      165:  507:      B3 = 6
+branch  0 taken 20% (fallthrough)
+branch  1 taken 80%
+branch  2 taken 89% (fallthrough)
+branch  3 taken 11%
+branch  4 taken 80% (fallthrough)
+branch  5 taken 20%
+        -:  508:
+        -:  509:!dvm$ actual (A3,B3)
+        -:  510:!dvm$ region
+        -:  511:!dvm$ parallel (i,j,n) on A3(i,j,n), private(ib,jb,nb)
+       11:  512:      do i=1,AN1
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  513:        do j=1,AN2
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  514:          do n=1,AN3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1100:  515:             A3(i,j,n) = A3(i,j,n) + i*NL/10+j*NL/100+n*NL/1000
+        -:  516:           enddo 
+        -:  517:        enddo 
+        -:  518:      enddo 
+        -:  519:
+        -:  520:!dvm$ parallel (i,j,n) on B3(i,j,n), private(ib,jb,nb)
+        5:  521:      do i=1,BN1
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       37:  522:        do j=1,BN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      164:  523:          do n=1,BN3
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+      160:  524:                B3(i,j,n) = B3(i,j,n) + i*NL/10+j*NL/100+n*NL/1000              
+        -:  525:           enddo 
+        -:  526:        enddo 
+        -:  527:      enddo 
+        -:  528:
+        -:  529:!dvm$ end region
+        -:  530:
+        -:  531:!dvm$ REALIGN B3(i,j,n) WITH A3(kr1i*i+lri, kr2j*j+lrj, kr3n*n+lrn)
+        -:  532:
+        -:  533:      s=0 
+        -:  534:
+        -:  535:!dvm$ actual(erria, errib, s)
+        -:  536:!dvm$ region  inlocal(A3)
+        -:  537:!dvm$ parallel (i,j,n) on B3(i,j,n),
+        -:  538:!dvm$* reduction(min(erria),min(errib),sum(s)),private(ia,ja,na)
+        5:  539:      do i=1,BN1
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       37:  540:         do j=1,BN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      164:  541:            do n=1,BN3
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+      128:  542:               s = s + B3(i,j,n)
+      128:  543:               if (B3(i,j,n) /= (i*NL/10+j*NL/100+n*NL/1000)+ 6) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  544:                  errib = min(errib,i*NL/10 + j*NL/100 + n*NL/1000)
+        -:  545:               endif
+      128:  546:               ia=kr1i * i + lri
+      128:  547:               ja=kr2j * j + lrj
+      128:  548:               na=kr3n * n + lrn
+      160:  549:               if (A3(ia,ja,na) /= (ia*NL/10+ja*NL/100+na*NL/1000)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  550:                    erria = min(erria,ia*NL/10 + ja*NL/100 + na*NL/1000)
+        -:  551:               endif
+        -:  552:           enddo         
+        -:  553:         enddo 
+        -:  554:      enddo 
+        -:  555:!dvm$ end region
+        -:  556:  
+        -:  557:      cs = 0              
+        5:  558:      do i=1,BN1
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       37:  559:         do j=1,BN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      164:  560:            do n=1,BN3
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+      160:  561:                    cs = cs + i*NL/10 + j*NL/100 + n*NL/1000 + 6
+        -:  562:            enddo 
+        -:  563:         enddo 
+        -:  564:      enddo 
+        -:  565:     
+        -:  566:!dvm$ get_actual(erria, errib, s)
+        -:  567:      if ((erria == ER) .and. (errib == ER) 
+        1:  568:     *    .and. (s == cs)) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 100% (fallthrough)
+branch  5 taken 0%
+        1:  569:          call ansyes(tname)
+call    0 returned 100%
+        -:  570:      else                     
+    #####:  571:          call ansno(tname)
+call    0 never executed
+        -:  572:!          write (*,*) erria,errib,s,cs
+        -:  573:!          print *,B3  
+        -:  574:      endif 
+        -:  575:
+       1*:  576:      deallocate (B3,A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  577:
+        1:  578:      end subroutine realign335
+        -:  579:
+        -:  580:! ----------------------------------------------------realign336
+        -:  581:! 336 ALIGN arrB3(i,j,n)   WITH arrA3(i,j+1,2*n+1)    
+        -:  582:!     REALIGN arrB3(*,j,n) WITH arrA3(j+1,n,1) 
+        -:  583:
+function realign336_ called 1 returned 100% blocks executed 90%
+        1:  584:      subroutine realign336
+        -:  585:      integer, parameter ::  AN1=8,AN2=8,AN3=8
+        -:  586:      integer, parameter ::  BN1=3,BN2=4,BN3=3
+        -:  587:      integer, parameter ::  NL=10000,ER=100000
+        -:  588:!     parameters for ALIGN                                                
+        -:  589:      integer, parameter ::  k1i=1,li=0
+        -:  590:      integer, parameter ::  k2j=1,lj=1
+        -:  591:      integer, parameter ::  k3n=2,ln=1
+        -:  592:!     parameters for REALIGN                                                
+        -:  593:      integer, parameter ::  kr1i=0,lri=1
+        -:  594:      integer, parameter ::  kr2j=1,lrj=1
+        -:  595:      integer, parameter ::  kr3n=1,lrn=0
+        1:  596:      integer, allocatable :: A3(:,:,:),B3(:,:,:)
+        -:  597:      integer :: s,cs,erria = ER, errib = ER,
+        -:  598:     >           i,j,n,m,ia,ja,na,ib,jb,nb
+        -:  599:      character(10) :: tname='realign336'
+        -:  600:
+        -:  601:!dvm$ distribute A3(BLOCK,BLOCK,BLOCK)    
+        -:  602:!dvm$ ALIGN B3(i,j,n) WITH A3(k1i*i+li,k2j*j+lj,k3n*n+ln)
+        -:  603:!dvm$ DYNAMIC B3
+        -:  604:
+       1*:  605:      allocate (A3(AN1,AN2,AN3),B3(BN1,BN2,BN3))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        -:  606:
+       52:  607:      B3 = 0     
+branch  0 taken 25% (fallthrough)
+branch  1 taken 75%
+branch  2 taken 80% (fallthrough)
+branch  3 taken 20%
+branch  4 taken 75% (fallthrough)
+branch  5 taken 25%
+        -:  608:
+        -:  609:!dvm actual (B3)
+        -:  610:!dvm$ region inout(B3), inout(A3)
+        -:  611:!dvm$ parallel (i,j,n) on A3(i,j,n), private(ib,jb,nb)
+        9:  612:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  613:          do j=1,AN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  614:            do n=1,AN3
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      512:  615:                A3(i,j,n) = i*NL/10+j*NL/100+n*NL/1000
+        -:  616:                      if ( 
+        -:  617:     *                  ((i-li) .eq.(((i-li)/k1i) * k1i)) .and.
+        -:  618:     *                  ((j-lj) .eq.(((j-lj)/k2j) *k2j)) .and.
+        -:  619:     *                  ((n-ln) .eq.(((n-ln)/k3n) * k3n)) .and.
+        -:  620:     *                  (((i-li)/k1i) .gt. 0)  .and.
+        -:  621:     *                  (((j-lj)/k2j) .gt. 0)  .and.
+        -:  622:     *                  (((n-ln)/k3n) .gt. 0)  .and.
+        -:  623:     *                  (((i-li)/k1i) .le. BN1)  .and.
+      512:  624:     *                  (((j-lj)/k2j) .le. BN2)  .and.
+branch  0 taken 50% (fallthrough)
+branch  1 taken 50%
+branch  2 taken 88% (fallthrough)
+branch  3 taken 12%
+branch  4 taken 28% (fallthrough)
+branch  5 taken 72%
+branch  6 taken 57% (fallthrough)
+branch  7 taken 43%
+        -:  625:     *                  (((n-ln)/k3n) .le. BN3)  
+       64:  626:     *                  )  then 
+       36:  627:                        ib = (i-li)/k1i
+       36:  628:                        jb = (j-lj)/k2j
+       36:  629:                        nb = (n-ln)/k3n
+       36:  630:                        B3(ib,jb,nb)=ib*NL/10+jb*NL/100+nb*NL/1000 
+        -:  631:                      endif 
+        -:  632:             enddo
+        -:  633:          enddo 
+        -:  634:      enddo
+        -:  635:!dvm$ end region
+        -:  636:
+        -:  637:!dvm$ REALIGN B3(*,j,n) WITH A3(kr2j*j+lrj,kr3n*n+lrn,lri)
+        -:  638:
+        -:  639:      s=0 
+        -:  640:
+        -:  641:!dvm$ actual(erria, errib, s)
+        -:  642:!dvm$ region
+        -:  643:!dvm$ parallel (i,j,n) on B3(i,j,n),
+        -:  644:!dvm$* reduction(min(erria), min(errib), sum(s)) 
+        -:  645:!dvm$*,private(ia,ja,na)
+        4:  646:      do i=1,BN1
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+       16:  647:          do j=1,BN2
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       51:  648:            do n=1,BN3
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+       36:  649:                  s = s + B3(i,j,n)
+       36:  650:                  if (B3(i,j,n) /= (i*NL/10+j*NL/100+n*NL/1000))then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  651:                      errib = min(errib,i*NL/10 + j*NL/100+ n*NL/1000)
+        -:  652:                  endif
+       36:  653:                  ia=kr2j*j+lrj
+       36:  654:                  ja=kr3n*n+lrn
+       36:  655:                  na=lri
+       36:  656:                  if (A3(ia,ja,na)/=
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+       12:  657:     *               (ia*NL/10+ja*NL/100+na*NL/1000))then     
+    #####:  658:                      erria = min(erria,i*NL/10 + j*NL/100+ n*NL/1000)
+        -:  659:                  endif
+        -:  660:            enddo
+        -:  661:          enddo 
+        -:  662:      enddo
+        -:  663:!dvm$ end region
+        -:  664:  
+        -:  665:      cs = 0              
+        4:  666:      do i=1,BN1
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+       16:  667:          do j=1,BN2
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       51:  668:            do n=1,BN3
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+       48:  669:                    cs = cs + i*NL/10 + j*NL/100+ n*NL/1000
+        -:  670:             enddo
+        -:  671:          enddo
+        -:  672:      enddo
+        -:  673:     
+        -:  674:!dvm$ get_actual(erria, errib, s)
+        -:  675:
+        -:  676:
+        1:  677:      if ((erria == ER) .and. (errib == ER) .and.
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 100% (fallthrough)
+branch  5 taken 0%
+        -:  678:     *     (s ==  cs)) then     
+        1:  679:          call ansyes(tname)
+call    0 returned 100%
+        -:  680:      else
+    #####:  681:          call ansno(tname)
+call    0 never executed
+        -:  682:!         print *, erria, errib
+        -:  683:      endif 
+        -:  684:
+       1*:  685:      deallocate (B3,A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  686:
+        1:  687:      end
+        -:  688:
+        -:  689:! ----------------------------------------------------
+function ansyes_ called 6 returned 100% blocks executed 100%
+        6:  690:      subroutine ansyes(name)
+        -:  691:      character(*) name
+        6:  692:      print *,name,'  -  complete'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+        6:  693:      end
+function ansno_ called 0 returned 0% blocks executed 0%
+    #####:  694:      subroutine ansno(name)
+        -:  695:      character(*) name
+    #####:  696:      print *,name,'  -  ***error'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+    #####:  697:      end

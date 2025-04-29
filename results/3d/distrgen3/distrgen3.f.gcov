@@ -1,0 +1,3572 @@
+        -:    0:Source:results/3d/distrgen3/distrgen3.f
+        -:    0:Graph:./results\3d\distrgen3\distrgen3.gcno
+        -:    0:Data:./results\3d\distrgen3\distrgen3.gcda
+        -:    0:Runs:1
+function MAIN__ called 1 returned 100% blocks executed 41%
+        1:    1:        program DISTRG3
+        -:    2:
+        -:    3:!    Testing DISTRIBUTE and REDISTRIBUTE directives
+        -:    4:!            GEN_BLOCK, BLOCK, *  distributions
+        -:    5:      
+        -:    6:      integer PROCESSORS_RANK, PROCESSORS_SIZE 
+        -:    7:      integer psize(3), rank
+        -:    8:
+        -:    9:      PROCESSORS_RANK() = 3
+        -:   10:      PROCESSORS_SIZE(i) = 1
+        -:   11:
+        1:   12:      print *,'===START OF distrgen3========================'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   13:
+        1:   14:      rank = PROCESSORS_RANK()
+        -:   15:
+        4:   16:      do i=1,rank
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        3:   17:         psize(i)=PROCESSORS_SIZE(i)
+        1:   18:         if (psize(i) > 4) then   !may be temporary
+        -:   19:             goto 1
+        -:   20:         endif
+        -:   21:      enddo
+        -:   22:C -------------------------------------------------
+        -:   23:      if
+        -:   24:     > ((psize(1) == 1 .and. psize(2) == 1 .and. psize(3) == 1)  !range 1 1 1
+        -:   25:     >.or.
+        -:   26:     >  (psize(1) == 1 .and. psize(2) == 2 .and. psize(3) == 3)  !range 1 2 3
+        -:   27:     >.or.
+        -:   28:     >  (psize(1) == 2 .and. psize(2) == 3 .and. psize(3) == 2)  !range 2 3 2
+        -:   29:     >.or.
+        -:   30:     >  (psize(1) == 3 .and. psize(2) == 1 .and. psize(3) == 4)  !range 3 1 4
+       1*:   31:     >.or.
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 0% (fallthrough)
+branch  5 taken 100%
+branch  6 never executed (fallthrough)
+branch  7 never executed
+branch  8 never executed (fallthrough)
+branch  9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed
+branch 12 never executed (fallthrough)
+branch 13 never executed
+branch 14 never executed (fallthrough)
+branch 15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed
+branch 18 never executed (fallthrough)
+branch 19 never executed
+branch 20 never executed (fallthrough)
+branch 21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed
+branch 24 never executed (fallthrough)
+branch 25 never executed
+branch 26 never executed (fallthrough)
+branch 27 never executed
+branch 28 never executed (fallthrough)
+branch 29 never executed
+        -:   32:     >  (psize(1) == 4 .and. psize(2) == 2 .and. psize(3) == 2)) !range 4 2 2
+        -:   33:     >then
+        -:   34:! 31  DISTRIBUTE arrA3[GEN_BLOCK][GEN_BLOCK][GEN_BLOCK]  
+        -:   35:!                REDISTRIBUTE [GEN_BLOCK][GEN_BLOCK][GEN_BLOCK] other blocks
+        1:   36:        call distrg31 (psize)
+call    0 returned 100%
+        -:   37:      endif
+        -:   38:! -------------------------------------------------
+        -:   39:      if
+        -:   40:     > ((psize(1) == 1 .and. psize(2) == 1 .and. psize(3) == 1)  !range 1 1 1
+        -:   41:     >.or.
+        -:   42:     >  (psize(1) == 1 .and. psize(2) == 3 .and. psize(3) == 4)  !range 1 3 4
+        -:   43:     >.or.
+        -:   44:     >  (psize(1) == 2 .and. psize(2) == 2 .and. psize(3) == 3)  !range 2 2 3
+        -:   45:     >.or.
+        -:   46:     >  (psize(1) == 3 .and. psize(2) == 4 .and. psize(3) == 1)  !range 3 4 1
+       1*:   47:     >.or.
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 0% (fallthrough)
+branch  5 taken 100%
+branch  6 never executed (fallthrough)
+branch  7 never executed
+branch  8 never executed (fallthrough)
+branch  9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed
+branch 12 never executed (fallthrough)
+branch 13 never executed
+branch 14 never executed (fallthrough)
+branch 15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed
+branch 18 never executed (fallthrough)
+branch 19 never executed
+branch 20 never executed (fallthrough)
+branch 21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed
+branch 24 never executed (fallthrough)
+branch 25 never executed
+branch 26 never executed (fallthrough)
+branch 27 never executed
+branch 28 never executed (fallthrough)
+branch 29 never executed
+        -:   48:     >  (psize(1) == 4 .and. psize(2) == 2 .and. psize(3) == 2)) !range 4 2 2
+        -:   49:     >then
+        -:   50:! 32 DISTRIBUTE arrA3[GEN_BLOCK][GEN_BLOCK][GEN_BLOCK] 
+        -:   51:!                REDISTRIBUTE [BLOCK][BLOCK][BLOCK] 
+        -:   52:!                REDISTRIBUTE [GEN_BLOCK][GEN_BLOCK][GEN_BLOCK] 
+        1:   53:        call distrg32 (psize)
+call    0 returned 100%
+        -:   54:      endif
+        -:   55:! -------------------------------------------------
+        -:   56:! 33  DISTRIBUTE arrA3[BLOCK][GEN_BLOCK][GEN_BLOCK]   allocatable 
+        -:   57:!     DISTRIBUTE arrB3[BLOCK][GEN_BLOCK][GEN_BLOCK]   static
+        -:   58:!                REDISTRIBUTE [GEN_BLOCK][BLOCK][BLOCK]
+        -:   59:!                REDISTRIBUTE [GEN_BLOCK][GEN_BLOCK][BLOCK]
+        1:   60:        call distrg33  (psize)
+call    0 returned 100%
+        -:   61:! -------------------------------------------------
+        -:   62:      if
+        -:   63:     > ((psize(1) == 1 .and. psize(2) == 1 .and. psize(3) == 1)  !range 1 1 1
+        -:   64:     >.or.
+        -:   65:     >  (psize(1) == 1 .and. psize(2) == 2 .and. psize(3) == 2)  !range 1 2 2
+        -:   66:     >.or.
+        -:   67:     >  (psize(1) == 2 .and. psize(2) == 4 .and. psize(3) == 2)  !range 2 4 2
+        -:   68:     >.or.
+        -:   69:     >  (psize(1) == 3 .and. psize(2) == 1 .and. psize(3) == 2)  !range 3 1 2
+       1*:   70:     >.or.
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 0% (fallthrough)
+branch  5 taken 100%
+branch  6 never executed (fallthrough)
+branch  7 never executed
+branch  8 never executed (fallthrough)
+branch  9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed
+branch 12 never executed (fallthrough)
+branch 13 never executed
+branch 14 never executed (fallthrough)
+branch 15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed
+branch 18 never executed (fallthrough)
+branch 19 never executed
+branch 20 never executed (fallthrough)
+branch 21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed
+branch 24 never executed (fallthrough)
+branch 25 never executed
+branch 26 never executed (fallthrough)
+branch 27 never executed
+branch 28 never executed (fallthrough)
+branch 29 never executed
+        -:   71:     >  (psize(1) == 4 .and. psize(2) == 1 .and. psize(3) == 4) !range 4 1 4
+        -:   72:     >) then
+        -:   73:! 34 DISTRIBUTE arrA3[GEN_BLOCK][GEN_BLOCK][GEN_BLOCK]  !static 
+        -:   74:!                REDISTRIBUTE [GEN_BLOCK][*][BLOCK]
+        -:   75:!      DISTRIBUTE arrB3[GEN_BLOCK][*][BLOCK]            !static
+        -:   76:!                 REDISTRIBUTE [BLOCK][GEN_BLOCK][*]
+        1:   77:        call distrg34 (psize)
+call    0 returned 100%
+        -:   78:      endif
+        -:   79:! -------------------------------------------------
+        -:   80:      if
+        -:   81:     > ((psize(1) == 1 .and. psize(2) == 1 .and. psize(3) == 1)  !range 1 1 1
+        -:   82:     >.or.
+        -:   83:     >  (psize(1) == 1 .and. psize(2) == 3 .and. psize(3) == 2)  !range 1 3 2
+        -:   84:     >.or.
+        -:   85:     >  (psize(1) == 2 .and. psize(2) == 2 .and. psize(3) == 4)  !range 2 2 4
+        -:   86:     >.or.
+        -:   87:     >  (psize(1) == 3 .and. psize(2) == 2 .and. psize(3) == 2)  !range 3 2 2
+       1*:   88:     >.or.
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 0% (fallthrough)
+branch  5 taken 100%
+branch  6 never executed (fallthrough)
+branch  7 never executed
+branch  8 never executed (fallthrough)
+branch  9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed
+branch 12 never executed (fallthrough)
+branch 13 never executed
+branch 14 never executed (fallthrough)
+branch 15 never executed
+branch 16 never executed (fallthrough)
+branch 17 never executed
+branch 18 never executed (fallthrough)
+branch 19 never executed
+branch 20 never executed (fallthrough)
+branch 21 never executed
+branch 22 never executed (fallthrough)
+branch 23 never executed
+branch 24 never executed (fallthrough)
+branch 25 never executed
+branch 26 never executed (fallthrough)
+branch 27 never executed
+branch 28 never executed (fallthrough)
+branch 29 never executed
+        -:   89:     >  (psize(1) == 4 .and. psize(2) == 2 .and. psize(3) == 2)) !range 4 2 2
+        -:   90:     >then
+        -:   91:
+        -:   92:! 35  DISTRIBUTE arrA3[GEN_BLOCK][GEN_BLOCK][GEN_BLOCK] 
+        -:   93:!                REDISTRIBUTE arrA2[*][*][*]
+        -:   94:!                REDISTRIBUTE [GEN_BLOCK][GEN_BLOCK][GEN_BLOCK]
+        1:   95:        call distrg35 (psize)
+call    0 returned 100%
+        -:   96:      endif
+        -:   97:! -------------------------------------------------
+        -:   98:! 36 DISTRIBUTE arrA3[GEN_BLOCK][BLOCK][GEN_BLOCK]   
+        -:   99:!                REDISTRIBUTE [BLOCK][GEN_BLOCK][BLOCK]
+        -:  100:!                REDISTRIBUTE [BLOCK][GEN_BLOCK][GEN_BLOCK]
+        -:  101:!                REDISTRIBUTE [GEN_BLOCK][GEN_BLOCK][BLOCK]
+        1:  102:        call distrg36 (psize)
+call    0 returned 100%
+        -:  103:! -------------------------------------------------
+        -:  104:! 37 DISTRIBUTE arrA3[GEN_BLOCK][GEN_BLOCK][BLOCK]
+        -:  105:!                REDISTRIBUTE [BLOCK][GEN_BLOCK][BLOCK]
+        -:  106:!                REDISTRIBUTE [BLOCK][GEN_BLOCK][GEN_BLOCK]
+        -:  107:!                REDISTRIBUTE [GEN_BLOCK][BLOCK][GEN_BLOCK]
+        1:  108:      call distrg37 (psize)
+call    0 returned 100%
+        -:  109:! -------------------------------------------------
+        -:  110:! 38  DISTRIBUTE arrA3 [GEN_BLOCK][*][GEN_BLOCK] 
+        -:  111:!                REDISTRIBUTE [*][GEN_BLOCK][*]
+        -:  112:!                REDISTRIBUTE[GEN_BLOCK][GEN_BLOCK][*]
+        -:  113:!                REDISTRIBUTE[*][GEN_BLOCK][GEN_BLOCK]
+        1:  114:      call distrg38 (psize)
+call    0 returned 100%
+        -:  115:! -------------------------------------------------
+        -:  116:! 39 DISTRIBUTE arrA3 [*][GEN_BLOCK][GEN_BLOCK]  
+        -:  117:!                REDISTRIBUTE [GEN_BLOCK][*][*]
+        -:  118:!                REDISTRIBUTE[GEN_BLOCK][*][GEN_BLOCK]
+        1:  119:      call distrg39 (psize)
+call    0 returned 100%
+        -:  120:! -------------------------------------------------
+        -:  121:! 310 DISTRIBUTE arrA3 [GEN_BLOCK][GEN_BLOCK][BLOCK]  
+        -:  122:!                REDISTRIBUTE [*][*][GEN_BLOCK]
+        -:  123:!                REDISTRIBUTE[*][GEN_BLOCK][BLOCK]
+        1:  124:       call distrg310 (psize)
+call    0 returned 100%
+        -:  125:! -------------------------------------------------
+        -:  126:! 311 DISTRIBUTE arrA3 [GEN_BLOCK][*][*]  
+        -:  127:!                REDISTRIBUTE [*][*][*]
+        -:  128:!                REDISTRIBUTE [BLOCK][*][GEN_BLOCK]
+        1:  129:        call distrg311 (psize)
+call    0 returned 100%
+        -:  130:
+        -:  131:! -------------------------------------------------
+        -:  132:
+        1:  133: 1    print *,'=== END OF distrgen3 ========================= '    
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:  134:
+function main called 1 returned 100% blocks executed 100%
+        1:  135:      end
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:  136:                                             
+        -:  137:! ----------------------------------------------------distrg31
+        -:  138:! 31  DISTRIBUTE arrA3[GEN_BLOCK][GEN_BLOCK][GEN_BLOCK]     range 1 1 1
+        -:  139:!        REDISTRIBUTE [GEN_BLOCK][GEN_BLOCK][GEN_BLOCK]     range 1 2 3
+        -:  140:!                                                           range 2 3 2
+        -:  141:!                                                           range 3 1 4
+        -:  142:!                                                           range 4 2 2
+function distrg31_ called 1 returned 100% blocks executed 89%
+        1:  143:      subroutine distrg31 (psize)
+        -:  144:      integer psize(3)
+        -:  145:
+        -:  146:      integer, parameter :: AN1=6,AN2=6,AN3=6,NL=1000,ER=10000
+        -:  147:      integer :: erri=ER,i,j,k
+        -:  148: 
+        -:  149:      integer, dimension(1) :: BSi111=(/6/)       !range 1 1 1  
+        -:  150:      integer, dimension(1) :: BSj111=(/6/)     
+        -:  151:      integer, dimension(1) :: BSk111=(/6/)     
+        -:  152:
+        -:  153:      integer, dimension(1) :: BSi11=(/6/)        !range 1 2 3  
+        -:  154:      integer, dimension(1) :: BSi12=(/6/)           
+        -:  155:      integer, dimension(2) :: BSj11=(/5,1/)     
+        -:  156:      integer, dimension(2) :: BSj12=(/2,4/)     
+        -:  157:      integer, dimension(3) :: BSk11=(/1,4,1/)     
+        -:  158:      integer, dimension(3) :: BSk12=(/1,2,3/)     
+        -:  159:
+        -:  160:      integer, dimension(2) :: BSi21=(/4,2/)      !range 2 3 2  
+        -:  161:      integer, dimension(2) :: BSi22=(/1,5/)     
+        -:  162:      integer, dimension(3) :: BSj21=(/3,2,1/)     
+        -:  163:      integer, dimension(3) :: BSj22=(/5,1,0/)     
+        -:  164:      integer, dimension(2) :: BSk21=(/2,4/)     
+        -:  165:      integer, dimension(2) :: BSk22=(/5,1/)    
+        -:  166:
+        -:  167:      integer, dimension(3) :: BSi31=(/2,2,2/)    !range 3 1 4  
+        -:  168:      integer, dimension(3) :: BSi32=(/3,2,1/)     
+        -:  169:      integer, dimension(1) :: BSj31=(/6/)     
+        -:  170:      integer, dimension(1) :: BSj32=(/6/)     
+        -:  171:      integer, dimension(4) :: BSk31=(/1,2,2,1/)     
+        -:  172:      integer, dimension(4) :: BSk32=(/2,2,1,1/)     
+        -:  173:
+        -:  174:      integer, dimension(4) :: BSi41=(/2,1,2,1/)  !range 4 2 2  
+        -:  175:      integer, dimension(4) :: BSi42=(/1,2,1,2/)     
+        -:  176:      integer, dimension(2) :: BSj41=(/5,1/)     
+        -:  177:      integer, dimension(2) :: BSj42=(/2,4/)     
+        -:  178:      integer, dimension(2) :: BSk41=(/4,2/)     
+        -:  179:      integer, dimension(2) :: BSk42=(/6,0/)     
+        -:  180:
+        1:  181:      integer, allocatable :: A3(:,:,:)
+        -:  182:      character(10), parameter :: tname='distrg31  '
+        -:  183:
+        -:  184:!dvm$ distribute :: A3
+        -:  185:!dvm$ dynamic A3
+        -:  186:
+       1*:  187:      allocate (A3(AN1,AN2,AN3))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  188:
+        -:  189:!!!!dvm$ distribute A3(GEN_BLOCK(BSi1),GEN_BLOCK(BSj1),GEN_BLOCK(BSk1))   
+        -:  190:
+        1:  191:      select case(psize(1))
+        -:  192:      case(1) 
+        -:  193:        if (psize(2) == 1 .and. psize(3) == 1) then
+        -:  194:!dvm$ redistribute
+        -:  195:!dvm$*    A3(GEN_BLOCK(BSi111),GEN_BLOCK(BSj111),GEN_BLOCK(BSk111))   
+        -:  196:        else
+        -:  197:!dvm$ redistribute
+        -:  198:!dvm$*    A3(GEN_BLOCK(BSi11),GEN_BLOCK(BSj11),GEN_BLOCK(BSk11))   
+        -:  199:        endif
+        -:  200:      case(2)
+        -:  201:!dvm$ redistribute
+        -:  202:!dvm$*    A3(GEN_BLOCK(BSi21),GEN_BLOCK(BSj21),GEN_BLOCK(BSk21))   
+        -:  203:      case(3)
+        -:  204:!dvm$ redistribute
+        -:  205:!dvm$*    A3(GEN_BLOCK(BSi31),GEN_BLOCK(BSj31),GEN_BLOCK(BSk31))   
+        -:  206:      case(4)
+        -:  207:!dvm$ redistribute
+        -:  208:!dvm$*    A3(GEN_BLOCK(BSi41),GEN_BLOCK(BSj41),GEN_BLOCK(BSk41))   
+        -:  209:      case default 
+        1:  210:      goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  211:      endselect  
+        -:  212:
+        -:  213:!dvm$ region  out(A3)
+        -:  214:!dvm$ parallel (i,j,k) on A3(i,j,k)
+        7:  215:      do i=1,AN1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+       43:  216:          do j=1,AN2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      258:  217:             do k=1,AN3
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      252:  218:                A3(i,j,k) = i*NL/10 + j*NL/100 + k    
+        -:  219:             enddo
+        -:  220:          enddo
+        -:  221:      enddo
+        -:  222:!dvm$ end region   
+        -:  223:  
+        -:  224:
+        -:  225:!!!!dvm$  redistribute A3(GEN_BLOCK(BSi2),GEN_BLOCK(BSj2),GEN_BLOCK(BSk2))   
+        -:  226:
+        -:  227:      select case(psize(1))
+        -:  228:      case(1) 
+        -:  229:        if (psize(2) == 1 .and. psize(3) == 1) then
+        -:  230:!dvm$ redistribute
+        -:  231:!dvm$*    A3(GEN_BLOCK(BSi111),GEN_BLOCK(BSj111),GEN_BLOCK(BSk111))   
+        -:  232:        else
+        -:  233:!dvm$ redistribute
+        -:  234:!dvm$*    A3(GEN_BLOCK(BSi12),GEN_BLOCK(BSj12),GEN_BLOCK(BSk12))   
+        -:  235:        endif
+        -:  236:      case(2)
+        -:  237:!dvm$ redistribute
+        -:  238:!dvm$*    A3(GEN_BLOCK(BSi22),GEN_BLOCK(BSj22),GEN_BLOCK(BSk22))   
+        -:  239:      case(3)
+        -:  240:!dvm$ redistribute
+        -:  241:!dvm$*    A3(GEN_BLOCK(BSi32),GEN_BLOCK(BSj32),GEN_BLOCK(BSk32))   
+        -:  242:      case(4)
+        -:  243:!dvm$ redistribute
+        -:  244:!dvm$*    A3(GEN_BLOCK(BSi42),GEN_BLOCK(BSj42),GEN_BLOCK(BSk42))   
+        -:  245:      case default 
+        -:  246:      goto 10
+        -:  247:      endselect  
+        -:  248:
+        -:  249:!dvm$ actual(erri)
+        -:  250:
+        -:  251:!dvm$ region in(A3) 
+        -:  252:!dvm$ parallel (i,j,k) on A3(i,j,k), reduction( min( erri ) )
+        7:  253:      do i=1,AN1
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+       43:  254:          do j=1,AN2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      258:  255:            do k=1,AN3
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      252:  256:                if (A3(i,j,k) /= (i*NL/10 + j*NL/100 + k)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  257:                    erri = min(erri,i*NL/10 + j*NL/100 + k)
+        -:  258:                endif 
+        -:  259:            enddo
+        -:  260:          enddo
+        -:  261:      enddo 
+        -:  262:!dvm$ end region   
+        -:  263:     
+        -:  264:!dvm$ get_actual(erri)
+        -:  265:
+        1:  266:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  267:          call ansyes(tname)
+call    0 returned 100%
+        -:  268:      else
+    #####:  269:          call ansno(tname)
+call    0 never executed
+        -:  270:      endif 
+        -:  271:
+       1*:  272: 10   deallocate (A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  273:
+        1:  274:      end subroutine distrg31
+        -:  275:
+        -:  276:! ----------------------------------------------------distrg32
+        -:  277:! 32  DISTRIBUTE arrA3[GEN_BLOCK][GEN_BLOCK][GEN_BLOCK]         range 1 1 1 
+        -:  278:!                REDISTRIBUTE [BLOCK][BLOCK][BLOCK]             range 1 3 4
+        -:  279:!                REDISTRIBUTE [GEN_BLOCK][GEN_BLOCK][GEN_BLOCK] range 2 2 3
+        -:  280:!                                                               range 3 4 1
+        -:  281:!                                                               range 4 2 2
+function distrg32_ called 1 returned 100% blocks executed 91%
+        1:  282:      subroutine distrg32 (psize)
+        -:  283:      integer psize(3)
+        -:  284:
+        -:  285:      integer, parameter :: AN1=8,AN2=6,AN3=14,NL=1000,ER=10000
+        -:  286:      integer :: erri=ER,i,j,k
+        -:  287:
+        -:  288:      integer, dimension(1) :: BSi111=(/8/)        !range 1 1 1  
+        -:  289:      integer, dimension(1) :: BSj111=(/6/)     
+        -:  290:      integer, dimension(1) :: BSk111=(/14/)     
+        -:  291:
+        -:  292:      integer, dimension(1) :: BSi11=(/8/)         !range 1 3 4
+        -:  293:      integer, dimension(1) :: BSi12=(/8/)           
+        -:  294:      integer, dimension(3) :: BSj11=(/2,4,0/)     
+        -:  295:      integer, dimension(3) :: BSj12=(/3,2,1/)     
+        -:  296:      integer, dimension(4) :: BSk11=(/1,4,3,6/)     
+        -:  297:      integer, dimension(4) :: BSk12=(/5,2,4,3/)     
+        -:  298:
+        -:  299:      integer, dimension(2) :: BSi21=(/6,2/)       !range 2 2 3  
+        -:  300:      integer, dimension(2) :: BSi22=(/1,7/)     
+        -:  301:      integer, dimension(2) :: BSj21=(/3,3/)     
+        -:  302:      integer, dimension(2) :: BSj22=(/5,1/)     
+        -:  303:      integer, dimension(3) :: BSk21=(/10,3,1/)     
+        -:  304:      integer, dimension(3) :: BSk22=(/4,8,2/)    
+        -:  305:
+        -:  306:      integer, dimension(3) :: BSi31=(/3,2,3/)     !range 3 4 1 
+        -:  307:      integer, dimension(3) :: BSi32=(/2,4,2/)     
+        -:  308:      integer, dimension(4) :: BSj31=(/2,1,1,2/)     
+        -:  309:      integer, dimension(4) :: BSj32=(/1,2,3,0/)     
+        -:  310:      integer, dimension(1) :: BSk31=(/14/)     
+        -:  311:      integer, dimension(1) :: BSk32=(/14/)     
+        -:  312:
+        -:  313:      integer, dimension(4) :: BSi41=(/3,2,1,2/)   !range 4 2 2  
+        -:  314:      integer, dimension(4) :: BSi42=(/4,1,2,1/)     
+        -:  315:      integer, dimension(2) :: BSj41=(/5,1/)     
+        -:  316:      integer, dimension(2) :: BSj42=(/2,4/)     
+        -:  317:      integer, dimension(2) :: BSk41=(/7,7/)     
+        -:  318:      integer, dimension(2) :: BSk42=(/6,8/)     
+        -:  319:
+        1:  320:      integer, allocatable :: A3(:,:,:)
+        -:  321:      character(10), parameter :: tname='distrg32  '
+        -:  322:
+        -:  323:!dvm$ distribute :: A3   
+        -:  324:!dvm$ dynamic A3
+        -:  325:
+       1*:  326:      allocate (A3(AN1,AN2,AN3))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  327:
+        -:  328:!!!!dvm$ distribute A3(GEN_BLOCK(BSi),GEN_BLOCK(BSj),GEN_BLOCK(BSk))   
+        -:  329:
+        1:  330:      select case(psize(1))
+        -:  331:      case(1) 
+        -:  332:        if (psize(2) == 1 .and. psize(3) == 1) then
+        -:  333:!dvm$ redistribute
+        -:  334:!dvm$*    A3(GEN_BLOCK(BSi111),GEN_BLOCK(BSj111),GEN_BLOCK(BSk111))   
+        -:  335:        else
+        -:  336:!dvm$ redistribute
+        -:  337:!dvm$*    A3(GEN_BLOCK(BSi11),GEN_BLOCK(BSj11),GEN_BLOCK(BSk11))   
+        -:  338:         endif
+        -:  339:      case(2)
+        -:  340:!dvm$ redistribute
+        -:  341:!dvm$*    A3(GEN_BLOCK(BSi21),GEN_BLOCK(BSj21),GEN_BLOCK(BSk21))   
+        -:  342:      case(3)
+        -:  343:!dvm$ redistribute
+        -:  344:!dvm$*    A3(GEN_BLOCK(BSi31),GEN_BLOCK(BSj31),GEN_BLOCK(BSk31))   
+        -:  345:      case(4)
+        -:  346:!dvm$ redistribute
+        -:  347:!dvm$*    A3(GEN_BLOCK(BSi41),GEN_BLOCK(BSj41),GEN_BLOCK(BSk41))   
+        -:  348:      case default 
+        1:  349:         goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  350:      endselect  
+        -:  351:
+        -:  352:!dvm$ region  
+        -:  353:!dvm$ parallel (i,j,k) on A3(i,j,k)
+        9:  354:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       57:  355:          do j=1,AN2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      728:  356:             do k=1,AN3
+branch  0 taken 93% (fallthrough)
+branch  1 taken 7%
+      720:  357:                A3(i,j,k) = i*NL/10 + j*NL/100 + k + 1   
+        -:  358:             enddo
+        -:  359:          enddo
+        -:  360:      enddo
+        -:  361:!dvm$ end region   
+        -:  362:
+        -:  363:!dvm$ redistribute A3(BLOCK,BLOCK,BLOCK)   
+        -:  364:
+        -:  365:!dvm$ region  
+        -:  366:!dvm$ parallel (i,j,k) on A3(i,j,k)
+        9:  367:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       57:  368:          do j=1,AN2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      728:  369:             do k=1,AN3
+branch  0 taken 93% (fallthrough)
+branch  1 taken 7%
+      720:  370:                A3(i,j,k) = A3(i,j,k) + 1   
+        -:  371:             enddo
+        -:  372:          enddo
+        -:  373:      enddo
+        -:  374:!dvm$ end region   
+        -:  375:
+        -:  376:!!!!dvm$ redistribute A3(GEN_BLOCK(BSi),GEN_BLOCK(BSj),GEN_BLOCK(BSk))   
+        -:  377:
+        -:  378:      select case(psize(1))
+        -:  379:      case(1) 
+        -:  380:        if (psize(2) == 1 .and. psize(3) == 1) then
+        -:  381:!dvm$ redistribute
+        -:  382:!dvm$*    A3(GEN_BLOCK(BSi111),GEN_BLOCK(BSj111),GEN_BLOCK(BSk111))   
+        -:  383:        else
+        -:  384:!dvm$ redistribute 
+        -:  385:!dvm$*    A3(GEN_BLOCK(BSi12),GEN_BLOCK(BSj12),GEN_BLOCK(BSk12))   
+        -:  386:        endif
+        -:  387:      case(2)
+        -:  388:!dvm$ redistribute
+        -:  389:!dvm$*    A3(GEN_BLOCK(BSi22),GEN_BLOCK(BSj22),GEN_BLOCK(BSk22))   
+        -:  390:      case(3)
+        -:  391:!dvm$ redistribute
+        -:  392:!dvm$*    A3(GEN_BLOCK(BSi32),GEN_BLOCK(BSj32),GEN_BLOCK(BSk32))   
+        -:  393:      case(4)
+        -:  394:!dvm$ redistribute
+        -:  395:!dvm$*    A3(GEN_BLOCK(BSi42),GEN_BLOCK(BSj42),GEN_BLOCK(BSk42))   
+        -:  396:      case default 
+        -:  397:         goto 10
+        -:  398:      endselect  
+        -:  399:
+        -:  400:!dvm$ actual(erri)
+        -:  401:
+        -:  402:!dvm$ region   inlocal(A3)
+        -:  403:!dvm$ parallel (i,j,k) on A3(i,j,k), reduction(min(erri))
+        9:  404:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       57:  405:          do j=1,AN2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      728:  406:            do k=1,AN3
+branch  0 taken 93% (fallthrough)
+branch  1 taken 7%
+      720:  407:                if (A3(i,j,k) /= (i*NL/10 + j*NL/100 + k + 2)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  408:                    erri = min(erri,i*NL/10 + j*NL/100 + k)
+        -:  409:                endif 
+        -:  410:            enddo
+        -:  411:          enddo
+        -:  412:      enddo
+        -:  413:!dvm$ end region   
+        -:  414:     
+        -:  415:!dvm$ get_actual(erri)
+        -:  416:
+        1:  417:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  418:          call ansyes(tname)
+call    0 returned 100%
+        -:  419:      else
+    #####:  420:          call ansno(tname)
+call    0 never executed
+        -:  421:      endif 
+        -:  422:
+       1*:  423: 10   deallocate (A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  424:
+        1:  425:      end subroutine distrg32
+        -:  426:
+        -:  427:! ----------------------------------------------------distrg33
+        -:  428:! 33  DISTRIBUTE arrA3[BLOCK][GEN_BLOCK][GEN_BLOCK]   allocatable 
+        -:  429:!     DISTRIBUTE arrB3[BLOCK][GEN_BLOCK][GEN_BLOCK]   static
+        -:  430:!                REDISTRIBUTE [GEN_BLOCK][GEN_BLOCK][BLOCK]
+        -:  431:!                REDISTRIBUTE [GEN_BLOCK][GEN_BLOCK][BLOCK]
+        -:  432:
+function distrg33_ called 1 returned 100% blocks executed 91%
+        1:  433:      subroutine distrg33 (psize)
+        -:  434:      integer psize(3)
+        -:  435:
+        -:  436:      integer, parameter :: AN1=12,AN2=17,AN3=16,NL=1000,ER=10000
+        -:  437:      integer, parameter :: BN1=10,BN2=10,BN3=10
+        -:  438:      integer :: erria=ER, errib=ER,i,j,k
+        -:  439:
+        -:  440:      integer, dimension(1) :: BSai11=(/12/)      
+        -:  441:      integer, dimension(1) :: BSai12=(/12/)           
+        -:  442:      integer, dimension(2) :: BSai21=(/3,9/)       
+        -:  443:      integer, dimension(2) :: BSai22=(/11,1/)     
+        -:  444:      integer, dimension(3) :: BSai31=(/4,0,8/)     
+        -:  445:      integer, dimension(3) :: BSai32=(/6,4,2/)     
+        -:  446:      integer, dimension(4) :: BSai41=(/1,2,3,6/)   !rem
+        -:  447:      integer, dimension(4) :: BSai42=(/3,8,0,1/)     
+        -:  448:
+        -:  449:      integer, dimension(1) :: BSaj11=(/17/)     
+        -:  450:      integer, dimension(1) :: BSaj12=(/17/)     
+        -:  451:      integer, dimension(2) :: BSaj21=(/3,14/)     
+        -:  452:      integer, dimension(2) :: BSaj22=(/4,13/)     
+        -:  453:      integer, dimension(3) :: BSaj31=(/6,1,10/)     
+        -:  454:      integer, dimension(3) :: BSaj32=(/11,6,0/)     
+        -:  455:      integer, dimension(4) :: BSaj41=(/5,0,11,1/)     
+        -:  456:      integer, dimension(4) :: BSaj42=(/11,3,1,2/)     
+        -:  457:
+        -:  458:      integer, dimension(1) :: BSak11=(/16/)     
+        -:  459:      integer, dimension(1) :: BSak12=(/16/)     
+        -:  460:      integer, dimension(2) :: BSak21=(/12,4/)     
+        -:  461:      integer, dimension(2) :: BSak22=(/7,9/)    	!rem
+        -:  462:      integer, dimension(3) :: BSak31=(/2,4,10/)     
+        -:  463:      integer, dimension(3) :: BSak32=(/3,1,12/)     
+        -:  464:      integer, dimension(4) :: BSak41=(/6,2,5,3/)     
+        -:  465:      integer, dimension(4) :: BSak42=(/1,7,6,2/)     
+        -:  466:
+        -:  467:
+        -:  468:      integer, dimension(1) :: BSbi11=(/10/)        
+        -:  469:      integer, dimension(1) :: BSbi12=(/10/)           
+        -:  470:      integer, dimension(2) :: BSbi21=(/3,7/)       
+        -:  471:      integer, dimension(2) :: BSbi22=(/1,9/)     
+        -:  472:      integer, dimension(3) :: BSbi31=(/3,2,5/)     
+        -:  473:      integer, dimension(3) :: BSbi32=(/2,6,2/)     
+        -:  474:      integer, dimension(4) :: BSbi41=(/1,2,5,2/)   
+        -:  475:      integer, dimension(4) :: BSbi42=(/3,1,0,6/)     
+        -:  476:
+        -:  477:      integer, dimension(1) :: BSbj11=(/10/)     
+        -:  478:      integer, dimension(1) :: BSbj12=(/10/)     
+        -:  479:      integer, dimension(2) :: BSbj21=(/6,4/)     
+        -:  480:      integer, dimension(2) :: BSbj22=(/7,3/)     
+        -:  481:      integer, dimension(3) :: BSbj31=(/1,5,4/)     
+        -:  482:      integer, dimension(3) :: BSbj32=(/3,1,6/)     
+        -:  483:      integer, dimension(4) :: BSbj41=(/5,0,2,3/)     
+        -:  484:      integer, dimension(4) :: BSbj42=(/2,3,4,1/)     
+        -:  485:
+        -:  486:      integer, dimension(1) :: BSbk11=(/10/)     
+        -:  487:      integer, dimension(1) :: BSbk12=(/10/)     
+        -:  488:      integer, dimension(2) :: BSbk21=(/5,5/)     
+        -:  489:      integer, dimension(2) :: BSbk22=(/2,8/)    
+        -:  490:      integer, dimension(3) :: BSbk31=(/1,1,8/)     
+        -:  491:      integer, dimension(3) :: BSbk32=(/3,5,2/)     
+        -:  492:      integer, dimension(4) :: BSbk41=(/1,2,3,4/)     
+        -:  493:      integer, dimension(4) :: BSbk42=(/4,3,2,1/)     
+        -:  494:
+        1:  495:      integer, allocatable :: A3(:,:,:)
+        -:  496:      integer B3(BN1,BN2,BN3)
+        -:  497:      character(10), parameter :: tname='distrg33  '
+        -:  498:
+        -:  499:!dvm$ distribute :: A3
+        -:  500:!dvm$ distribute :: B3
+        -:  501:!dvm$ dynamic A3, B3
+        -:  502:
+       1*:  503:      allocate (A3(AN1,AN2,AN3))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  504:
+        -:  505:!!!!dvm$ redistribute A3(BLOCK,GEN_BLOCK(BSaj1),GEN_BLOCK(BSak1))   
+        -:  506:!!!!dvm$ redistribute B3(BLOCK,GEN_BLOCK(BSbj1),GEN_BLOCK(BSbk1))   
+        -:  507:
+        2:  508:      select case(psize(2))
+        -:  509:      case(1)
+       1*:  510:         select case(psize(3))
+        -:  511:         case(1) 
+        -:  512:!dvm$ redistribute
+        -:  513:!dvm$*    A3(BLOCK,GEN_BLOCK(BSaj11),GEN_BLOCK(BSak11))   
+        -:  514:!dvm$ redistribute
+        -:  515:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj11),GEN_BLOCK(BSbk11))   
+        -:  516:         case(2)
+        -:  517:!dvm$ redistribute
+        -:  518:!dvm$*    A3(BLOCK,GEN_BLOCK(BSaj11),GEN_BLOCK(BSak21))   
+        -:  519:!dvm$ redistribute
+        -:  520:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj11),GEN_BLOCK(BSbk21))   
+        -:  521:         case(3)
+        -:  522:!dvm$ redistribute
+        -:  523:!dvm$*    A3(BLOCK,GEN_BLOCK(BSaj11),GEN_BLOCK(BSak31))   
+        -:  524:!dvm$ redistribute
+        -:  525:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj11),GEN_BLOCK(BSbk31))   
+        -:  526:         case(4)
+        -:  527:!dvm$ redistribute
+        -:  528:!dvm$*    A3(BLOCK,GEN_BLOCK(BSaj11),GEN_BLOCK(BSak41))   
+        -:  529:!dvm$ redistribute
+        -:  530:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj11),GEN_BLOCK(BSbk41))   
+        -:  531:         case default 
+        1:  532:           goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  533:         endselect  
+        -:  534:
+        -:  535:      case(2)
+    #####:  536:         select case(psize(3))
+        -:  537:         case(1) 
+        -:  538:!dvm$ redistribute
+        -:  539:!dvm$*    A3(BLOCK,GEN_BLOCK(BSaj21),GEN_BLOCK(BSak11))   
+        -:  540:!dvm$ redistribute
+        -:  541:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj21),GEN_BLOCK(BSbk11))   
+        -:  542:         case(2)
+        -:  543:!dvm$ redistribute
+        -:  544:!dvm$*    A3(BLOCK,GEN_BLOCK(BSaj21),GEN_BLOCK(BSak21))   
+        -:  545:!dvm$ redistribute
+        -:  546:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj21),GEN_BLOCK(BSbk21))   
+        -:  547:         case(3)
+        -:  548:!dvm$ redistribute
+        -:  549:!dvm$*    A3(BLOCK,GEN_BLOCK(BSaj21),GEN_BLOCK(BSak31))   
+        -:  550:!dvm$ redistribute
+        -:  551:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj21),GEN_BLOCK(BSbk31))   
+        -:  552:         case(4)
+        -:  553:!dvm$ redistribute
+        -:  554:!dvm$*    A3(BLOCK,GEN_BLOCK(BSaj21),GEN_BLOCK(BSak41))   
+        -:  555:!dvm$ redistribute
+        -:  556:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj21),GEN_BLOCK(BSbk41))   
+        -:  557:         case default 
+    #####:  558:           goto 10
+branch  0 never executed
+branch  1 never executed
+        -:  559:         endselect  
+        -:  560:
+        -:  561:      case (3)
+    #####:  562:         select case(psize(3))
+        -:  563:         case(1) 
+        -:  564:!dvm$ redistribute
+        -:  565:!dvm$*    A3(BLOCK,GEN_BLOCK(BSaj31),GEN_BLOCK(BSak11))   
+        -:  566:!dvm$ redistribute
+        -:  567:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj31),GEN_BLOCK(BSbk11))   
+        -:  568:         case(2)
+        -:  569:!dvm$ redistribute
+        -:  570:!dvm$*    A3(BLOCK,GEN_BLOCK(BSaj31),GEN_BLOCK(BSak21))   
+        -:  571:!dvm$ redistribute
+        -:  572:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj31),GEN_BLOCK(BSbk21))   
+        -:  573:         case(3)
+        -:  574:!dvm$ redistribute
+        -:  575:!dvm$*    A3(BLOCK,GEN_BLOCK(BSaj31),GEN_BLOCK(BSak31))   
+        -:  576:!dvm$ redistribute
+        -:  577:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj31),GEN_BLOCK(BSbk31))   
+        -:  578:         case(4)
+        -:  579:!dvm$ redistribute
+        -:  580:!dvm$*    A3(BLOCK,GEN_BLOCK(BSaj31),GEN_BLOCK(BSak41))   
+        -:  581:!dvm$ redistribute
+        -:  582:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj31),GEN_BLOCK(BSbk41))   
+        -:  583:         case default 
+    #####:  584:           goto 10
+branch  0 never executed
+branch  1 never executed
+        -:  585:         endselect  
+        -:  586:
+        -:  587:      case (4)
+    #####:  588:         select case(psize(3))
+        -:  589:         case(1) 
+        -:  590:!dvm$ redistribute
+        -:  591:!dvm$*    A3(BLOCK,GEN_BLOCK(BSaj41),GEN_BLOCK(BSak11))   
+        -:  592:!dvm$ redistribute
+        -:  593:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj41),GEN_BLOCK(BSbk11))   
+        -:  594:         case(2)
+        -:  595:!dvm$ redistribute
+        -:  596:!dvm$*    A3(BLOCK,GEN_BLOCK(BSaj41),GEN_BLOCK(BSak21))   
+        -:  597:!dvm$ redistribute
+        -:  598:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj41),GEN_BLOCK(BSbk21))   
+        -:  599:         case(3)
+        -:  600:!dvm$ redistribute
+        -:  601:!dvm$*    A3(BLOCK,GEN_BLOCK(BSaj41),GEN_BLOCK(BSak31))   
+        -:  602:!dvm$ redistribute
+        -:  603:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj41),GEN_BLOCK(BSbk31))   
+        -:  604:         case(4)
+        -:  605:!dvm$ redistribute
+        -:  606:!dvm$*    A3(BLOCK,GEN_BLOCK(BSaj41),GEN_BLOCK(BSak41))   
+        -:  607:!dvm$ redistribute
+        -:  608:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj41),GEN_BLOCK(BSbk41))   
+        -:  609:         case default 
+    #####:  610:           goto 10
+branch  0 never executed
+branch  1 never executed
+        -:  611:         endselect  
+        -:  612:
+        -:  613:      case default 
+        1:  614:        goto 10
+branch  0 taken 100%
+branch  1 taken 0%
+branch  2 taken 0%
+branch  3 taken 0%
+branch  4 taken 0%
+        -:  615:      endselect  
+        -:  616:
+        -:  617:!dvm$ region   out (A3, B3)
+        -:  618:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       13:  619:      do i=1,AN1
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      217:  620:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     3480:  621:             do k=1,AN3
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     3468:  622:                A3(i,j,k) = i*NL/10 + j*NL/100 + k    
+        -:  623:             enddo
+        -:  624:          enddo
+        -:  625:      enddo
+        -:  626:
+        -:  627:!dvm$ parallel (i,j,k) on B3(i,j,k)
+       11:  628:      do i=1,BN1
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  629:          do j=1,BN2
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  630:             do k=1,BN3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1100:  631:                B3(i,j,k) = (i*NL/10 + j*NL/100 + k) * 2   
+        -:  632:             enddo
+        -:  633:          enddo
+        -:  634:      enddo
+        -:  635:!dvm$ end region   
+        -:  636:
+        -:  637:!!!!dvm$ redistribute A3(GEN_BLOCK(BSai2),BLOCK,BLOCK)   
+        -:  638:!!!!dvm$ redistribute B3(GEN_BLOCK(BSbi2),BLOCK,BLOCK)   
+        -:  639:
+        1:  640:      select case(psize(1))
+        -:  641:      case(1) 
+        -:  642:!dvm$ redistribute
+        -:  643:!dvm$*    A3(GEN_BLOCK(BSai11),BLOCK,BLOCK)   
+        -:  644:!dvm$ redistribute
+        -:  645:!dvm$*    B3(GEN_BLOCK(BSbi11),BLOCK,BLOCK)   
+        -:  646:      case(2)
+        -:  647:!dvm$ redistribute
+        -:  648:!dvm$*    A3(GEN_BLOCK(BSai21),BLOCK,BLOCK)   
+        -:  649:!dvm$ redistribute
+        -:  650:!dvm$*    B3(GEN_BLOCK(BSbi21),BLOCK,BLOCK)   
+        -:  651:      case(3)
+        -:  652:!dvm$ redistribute
+        -:  653:!dvm$*    A3(GEN_BLOCK(BSai31),BLOCK,BLOCK)   
+        -:  654:!dvm$ redistribute
+        -:  655:!dvm$*    B3(GEN_BLOCK(BSbi31),BLOCK,BLOCK)   
+        -:  656:      case(4)
+        -:  657:!dvm$ redistribute
+        -:  658:!dvm$*    A3(GEN_BLOCK(BSai41),BLOCK,BLOCK)   
+        -:  659:!dvm$ redistribute
+        -:  660:!dvm$*    B3(GEN_BLOCK(BSbi41),BLOCK,BLOCK)   
+        -:  661:      case default 
+        1:  662:         goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  663:      endselect  
+        -:  664:
+        -:  665:!dvm$ region  inout (A3, B3)
+        -:  666:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       13:  667:      do i=1,AN1
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      217:  668:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     3480:  669:             do k=1,AN3
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     3468:  670:                A3(i,j,k) = A3(i,j,k) * 2   
+        -:  671:             enddo
+        -:  672:          enddo
+        -:  673:      enddo
+        -:  674:!dvm$ parallel (i,j,k) on B3(i,j,k)
+       11:  675:      do i=1,BN1
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  676:          do j=1,BN2
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  677:             do k=1,BN3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1100:  678:                B3(i,j,k) = B3(i,j,k)/ 2   
+        -:  679:             enddo
+        -:  680:          enddo
+        -:  681:      enddo
+        -:  682:!dvm$ end region   
+        -:  683:
+        -:  684:!!!!dvm$ redistribute A3(GEN_BLOCK(BSai2),GEN_BLOCK(BSaj2),BLOCK)   
+        -:  685:!!!!dvm$ redistribute A3(GEN_BLOCK(BSbi2),GEN_BLOCK(BSbj2),BLOCK)   
+        -:  686:
+        -:  687:      select case(psize(1))
+        -:  688:      case(1)
+        -:  689:         select case(psize(2))
+        -:  690:         case(1) 
+        -:  691:!dvm$ redistribute
+        -:  692:!dvm$*    A3(GEN_BLOCK(BSai12),GEN_BLOCK(BSaj12),BLOCK)   
+        -:  693:!dvm$ redistribute
+        -:  694:!dvm$*    B3(GEN_BLOCK(BSbi12),GEN_BLOCK(BSbj12),BLOCK)   
+        -:  695:         case(2)
+        -:  696:!dvm$ redistribute
+        -:  697:!dvm$*    A3(GEN_BLOCK(BSai12),GEN_BLOCK(BSaj22),BLOCK)   
+        -:  698:!dvm$ redistribute
+        -:  699:!dvm$*    B3(GEN_BLOCK(BSbi12),GEN_BLOCK(BSbj22),BLOCK)   
+        -:  700:         case(3)
+        -:  701:!dvm$ redistribute
+        -:  702:!dvm$*    A3(GEN_BLOCK(BSai12),GEN_BLOCK(BSaj32),BLOCK)   
+        -:  703:!dvm$ redistribute
+        -:  704:!dvm$*    B3(GEN_BLOCK(BSbi12),GEN_BLOCK(BSbj32),BLOCK)   
+        -:  705:         case(4)
+        -:  706:!dvm$ redistribute
+        -:  707:!dvm$*    A3(GEN_BLOCK(BSai12),GEN_BLOCK(BSaj42),BLOCK)   
+        -:  708:!dvm$ redistribute
+        -:  709:!dvm$*    B3(GEN_BLOCK(BSbi12),GEN_BLOCK(BSbj42),BLOCK)   
+        -:  710:         case default 
+        -:  711:            goto 10
+        -:  712:         endselect  
+        -:  713:
+        -:  714:      case(2)
+        -:  715:         select case(psize(2))
+        -:  716:         case(1) 
+        -:  717:!dvm$ redistribute
+        -:  718:!dvm$*    A3(GEN_BLOCK(BSai22),GEN_BLOCK(BSaj12),BLOCK)   
+        -:  719:!dvm$ redistribute
+        -:  720:!dvm$*    B3(GEN_BLOCK(BSbi22),GEN_BLOCK(BSbj12),BLOCK)   
+        -:  721:         case(2)
+        -:  722:!dvm$ redistribute
+        -:  723:!dvm$*    A3(GEN_BLOCK(BSai22),GEN_BLOCK(BSaj22),BLOCK)   
+        -:  724:!dvm$ redistribute
+        -:  725:!dvm$*    B3(GEN_BLOCK(BSbi22),GEN_BLOCK(BSbj22),BLOCK)   
+        -:  726:         case(3)
+        -:  727:!dvm$ redistribute
+        -:  728:!dvm$*    A3(GEN_BLOCK(BSai22),GEN_BLOCK(BSaj32),BLOCK)   
+        -:  729:!dvm$ redistribute
+        -:  730:!dvm$*    B3(GEN_BLOCK(BSbi22),GEN_BLOCK(BSbj32),BLOCK)   
+        -:  731:         case(4)
+        -:  732:!dvm$ redistribute
+        -:  733:!dvm$*    A3(GEN_BLOCK(BSai22),GEN_BLOCK(BSaj42),BLOCK)   
+        -:  734:!dvm$ redistribute
+        -:  735:!dvm$*    B3(GEN_BLOCK(BSbi22),GEN_BLOCK(BSbj42),BLOCK)   
+        -:  736:         case default 
+        -:  737:            goto 10
+        -:  738:         endselect  
+        -:  739:
+        -:  740:      case (3)
+        -:  741:         select case(psize(2))
+        -:  742:         case(1) 
+        -:  743:!dvm$ redistribute
+        -:  744:!dvm$*    A3(GEN_BLOCK(BSai32),GEN_BLOCK(BSaj12),BLOCK)   
+        -:  745:!dvm$ redistribute
+        -:  746:!dvm$*    B3(GEN_BLOCK(BSbi32),GEN_BLOCK(BSbj12),BLOCK)   !rem
+        -:  747:         case(2)
+        -:  748:!dvm$ redistribute
+        -:  749:!dvm$*    A3(GEN_BLOCK(BSai32),GEN_BLOCK(BSaj22),BLOCK)   !rem
+        -:  750:!dvm$ redistribute
+        -:  751:!dvm$*    B3(GEN_BLOCK(BSbi32),GEN_BLOCK(BSbj22),BLOCK)   
+        -:  752:         case(3)
+        -:  753:!dvm$ redistribute
+        -:  754:!dvm$*    A3(GEN_BLOCK(BSai32),GEN_BLOCK(BSaj32),BLOCK)   
+        -:  755:!dvm$ redistribute
+        -:  756:!dvm$*    B3(GEN_BLOCK(BSbi32),GEN_BLOCK(BSbj32),BLOCK)   
+        -:  757:         case(4)
+        -:  758:!dvm$ redistribute
+        -:  759:!dvm$*    A3(GEN_BLOCK(BSai32),GEN_BLOCK(BSaj42),BLOCK)   
+        -:  760:!dvm$ redistribute
+        -:  761:!dvm$*    B3(GEN_BLOCK(BSbi32),GEN_BLOCK(BSbj42),BLOCK)   
+        -:  762:         case default 
+        -:  763:           goto 10
+        -:  764:         endselect  
+        -:  765:
+        -:  766:      case (4)
+        -:  767:         select case(psize(2))
+        -:  768:         case(1) 
+        -:  769:!dvm$ redistribute
+        -:  770:!dvm$*    A3(GEN_BLOCK(BSai42),GEN_BLOCK(BSaj12),BLOCK)   
+        -:  771:!dvm$ redistribute
+        -:  772:!dvm$*    B3(GEN_BLOCK(BSbi42),GEN_BLOCK(BSbj12),BLOCK)   
+        -:  773:         case(2)
+        -:  774:!dvm$ redistribute
+        -:  775:!dvm$*    A3(GEN_BLOCK(BSai42),GEN_BLOCK(BSaj22),BLOCK)   
+        -:  776:!dvm$ redistribute
+        -:  777:!dvm$*    B3(GEN_BLOCK(BSbi42),GEN_BLOCK(BSbj22),BLOCK)   
+        -:  778:         case(3)
+        -:  779:!dvm$ redistribute
+        -:  780:!dvm$*    A3(GEN_BLOCK(BSai42),GEN_BLOCK(BSaj32),BLOCK)   
+        -:  781:!dvm$ redistribute
+        -:  782:!dvm$*    B3(GEN_BLOCK(BSbi42),GEN_BLOCK(BSbj32),BLOCK)   
+        -:  783:         case(4)
+        -:  784:!dvm$ redistribute
+        -:  785:!dvm$*    A3(GEN_BLOCK(BSai42),GEN_BLOCK(BSaj42),BLOCK)   
+        -:  786:!dvm$ redistribute
+        -:  787:!dvm$*    B3(GEN_BLOCK(BSbi42),GEN_BLOCK(BSbj42),BLOCK)   
+        -:  788:         case default 
+        -:  789:            goto 10
+        -:  790:         endselect  
+        -:  791:
+        -:  792:      case default 
+        -:  793:         goto 10
+        -:  794:      endselect  
+        -:  795:
+        -:  796:!dvm$ actual(erria, errib)
+        -:  797:
+        -:  798:!dvm$ region inlocal (a3), inlocal (B3) 
+        -:  799:!dvm$ parallel (i,j,k) on A3(i,j,k), reduction(min(erria))
+       13:  800:      do i=1,AN1
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      217:  801:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     3480:  802:            do k=1,AN3
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     3264:  803:                A3(i,j,k) = A3(i,j,k)/ 2   
+     3468:  804:                if (A3(i,j,k) /= (i*NL/10 + j*NL/100 + k)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  805:                    erria = min(erria,i*NL/10 + j*NL/100 + k)
+        -:  806:                endif 
+        -:  807:            enddo
+        -:  808:          enddo
+        -:  809:      enddo
+        -:  810:!dvm$ parallel (i,j,k) on B3(i,j,k), reduction(min(errib))
+       11:  811:      do i=1,BN1
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  812:          do j=1,BN2
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  813:             do k=1,BN3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1100:  814:                if (B3(i,j,k) /= (i*NL/10 + j*NL/100 + k)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  815:                    errib = min(errib,i*NL/10 + j*NL/100 + k)
+        -:  816:                endif 
+        -:  817:             enddo
+        -:  818:          enddo
+        -:  819:      enddo
+        -:  820:!dvm$ end region   
+        -:  821:
+        -:  822:!dvm$ get_actual(erria, errib)
+        -:  823:
+        1:  824:      if ((erria == ER) .and. (errib == ER)) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+        1:  825:          call ansyes(tname)
+call    0 returned 100%
+        -:  826:      else
+    #####:  827:          call ansno(tname)
+call    0 never executed
+        -:  828:      endif 
+        -:  829:
+       1*:  830: 10   deallocate (A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  831:
+        1:  832:      end subroutine distrg33
+        -:  833:
+        -:  834:! ----------------------------------------------------distrg34
+        -:  835:! 34 DISTRIBUTE arrA3[GEN_BLOCK][GEN_BLOCK][GEN_BLOCK]    static  range 1 1 1
+        -:  836:!                REDISTRIBUTE [GEN_BLOCK][*][BLOCK]               range 1 2 2
+        -:  837:!     DISTRIBUTE arrB3[GEN_BLOCK][*][BLOCK]               static  range 2 4 2
+        -:  838:!                 REDISTRIBUTE [BLOCK][GEN_BLOCK][*]              range 3 1 2
+        -:  839:!                                                                 range 4 1 4
+function distrg34_ called 1 returned 100% blocks executed 96%
+        1:  840:      subroutine distrg34 (psize)
+        -:  841:      integer psize(3)
+        -:  842:
+        -:  843:      integer, parameter :: AN1=16,AN2=16,AN3=16,NL=1000,ER=10000
+        -:  844:      integer, parameter :: BN1=12,BN2=17,BN3=11
+        -:  845:      integer :: erria=ER, errib=ER,i,j,k
+        -:  846:
+        -:  847:      integer, dimension(1) :: BSai111=(/16/)       !range 1 1 1  
+        -:  848:      integer, dimension(1) :: BSaj111=(/16/)     
+        -:  849:      integer, dimension(1) :: BSak111=(/16/)     
+        -:  850:
+        -:  851:      integer, dimension(1) :: BSai11=(/16/)        !range 1 2 2  
+        -:  852:      integer, dimension(1) :: BSai12=(/16/)           
+        -:  853:      integer, dimension(2) :: BSaj11=(/6,10/)     
+        -:  854:      integer, dimension(2) :: BSaj12=(/4,12/)     
+        -:  855:      integer, dimension(2) :: BSak11=(/10,6/)     
+        -:  856:      integer, dimension(2) :: BSak12=(/12,4/)     
+        -:  857:
+        -:  858:      integer, dimension(2) :: BSai21=(/2,14/)      !range 2 4 2  
+        -:  859:      integer, dimension(2) :: BSai22=(/13,3/)     
+        -:  860:      integer, dimension(4) :: BSaj21=(/3,4,3,6/)     
+        -:  861:      integer, dimension(4) :: BSaj22=(/6,6,2,2/)     
+        -:  862:      integer, dimension(2) :: BSak21=(/1,15/)     
+        -:  863:      integer, dimension(2) :: BSak22=(/7,9/)    
+        -:  864:
+        -:  865:      integer, dimension(3) :: BSai31=(/3,2,11/)    !range 3 1 2  
+        -:  866:      integer, dimension(3) :: BSai32=(/2,12,2/)     
+        -:  867:      integer, dimension(1) :: BSaj31=(/16/)     
+        -:  868:      integer, dimension(1) :: BSaj32=(/16/)     
+        -:  869:      integer, dimension(2) :: BSak31=(/3,13/)     
+        -:  870:      integer, dimension(2) :: BSak32=(/4,12/)     
+        -:  871:
+        -:  872:      integer, dimension(4) :: BSai41=(/1,2,5,8/)   !range 4 1 4  
+        -:  873:      integer, dimension(4) :: BSai42=(/3,11,0,2/)     
+        -:  874:      integer, dimension(1) :: BSaj41=(/16/)     
+        -:  875:      integer, dimension(1) :: BSaj42=(/16/)     
+        -:  876:c      integer, dimension(4) :: BSak41=(/1,5,0,10/)     
+        -:  877:      integer, dimension(4) :: BSak41=(/1,5,2,8/)     !rem
+        -:  878:      integer, dimension(4) :: BSak42=(/6,2,5,3/)     
+        -:  879:
+        -:  880:      integer, dimension(1) :: BSbi111=(/12/)        !range 1 1 1  
+        -:  881:      integer, dimension(1) :: BSbj111=(/17/)     
+        -:  882:      integer, dimension(1) :: BSbk111=(/11/)     
+        -:  883:
+        -:  884:
+        -:  885:      integer, dimension(1) :: BSbi11=(/12/)        !range 1 2 2  
+        -:  886:      integer, dimension(1) :: BSbi12=(/12/)           
+        -:  887:      integer, dimension(2) :: BSbj11=(/6,11/)     
+        -:  888:      integer, dimension(2) :: BSbj12=(/14,3/)     
+        -:  889:      integer, dimension(2) :: BSbk11=(/10,1/)     
+        -:  890:      integer, dimension(2) :: BSbk12=(/4,7/)     
+        -:  891:
+        -:  892:      integer, dimension(2) :: BSbi21=(/5,7/)       !range 2 4 2  
+        -:  893:      integer, dimension(2) :: BSbi22=(/3,9/)     
+        -:  894:      integer, dimension(4) :: BSbj21=(/5,2,8,2/)     
+        -:  895:      integer, dimension(4) :: BSbj22=(/7,3,2,5/)     
+        -:  896:      integer, dimension(2) :: BSbk21=(/5,6/)     
+        -:  897:      integer, dimension(2) :: BSbk22=(/3,8/)    
+        -:  898:
+        -:  899:      integer, dimension(3) :: BSbi31=(/3,4,5/)     !range 3 1 2  
+        -:  900:      integer, dimension(3) :: BSbi32=(/4,6,2/)     
+        -:  901:      integer, dimension(1) :: BSbj31=(/17/)     
+        -:  902:      integer, dimension(1) :: BSbj32=(/17/)     
+        -:  903:      integer, dimension(2) :: BSbk31=(/4,7/)     
+        -:  904:      integer, dimension(2) :: BSbk32=(/8,3/)     
+        -:  905:
+        -:  906:      integer, dimension(4) :: BSbi41=(/4,1,5,2/)   !range 4 1 4  
+        -:  907:c      integer, dimension(4) :: BSbi42=(/3,4,2,4/)     
+        -:  908:      integer, dimension(4) :: BSbi42=(/3,4,2,3/)     
+        -:  909:      integer, dimension(1) :: BSbj41=(/17/)     
+        -:  910:      integer, dimension(1) :: BSbj42=(/17/)     
+        -:  911:c      integer, dimension(4) :: BSbk41=(/1,4,2,5/)     
+        -:  912:      integer, dimension(4) :: BSbk41=(/1,4,2,4/)     
+        -:  913:      integer, dimension(4) :: BSbk42=(/2,3,4,2/)     
+        -:  914:
+        -:  915:      integer A3(AN1,AN2,AN3), B3(BN1,BN2,BN3)
+        -:  916:      character(10), parameter :: tname='distrg34  '
+        -:  917:
+        -:  918:!dvm$ distribute :: A3
+        -:  919:!dvm$ distribute :: B3
+        -:  920:!dvm$ dynamic A3, B3
+        -:  921:
+        -:  922:!!!!dvm$ redistribute A3(GEN_BLOCK(BSai1),GEN_BLOCK(BSaj1),GEN_BLOCK(BSak1))   
+        -:  923:!!!!dvm$ redistribute B3(GEN_BLOCK(BSbi1),*, BLOCK)   
+        -:  924:
+        1:  925:      select case(psize(1))
+        -:  926:      case(1) 
+        -:  927:        if (psize(2) == 1 .and. psize(3) == 1) then
+        -:  928:!dvm$ redistribute
+        -:  929:!dvm$*    A3(GEN_BLOCK(BSai111),GEN_BLOCK(BSaj111),GEN_BLOCK(BSak111))   
+        -:  930:!dvm$ redistribute
+        -:  931:!dvm$*    B3(GEN_BLOCK(BSbi111),*, BLOCK)   
+        -:  932:         else
+        -:  933:!dvm$ redistribute
+        -:  934:!dvm$*    A3(GEN_BLOCK(BSai11),GEN_BLOCK(BSaj11),GEN_BLOCK(BSak11))   
+        -:  935:!dvm$ redistribute
+        -:  936:!dvm$*    B3(GEN_BLOCK(BSbi11),*, BLOCK)   
+        -:  937:         endif
+        -:  938:      case(2)
+        -:  939:!dvm$ redistribute
+        -:  940:!dvm$*    A3(GEN_BLOCK(BSai21),GEN_BLOCK(BSaj21),GEN_BLOCK(BSak21))   
+        -:  941:!dvm$ redistribute
+        -:  942:!dvm$*    B3(GEN_BLOCK(BSbi21),*, BLOCK)   
+        -:  943:      case(3)
+        -:  944:!dvm$ redistribute
+        -:  945:!dvm$*    A3(GEN_BLOCK(BSai31),GEN_BLOCK(BSaj31),GEN_BLOCK(BSak31))   
+        -:  946:!dvm$ redistribute
+        -:  947:!dvm$*    B3(GEN_BLOCK(BSbi31),*, BLOCK)   
+        -:  948:      case(4)
+        -:  949:!dvm$ redistribute
+        -:  950:!dvm$*    A3(GEN_BLOCK(BSai41),GEN_BLOCK(BSaj41),GEN_BLOCK(BSak41))   
+        -:  951:!dvm$ redistribute
+        -:  952:!dvm$*    B3(GEN_BLOCK(BSbi41),*, BLOCK)   
+        -:  953:      case default 
+        1:  954:        goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  955:      endselect  
+     4369:  956:      A3 = 10
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+branch  2 taken 94% (fallthrough)
+branch  3 taken 6%
+branch  4 taken 94% (fallthrough)
+branch  5 taken 6%
+     2443:  957:      B3 = 7
+branch  0 taken 8% (fallthrough)
+branch  1 taken 92%
+branch  2 taken 94% (fallthrough)
+branch  3 taken 6%
+branch  4 taken 92% (fallthrough)
+branch  5 taken 8%
+        -:  958:!dvm$ actual(A3, B3)
+        -:  959:
+        -:  960:!dvm$ region  in(A3,B3), out(A3,B3) 
+        -:  961:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       17:  962:      do i=1,AN1
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  963:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368:  964:             do k=1,AN3
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4352:  965:                A3(i,j,k) = A3(i,j,k) + i*NL/10 + j*NL/100 + k  
+        -:  966:             enddo
+        -:  967:          enddo
+        -:  968:      enddo
+        -:  969:   
+        -:  970:!dvm$ parallel (i,j,k) on B3(i,j,k)
+       13:  971:      do i=1,BN1
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      217:  972:          do j=1,BN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     2460:  973:             do k=1,BN3
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+     2448:  974:                B3(i,j,k) = B3(i,j,k) + (i*NL/10 + j*NL/100 + k)   
+        -:  975:             enddo
+        -:  976:          enddo
+        -:  977:      enddo
+        -:  978:!dvm$ end region   
+        -:  979:
+        -:  980:!!!!dvm$ redistribute A3(GEN_BLOCK(BSai1),*,BLOCK)   
+        -:  981:!!!!dvm$ redistribute B3(BLOCK, GEN_BLOCK(BSbj2),*)   
+        -:  982:
+        -:  983:      select case(psize(1))
+        -:  984:      case(1) 
+        -:  985:        if (psize(2) == 1 .and. psize(3) == 1) then
+        -:  986:!dvm$ redistribute
+        -:  987:!dvm$*    A3(GEN_BLOCK(BSai111),*,BLOCK)   
+        -:  988:!dvm$ redistribute
+        -:  989:!dvm$*    B3(BLOCK, GEN_BLOCK(BSbj111),*)   
+        -:  990:         else
+        -:  991:!dvm$ redistribute
+        -:  992:!dvm$*    A3(GEN_BLOCK(BSai12),*,BLOCK)   
+        -:  993:!dvm$ redistribute
+        -:  994:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj12),*)   
+        -:  995:          endif
+        -:  996:      case(2)
+        -:  997:!dvm$ redistribute
+        -:  998:!dvm$*    A3(GEN_BLOCK(BSai22),*,BLOCK)   
+        -:  999:!dvm$ redistribute
+        -: 1000:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj22),*)   
+        -: 1001:      case(3)
+        -: 1002:!dvm$ redistribute
+        -: 1003:!dvm$*    A3(GEN_BLOCK(BSai32),*,BLOCK)   
+        -: 1004:!dvm$ redistribute
+        -: 1005:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj32),*)   
+        -: 1006:      case(4)
+        -: 1007:!dvm$ redistribute
+        -: 1008:!dvm$*    A3(GEN_BLOCK(BSai42),*,BLOCK)   
+        -: 1009:!dvm$ redistribute
+        -: 1010:!dvm$*    B3(BLOCK,GEN_BLOCK(BSbj42),*)   
+        -: 1011:      case default 
+        -: 1012:      goto 10
+        -: 1013:      endselect  
+        -: 1014:
+        -: 1015:!dvm$ actual(erria, errib)
+        -: 1016:
+        -: 1017:!dvm$ region  
+        -: 1018:!dvm$ parallel (i,j,k) on A3(i,j,k), reduction(min(erria))
+       17: 1019:      do i=1,AN1
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273: 1020:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368: 1021:            do k=1,AN3
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4096: 1022:                A3(i,j,k) = A3(i,j,k) - 10   
+     4352: 1023:                if (A3(i,j,k) /= (i*NL/10 + j*NL/100 + k)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####: 1024:                    erria = min(erria,i*NL/10 + j*NL/100 + k)
+        -: 1025:                endif 
+        -: 1026:            enddo
+        -: 1027:          enddo
+        -: 1028:      enddo
+        -: 1029:!dvm$ parallel (i,j,k) on B3(i,j,k), reduction (min(errib))
+       13: 1030:      do i=1,BN1
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      217: 1031:          do j=1,BN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     2460: 1032:             do k=1,BN3
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+     2448: 1033:                if (B3(i,j,k) /= (i*NL/10 + j*NL/100 + k+ 7)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####: 1034:                    errib = min(errib,i*NL/10 + j*NL/100 + k)
+        -: 1035:                endif 
+        -: 1036:             enddo
+        -: 1037:          enddo
+        -: 1038:      enddo
+        -: 1039:!dvm$ end region   
+        -: 1040:
+        -: 1041:!dvm$ get_actual(erria, errib)
+        -: 1042:
+        1: 1043:      if ((erria == ER) .and. (errib == ER)) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+        1: 1044:          call ansyes(tname)
+call    0 returned 100%
+        -: 1045:      else
+    #####: 1046:          call ansno(tname)
+call    0 never executed
+        -: 1047:      endif 
+        -: 1048: 10   continue
+        1: 1049:      end subroutine distrg34
+        -: 1050:
+        -: 1051:! ----------------------------------------------------distrg35
+        -: 1052:! 35  DISTRIBUTE arrA3[GEN_BLOCK][GEN_BLOCK][GEN_BLOCK]         range 1 1 1
+        -: 1053:!                REDISTRIBUTE arrA2[*][*][*]                    range 1 3 2
+        -: 1054:!                REDISTRIBUTE [GEN_BLOCK][GEN_BLOCK][GEN_BLOCK] range 2 2 4
+        -: 1055:!                                                               range 3 2 2
+        -: 1056:!                                                               range 4 2 2
+function distrg35_ called 1 returned 100% blocks executed 91%
+        1: 1057:      subroutine distrg35 (psize)
+        -: 1058:      integer psize(3)
+        -: 1059:
+        -: 1060:      integer, parameter :: AN1=16,AN2=16,AN3=16,NL=1000,ER=10000
+        -: 1061:      integer :: erri=ER,i,j,k
+        -: 1062:
+        -: 1063:      integer, dimension(1) :: BSi111=(/16/)        !range 1 1 1  
+        -: 1064:      integer, dimension(1) :: BSj111=(/16/)     
+        -: 1065:      integer, dimension(1) :: BSk111=(/16/)     
+        -: 1066:
+        -: 1067:      integer, dimension(1) :: BSi11=(/16/)         !range 1 3 2  
+        -: 1068:      integer, dimension(1) :: BSi12=(/16/)           
+        -: 1069:      integer, dimension(3) :: BSj11=(/6,5,5/)     
+        -: 1070:      integer, dimension(3) :: BSj12=(/3,2, 11/)     
+        -: 1071:      integer, dimension(2) :: BSk11=(/12,4/)     
+        -: 1072:      integer, dimension(2) :: BSk12=(/10,6/)     
+        -: 1073:
+        -: 1074:      integer, dimension(2) :: BSi21=(/6,10/)       !range 2 2 4 
+        -: 1075:      integer, dimension(2) :: BSi22=(/1,15/)     
+        -: 1076:      integer, dimension(2) :: BSj21=(/4,12/)     
+        -: 1077:      integer, dimension(2) :: BSj22=(/5,11/)     
+        -: 1078:      integer, dimension(4) :: BSk21=(/10,4,1,1/)     
+        -: 1079:      integer, dimension(4) :: BSk22=(/5,3,2,6/)    
+        -: 1080:
+        -: 1081:      integer, dimension(3) :: BSi31=(/3,2,11/)     !range 3 2 2  
+        -: 1082:      integer, dimension(3) :: BSi32=(/12,1,3/)     
+        -: 1083:      integer, dimension(2) :: BSj31=(/6,10/)     
+        -: 1084:      integer, dimension(2) :: BSj32=(/4,12/)     
+        -: 1085:      integer, dimension(2) :: BSk31=(/3,13/)     
+        -: 1086:      integer, dimension(2) :: BSk32=(/15,1/)     
+        -: 1087:
+        -: 1088:      integer, dimension(4) :: BSi41=(/3,2,1,10/)   !range 4 2 2  
+        -: 1089:      integer, dimension(4) :: BSi42=(/4,8,2,2/)     
+        -: 1090:      integer, dimension(2) :: BSj41=(/13,3/)     
+        -: 1091:      integer, dimension(2) :: BSj42=(/12,4/)     
+        -: 1092:      integer, dimension(2) :: BSk41=(/7,9/)     
+        -: 1093:      integer, dimension(2) :: BSk42=(/10,6/)     
+        -: 1094:
+        1: 1095:      integer, allocatable :: A3(:,:,:)
+        -: 1096:      character(10), parameter :: tname='distrg35  '
+        -: 1097:
+        -: 1098:!dvm$ distribute ::A3
+        -: 1099:!dvm$ dynamic A3
+        -: 1100:
+       1*: 1101:      allocate (A3(AN1,AN2,AN3))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -: 1102:
+        -: 1103:!!!!dvm$ redistribute A3(GEN_BLOCK(BSi1),GEN_BLOCK(BSj1),GEN_BLOCK(BSk1))   
+        -: 1104:
+        1: 1105:      select case(psize(1))
+        -: 1106:      case(1) 
+        -: 1107:        if (psize(2) == 1 .and. psize(3) == 1) then
+        -: 1108:!dvm$ redistribute
+        -: 1109:!dvm$*    A3(GEN_BLOCK(BSi111),GEN_BLOCK(BSj111),GEN_BLOCK(BSk111))   
+        -: 1110:        else
+        -: 1111:!dvm$ redistribute
+        -: 1112:!dvm$*    A3(GEN_BLOCK(BSi11),GEN_BLOCK(BSj11),GEN_BLOCK(BSk11))   
+        -: 1113:        endif
+        -: 1114:      case(2)
+        -: 1115:!dvm$ redistribute
+        -: 1116:!dvm$*    A3(GEN_BLOCK(BSi21),GEN_BLOCK(BSj21),GEN_BLOCK(BSk21))   
+        -: 1117:      case(3)
+        -: 1118:!dvm$ redistribute
+        -: 1119:!dvm$*    A3(GEN_BLOCK(BSi31),GEN_BLOCK(BSj31),GEN_BLOCK(BSk31))   
+        -: 1120:      case(4)
+        -: 1121:!dvm$ redistribute
+        -: 1122:!dvm$*    A3(GEN_BLOCK(BSi41),GEN_BLOCK(BSj41),GEN_BLOCK(BSk41))   
+        -: 1123:      case default 
+        1: 1124:      goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 1125:      endselect  
+        -: 1126:
+        -: 1127:!dvm$ region  
+        -: 1128:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       17: 1129:      do i=1,AN1
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273: 1130:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368: 1131:             do k=1,AN3
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4352: 1132:                A3(i,j,k) = i*NL/10 + j*NL/100 + k + 3   
+        -: 1133:             enddo
+        -: 1134:          enddo
+        -: 1135:      enddo
+        -: 1136:!dvm$ end region   
+        -: 1137:
+        -: 1138:!dvm$ redistribute A3(*,*,*)    
+        -: 1139:
+        -: 1140:!dvm$ region  
+        -: 1141:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       17: 1142:      do i=1,AN1
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273: 1143:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368: 1144:             do k=1,AN3
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4352: 1145:                A3(i,j,k) = A3(i,j,k) + 3   
+        -: 1146:             enddo
+        -: 1147:          enddo
+        -: 1148:      enddo
+        -: 1149:!dvm$ end region   
+        -: 1150:
+        -: 1151:!!!!dvm$ redistribute A3(GEN_BLOCK(BSi2),GEN_BLOCK(BSj2),GEN_BLOCK(BSk2))   
+        -: 1152:
+        -: 1153:      select case(psize(1))
+        -: 1154:      case(1) 
+        -: 1155:        if (psize(2) == 1 .and. psize(3) == 1) then
+        -: 1156:!dvm$ redistribute
+        -: 1157:!dvm$*    A3(GEN_BLOCK(BSi111),GEN_BLOCK(BSj111),GEN_BLOCK(BSk111))   
+        -: 1158:        else
+        -: 1159:!dvm$ redistribute
+        -: 1160:!dvm$*    A3(GEN_BLOCK(BSi12),GEN_BLOCK(BSj12),GEN_BLOCK(BSk12))   
+        -: 1161:        endif
+        -: 1162:      case(2)
+        -: 1163:!dvm$ redistribute
+        -: 1164:!dvm$*    A3(GEN_BLOCK(BSi22),GEN_BLOCK(BSj22),GEN_BLOCK(BSk22))   
+        -: 1165:      case(3)
+        -: 1166:!dvm$ redistribute
+        -: 1167:!dvm$*    A3(GEN_BLOCK(BSi32),GEN_BLOCK(BSj32),GEN_BLOCK(BSk32))   
+        -: 1168:      case(4)
+        -: 1169:!dvm$ redistribute
+        -: 1170:!dvm$*    A3(GEN_BLOCK(BSi42),GEN_BLOCK(BSj42),GEN_BLOCK(BSk42))   
+        -: 1171:      case default 
+        -: 1172:         goto 10
+        -: 1173:      endselect  
+        -: 1174:
+        -: 1175:!dvm$ actual(erri)
+        -: 1176:
+        -: 1177:!dvm$ region  
+        -: 1178:!dvm$ parallel (i,j,k) on A3(i,j,k), reduction(min(erri))
+       17: 1179:      do i=1,AN1
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273: 1180:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368: 1181:            do k=1,AN3
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4352: 1182:                if (A3(i,j,k) /= (i*NL/10 + j*NL/100 + k + 6)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####: 1183:                    erri = min(erri,i*NL/10 + j*NL/100 + k)
+        -: 1184:                endif 
+        -: 1185:            enddo
+        -: 1186:          enddo
+        -: 1187:      enddo
+        -: 1188:!dvm$ end region   
+        -: 1189:     
+        -: 1190:!dvm$ get_actual(erri)
+        -: 1191:
+        1: 1192:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1: 1193:          call ansyes(tname)
+call    0 returned 100%
+        -: 1194:      else
+    #####: 1195:          call ansno(tname)
+call    0 never executed
+        -: 1196:      endif 
+        -: 1197:
+       1*: 1198: 10   deallocate (A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -: 1199:
+        1: 1200:      end subroutine distrg35
+        -: 1201:
+        -: 1202:! ----------------------------------------------------distrg36
+        -: 1203:! 36 DISTRIBUTE arrA3[GEN_BLOCK][BLOCK][GEN_BLOCK]   
+        -: 1204:!                REDISTRIBUTE [BLOCK][GEN_BLOCK][BLOCK]
+        -: 1205:!                REDISTRIBUTE [BLOCK][GEN_BLOCK][GEN_BLOCK]
+        -: 1206:!                REDISTRIBUTE [GEN_BLOCK][GEN_BLOCK][BLOCK]
+        -: 1207:
+function distrg36_ called 1 returned 100% blocks executed 86%
+        1: 1208:      subroutine distrg36 (psize)
+        -: 1209:      integer psize(3)
+        -: 1210:
+        -: 1211:      integer, parameter :: AN1=12,AN2=12,AN3=5,NL=1000,ER=10000
+        -: 1212:      integer :: erri=ER,i,j,k
+        -: 1213:
+        -: 1214:      integer, dimension(1) :: BSi11=(/12/)       
+        -: 1215:      integer, dimension(1) :: BSi12=(/12/)           
+        -: 1216:      integer, dimension(2) :: BSi21=(/10,2/)     
+        -: 1217:      integer, dimension(2) :: BSi22=(/4,8/)     
+        -: 1218:      integer, dimension(3) :: BSi31=(/4,2,6/)    
+        -: 1219:      integer, dimension(3) :: BSi32=(/6,4,2/)     
+        -: 1220:      integer, dimension(4) :: BSi41=(/4,2,4,2/)  
+        -: 1221:      integer, dimension(4) :: BSi42=(/4,1,6,1/)     
+        -: 1222:
+        -: 1223:      integer, dimension(1) :: BSj11=(/12/)     
+        -: 1224:      integer, dimension(1) :: BSj12=(/12/)     
+        -: 1225:      integer, dimension(2) :: BSj21=(/4,8/)     
+        -: 1226:      integer, dimension(2) :: BSj22=(/5,7/)     
+        -: 1227:      integer, dimension(3) :: BSj31=(/3,3,6/)     
+        -: 1228:      integer, dimension(3) :: BSj32=(/6,4,2/)     
+        -: 1229:      integer, dimension(4) :: BSj41=(/5,1,2,4/)     
+        -: 1230:      integer, dimension(4) :: BSj42=(/2,1,3,6/)     
+        -: 1231:
+        -: 1232:      integer, dimension(1) :: BSk11=(/5/)     
+        -: 1233:      integer, dimension(1) :: BSk12=(/5/)     
+        -: 1234:      integer, dimension(2) :: BSk21=(/0,5/)     
+        -: 1235:      integer, dimension(2) :: BSk22=(/3,2/)    
+        -: 1236:      integer, dimension(3) :: BSk31=(/2,2,1/)     
+        -: 1237:      integer, dimension(3) :: BSk32=(/1,1,3/)     
+        -: 1238:      integer, dimension(4) :: BSk41=(/1,0,2,2/)     
+        -: 1239:      integer, dimension(4) :: BSk42=(/1,0,1,3/)     
+        -: 1240:
+        1: 1241:      integer, allocatable :: A3(:,:,:)
+        -: 1242:      character(10), parameter :: tname='distrg36  '
+        -: 1243:
+        -: 1244:!dvm$ distribute :: A3
+        -: 1245:!dvm$ dynamic A3
+        -: 1246:
+       1*: 1247:      allocate (A3(AN1,AN2,AN3))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -: 1248:
+        -: 1249:!!!!dvm$ redistribute A3(GEN_BLOCK(BSi1),BLOCK,GEN_BLOCK(BSk1))   
+        -: 1250:
+        2: 1251:      select case(psize(1))
+        -: 1252:      case(1)
+       1*: 1253:          select case(psize(3))
+        -: 1254:              case(1) 
+        -: 1255:!dvm$ redistribute A3(GEN_BLOCK(BSi11),BLOCK,GEN_BLOCK(BSk11))    
+        -: 1256:              case(2)
+        -: 1257:!dvm$ redistribute A3(GEN_BLOCK(BSi11),BLOCK,GEN_BLOCK(BSk21))    
+        -: 1258:              case (3)
+        -: 1259:!dvm$ redistribute A3(GEN_BLOCK(BSi11),BLOCK,GEN_BLOCK(BSk31))    
+        -: 1260:              case(4)
+        -: 1261:!dvm$ redistribute A3(GEN_BLOCK(BSi11),BLOCK,GEN_BLOCK(BSk41))    
+        -: 1262:              case default 
+        1: 1263:                goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 1264:          endselect  
+        -: 1265:
+        -: 1266:      case(2)
+    #####: 1267:          select case(psize(3))
+        -: 1268:              case(1) 
+        -: 1269:!dvm$ redistribute A3(GEN_BLOCK(BSi21),BLOCK,GEN_BLOCK(BSk11))    
+        -: 1270:              case(2)
+        -: 1271:!dvm$ redistribute A3(GEN_BLOCK(BSi21),BLOCK,GEN_BLOCK(BSk21))    
+        -: 1272:              case (3)
+        -: 1273:!dvm$ redistribute A3(GEN_BLOCK(BSi21),BLOCK,GEN_BLOCK(BSk31))    
+        -: 1274:              case(4)
+        -: 1275:!dvm$ redistribute A3(GEN_BLOCK(BSi21),BLOCK,GEN_BLOCK(BSk41))    
+        -: 1276:              case default 
+    #####: 1277:                goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 1278:          endselect  
+        -: 1279:
+        -: 1280:      case (3)
+    #####: 1281:          select case(psize(3))
+        -: 1282:              case(1) 
+        -: 1283:!dvm$ redistribute A3(GEN_BLOCK(BSi31),BLOCK,GEN_BLOCK(BSk11))    
+        -: 1284:              case(2)
+        -: 1285:!dvm$ redistribute A3(GEN_BLOCK(BSi31),BLOCK,GEN_BLOCK(BSk21))    
+        -: 1286:              case (3)
+        -: 1287:!dvm$ redistribute A3(GEN_BLOCK(BSi31),BLOCK,GEN_BLOCK(BSk31))    
+        -: 1288:              case(4)
+        -: 1289:!dvm$ redistribute A3(GEN_BLOCK(BSi31),BLOCK,GEN_BLOCK(BSk41))    
+        -: 1290:              case default 
+    #####: 1291:                 goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 1292:          endselect  
+        -: 1293:
+        -: 1294:      case(4)
+    #####: 1295:          select case(psize(3))
+        -: 1296:              case(1) 
+        -: 1297:!dvm$ redistribute A3(GEN_BLOCK(BSi41),BLOCK,GEN_BLOCK(BSk11))    
+        -: 1298:              case(2)
+        -: 1299:!dvm$ redistribute A3(GEN_BLOCK(BSi41),BLOCK,GEN_BLOCK(BSk21))    
+        -: 1300:              case (3)
+        -: 1301:!dvm$ redistribute A3(GEN_BLOCK(BSi41),BLOCK,GEN_BLOCK(BSk31))    
+        -: 1302:              case(4)
+        -: 1303:!dvm$ redistribute A3(GEN_BLOCK(BSi41),BLOCK,GEN_BLOCK(BSk41))    
+        -: 1304:              case default 
+    #####: 1305:                 goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 1306:          endselect  
+        -: 1307:
+        -: 1308:      case default 
+        1: 1309:         goto 10
+branch  0 taken 100%
+branch  1 taken 0%
+branch  2 taken 0%
+branch  3 taken 0%
+branch  4 taken 0%
+        -: 1310:      endselect  
+        -: 1311:
+        -: 1312:!dvm$ region  
+        -: 1313:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       13: 1314:      do i=1,AN1
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      157: 1315:          do j=1,AN2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      876: 1316:             do k=1,AN3
+branch  0 taken 83% (fallthrough)
+branch  1 taken 17%
+      864: 1317:                A3(i,j,k) = i*NL/10 + j*NL/100 + k    
+        -: 1318:             enddo
+        -: 1319:          enddo
+        -: 1320:      enddo
+        -: 1321:!dvm$ end region   
+        -: 1322:
+        -: 1323:!!!!dvm$ redistribute A3(BLOCK,GEN_BLOCK(BSj1),BLOCK)   
+        -: 1324:
+        1: 1325:      select case(psize(2))
+        -: 1326:      case(1) 
+        -: 1327:!dvm$ redistribute  A3(BLOCK,GEN_BLOCK(BSj11),BLOCK)   
+        -: 1328:      case(2)
+        -: 1329:!dvm$ redistribute  A3(BLOCK,GEN_BLOCK(BSj21),BLOCK)   
+        -: 1330:      case(3)
+        -: 1331:!dvm$ redistribute  A3(BLOCK,GEN_BLOCK(BSj31),BLOCK)   
+        -: 1332:      case(4)
+        -: 1333:!dvm$ redistribute  A3(BLOCK,GEN_BLOCK(BSj41),BLOCK)   
+        -: 1334:      case default 
+        1: 1335:         goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 1336:      endselect  
+        -: 1337:
+        -: 1338:!dvm$ region  
+        -: 1339:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       13: 1340:      do i=1,AN1
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      157: 1341:          do j=1,AN2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      876: 1342:             do k=1,AN3
+branch  0 taken 83% (fallthrough)
+branch  1 taken 17%
+      864: 1343:                A3(i,j,k) = A3(i,j,k) * 2   
+        -: 1344:             enddo
+        -: 1345:          enddo
+        -: 1346:      enddo
+        -: 1347:!dvm$ end region   
+        -: 1348:
+        -: 1349:!!!!dvm$  redistribute A3(BLOCK,GEN_BLOCK(BSj2),GEN_BLOCK(BSk2))   
+        -: 1350:
+        1: 1351:      select case(psize(2))
+        -: 1352:      case(1)
+       1*: 1353:         select case(psize(3))
+        -: 1354:         case(1) 
+        -: 1355:!dvm$ redistribute
+        -: 1356:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj12),GEN_BLOCK(BSk12))   
+        -: 1357:         case(2)
+        -: 1358:!dvm$ redistribute
+        -: 1359:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj12),GEN_BLOCK(BSk22))   
+        -: 1360:         case(3)
+        -: 1361:!dvm$ redistribute
+        -: 1362:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj12),GEN_BLOCK(BSk32))   
+        -: 1363:         case(4)
+        -: 1364:!dvm$ redistribute
+        -: 1365:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj12),GEN_BLOCK(BSk42))   
+        -: 1366:         case default 
+        1: 1367:            goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 1368:         endselect  
+        -: 1369:
+        -: 1370:      case(2)
+    #####: 1371:         select case(psize(3))
+        -: 1372:         case(1) 
+        -: 1373:!dvm$ redistribute
+        -: 1374:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj22),GEN_BLOCK(BSk12))   
+        -: 1375:         case(2)
+        -: 1376:!dvm$ redistribute
+        -: 1377:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj22),GEN_BLOCK(BSk22))   
+        -: 1378:         case(3)
+        -: 1379:!dvm$ redistribute
+        -: 1380:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj22),GEN_BLOCK(BSk32))   
+        -: 1381:         case(4)
+        -: 1382:!dvm$ redistribute
+        -: 1383:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj22),GEN_BLOCK(BSk42))   
+        -: 1384:         case default 
+    #####: 1385:            goto 10               
+branch  0 never executed
+branch  1 never executed
+        -: 1386:         endselect  
+        -: 1387:
+        -: 1388:      case (3)
+    #####: 1389:         select case(psize(3))
+        -: 1390:         case(1) 
+        -: 1391:!dvm$ redistribute
+        -: 1392:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj32),GEN_BLOCK(BSk12))   
+        -: 1393:         case(2)
+        -: 1394:!dvm$ redistribute
+        -: 1395:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj32),GEN_BLOCK(BSk22))   
+        -: 1396:         case(3)
+        -: 1397:!dvm$ redistribute
+        -: 1398:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj32),GEN_BLOCK(BSk32))   
+        -: 1399:         case(4)
+        -: 1400:!dvm$ redistribute
+        -: 1401:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj32),GEN_BLOCK(BSk42))   
+        -: 1402:         case default 
+    #####: 1403:            goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 1404:         endselect  
+        -: 1405:
+        -: 1406:      case (4)
+    #####: 1407:         select case(psize(3))
+        -: 1408:         case(1) 
+        -: 1409:!dvm$ redistribute
+        -: 1410:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj42),GEN_BLOCK(BSk12))   
+        -: 1411:         case(2)
+        -: 1412:!dvm$ redistribute
+        -: 1413:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj42),GEN_BLOCK(BSk22))   
+        -: 1414:         case(3)
+        -: 1415:!dvm$ redistribute
+        -: 1416:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj42),GEN_BLOCK(BSk32))   
+        -: 1417:         case(4)
+        -: 1418:!dvm$ redistribute
+        -: 1419:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj42),GEN_BLOCK(BSk42))   
+        -: 1420:         case default 
+    #####: 1421:            goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 1422:         endselect  
+        -: 1423:
+        -: 1424:      case default 
+        1: 1425:         goto 10
+branch  0 taken 100%
+branch  1 taken 0%
+branch  2 taken 0%
+branch  3 taken 0%
+        -: 1426:      endselect  
+        -: 1427:
+        -: 1428:!dvm$ region  
+        -: 1429:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       13: 1430:      do i=1,AN1
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      157: 1431:          do j=1,AN2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      876: 1432:             do k=1,AN3
+branch  0 taken 83% (fallthrough)
+branch  1 taken 17%
+      864: 1433:                A3(i,j,k) = A3(i,j,k) * 2   
+        -: 1434:             enddo
+        -: 1435:          enddo
+        -: 1436:      enddo
+        -: 1437:!dvm$ end region   
+        -: 1438:
+        -: 1439:!!!!dvm$  redistribute A3(GEN_BLOCK(BSi2),GEN_BLOCK(BSj2),BLOCK)   
+        -: 1440:
+        -: 1441:      select case(psize(1))
+        -: 1442:      case(1)
+        -: 1443:         select case(psize(2))
+        -: 1444:         case(1) 
+        -: 1445:!dvm$ redistribute
+        -: 1446:!dvm$*    A3(GEN_BLOCK(BSi12),GEN_BLOCK(BSj12),BLOCK)   
+        -: 1447:         case(2)
+        -: 1448:!dvm$ redistribute
+        -: 1449:!dvm$*    A3(GEN_BLOCK(BSi12),GEN_BLOCK(BSj22),BLOCK)   
+        -: 1450:         case(3)
+        -: 1451:!dvm$ redistribute
+        -: 1452:!dvm$*    A3(GEN_BLOCK(BSi12),GEN_BLOCK(BSj32),BLOCK)   
+        -: 1453:         case(4)
+        -: 1454:!dvm$ redistribute
+        -: 1455:!dvm$*    A3(GEN_BLOCK(BSi12),GEN_BLOCK(BSj42),BLOCK)   
+        -: 1456:         case default 
+        -: 1457:            goto 10
+        -: 1458:         endselect  
+        -: 1459:
+        -: 1460:      case(2)
+        -: 1461:         select case(psize(2))
+        -: 1462:         case(1) 
+        -: 1463:!dvm$ redistribute
+        -: 1464:!dvm$*    A3(GEN_BLOCK(BSi22),GEN_BLOCK(BSj12),BLOCK)   
+        -: 1465:         case(2)
+        -: 1466:!dvm$ redistribute
+        -: 1467:!dvm$*    A3(GEN_BLOCK(BSi22),GEN_BLOCK(BSj22),BLOCK)   
+        -: 1468:         case(3)
+        -: 1469:!dvm$ redistribute
+        -: 1470:!dvm$*    A3(GEN_BLOCK(BSi22),GEN_BLOCK(BSj32),BLOCK)   
+        -: 1471:         case(4)
+        -: 1472:!dvm$ redistribute
+        -: 1473:!dvm$*    A3(GEN_BLOCK(BSi22),GEN_BLOCK(BSj42),BLOCK)   
+        -: 1474:         case default 
+        -: 1475:            goto 10
+        -: 1476:         endselect  
+        -: 1477:
+        -: 1478:      case (3)
+        -: 1479:         select case(psize(2))
+        -: 1480:         case(1) 
+        -: 1481:!dvm$ redistribute
+        -: 1482:!dvm$*    A3(GEN_BLOCK(BSi32),GEN_BLOCK(BSj12),BLOCK)   
+        -: 1483:         case(2)
+        -: 1484:!dvm$ redistribute
+        -: 1485:!dvm$*    A3(GEN_BLOCK(BSi32),GEN_BLOCK(BSj22),BLOCK)   
+        -: 1486:         case(3)
+        -: 1487:!dvm$ redistribute
+        -: 1488:!dvm$*    A3(GEN_BLOCK(BSi32),GEN_BLOCK(BSj32),BLOCK)   
+        -: 1489:         case(4)
+        -: 1490:!dvm$ redistribute
+        -: 1491:!dvm$*    A3(GEN_BLOCK(BSi32),GEN_BLOCK(BSj42),BLOCK)   
+        -: 1492:         case default 
+        -: 1493:            goto 10
+        -: 1494:         endselect  
+        -: 1495:
+        -: 1496:      case (4)
+        -: 1497:         select case(psize(2))
+        -: 1498:         case(1) 
+        -: 1499:!dvm$ redistribute
+        -: 1500:!dvm$*    A3(GEN_BLOCK(BSi42),GEN_BLOCK(BSj12),BLOCK)   
+        -: 1501:         case(2)
+        -: 1502:!dvm$ redistribute
+        -: 1503:!dvm$*    A3(GEN_BLOCK(BSi42),GEN_BLOCK(BSj22),BLOCK)   
+        -: 1504:         case(3)
+        -: 1505:!dvm$ redistribute
+        -: 1506:!dvm$*    A3(GEN_BLOCK(BSi42),GEN_BLOCK(BSj32),BLOCK)   
+        -: 1507:         case(4)
+        -: 1508:!dvm$ redistribute
+        -: 1509:!dvm$*    A3(GEN_BLOCK(BSi42),GEN_BLOCK(BSj42),BLOCK)   
+        -: 1510:         case default 
+        -: 1511:            goto 10
+        -: 1512:         endselect  
+        -: 1513:
+        -: 1514:      case default 
+        -: 1515:         goto 10
+        -: 1516:      endselect  
+        -: 1517:
+        -: 1518:!dvm$ actual(erri)
+        -: 1519:
+        -: 1520:!dvm$ region  
+        -: 1521:!dvm$ parallel (i,j,k) on A3(i,j,k), reduction(min(erri))
+       13: 1522:      do i=1,AN1
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      157: 1523:          do j=1,AN2
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      876: 1524:            do k=1,AN3
+branch  0 taken 83% (fallthrough)
+branch  1 taken 17%
+      720: 1525:                A3(i,j,k) = A3(i,j,k) / 4   
+      864: 1526:                if (A3(i,j,k) /= (i*NL/10 + j*NL/100 + k)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####: 1527:                    erri = min(erri,i*NL/10 + j*NL/100 + k)
+        -: 1528:                endif 
+        -: 1529:            enddo
+        -: 1530:          enddo
+        -: 1531:      enddo
+        -: 1532:!dvm$ end region   
+        -: 1533:     
+        -: 1534:!dvm$ get_actual(erri)
+        -: 1535:
+        1: 1536:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1: 1537:          call ansyes(tname)
+call    0 returned 100%
+        -: 1538:      else
+    #####: 1539:          call ansno(tname)
+call    0 never executed
+        -: 1540:      endif 
+        -: 1541:
+       1*: 1542: 10   deallocate (A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -: 1543:
+        1: 1544:      end subroutine distrg36
+        -: 1545:
+        -: 1546:! ----------------------------------------------------distrg37
+        -: 1547:! 37 DISTRIBUTE arrA3[GEN_BLOCK][GEN_BLOCK][BLOCK]    
+        -: 1548:!                REDISTRIBUTE [BLOCK][GEN_BLOCK][BLOCK]
+        -: 1549:!                REDISTRIBUTE [BLOCK][GEN_BLOCK][GEN_BLOCK]
+        -: 1550:!                REDISTRIBUTE [GEN_BLOCK][BLOCK][GEN_BLOCK]
+        -: 1551:
+function distrg37_ called 1 returned 100% blocks executed 82%
+        1: 1552:      subroutine distrg37 (psize)
+        -: 1553:      integer psize(3)
+        -: 1554:
+        -: 1555:      integer, parameter :: AN1=10,AN2=15,AN3=15,NL=1000,ER=10000
+        -: 1556:      integer :: erri=ER,i,j,k
+        -: 1557:
+        -: 1558:      integer, dimension(1) :: BSi11=(/10/)         
+        -: 1559:      integer, dimension(1) :: BSi12=(/10/)           
+        -: 1560:      integer, dimension(2) :: BSi21=(/6,4/)        
+        -: 1561:      integer, dimension(2) :: BSi22=(/2,8/)     
+        -: 1562:      integer, dimension(3) :: BSi31=(/2,3,5/)      
+        -: 1563:      integer, dimension(3) :: BSi32=(/3,4,3/)     
+        -: 1564:      integer, dimension(4) :: BSi41=(/4,1,3,2/)    
+        -: 1565:      integer, dimension(4) :: BSi42=(/3,3,2,2/)     
+        -: 1566:
+        -: 1567:      integer, dimension(1) :: BSj11=(/15/)     
+        -: 1568:      integer, dimension(1) :: BSj12=(/15/)     
+        -: 1569:      integer, dimension(2) :: BSj21=(/3,12/)     
+        -: 1570:      integer, dimension(2) :: BSj22=(/10,5/)     
+        -: 1571:      integer, dimension(3) :: BSj31=(/6,4,5/)     
+        -: 1572:      integer, dimension(3) :: BSj32=(/3,2,10/)     
+        -: 1573:      integer, dimension(4) :: BSj41=(/5,2,3,5/)     
+        -: 1574:      integer, dimension(4) :: BSj42=(/2,4,8,1/)     
+        -: 1575:
+        -: 1576:      integer, dimension(1) :: BSk11=(/15/)     
+        -: 1577:      integer, dimension(1) :: BSk12=(/15/)     
+        -: 1578:      integer, dimension(2) :: BSk21=(/10,5/)     
+        -: 1579:      integer, dimension(2) :: BSk22=(/7,8/)    
+        -: 1580:      integer, dimension(3) :: BSk31=(/1,11,3/)     
+        -: 1581:      integer, dimension(3) :: BSk32=(/5,7,3/)     
+        -: 1582:      integer, dimension(4) :: BSk41=(/3,4,2,6/)     
+        -: 1583:      integer, dimension(4) :: BSk42=(/4,2,5,4/)     
+        -: 1584:
+        1: 1585:      integer, allocatable :: A3(:,:,:)
+        -: 1586:      character(10), parameter :: tname='distrg37  '
+        -: 1587:
+        -: 1588:!dvm$ distribute :: A3 
+        -: 1589:!dvm$ dynamic A3
+        -: 1590:
+       1*: 1591:      allocate (A3(AN1,AN2,AN3))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -: 1592:
+        -: 1593:!!!!dvm$ distribute A3(GEN_BLOCK(BSi1),GEN_BLOCK(BSj1),BLOCK)   
+        -: 1594:
+        2: 1595:      select case(psize(1))
+        -: 1596:      case(1)
+       1*: 1597:         select case(psize(2))
+        -: 1598:         case(1) 
+        -: 1599:!dvm$ redistribute
+        -: 1600:!dvm$*    A3(GEN_BLOCK(BSi11),GEN_BLOCK(BSj11),BLOCK)   
+        -: 1601:         case(2)
+        -: 1602:!dvm$ redistribute
+        -: 1603:!dvm$*    A3(GEN_BLOCK(BSi11),GEN_BLOCK(BSj21),BLOCK)   
+        -: 1604:         case(3)
+        -: 1605:!dvm$ redistribute
+        -: 1606:!dvm$*    A3(GEN_BLOCK(BSi11),GEN_BLOCK(BSj31),BLOCK)   
+        -: 1607:         case(4)
+        -: 1608:!dvm$ redistribute
+        -: 1609:!dvm$*    A3(GEN_BLOCK(BSi11),GEN_BLOCK(BSj41),BLOCK)   
+        -: 1610:         case default 
+        1: 1611:            goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 1612:         endselect  
+        -: 1613:
+        -: 1614:      case(2)
+    #####: 1615:         select case(psize(2))
+        -: 1616:         case(1) 
+        -: 1617:!dvm$ redistribute
+        -: 1618:!dvm$*    A3(GEN_BLOCK(BSi21),GEN_BLOCK(BSj11),BLOCK)   
+        -: 1619:         case(2)
+        -: 1620:!dvm$ redistribute
+        -: 1621:!dvm$*    A3(GEN_BLOCK(BSi21),GEN_BLOCK(BSj21),BLOCK)   
+        -: 1622:         case(3)
+        -: 1623:!dvm$ redistribute
+        -: 1624:!dvm$*    A3(GEN_BLOCK(BSi21),GEN_BLOCK(BSj31),BLOCK)   
+        -: 1625:         case(4)
+        -: 1626:!dvm$ redistribute
+        -: 1627:!dvm$*    A3(GEN_BLOCK(BSi21),GEN_BLOCK(BSj41),BLOCK)   
+        -: 1628:         case default 
+    #####: 1629:            goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 1630:         endselect  
+        -: 1631:
+        -: 1632:      case (3)
+    #####: 1633:         select case(psize(2))
+        -: 1634:         case(1) 
+        -: 1635:!dvm$ redistribute
+        -: 1636:!dvm$*    A3(GEN_BLOCK(BSi31),GEN_BLOCK(BSj11),BLOCK)   
+        -: 1637:         case(2)
+        -: 1638:!dvm$ redistribute
+        -: 1639:!dvm$*    A3(GEN_BLOCK(BSi31),GEN_BLOCK(BSj21),BLOCK)   
+        -: 1640:         case(3)
+        -: 1641:!dvm$ redistribute
+        -: 1642:!dvm$*    A3(GEN_BLOCK(BSi31),GEN_BLOCK(BSj31),BLOCK)   
+        -: 1643:         case(4)
+        -: 1644:!dvm$ redistribute
+        -: 1645:!dvm$*    A3(GEN_BLOCK(BSi31),GEN_BLOCK(BSj41),BLOCK)   
+        -: 1646:         case default 
+    #####: 1647:            goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 1648:         endselect  
+        -: 1649:
+        -: 1650:      case (4)
+    #####: 1651:         select case(psize(2))
+        -: 1652:         case(1) 
+        -: 1653:!dvm$ redistribute
+        -: 1654:!dvm$*    A3(GEN_BLOCK(BSi41),GEN_BLOCK(BSj11),BLOCK)   
+        -: 1655:         case(2)
+        -: 1656:!dvm$ redistribute
+        -: 1657:!dvm$*    A3(GEN_BLOCK(BSi41),GEN_BLOCK(BSj21),BLOCK)   
+        -: 1658:         case(3)
+        -: 1659:!dvm$ redistribute
+        -: 1660:!dvm$*    A3(GEN_BLOCK(BSi41),GEN_BLOCK(BSj31),BLOCK)   
+        -: 1661:         case(4)
+        -: 1662:!dvm$ redistribute
+        -: 1663:!dvm$*    A3(GEN_BLOCK(BSi41),GEN_BLOCK(BSj41),BLOCK)   
+        -: 1664:         case default 
+    #####: 1665:            goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 1666:         endselect  
+        -: 1667:
+        -: 1668:      case default 
+        1: 1669:         goto 10
+branch  0 taken 100%
+branch  1 taken 0%
+branch  2 taken 0%
+branch  3 taken 0%
+branch  4 taken 0%
+        -: 1670:      endselect  
+        -: 1671:
+        -: 1672:!dvm$ region  
+        -: 1673:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       11: 1674:      do i=1,AN1
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      161: 1675:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     2410: 1676:             do k=1,AN3
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     2400: 1677:                A3(i,j,k) = i*NL/10 + j*NL/100 + k    
+        -: 1678:             enddo
+        -: 1679:          enddo
+        -: 1680:      enddo
+        -: 1681:!dvm$ end region   
+        -: 1682:
+        -: 1683:!!!!dvm$ redistribute A3(BLOCK,GEN_BLOCK(BSj2),BLOCK)   
+        -: 1684:
+        1: 1685:      select case(psize(2))
+        -: 1686:      case(1) 
+        -: 1687:!dvm$ redistribute
+        -: 1688:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj12),BLOCK)   
+        -: 1689:      case(2)
+        -: 1690:!dvm$ redistribute
+        -: 1691:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj22),BLOCK)   
+        -: 1692:      case(3)
+        -: 1693:!dvm$ redistribute
+        -: 1694:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj32),BLOCK)   
+        -: 1695:      case(4)
+        -: 1696:!dvm$ redistribute
+        -: 1697:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj42),BLOCK)   
+        -: 1698:      case default 
+        1: 1699:         goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 1700:      endselect  
+        -: 1701:
+        -: 1702:!dvm$ region  
+        -: 1703:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       11: 1704:      do i=1,AN1
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      161: 1705:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     2410: 1706:             do k=1,AN3
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     2400: 1707:                A3(i,j,k) = A3(i,j,k) * 2   
+        -: 1708:             enddo
+        -: 1709:          enddo
+        -: 1710:      enddo
+        -: 1711:!dvm$ end region   
+        -: 1712:
+        -: 1713:!!!!dvm$ redistribute A3(BLOCK,GEN_BLOCK(BSj1),GEN_BLOCK(BSk1))   
+        -: 1714:
+        1: 1715:      select case(psize(2))
+        -: 1716:      case(1)
+       1*: 1717:         select case(psize(3))
+        -: 1718:         case(1) 
+        -: 1719:!dvm$ redistribute
+        -: 1720:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj11),GEN_BLOCK(BSk11))   
+        -: 1721:         case(2)
+        -: 1722:!dvm$ redistribute
+        -: 1723:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj11),GEN_BLOCK(BSk21))   
+        -: 1724:         case(3)
+        -: 1725:!dvm$ redistribute
+        -: 1726:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj11),GEN_BLOCK(BSk31))   
+        -: 1727:         case(4)
+        -: 1728:!dvm$ redistribute
+        -: 1729:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj11),GEN_BLOCK(BSk41))   
+        -: 1730:         case default 
+        1: 1731:            goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 1732:         endselect  
+        -: 1733:
+        -: 1734:      case(2)
+    #####: 1735:         select case(psize(3))
+        -: 1736:         case(1) 
+        -: 1737:!dvm$ redistribute
+        -: 1738:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj21),GEN_BLOCK(BSk11))   
+        -: 1739:         case(2)
+        -: 1740:!dvm$ redistribute
+        -: 1741:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj21),GEN_BLOCK(BSk21))   
+        -: 1742:         case(3)
+        -: 1743:!dvm$ redistribute
+        -: 1744:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj21),GEN_BLOCK(BSk31))   
+        -: 1745:         case(4)
+        -: 1746:!dvm$ redistribute
+        -: 1747:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj21),GEN_BLOCK(BSk41))   
+        -: 1748:         case default 
+    #####: 1749:            goto 10               
+branch  0 never executed
+branch  1 never executed
+        -: 1750:         endselect  
+        -: 1751:
+        -: 1752:      case (3)
+    #####: 1753:         select case(psize(3))
+        -: 1754:         case(1) 
+        -: 1755:!dvm$ redistribute
+        -: 1756:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj31),GEN_BLOCK(BSk11))   
+        -: 1757:         case(2)
+        -: 1758:!dvm$ redistribute
+        -: 1759:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj31),GEN_BLOCK(BSk21))   
+        -: 1760:         case(3)
+        -: 1761:!dvm$ redistribute
+        -: 1762:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj31),GEN_BLOCK(BSk31))   
+        -: 1763:         case(4)
+        -: 1764:!dvm$ redistribute
+        -: 1765:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj31),GEN_BLOCK(BSk41))   
+        -: 1766:         case default 
+    #####: 1767:            goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 1768:         endselect  
+        -: 1769:
+        -: 1770:      case (4)
+    #####: 1771:         select case(psize(3))
+        -: 1772:         case(1) 
+        -: 1773:!dvm$ redistribute
+        -: 1774:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj41),GEN_BLOCK(BSk11))   
+        -: 1775:         case(2)
+        -: 1776:!dvm$ redistribute
+        -: 1777:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj41),GEN_BLOCK(BSk21))   
+        -: 1778:         case(3)
+        -: 1779:!dvm$ redistribute
+        -: 1780:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj41),GEN_BLOCK(BSk31))   
+        -: 1781:         case(4)
+        -: 1782:!dvm$ redistribute
+        -: 1783:!dvm$*    A3(BLOCK,GEN_BLOCK(BSj41),GEN_BLOCK(BSk41))   
+        -: 1784:         case default 
+    #####: 1785:            goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 1786:         endselect  
+        -: 1787:
+        -: 1788:      case default 
+        1: 1789:         goto 10
+branch  0 taken 100%
+branch  1 taken 0%
+branch  2 taken 0%
+branch  3 taken 0%
+        -: 1790:      endselect  
+        -: 1791:
+        -: 1792:!dvm$ region  
+        -: 1793:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       11: 1794:      do i=1,AN1
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      161: 1795:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     2410: 1796:             do k=1,AN3
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     2400: 1797:                A3(i,j,k) = A3(i,j,k) * 2   
+        -: 1798:             enddo
+        -: 1799:          enddo
+        -: 1800:      enddo
+        -: 1801:!dvm$ end region   
+        -: 1802:
+        -: 1803:!!!!dvm$ redistribute A3(GEN_BLOCK(BSi2),BLOCK,GEN_BLOCK(BSk2))   
+        -: 1804:
+        1: 1805:      select case(psize(1))
+        -: 1806:      case(1)
+       1*: 1807:          select case(psize(3))
+        -: 1808:          case(1) 
+        -: 1809:!dvm$ redistribute A3(GEN_BLOCK(BSi12),BLOCK,GEN_BLOCK(BSk12))    
+        -: 1810:          case(2)
+        -: 1811:!dvm$ redistribute A3(GEN_BLOCK(BSi12),BLOCK,GEN_BLOCK(BSk22))    
+        -: 1812:          case (3)
+        -: 1813:!dvm$ redistribute A3(GEN_BLOCK(BSi12),BLOCK,GEN_BLOCK(BSk32))    
+        -: 1814:          case(4)
+        -: 1815:!dvm$ redistribute A3(GEN_BLOCK(BSi12),BLOCK,GEN_BLOCK(BSk42))    
+        -: 1816:          case default 
+        1: 1817:             goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 1818:          endselect  
+        -: 1819:
+        -: 1820:      case(2)
+    #####: 1821:          select case(psize(3))
+        -: 1822:          case(1) 
+        -: 1823:!dvm$ redistribute A3(GEN_BLOCK(BSi22),BLOCK,GEN_BLOCK(BSk12))    
+        -: 1824:          case(2)
+        -: 1825:!dvm$ redistribute A3(GEN_BLOCK(BSi22),BLOCK,GEN_BLOCK(BSk22))    
+        -: 1826:          case (3)
+        -: 1827:!dvm$ redistribute A3(GEN_BLOCK(BSi22),BLOCK,GEN_BLOCK(BSk32))    
+        -: 1828:          case(4)
+        -: 1829:!dvm$ redistribute A3(GEN_BLOCK(BSi22),BLOCK,GEN_BLOCK(BSk42))    
+        -: 1830:          case default 
+    #####: 1831:             goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 1832:          endselect  
+        -: 1833:
+        -: 1834:      case (3)
+    #####: 1835:          select case(psize(3))
+        -: 1836:          case(1) 
+        -: 1837:!dvm$ redistribute A3(GEN_BLOCK(BSi32),BLOCK,GEN_BLOCK(BSk12))    
+        -: 1838:          case(2)
+        -: 1839:!dvm$ redistribute A3(GEN_BLOCK(BSi32),BLOCK,GEN_BLOCK(BSk22))    
+        -: 1840:          case (3)
+        -: 1841:!dvm$ redistribute A3(GEN_BLOCK(BSi32),BLOCK,GEN_BLOCK(BSk32))    
+        -: 1842:          case(4)
+        -: 1843:!dvm$ redistribute A3(GEN_BLOCK(BSi32),BLOCK,GEN_BLOCK(BSk42))    
+        -: 1844:          case default 
+    #####: 1845:             goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 1846:          endselect  
+        -: 1847:
+        -: 1848:      case(4)
+    #####: 1849:          select case(psize(3))
+        -: 1850:          case(1) 
+        -: 1851:!dvm$ redistribute A3(GEN_BLOCK(BSi42),BLOCK,GEN_BLOCK(BSk12))    
+        -: 1852:          case(2)
+        -: 1853:!dvm$ redistribute A3(GEN_BLOCK(BSi42),BLOCK,GEN_BLOCK(BSk22))    
+        -: 1854:          case (3)
+        -: 1855:!dvm$ redistribute A3(GEN_BLOCK(BSi42),BLOCK,GEN_BLOCK(BSk32))    
+        -: 1856:          case(4)
+        -: 1857:!dvm$ redistribute A3(GEN_BLOCK(BSi42),BLOCK,GEN_BLOCK(BSk42))    
+        -: 1858:          case default 
+    #####: 1859:             goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 1860:          endselect  
+        -: 1861:
+        -: 1862:      case default 
+        1: 1863:         goto 10
+branch  0 taken 100%
+branch  1 taken 0%
+branch  2 taken 0%
+branch  3 taken 0%
+        -: 1864:      endselect  
+        -: 1865:
+        -: 1866:!dvm$ actual(erri)
+        -: 1867:
+        -: 1868:!dvm$ region  
+        -: 1869:!dvm$ parallel (i,j,k) on A3(i,j,k), reduction(min(erri))
+       11: 1870:      do i=1,AN1
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      161: 1871:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     2410: 1872:            do k=1,AN3
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     2250: 1873:                A3(i,j,k) = A3(i,j,k) / 4   
+     2400: 1874:                if (A3(i,j,k) /= (i*NL/10 + j*NL/100 + k)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####: 1875:                    erri = min(erri,i*NL/10 + j*NL/100 + k)
+        -: 1876:                endif 
+        -: 1877:            enddo
+        -: 1878:          enddo
+        -: 1879:      enddo
+        -: 1880:!dvm$ end region   
+        -: 1881:     
+        -: 1882:!dvm$ get_actual(erri)
+        -: 1883:
+        1: 1884:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1: 1885:          call ansyes(tname)
+call    0 returned 100%
+        -: 1886:      else
+    #####: 1887:          call ansno(tname)
+call    0 never executed
+        -: 1888:      endif 
+        -: 1889:
+       1*: 1890: 10   deallocate (A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -: 1891:
+        1: 1892:      end subroutine distrg37
+        -: 1893:
+        -: 1894:! ----------------------------------------------------distrg38
+        -: 1895:! 38  DISTRIBUTE arrA3 [GEN_BLOCK][*][GEN_BLOCK] 
+        -: 1896:!                REDISTRIBUTE [*][GEN_BLOCK][*]
+        -: 1897:!                REDISTRIBUTE[GEN_BLOCK][GEN_BLOCK][*]
+        -: 1898:!                REDISTRIBUTE[*][GEN_BLOCK][GEN_BLOCK]
+        -: 1899:
+function distrg38_ called 1 returned 100% blocks executed 82%
+        1: 1900:      subroutine distrg38 (psize)
+        -: 1901:      integer psize(3)
+        -: 1902:
+        -: 1903:      integer, parameter :: AN1=5,AN2=6,AN3=12,NL=1000,ER=10000
+        -: 1904:      integer :: erri=ER,i,j,k
+        -: 1905:
+        -: 1906:      integer, dimension(1) :: BSi11=(/5/)         
+        -: 1907:      integer, dimension(1) :: BSi12=(/5/)           
+        -: 1908:      integer, dimension(2) :: BSi21=(/4,1/)      
+        -: 1909:      integer, dimension(2) :: BSi22=(/3,2/)     
+        -: 1910:      integer, dimension(3) :: BSi31=(/3,1,1/)     
+        -: 1911:      integer, dimension(3) :: BSi32=(/1,2,2/)     
+        -: 1912:      integer, dimension(4) :: BSi41=(/1,2,1,1/)   
+        -: 1913:      integer, dimension(4) :: BSi42=(/3,1,0,2/)     
+        -: 1914:
+        -: 1915:      integer, dimension(1) :: BSj11=(/6/)     
+        -: 1916:      integer, dimension(1) :: BSj12=(/6/)     
+        -: 1917:      integer, dimension(2) :: BSj21=(/2,4/)     
+        -: 1918:      integer, dimension(2) :: BSj22=(/4,2/)     
+        -: 1919:      integer, dimension(3) :: BSj31=(/2,3,1/)     
+        -: 1920:      integer, dimension(3) :: BSj32=(/1,2,3/)     
+        -: 1921:      integer, dimension(4) :: BSj41=(/2,1,2,1/)     
+        -: 1922:      integer, dimension(4) :: BSj42=(/1,1,3,1/)     
+        -: 1923:
+        -: 1924:      integer, dimension(1) :: BSk11=(/12/)     
+        -: 1925:      integer, dimension(1) :: BSk12=(/12/)    
+        -: 1926:      integer, dimension(2) :: BSk21=(/10,2/)     
+        -: 1927:      integer, dimension(2) :: BSk22=(/5,7/)     
+        -: 1928:      integer, dimension(3) :: BSk31=(/2,6,4/)     
+        -: 1929:      integer, dimension(3) :: BSk32=(/3,4,5/)     
+        -: 1930:      integer, dimension(4) :: BSk41=(/2,4,5,1/)     
+        -: 1931:      integer, dimension(4) :: BSk42=(/3,2,4,3/)     
+        -: 1932:
+        1: 1933:      integer, allocatable :: A3(:,:,:)
+        -: 1934:      character(10), parameter :: tname='distrg38  '
+        -: 1935:
+        -: 1936:!dvm$ distribute :: A3   
+        -: 1937:!dvm$ dynamic A3
+        -: 1938:
+       1*: 1939:      allocate (A3(AN1,AN2,AN3))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -: 1940:
+        -: 1941:!!!!dvm$ redistribute A3(GEN_BLOCK(BSi1),*,GEN_BLOCK(BSk1))   
+        -: 1942:
+        2: 1943:      select case(psize(1))
+        -: 1944:      case(1)
+       1*: 1945:          select case(psize(2))   ! it's true - psize(2)
+        -: 1946:          case(1) 
+        -: 1947:!dvm$ redistribute A3(GEN_BLOCK(BSi11),*,GEN_BLOCK(BSk11))    
+        -: 1948:          case(2)
+        -: 1949:!dvm$ redistribute A3(GEN_BLOCK(BSi11),*,GEN_BLOCK(BSk21))    
+        -: 1950:          case (3)
+        -: 1951:!dvm$ redistribute A3(GEN_BLOCK(BSi11),*,GEN_BLOCK(BSk31))    
+        -: 1952:          case(4)
+        -: 1953:!dvm$ redistribute A3(GEN_BLOCK(BSi11),*,GEN_BLOCK(BSk41))    
+        -: 1954:          case default 
+        1: 1955:              goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 1956:          endselect  
+        -: 1957:
+        -: 1958:      case(2)
+    #####: 1959:          select case(psize(2)) ! it's true - psize(2)
+        -: 1960:          case(1) 
+        -: 1961:!dvm$ redistribute A3(GEN_BLOCK(BSi21),*,GEN_BLOCK(BSk11))    
+        -: 1962:          case(2)
+        -: 1963:!dvm$ redistribute A3(GEN_BLOCK(BSi21),*,GEN_BLOCK(BSk21))    
+        -: 1964:          case (3)
+        -: 1965:!dvm$ redistribute A3(GEN_BLOCK(BSi21),*,GEN_BLOCK(BSk31))    
+        -: 1966:          case(4)
+        -: 1967:!dvm$ redistribute A3(GEN_BLOCK(BSi21),*,GEN_BLOCK(BSk41))    
+        -: 1968:          case default 
+    #####: 1969:             goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 1970:          endselect  
+        -: 1971:
+        -: 1972:      case (3)
+    #####: 1973:          select case(psize(2)) ! it's true - psize(2)
+        -: 1974:          case(1) 
+        -: 1975:!dvm$ redistribute A3(GEN_BLOCK(BSi31),*,GEN_BLOCK(BSk11))    
+        -: 1976:          case(2)
+        -: 1977:!dvm$ redistribute A3(GEN_BLOCK(BSi31),*,GEN_BLOCK(BSk21))    
+        -: 1978:          case (3)
+        -: 1979:!dvm$ redistribute A3(GEN_BLOCK(BSi31),*,GEN_BLOCK(BSk31))    
+        -: 1980:          case(4)
+        -: 1981:!dvm$ redistribute A3(GEN_BLOCK(BSi31),*,GEN_BLOCK(BSk41))    
+        -: 1982:          case default 
+    #####: 1983:             goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 1984:          endselect  
+        -: 1985:
+        -: 1986:      case(4)
+    #####: 1987:          select case(psize(2)) ! it's true - psize(2)
+        -: 1988:          case(1) 
+        -: 1989:!dvm$ redistribute A3(GEN_BLOCK(BSi41),*,GEN_BLOCK(BSk11))    
+        -: 1990:          case(2)
+        -: 1991:!dvm$ redistribute A3(GEN_BLOCK(BSi41),*,GEN_BLOCK(BSk21))    
+        -: 1992:          case (3)
+        -: 1993:!dvm$ redistribute A3(GEN_BLOCK(BSi41),*,GEN_BLOCK(BSk31))    
+        -: 1994:          case(4)
+        -: 1995:!dvm$ redistribute A3(GEN_BLOCK(BSi41),*,GEN_BLOCK(BSk41))    
+        -: 1996:          case default 
+    #####: 1997:             goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 1998:          endselect  
+        -: 1999:
+        -: 2000:      case default 
+        1: 2001:         goto 10
+branch  0 taken 100%
+branch  1 taken 0%
+branch  2 taken 0%
+branch  3 taken 0%
+branch  4 taken 0%
+        -: 2002:      endselect  
+        -: 2003:
+        -: 2004:!dvm$ region  
+        -: 2005:!dvm$ parallel (i,j,k) on A3(i,j,k)
+        6: 2006:      do i=1,AN1
+branch  0 taken 83% (fallthrough)
+branch  1 taken 17%
+       36: 2007:          do j=1,AN2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      395: 2008:             do k=1,AN3
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      390: 2009:                A3(i,j,k) = i*NL/10 + j*NL/100 + k + 5  
+        -: 2010:             enddo
+        -: 2011:          enddo
+        -: 2012:      enddo
+        -: 2013:!dvm$ end region   
+        -: 2014:
+        -: 2015:!!!!dvm$  redistribute A3(*,GEN_BLOCK(BSj2),*)   
+        -: 2016:
+        -: 2017:      select case(psize(1))  ! it's true - psize(1)
+        -: 2018:      case(1) 
+        -: 2019:!dvm$ redistribute
+        -: 2020:!dvm$*    A3(*,GEN_BLOCK(BSj12),*)   
+        -: 2021:      case(2)
+        -: 2022:!dvm$ redistribute
+        -: 2023:!dvm$*    A3(*,GEN_BLOCK(BSj22),*)   
+        -: 2024:      case(3)
+        -: 2025:!dvm$ redistribute
+        -: 2026:!dvm$*    A3(*,GEN_BLOCK(BSj32),*)   
+        -: 2027:      case(4)
+        -: 2028:!dvm$ redistribute
+        -: 2029:!dvm$*    A3(*,GEN_BLOCK(BSj42),*)   
+        -: 2030:      case default 
+        -: 2031:         goto 10
+        -: 2032:      endselect  
+        -: 2033:
+        -: 2034:!dvm$ region
+        -: 2035:!dvm$ parallel (i,j,k) on A3(i,j,k)
+        6: 2036:      do i=1,AN1
+branch  0 taken 83% (fallthrough)
+branch  1 taken 17%
+       36: 2037:          do j=1,AN2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      395: 2038:             do k=1,AN3
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      390: 2039:                A3(i,j,k) = A3(i,j,k) + 5   
+        -: 2040:             enddo
+        -: 2041:          enddo
+        -: 2042:      enddo
+        -: 2043:!dvm$ end region   
+        -: 2044:
+        -: 2045:!!!!dvm$  redistribute A3(GEN_BLOCK(BSi1),GEN_BLOCK(BSj1),*)   
+        -: 2046:
+        1: 2047:      select case(psize(1))
+        -: 2048:      case(1)
+       1*: 2049:         select case(psize(2))
+        -: 2050:         case(1) 
+        -: 2051:!dvm$ redistribute
+        -: 2052:!dvm$*    A3(GEN_BLOCK(BSi11),GEN_BLOCK(BSj11),*)   
+        -: 2053:         case(2)
+        -: 2054:!dvm$ redistribute
+        -: 2055:!dvm$*    A3(GEN_BLOCK(BSi11),GEN_BLOCK(BSj21),*)   
+        -: 2056:         case(3)
+        -: 2057:!dvm$ redistribute
+        -: 2058:!dvm$*    A3(GEN_BLOCK(BSi11),GEN_BLOCK(BSj31),*)   
+        -: 2059:         case(4)
+        -: 2060:!dvm$ redistribute
+        -: 2061:!dvm$*    A3(GEN_BLOCK(BSi11),GEN_BLOCK(BSj41),*)   
+        -: 2062:         case default 
+        1: 2063:            goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 2064:         endselect  
+        -: 2065:
+        -: 2066:      case(2)
+    #####: 2067:         select case(psize(2))
+        -: 2068:         case(1) 
+        -: 2069:!dvm$ redistribute
+        -: 2070:!dvm$*    A3(GEN_BLOCK(BSi21),GEN_BLOCK(BSj11),*)   
+        -: 2071:         case(2)
+        -: 2072:!dvm$ redistribute
+        -: 2073:!dvm$*    A3(GEN_BLOCK(BSi21),GEN_BLOCK(BSj21),*)   
+        -: 2074:         case(3)
+        -: 2075:!dvm$ redistribute
+        -: 2076:!dvm$*    A3(GEN_BLOCK(BSi21),GEN_BLOCK(BSj31),*)   
+        -: 2077:         case(4)
+        -: 2078:!dvm$ redistribute
+        -: 2079:!dvm$*    A3(GEN_BLOCK(BSi21),GEN_BLOCK(BSj41),*)   
+        -: 2080:         case default 
+    #####: 2081:            goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 2082:         endselect  
+        -: 2083:
+        -: 2084:      case (3)
+    #####: 2085:         select case(psize(2))
+        -: 2086:         case(1) 
+        -: 2087:!dvm$ redistribute
+        -: 2088:!dvm$*    A3(GEN_BLOCK(BSi31),GEN_BLOCK(BSj11),*)   
+        -: 2089:         case(2)
+        -: 2090:!dvm$ redistribute
+        -: 2091:!dvm$*    A3(GEN_BLOCK(BSi31),GEN_BLOCK(BSj21),*)   
+        -: 2092:         case(3)
+        -: 2093:!dvm$ redistribute
+        -: 2094:!dvm$*    A3(GEN_BLOCK(BSi31),GEN_BLOCK(BSj31),*)   
+        -: 2095:         case(4)
+        -: 2096:!dvm$ redistribute
+        -: 2097:!dvm$*    A3(GEN_BLOCK(BSi31),GEN_BLOCK(BSj41),*)   
+        -: 2098:         case default 
+    #####: 2099:            goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 2100:         endselect  
+        -: 2101:
+        -: 2102:      case (4)
+    #####: 2103:         select case(psize(2))
+        -: 2104:         case(1) 
+        -: 2105:!dvm$ redistribute
+        -: 2106:!dvm$*    A3(GEN_BLOCK(BSi41),GEN_BLOCK(BSj11),*)   
+        -: 2107:         case(2)
+        -: 2108:!dvm$ redistribute
+        -: 2109:!dvm$*    A3(GEN_BLOCK(BSi41),GEN_BLOCK(BSj21),*)   
+        -: 2110:         case(3)
+        -: 2111:!dvm$ redistribute
+        -: 2112:!dvm$*    A3(GEN_BLOCK(BSi41),GEN_BLOCK(BSj31),*)   
+        -: 2113:         case(4)
+        -: 2114:!dvm$ redistribute
+        -: 2115:!dvm$*    A3(GEN_BLOCK(BSi41),GEN_BLOCK(BSj41),*)   
+        -: 2116:         case default 
+    #####: 2117:            goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 2118:         endselect  
+        -: 2119:
+        -: 2120:      case default 
+        1: 2121:         goto 10
+branch  0 taken 100%
+branch  1 taken 0%
+branch  2 taken 0%
+branch  3 taken 0%
+        -: 2122:      endselect  
+        -: 2123:
+        -: 2124:!dvm$ region  
+        -: 2125:!dvm$ parallel (i,j,k) on A3(i,j,k)
+        6: 2126:      do i=1,AN1
+branch  0 taken 83% (fallthrough)
+branch  1 taken 17%
+       36: 2127:          do j=1,AN2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      395: 2128:             do k=1,AN3
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      390: 2129:                A3(i,j,k) = A3(i,j,k) + 5   
+        -: 2130:             enddo
+        -: 2131:          enddo
+        -: 2132:      enddo
+        -: 2133:!dvm$ end region   
+        -: 2134:
+        -: 2135:!!!!dvm$  redistribute A3(*,GEN_BLOCK(BSj2),GEN_BLOCK(BSk2))   
+        -: 2136:
+        1: 2137:      select case(psize(1))     ! it's true - psize(1)
+        -: 2138:      case(1)
+       1*: 2139:         select case(psize(2))  ! it's true - psize(2)
+        -: 2140:         case(1) 
+        -: 2141:!dvm$ redistribute
+        -: 2142:!dvm$*    A3(*,GEN_BLOCK(BSj12),GEN_BLOCK(BSk12))   
+        -: 2143:         case(2)                                     
+        -: 2144:!dvm$ redistribute
+        -: 2145:!dvm$*    A3(*,GEN_BLOCK(BSj12),GEN_BLOCK(BSk22))   
+        -: 2146:         case(3)
+        -: 2147:!dvm$ redistribute
+        -: 2148:!dvm$*    A3(*,GEN_BLOCK(BSj12),GEN_BLOCK(BSk32))   
+        -: 2149:         case(4)
+        -: 2150:!dvm$ redistribute
+        -: 2151:!dvm$*    A3(*,GEN_BLOCK(BSj12),GEN_BLOCK(BSk42))   
+        -: 2152:         case default 
+        1: 2153:            goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 2154:         endselect  
+        -: 2155:
+        -: 2156:      case(2)
+    #####: 2157:         select case(psize(2))  ! it's true - psize(2)
+        -: 2158:         case(1) 
+        -: 2159:!dvm$ redistribute
+        -: 2160:!dvm$*    A3(*,GEN_BLOCK(BSj22),GEN_BLOCK(BSk12))   
+        -: 2161:         case(2)
+        -: 2162:!dvm$ redistribute
+        -: 2163:!dvm$*    A3(*,GEN_BLOCK(BSj22),GEN_BLOCK(BSk22))   
+        -: 2164:         case(3)
+        -: 2165:!dvm$ redistribute
+        -: 2166:!dvm$*    A3(*,GEN_BLOCK(BSj22),GEN_BLOCK(BSk32))   
+        -: 2167:         case(4)
+        -: 2168:!dvm$ redistribute
+        -: 2169:!dvm$*    A3(*,GEN_BLOCK(BSj22),GEN_BLOCK(BSk42))   
+        -: 2170:         case default 
+    #####: 2171:            goto 10               
+branch  0 never executed
+branch  1 never executed
+        -: 2172:         endselect  
+        -: 2173:
+        -: 2174:      case (3)
+    #####: 2175:         select case(psize(2))  ! it's true - psize(2)
+        -: 2176:         case(1) 
+        -: 2177:!dvm$ redistribute
+        -: 2178:!dvm$*    A3(*,GEN_BLOCK(BSj32),GEN_BLOCK(BSk12))   
+        -: 2179:         case(2)
+        -: 2180:!dvm$ redistribute
+        -: 2181:!dvm$*    A3(*,GEN_BLOCK(BSj32),GEN_BLOCK(BSk22))   
+        -: 2182:         case(3)
+        -: 2183:!dvm$ redistribute
+        -: 2184:!dvm$*    A3(*,GEN_BLOCK(BSj32),GEN_BLOCK(BSk32))   
+        -: 2185:         case(4)
+        -: 2186:!dvm$ redistribute
+        -: 2187:!dvm$*    A3(*,GEN_BLOCK(BSj32),GEN_BLOCK(BSk42))   
+        -: 2188:         case default 
+    #####: 2189:            goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 2190:         endselect  
+        -: 2191:
+        -: 2192:      case (4)
+    #####: 2193:         select case(psize(2))  ! it's true - psize(2)
+        -: 2194:         case(1) 
+        -: 2195:!dvm$ redistribute
+        -: 2196:!dvm$*    A3(*,GEN_BLOCK(BSj42),GEN_BLOCK(BSk12))   
+        -: 2197:         case(2)
+        -: 2198:!dvm$ redistribute
+        -: 2199:!dvm$*    A3(*,GEN_BLOCK(BSj42),GEN_BLOCK(BSk22))   
+        -: 2200:         case(3)
+        -: 2201:!dvm$ redistribute
+        -: 2202:!dvm$*    A3(*,GEN_BLOCK(BSj42),GEN_BLOCK(BSk32))   
+        -: 2203:         case(4)
+        -: 2204:!dvm$ redistribute
+        -: 2205:!dvm$*    A3(*,GEN_BLOCK(BSj42),GEN_BLOCK(BSk42))   
+        -: 2206:         case default 
+    #####: 2207:            goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 2208:         endselect  
+        -: 2209:
+        -: 2210:      case default 
+        1: 2211:         goto 10
+branch  0 taken 100%
+branch  1 taken 0%
+branch  2 taken 0%
+branch  3 taken 0%
+        -: 2212:      endselect  
+        -: 2213:
+        -: 2214:!dvm$ actual(erri)
+        -: 2215:
+        -: 2216:!dvm$ region  
+        -: 2217:!dvm$ parallel (i,j,k) on A3(i,j,k), reduction(min(erri))
+        6: 2218:      do i=1,AN1
+branch  0 taken 83% (fallthrough)
+branch  1 taken 17%
+       36: 2219:          do j=1,AN2
+branch  0 taken 86% (fallthrough)
+branch  1 taken 14%
+      395: 2220:            do k=1,AN3
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      390: 2221:                if (A3(i,j,k) /= (i*NL/10 + j*NL/100 + k + 15)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####: 2222:                    erri = min(erri,i*NL/10 + j*NL/100 + k)
+        -: 2223:                endif 
+        -: 2224:            enddo
+        -: 2225:          enddo
+        -: 2226:      enddo
+        -: 2227:!dvm$ end region   
+        -: 2228:     
+        -: 2229:!dvm$ get_actual(erri)
+        -: 2230:
+        1: 2231:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1: 2232:          call ansyes(tname)
+call    0 returned 100%
+        -: 2233:      else
+    #####: 2234:          call ansno(tname)
+call    0 never executed
+        -: 2235:      endif 
+        -: 2236:
+       1*: 2237: 10   deallocate (A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -: 2238:
+        1: 2239:      end subroutine distrg38
+        -: 2240:
+        -: 2241:! ----------------------------------------------------distrg39
+        -: 2242:! 39 DISTRIBUTE arrA3 [*][GEN_BLOCK][GEN_BLOCK]  
+        -: 2243:!                REDISTRIBUTE [GEN_BLOCK][*][*]
+        -: 2244:!                REDISTRIBUTE[GEN_BLOCK][*][GEN_BLOCK]
+        -: 2245:
+function distrg39_ called 1 returned 100% blocks executed 82%
+        1: 2246:      subroutine distrg39 (psize)
+        -: 2247:      integer psize(3)
+        -: 2248:
+        -: 2249:      integer, parameter :: AN1=10,AN2=16,AN3=10,NL=1000,ER=10000
+        -: 2250:      integer :: erri=ER,i,j,k
+        -: 2251:
+        -: 2252:      integer, dimension(1) :: BSi11=(/10/)        
+        -: 2253:      integer, dimension(1) :: BSi12=(/10/)           
+        -: 2254:      integer, dimension(2) :: BSi21=(/6,4/)       
+        -: 2255:      integer, dimension(2) :: BSi22=(/2,8/)     
+        -: 2256:      integer, dimension(3) :: BSi31=(/5,2,3/)    
+        -: 2257:      integer, dimension(3) :: BSi32=(/2,4,4/)     
+        -: 2258:      integer, dimension(4) :: BSi41=(/3,2,1,4/)   
+        -: 2259:      integer, dimension(4) :: BSi42=(/5,1,1,3/)     
+        -: 2260:
+        -: 2261:      integer, dimension(1) :: BSj11=(/16/)     
+        -: 2262:      integer, dimension(1) :: BSj12=(/16/)     
+        -: 2263:      integer, dimension(2) :: BSj21=(/5,11/)     
+        -: 2264:      integer, dimension(2) :: BSj22=(/12,4/)     
+        -: 2265:      integer, dimension(3) :: BSj31=(/6,2,8/)     
+        -: 2266:      integer, dimension(3) :: BSj32=(/10,3,3/)     
+        -: 2267:      integer, dimension(4) :: BSj41=(/6,3,5,2/)     
+        -: 2268:      integer, dimension(4) :: BSj42=(/3,2,1,10/)     
+        -: 2269:
+        -: 2270:      integer, dimension(1) :: BSk11=(/10/)     
+        -: 2271:      integer, dimension(1) :: BSk12=(/10/)     
+        -: 2272:      integer, dimension(2) :: BSk21=(/9,1/)     
+        -: 2273:      integer, dimension(2) :: BSk22=(/4,6/)     
+        -: 2274:      integer, dimension(3) :: BSk31=(/10,0,0/)     
+        -: 2275:      integer, dimension(3) :: BSk32=(/5,3,2/)    
+        -: 2276:      integer, dimension(4) :: BSk41=(/0,2,3,5/)     
+        -: 2277:      integer, dimension(4) :: BSk42=(/0,4,0,6/)     
+        -: 2278:
+        1: 2279:      integer, allocatable :: A3(:,:,:)
+        -: 2280:      character(10), parameter :: tname='distrg39  '
+        -: 2281:
+        -: 2282:!dvm$ distribute :: A3   
+        -: 2283:!dvm$ dynamic A3
+        -: 2284:
+       1*: 2285:      allocate (A3(AN1,AN2,AN3))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -: 2286:
+        -: 2287:!!!!dvm$ redistribute A3(*,GEN_BLOCK(BSj1),GEN_BLOCK(BSk1))   
+        -: 2288:
+        2: 2289:      select case(psize(1))     ! it's true - psize(1)
+        -: 2290:      case(1)
+       1*: 2291:         select case(psize(2))  ! it's true - psize(2)
+        -: 2292:         case(1) 
+        -: 2293:!dvm$ redistribute
+        -: 2294:!dvm$*    A3(*,GEN_BLOCK(BSj11),GEN_BLOCK(BSk11))   
+        -: 2295:         case(2) 
+        -: 2296:!dvm$ redistribute
+        -: 2297:!dvm$*    A3(*,GEN_BLOCK(BSj11),GEN_BLOCK(BSk21))   
+        -: 2298:         case(3)
+        -: 2299:!dvm$ redistribute
+        -: 2300:!dvm$*    A3(*,GEN_BLOCK(BSj11),GEN_BLOCK(BSk31))   
+        -: 2301:         case(4)
+        -: 2302:!dvm$ redistribute
+        -: 2303:!dvm$*    A3(*,GEN_BLOCK(BSj11),GEN_BLOCK(BSk41))   
+        -: 2304:         case default 
+        1: 2305:            goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 2306:         endselect  
+        -: 2307:
+        -: 2308:      case(2)
+    #####: 2309:         select case(psize(2))  ! it's true - psize(2)
+        -: 2310:         case(1) 
+        -: 2311:!dvm$ redistribute
+        -: 2312:!dvm$*    A3(*,GEN_BLOCK(BSj21),GEN_BLOCK(BSk11))   
+        -: 2313:         case(2)
+        -: 2314:!dvm$ redistribute
+        -: 2315:!dvm$*    A3(*,GEN_BLOCK(BSj21),GEN_BLOCK(BSk21))   
+        -: 2316:         case(3)
+        -: 2317:!dvm$ redistribute
+        -: 2318:!dvm$*    A3(*,GEN_BLOCK(BSj21),GEN_BLOCK(BSk31))   
+        -: 2319:         case(4)
+        -: 2320:!dvm$ redistribute
+        -: 2321:!dvm$*    A3(*,GEN_BLOCK(BSj21),GEN_BLOCK(BSk41))   
+        -: 2322:         case default 
+    #####: 2323:            goto 10               
+branch  0 never executed
+branch  1 never executed
+        -: 2324:         endselect  
+        -: 2325:
+        -: 2326:      case (3)
+    #####: 2327:         select case(psize(2))  ! it's true - psize(2)
+        -: 2328:         case(1) 
+        -: 2329:!dvm$ redistribute
+        -: 2330:!dvm$*    A3(*,GEN_BLOCK(BSj31),GEN_BLOCK(BSk11))   
+        -: 2331:         case(2)
+        -: 2332:!dvm$ redistribute
+        -: 2333:!dvm$*    A3(*,GEN_BLOCK(BSj31),GEN_BLOCK(BSk21))   
+        -: 2334:         case(3)
+        -: 2335:!dvm$ redistribute
+        -: 2336:!dvm$*    A3(*,GEN_BLOCK(BSj31),GEN_BLOCK(BSk31))   
+        -: 2337:         case(4)
+        -: 2338:!dvm$ redistribute
+        -: 2339:!dvm$*    A3(*,GEN_BLOCK(BSj31),GEN_BLOCK(BSk41))   
+        -: 2340:         case default 
+    #####: 2341:            goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 2342:         endselect  
+        -: 2343:
+        -: 2344:      case (4)
+    #####: 2345:         select case(psize(2))  ! it's true - psize(2)
+        -: 2346:         case(1) 
+        -: 2347:!dvm$ redistribute
+        -: 2348:!dvm$*    A3(*,GEN_BLOCK(BSj41),GEN_BLOCK(BSk11))   
+        -: 2349:         case(2)
+        -: 2350:!dvm$ redistribute
+        -: 2351:!dvm$*    A3(*,GEN_BLOCK(BSj41),GEN_BLOCK(BSk21))   
+        -: 2352:         case(3)
+        -: 2353:!dvm$ redistribute
+        -: 2354:!dvm$*    A3(*,GEN_BLOCK(BSj41),GEN_BLOCK(BSk31))   
+        -: 2355:         case(4)
+        -: 2356:!dvm$ redistribute
+        -: 2357:!dvm$*    A3(*,GEN_BLOCK(BSj41),GEN_BLOCK(BSk41))   
+        -: 2358:         case default 
+    #####: 2359:            goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 2360:         endselect  
+        -: 2361:
+        -: 2362:      case default 
+        1: 2363:         goto 10
+branch  0 taken 100%
+branch  1 taken 0%
+branch  2 taken 0%
+branch  3 taken 0%
+branch  4 taken 0%
+        -: 2364:      endselect  
+        -: 2365:
+        -: 2366:!dvm$ region  
+        -: 2367:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       11: 2368:      do i=1,AN1
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      171: 2369:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     1770: 2370:             do k=1,AN3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1760: 2371:                A3(i,j,k) = i*NL/10 + j*NL/100 + k + 5  
+        -: 2372:             enddo
+        -: 2373:          enddo
+        -: 2374:      enddo
+        -: 2375:!dvm$ end region   
+        -: 2376:
+        -: 2377:!!!!dvm$  redistribute A3(GEN_BLOCK(BSi2),*,*)   
+        -: 2378:
+        -: 2379:      select case(psize(1))
+        -: 2380:      case(1) 
+        -: 2381:!dvm$ redistribute
+        -: 2382:!dvm$*    A3(GEN_BLOCK(BSi12),*,*)   
+        -: 2383:      case(2)
+        -: 2384:!dvm$ redistribute
+        -: 2385:!dvm$*    A3(GEN_BLOCK(BSi22),*,*)   
+        -: 2386:      case(3)
+        -: 2387:!dvm$ redistribute
+        -: 2388:!dvm$*    A3(GEN_BLOCK(BSi32),*,*)   
+        -: 2389:      case(4)
+        -: 2390:!dvm$ redistribute
+        -: 2391:!dvm$*    A3(GEN_BLOCK(BSi42),*,*)   
+        -: 2392:      case default 
+        -: 2393:         goto 10
+        -: 2394:      endselect  
+        -: 2395:
+        -: 2396:!dvm$ region  
+        -: 2397:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       11: 2398:      do i=1,AN1
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      171: 2399:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     1770: 2400:             do k=1,AN3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1760: 2401:                A3(i,j,k) = A3(i,j,k) + 5   
+        -: 2402:             enddo
+        -: 2403:          enddo
+        -: 2404:      enddo
+        -: 2405:!dvm$ end region   
+        -: 2406:
+        -: 2407:!!!!dvm$  redistribute A3(GEN_BLOCK(BSi2),*,GEN_BLOCK(BSk2))   
+        -: 2408:
+        1: 2409:      select case(psize(1))
+        -: 2410:      case(1)
+       1*: 2411:          select case(psize(2))  ! it's true - psize(2)
+        -: 2412:              case(1) 
+        -: 2413:!dvm$ redistribute A3(GEN_BLOCK(BSi12),*,GEN_BLOCK(BSk12))    
+        -: 2414:              case(2)
+        -: 2415:!dvm$ redistribute A3(GEN_BLOCK(BSi12),*,GEN_BLOCK(BSk22))    
+        -: 2416:              case (3)
+        -: 2417:!dvm$ redistribute A3(GEN_BLOCK(BSi12),*,GEN_BLOCK(BSk32))    
+        -: 2418:              case(4)
+        -: 2419:!dvm$ redistribute A3(GEN_BLOCK(BSi12),*,GEN_BLOCK(BSk42))    
+        -: 2420:              case default 
+        1: 2421:                 goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 2422:          endselect  
+        -: 2423:
+        -: 2424:      case(2)
+    #####: 2425:          select case(psize(2))  ! it's true - psize(2)
+        -: 2426:              case(1) 
+        -: 2427:!dvm$ redistribute A3(GEN_BLOCK(BSi22),*,GEN_BLOCK(BSk12))    
+        -: 2428:              case(2)
+        -: 2429:!dvm$ redistribute A3(GEN_BLOCK(BSi22),*,GEN_BLOCK(BSk22))    
+        -: 2430:              case (3)
+        -: 2431:!dvm$ redistribute A3(GEN_BLOCK(BSi22),*,GEN_BLOCK(BSk32))    
+        -: 2432:              case(4)
+        -: 2433:!dvm$ redistribute A3(GEN_BLOCK(BSi22),*,GEN_BLOCK(BSk42))    
+        -: 2434:              case default 
+    #####: 2435:                goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 2436:          endselect  
+        -: 2437:
+        -: 2438:      case (3)
+    #####: 2439:          select case(psize(2))  ! it's true - psize(2)
+        -: 2440:              case(1) 
+        -: 2441:!dvm$ redistribute A3(GEN_BLOCK(BSi32),*,GEN_BLOCK(BSk12))    
+        -: 2442:              case(2)
+        -: 2443:!dvm$ redistribute A3(GEN_BLOCK(BSi32),*,GEN_BLOCK(BSk22))    
+        -: 2444:              case (3)
+        -: 2445:!dvm$ redistribute A3(GEN_BLOCK(BSi32),*,GEN_BLOCK(BSk32))    
+        -: 2446:              case(4)
+        -: 2447:!dvm$ redistribute A3(GEN_BLOCK(BSi32),*,GEN_BLOCK(BSk42))    
+        -: 2448:              case default 
+    #####: 2449:                 goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 2450:          endselect  
+        -: 2451:
+        -: 2452:      case(4)
+    #####: 2453:          select case(psize(2))  ! it's true - psize(2)
+        -: 2454:              case(1) 
+        -: 2455:!dvm$ redistribute A3(GEN_BLOCK(BSi42),*,GEN_BLOCK(BSk12))    
+        -: 2456:              case(2)
+        -: 2457:!dvm$ redistribute A3(GEN_BLOCK(BSi42),*,GEN_BLOCK(BSk22))    
+        -: 2458:              case (3)
+        -: 2459:!dvm$ redistribute A3(GEN_BLOCK(BSi42),*,GEN_BLOCK(BSk32))    
+        -: 2460:              case(4)
+        -: 2461:!dvm$ redistribute A3(GEN_BLOCK(BSi42),*,GEN_BLOCK(BSk42))    
+        -: 2462:              case default 
+    #####: 2463:                 goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 2464:          endselect  
+        -: 2465:
+        -: 2466:      case default 
+        1: 2467:         goto 10
+branch  0 taken 100%
+branch  1 taken 0%
+branch  2 taken 0%
+branch  3 taken 0%
+        -: 2468:      endselect  
+        -: 2469:
+        -: 2470:!dvm$ actual(erri)
+        -: 2471:
+        -: 2472:!dvm$ region  
+        -: 2473:!dvm$ parallel (i,j,k) on A3(i,j,k), reduction(min(erri))
+       11: 2474:      do i=1,AN1
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      171: 2475:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     1770: 2476:            do k=1,AN3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1760: 2477:                if (A3(i,j,k) /= (i*NL/10 + j*NL/100 + k + 10)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####: 2478:                    erri = min(erri,i*NL/10 + j*NL/100 + k)
+        -: 2479:                endif 
+        -: 2480:            enddo
+        -: 2481:          enddo
+        -: 2482:      enddo
+        -: 2483:!dvm$ end region   
+        -: 2484:     
+        -: 2485:!dvm$ get_actual(erri)
+        -: 2486:
+        1: 2487:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1: 2488:          call ansyes(tname)
+call    0 returned 100%
+        -: 2489:      else
+    #####: 2490:          call ansno(tname)
+call    0 never executed
+        -: 2491:      endif 
+        -: 2492:
+       1*: 2493:  10  deallocate (A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -: 2494:
+        1: 2495:      end subroutine distrg39
+        -: 2496:
+        -: 2497:! ----------------------------------------------------distrg310
+        -: 2498:! 310 DISTRIBUTE arrA3 [GEN_BLOCK][GEN_BLOCK][BLOCK]  
+        -: 2499:!                REDISTRIBUTE [*][*][GEN_BLOCK]
+        -: 2500:!                REDISTRIBUTE[*][GEN_BLOCK][BLOCK]
+        -: 2501:
+function distrg310_ called 1 returned 100% blocks executed 86%
+        1: 2502:      subroutine distrg310 (psize)
+        -: 2503:      integer psize(3)
+        -: 2504:
+        -: 2505:      integer, parameter :: AN1=20,AN2=15,AN3=10,NL=1000,ER=10000
+        -: 2506:      integer :: erri=ER,i,j,k
+        -: 2507:
+        -: 2508:      integer, dimension(1) :: BSi11=(/20/)        
+        -: 2509:      integer, dimension(1) :: BSi12=(/20/)           
+        -: 2510:      integer, dimension(2) :: BSi21=(/2,18/)      
+        -: 2511:      integer, dimension(2) :: BSi22=(/12,8/)     
+        -: 2512:      integer, dimension(3) :: BSi31=(/3,12,5/)    
+        -: 2513:      integer, dimension(3) :: BSi32=(/2,4,14/)     
+        -: 2514:      integer, dimension(4) :: BSi41=(/3,12,3,2/)   
+        -: 2515:      integer, dimension(4) :: BSi42=(/4,6,2,8/)     
+        -: 2516:
+        -: 2517:      integer, dimension(1) :: BSj11=(/15/)     
+        -: 2518:      integer, dimension(1) :: BSj12=(/15/)     
+        -: 2519:      integer, dimension(2) :: BSj21=(/3,12/)     
+        -: 2520:      integer, dimension(2) :: BSj22=(/5,10/)     
+        -: 2521:      integer, dimension(3) :: BSj31=(/6,3,6/)     
+        -: 2522:      integer, dimension(3) :: BSj32=(/3,1,11/)     
+        -: 2523:      integer, dimension(4) :: BSj41=(/5,1,3,6/)     
+        -: 2524:      integer, dimension(4) :: BSj42=(/2,2,6,5/)     
+        -: 2525:
+        -: 2526:      integer, dimension(1) :: BSk11=(/10/)     
+        -: 2527:      integer, dimension(1) :: BSk12=(/10/)     
+        -: 2528:      integer, dimension(2) :: BSk21=(/1,9/)     
+        -: 2529:      integer, dimension(2) :: BSk22=(/6,4/)    
+        -: 2530:      integer, dimension(3) :: BSk31=(/3,3,4/)     
+        -: 2531:      integer, dimension(3) :: BSk32=(/1,2,7/)     
+        -: 2532:      integer, dimension(4) :: BSk41=(/2,4,1,3/)     
+        -: 2533:      integer, dimension(4) :: BSk42=(/1,6,2,1/)     
+        -: 2534:
+        1: 2535:      integer, allocatable :: A3(:,:,:)
+        -: 2536:      character(10), parameter :: tname='distrg310 '
+        -: 2537:
+        -: 2538:!dvm$ distribute :: A3   
+        -: 2539:!dvm$ dynamic A3
+        -: 2540:
+       1*: 2541:      allocate (A3(AN1,AN2,AN3))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -: 2542:
+        -: 2543:!!!!dvm$ redistribute A3(GEN_BLOCK(BSi1),GEN_BLOCK(BSj1),BLOCK)   
+        -: 2544:
+        2: 2545:      select case(psize(1))
+        -: 2546:      case(1)
+       1*: 2547:         select case(psize(2))
+        -: 2548:         case(1) 
+        -: 2549:!dvm$ redistribute
+        -: 2550:!dvm$*    A3(GEN_BLOCK(BSi11),GEN_BLOCK(BSj11),BLOCK)   
+        -: 2551:         case(2)
+        -: 2552:!dvm$ redistribute
+        -: 2553:!dvm$*    A3(GEN_BLOCK(BSi11),GEN_BLOCK(BSj21),BLOCK)   
+        -: 2554:         case(3)
+        -: 2555:!dvm$ redistribute
+        -: 2556:!dvm$*    A3(GEN_BLOCK(BSi11),GEN_BLOCK(BSj31),BLOCK)   
+        -: 2557:         case(4)
+        -: 2558:!dvm$ redistribute
+        -: 2559:!dvm$*    A3(GEN_BLOCK(BSi11),GEN_BLOCK(BSj41),BLOCK)   
+        -: 2560:         case default 
+        1: 2561:            goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 2562:         endselect  
+        -: 2563:
+        -: 2564:      case(2)
+    #####: 2565:         select case(psize(2))
+        -: 2566:         case(1) 
+        -: 2567:!dvm$ redistribute
+        -: 2568:!dvm$*    A3(GEN_BLOCK(BSi21),GEN_BLOCK(BSj11),BLOCK)   
+        -: 2569:         case(2)
+        -: 2570:!dvm$ redistribute
+        -: 2571:!dvm$*    A3(GEN_BLOCK(BSi21),GEN_BLOCK(BSj21),BLOCK)   
+        -: 2572:         case(3)
+        -: 2573:!dvm$ redistribute
+        -: 2574:!dvm$*    A3(GEN_BLOCK(BSi21),GEN_BLOCK(BSj31),BLOCK)   
+        -: 2575:         case(4)
+        -: 2576:!dvm$ redistribute
+        -: 2577:!dvm$*    A3(GEN_BLOCK(BSi21),GEN_BLOCK(BSj41),BLOCK)   
+        -: 2578:         case default 
+    #####: 2579:            goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 2580:         endselect  
+        -: 2581:
+        -: 2582:      case (3)
+    #####: 2583:         select case(psize(2))
+        -: 2584:         case(1) 
+        -: 2585:!dvm$ redistribute
+        -: 2586:!dvm$*    A3(GEN_BLOCK(BSi31),GEN_BLOCK(BSj11),BLOCK)   
+        -: 2587:         case(2)
+        -: 2588:!dvm$ redistribute
+        -: 2589:!dvm$*    A3(GEN_BLOCK(BSi31),GEN_BLOCK(BSj21),BLOCK)   
+        -: 2590:         case(3)
+        -: 2591:!dvm$ redistribute
+        -: 2592:!dvm$*    A3(GEN_BLOCK(BSi31),GEN_BLOCK(BSj31),BLOCK)   
+        -: 2593:         case(4)
+        -: 2594:!dvm$ redistribute
+        -: 2595:!dvm$*    A3(GEN_BLOCK(BSi31),GEN_BLOCK(BSj41),BLOCK)   
+        -: 2596:         case default 
+    #####: 2597:            goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 2598:         endselect  
+        -: 2599:
+        -: 2600:      case (4)
+    #####: 2601:         select case(psize(2))
+        -: 2602:         case(1) 
+        -: 2603:!dvm$ redistribute
+        -: 2604:!dvm$*    A3(GEN_BLOCK(BSi41),GEN_BLOCK(BSj11),BLOCK)   
+        -: 2605:         case(2)
+        -: 2606:!dvm$ redistribute
+        -: 2607:!dvm$*    A3(GEN_BLOCK(BSi41),GEN_BLOCK(BSj21),BLOCK)   
+        -: 2608:         case(3)
+        -: 2609:!dvm$ redistribute
+        -: 2610:!dvm$*    A3(GEN_BLOCK(BSi41),GEN_BLOCK(BSj31),BLOCK)   
+        -: 2611:         case(4)
+        -: 2612:!dvm$ redistribute
+        -: 2613:!dvm$*    A3(GEN_BLOCK(BSi41),GEN_BLOCK(BSj41),BLOCK)   
+        -: 2614:         case default 
+    #####: 2615:            goto 10
+branch  0 never executed
+branch  1 never executed
+        -: 2616:         endselect  
+        -: 2617:
+        -: 2618:      case default 
+        1: 2619:         goto 10
+branch  0 taken 100%
+branch  1 taken 0%
+branch  2 taken 0%
+branch  3 taken 0%
+branch  4 taken 0%
+        -: 2620:      endselect  
+        -: 2621:
+        -: 2622:!dvm$ region  
+        -: 2623:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       21: 2624:      do i=1,AN1
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+      321: 2625:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     3320: 2626:             do k=1,AN3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     3300: 2627:                A3(i,j,k) = i*NL/10 + j*NL/100 + k + 8  
+        -: 2628:             enddo
+        -: 2629:          enddo
+        -: 2630:      enddo
+        -: 2631:!dvm$ end region   
+        -: 2632:
+        -: 2633:!!!!dvm$  redistribute A3(*,*,GEN_BLOCK(BSk2))   
+        -: 2634:
+        -: 2635:      select case(psize(1))  ! it's true - psize(1)
+        -: 2636:      case(1) 
+        -: 2637:!dvm$ redistribute
+        -: 2638:!dvm$*    A3(*,*,GEN_BLOCK(BSk12))   
+        -: 2639:      case(2)
+        -: 2640:!dvm$ redistribute
+        -: 2641:!dvm$*    A3(*,*,GEN_BLOCK(BSk22))   
+        -: 2642:      case(3)
+        -: 2643:!dvm$ redistribute
+        -: 2644:!dvm$*    A3(*,*,GEN_BLOCK(BSk32))   
+        -: 2645:      case(4)
+        -: 2646:!dvm$ redistribute
+        -: 2647:!dvm$*    A3(*,*,GEN_BLOCK(BSk42))   
+        -: 2648:      case default 
+        -: 2649:         goto 10
+        -: 2650:      endselect  
+        -: 2651:
+        -: 2652:!dvm$ region  
+        -: 2653:!dvm$ parallel (i,j,k) on A3(i,j,k)
+       21: 2654:      do i=1,AN1
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+      321: 2655:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     3320: 2656:             do k=1,AN3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     3300: 2657:                A3(i,j,k) = A3(i,j,k) + 8   
+        -: 2658:             enddo
+        -: 2659:          enddo
+        -: 2660:      enddo
+        -: 2661:!dvm$ end region   
+        -: 2662:
+        -: 2663:!!!!dvm$  redistribute A3(*,GEN_BLOCK(BSj2),BLOCK)   
+        -: 2664:
+        -: 2665:      select case(psize(1))  ! it's true - psize(1)
+        -: 2666:      case(1) 
+        -: 2667:!dvm$ redistribute
+        -: 2668:!dvm$*    A3(*,GEN_BLOCK(BSj12),BLOCK)   
+        -: 2669:      case(2)
+        -: 2670:!dvm$ redistribute
+        -: 2671:!dvm$*    A3(*,GEN_BLOCK(BSj22),BLOCK)   
+        -: 2672:      case(3)
+        -: 2673:!dvm$ redistribute
+        -: 2674:!dvm$*    A3(*,GEN_BLOCK(BSj32),BLOCK)   
+        -: 2675:      case(4)
+        -: 2676:!dvm$ redistribute
+        -: 2677:!dvm$*    A3(*,GEN_BLOCK(BSj42),BLOCK)   
+        -: 2678:      case default 
+        -: 2679:         goto 10
+        -: 2680:      endselect  
+        -: 2681:
+        -: 2682:!dvm$ actual(erri)
+        -: 2683:
+        -: 2684:!dvm$ region  
+        -: 2685:!dvm$ parallel (i,j,k) on A3(i,j,k), reduction(min(erri))
+       21: 2686:      do i=1,AN1
+branch  0 taken 95% (fallthrough)
+branch  1 taken 5%
+      321: 2687:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     3320: 2688:            do k=1,AN3
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     3300: 2689:                if (A3(i,j,k) /= (i*NL/10 + j*NL/100 + k + 16)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####: 2690:                    erri = min(erri,i*NL/10 + j*NL/100 + k)
+        -: 2691:                endif 
+        -: 2692:            enddo
+        -: 2693:          enddo
+        -: 2694:      enddo
+        -: 2695:!dvm$ end region   
+        -: 2696:     
+        -: 2697:!dvm$ get_actual(erri)
+        -: 2698:
+        1: 2699:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1: 2700:          call ansyes(tname)
+call    0 returned 100%
+        -: 2701:      else
+    #####: 2702:          call ansno(tname)
+call    0 never executed
+        -: 2703:      endif 
+        -: 2704:
+       1*: 2705: 10   deallocate (A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -: 2706:
+        1: 2707:      end subroutine distrg310
+        -: 2708:
+        -: 2709:! ---------------------------------------------------------distrg311
+        -: 2710:! 311 DISTRIBUTE arrA3 [GEN_BLOCK][*][*]  
+        -: 2711:!                REDISTRIBUTE [*][*][*]
+        -: 2712:!                REDISTRIBUTE[BLOCK][*][GEN_BLOCK]
+        -: 2713:
+function distrg311_ called 1 returned 100% blocks executed 92%
+        1: 2714:      subroutine distrg311 (psize)
+        -: 2715:      integer psize(3)
+        -: 2716:
+        -: 2717:      integer, parameter :: AN1=8,AN2=16,AN3=24,NL=1000,ER=10000
+        -: 2718:      integer :: erri=ER,i,j,k
+        -: 2719:
+        -: 2720:      integer, dimension(1) :: BSi11=(/8/)        
+        -: 2721:      integer, dimension(1) :: BSi12=(/8/)           
+        -: 2722:      integer, dimension(2) :: BSi21=(/1,7/)     
+        -: 2723:      integer, dimension(2) :: BSi22=(/5,3/)     
+        -: 2724:      integer, dimension(3) :: BSi31=(/1,5,2/)   
+        -: 2725:      integer, dimension(3) :: BSi32=(/2,2,4/)     
+        -: 2726:      integer, dimension(4) :: BSi41=(/1,2,3,2/)  
+        -: 2727:      integer, dimension(4) :: BSi42=(/4,1,2,1/)     
+        -: 2728:
+        -: 2729:      integer, dimension(1) :: BSj11=(/16/)     
+        -: 2730:      integer, dimension(1) :: BSj12=(/16/)     
+        -: 2731:      integer, dimension(2) :: BSj21=(/4,12/)     
+        -: 2732:      integer, dimension(2) :: BSj22=(/7,9/)     
+        -: 2733:      integer, dimension(3) :: BSj31=(/3,12,1/)     
+        -: 2734:      integer, dimension(3) :: BSj32=(/6,2,8/)     
+        -: 2735:      integer, dimension(4) :: BSj41=(/4,1,2,9/)     
+        -: 2736:      integer, dimension(4) :: BSj42=(/2,3,6,5/)     
+        -: 2737:
+        -: 2738:      integer, dimension(1) :: BSk11=(/24/)     
+        -: 2739:      integer, dimension(1) :: BSk12=(/24/)     
+        -: 2740:      integer, dimension(2) :: BSk21=(/20,4/)     
+        -: 2741:      integer, dimension(2) :: BSk22=(/10,14/)     
+        -: 2742:      integer, dimension(3) :: BSk31=(/5,11,8/)     
+        -: 2743:      integer, dimension(3) :: BSk32=(/6,7,11/)    
+        -: 2744:      integer, dimension(4) :: BSk41=(/12,4,6,2/)     
+        -: 2745:      integer, dimension(4) :: BSk42=(/10,8,2,4/)     
+        -: 2746:
+        1: 2747:      integer, allocatable :: A3(:,:,:)
+        -: 2748:      character(10), parameter :: tname='distrg311 '
+        -: 2749:
+        -: 2750:!dvm$ distribute :: A3   
+        -: 2751:!dvm$ dynamic A3
+        -: 2752:
+       1*: 2753:      allocate (A3(AN1,AN2,AN3))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -: 2754:
+        -: 2755:!!!!dvm$ redistribute A3(GEN_BLOCK(BSi1),*,*)   
+        -: 2756:
+        1: 2757:      select case(psize(1))
+        -: 2758:      case(1) 
+        -: 2759:!dvm$ redistribute
+        -: 2760:!dvm$*    A3(GEN_BLOCK(BSi11),*,*)   
+        -: 2761:      case(2)
+        -: 2762:!dvm$ redistribute
+        -: 2763:!dvm$*    A3(GEN_BLOCK(BSi21),*,*)   
+        -: 2764:      case(3)
+        -: 2765:!dvm$ redistribute
+        -: 2766:!dvm$*    A3(GEN_BLOCK(BSi31),*,*)   
+        -: 2767:      case(4)
+        -: 2768:!dvm$ redistribute
+        -: 2769:!dvm$*    A3(GEN_BLOCK(BSi41),*,*)   
+        -: 2770:      case default 
+        1: 2771:         goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 2772:      endselect  
+        -: 2773:
+        -: 2774:!dvm$ region  
+        -: 2775:!dvm$ parallel (i,j,k) on A3(i,j,k)
+        9: 2776:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      137: 2777:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     3208: 2778:             do k=1,AN3
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+     3200: 2779:                A3(i,j,k) = i*NL/10 + j*NL/100 + k + 6  
+        -: 2780:             enddo
+        -: 2781:          enddo
+        -: 2782:      enddo
+        -: 2783:!dvm$ end region   
+        -: 2784:
+        -: 2785:!dvm$  redistribute A3(*,*,*)   
+        -: 2786:
+        -: 2787:!dvm$ region  
+        -: 2788:!dvm$ parallel (i,j,k) on A3(i,j,k)
+        9: 2789:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      137: 2790:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     3208: 2791:             do k=1,AN3
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+     3200: 2792:                A3(i,j,k) = A3(i,j,k) + 6   
+        -: 2793:             enddo
+        -: 2794:          enddo
+        -: 2795:      enddo
+        -: 2796:!dvm$ end region   
+        -: 2797:
+        -: 2798:!!!!dvm$  redistribute A3(BLOCK,*, GEN_BLOCK(BSk2))   
+        -: 2799:
+        1: 2800:      select case(psize(2))  ! it's true - psize(2)
+        -: 2801:      case(1) 
+        -: 2802:!dvm$ redistribute
+        -: 2803:!dvm$*    A3(BLOCK,*,GEN_BLOCK(BSk12))   
+        -: 2804:      case(2)
+        -: 2805:!dvm$ redistribute
+        -: 2806:!dvm$*    A3(BLOCK,*,GEN_BLOCK(BSk22))   
+        -: 2807:      case(3)
+        -: 2808:!dvm$ redistribute
+        -: 2809:!dvm$*    A3(BLOCK,*,GEN_BLOCK(BSk32))   
+        -: 2810:      case(4)
+        -: 2811:!dvm$ redistribute
+        -: 2812:!dvm$*    A3(BLOCK,*,GEN_BLOCK(BSk42))   
+        -: 2813:      case default 
+        1: 2814:         goto 10
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 2815:      endselect  
+        -: 2816:
+        -: 2817:!dvm$ get_actual(erri)
+        -: 2818:
+        -: 2819:!dvm$ region  
+        -: 2820:!dvm$ parallel (i,j,k) on A3(i,j,k), reduction(min(erri))
+        9: 2821:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      137: 2822:          do j=1,AN2
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     3208: 2823:            do k=1,AN3
+branch  0 taken 96% (fallthrough)
+branch  1 taken 4%
+     3200: 2824:                if (A3(i,j,k) /= (i*NL/10 + j*NL/100 + k + 12)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####: 2825:                    erri = min(erri,i*NL/10 + j*NL/100 + k)
+        -: 2826:                endif 
+        -: 2827:            enddo
+        -: 2828:          enddo
+        -: 2829:      enddo
+        -: 2830:!dvm$ end region   
+        -: 2831:     
+        -: 2832:!dvm$ get_actual(erri)
+        -: 2833:
+        1: 2834:      if (erri == ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1: 2835:          call ansyes(tname)
+call    0 returned 100%
+        -: 2836:      else
+    #####: 2837:          call ansno(tname)
+call    0 never executed
+        -: 2838:      endif 
+        -: 2839:
+       1*: 2840: 10   deallocate (A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -: 2841:
+        1: 2842:      end subroutine distrg311
+        -: 2843:
+        -: 2844:C -------------------------------------------------
+        -: 2845:
+function ansyes_ called 11 returned 100% blocks executed 100%
+       11: 2846:      subroutine ansyes(name)
+        -: 2847:      character(*) name
+       11: 2848:      print *,name,'  -  complete'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+       11: 2849:      end
+        -: 2850:
+function ansno_ called 0 returned 0% blocks executed 0%
+    #####: 2851:      subroutine ansno(name)
+        -: 2852:      character(*) name
+    #####: 2853:      print *,name,'  -  ***error'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+    #####: 2854:      end
+        -: 2855: 

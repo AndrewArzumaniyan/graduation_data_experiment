@@ -1,0 +1,133 @@
+        -:    0:Source:results/2d/jac2d/jac2d.f
+        -:    0:Graph:./results\2d\jac2d\jac2d.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+function MAIN__ called 0 returned 0% blocks executed 0%
+    #####:    1:        PROGRAM JAC2D
+        -:    2:        PARAMETER (L=8000, ITMAX=100)
+        -:    3:        REAL A(L, L), EPS, MAXEPS, B(L, L)
+        -:    4:        DOUBLE PRECISION STARTT, ENDT, dvtime
+        -:    5:!DVM$   DISTRIBUTE(BLOCK, BLOCK) :: A
+        -:    6:!DVM$   ALIGN B(I, J) WITH A(I, J)
+        -:    7:!        arrays A and B  with block distribution 
+        -:    8:
+    #####:    9:        MAXEPS = 0.5
+        -:   10:!DVM$   REGION
+        -:   11:!DVM$   PARALLEL(J, I) ON A(I, J), CUDA_BLOCK(256)
+        -:   12:!        nest of two parallel loops, iteration (i, j) will be executed on
+        -:   13:!        processor, which is owner of element A(i, j)
+    #####:   14:        DO J = 1, L
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   15:          DO I = 1, L
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   16:            A(I, J) = 0.
+    #####:   17:            IF (I.EQ.1 .OR. J.EQ.1 .OR. I.EQ.L .OR. J.EQ.L) THEN
+branch  0 never executed (fallthrough)
+branch  1 never executed
+branch  2 never executed (fallthrough)
+branch  3 never executed
+    #####:   18:              B(I, J) = 0.
+        -:   19:            ELSE
+    #####:   20:              B(I, J) = (1. + I + J)
+        -:   21:            ENDIF
+        -:   22:          ENDDO
+        -:   23:        ENDDO
+        -:   24:!DVM$   END REGION
+        -:   25:!DVM$   BARRIER
+    #####:   26:        STARTT = dvtime()
+call    0 never executed
+    #####:   27:        DO IT = 1, ITMAX
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   28:          EPS = 0.
+        -:   29:!DVM$     ACTUAL(EPS)
+        -:   30:!DVM$     REGION
+        -:   31:!DVM$    PARALLEL(J, I) ON A(I, J), REDUCTION(MAX(EPS)), CUDA_BLOCK(256)
+        -:   32:!          variable EPS is used for calculation of maximum value
+    #####:   33:          DO J = 2, L - 1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   34:            DO I = 2, L - 1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   35:              EPS = MAX(EPS, ABS(B(I, J) - A(I, J)))
+    #####:   36:              A(I, J) = B(I, J)
+        -:   37:            ENDDO
+        -:   38:          ENDDO
+        -:   39:!DVM$     PARALLEL(J, I) ON B(I, J), SHADOW_RENEW(A), CUDA_BLOCK(256)
+        -:   40:!          Copying shadow elements of array A from
+        -:   41:!          neighbouring processors before loop execution
+    #####:   42:          DO J = 2, L - 1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   43:            DO I = 2, L - 1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   44:          B(I, J) = (A(I, J-1) + A(I-1, J) + A(I+1, J) + A(I, J+1)) / 4.
+        -:   45:            ENDDO
+        -:   46:          ENDDO
+        -:   47:!DVM$     END REGION
+        -:   48:!DVM$     GET_ACTUAL(EPS)
+    #####:   49:          PRINT 200, IT, EPS
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+        -:   50:200       FORMAT (' IT = ', I4, '   EPS = ', E14.7)
+    #####:   51:          IF (EPS .LT. MAXEPS) EXIT
+branch  0 never executed (fallthrough)
+branch  1 never executed
+        -:   52:        ENDDO
+        -:   53:!DVM$   BARRIER
+    #####:   54:        ENDT = dvtime()
+call    0 never executed
+        -:   55:
+    #####:   56:        PRINT *, 'Jacobi2D Benchmark Completed.'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+    #####:   57:        PRINT 201, L, L
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+        -:   58:201     FORMAT (' Size            =    ', I6, ' x ', I6)
+    #####:   59:        PRINT 202, ITMAX
+call    0 never executed
+call    1 never executed
+call    2 never executed
+        -:   60:202     FORMAT (' Iterations      =       ', I12)
+    #####:   61:        PRINT 203, ENDT - STARTT
+call    0 never executed
+call    1 never executed
+call    2 never executed
+        -:   62:203     FORMAT (' Time in seconds =       ', F12.2)
+    #####:   63:        PRINT *, 'Operation type  =     floating point'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+    #####:   64:        IF (ABS(EPS - 58.37598) .LT. 1.0E-3) THEN
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   65:          PRINT *, 'Verification    =         SUCCESSFUL'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+        -:   66:        ELSE
+    #####:   67:          PRINT *, 'Verification    =       UNSUCCESSFUL'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+        -:   68:        ENDIF
+        -:   69:
+    #####:   70:        PRINT *, 'END OF Jacobi2D Benchmark'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+function main called 0 returned 0% blocks executed 0%
+    #####:   71:        END
+call    0 never executed
+call    1 never executed
+call    2 never executed

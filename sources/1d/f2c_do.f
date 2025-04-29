@@ -187,15 +187,15 @@ C ----------------------------------------------------do13
 !dvm$*, private(ia)
       do i=1, AN1
             do 102, ia = 1, i
-102            A1(i) = A1(i) + ia + (i-5)
-         
+                  A1(i) = A1(i) + ia + (i-5)
+102         continue         
       enddo
       
 !dvm$ end region   
       do i=1, AN1
             do 202, ia = 1, i
-202             B1(i) = B1(i) + ia + (i-5)
-          
+                  B1(i) = B1(i) + ia + (i-5)
+202         continue          
       enddo
       erri= ER
 !dvm$ get_actual(A1)
@@ -445,7 +445,8 @@ C ----------------------------------------------------do17
         n = 0
         do 107, ia = 1, A1(i)
             do 107, j = ia, A1(i)
-107             n = n+1         
+                  n = n+1         
+107         continue
         A1(i) = n + j - 2*ia
       enddo
 !dvm$ end region
@@ -454,7 +455,8 @@ C ----------------------------------------------------do17
         n = 0
         do 207, ia = 1, B1(i)
             do 207, j = ia, B1(i)
-207             n = n+1         
+                  n = n+1         
+207         continue            
         B1(i) = n + j - 2*ia
       enddo
 

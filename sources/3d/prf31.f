@@ -442,7 +442,8 @@ C ---------------------------------------------------------
       do 10 i=1,N
       do 10 j=1,M
       do 10 ii=1,K
-   10 AR(i,j,ii) = NL+i+j+ii
+      AR(i,j,ii) = NL+i+j+ii
+10    continue
                    
       end 
 

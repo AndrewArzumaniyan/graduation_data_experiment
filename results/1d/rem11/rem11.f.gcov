@@ -1,0 +1,944 @@
+        -:    0:Source:results/1d/rem11/rem11.f
+        -:    0:Graph:./results\1d\rem11\rem11.gcno
+        -:    0:Data:./results\1d\rem11\rem11.gcda
+        -:    0:Runs:1
+function MAIN__ called 1 returned 100% blocks executed 100%
+        1:    1:      program REM11
+        -:    2:     
+        -:    3:c    TESTING OF THE REMOTE_ACCESS DIRECTIVE AND THE REMOTE_ACCESS CLAUSE'.       
+        -:    4:c    DISTRIBUTED ARRAY A(N) OR ELEMENTS OF THIS ARRAY ARE REPLICATED
+        -:    5:c    ON ALL PROCESSORS. 
+        -:    6:
+        1:    7:      print *,'===START OF REM11========================'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:    8:C --------------------------------------------------
+        1:    9:      call rem1101
+call    0 returned 100%
+        -:   10:C --------------------------------------------------
+        1:   11:      call rem1102
+call    0 returned 100%
+        -:   12:C --------------------------------------------------
+        1:   13:      call rem1103
+call    0 returned 100%
+        -:   14:C -------------------------------------------------
+        1:   15:      call rem1104
+call    0 returned 100%
+        -:   16:C -------------------------------------------------
+        1:   17:      call rem1105
+call    0 returned 100%
+        -:   18:C -------------------------------------------------
+        1:   19:      call rem1106
+call    0 returned 100%
+        -:   20:C --------------------------------------------------
+        1:   21:      call rem1107
+call    0 returned 100%
+        -:   22:C --------------------------------------------------
+        1:   23:      call rem1108
+call    0 returned 100%
+        -:   24:C --------------------------------------------------
+        1:   25:      call rem1109
+call    0 returned 100%
+        -:   26:C -------------------------------------------------
+        1:   27:      call rem1110
+call    0 returned 100%
+        -:   28:C -------------------------------------------------
+        1:   29:      call rem1111
+call    0 returned 100%
+        -:   30:C -------------------------------------------------
+        1:   31:      call rem1112
+call    0 returned 100%
+        -:   32:C ------------------------------------------------- 
+        -:   33:
+        -:   34:C
+        -:   35:C
+        1:   36:      print *,'=== END OF REM11 ========================= '    
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+function main called 1 returned 100% blocks executed 100%
+        1:   37:      end
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   38:C ---------------------------------------------REM1101
+function rem1101_ called 1 returned 100% blocks executed 75%
+        1:   39:      subroutine REM1101
+        -:   40:      integer, parameter :: N = 16,NL=1000
+        1:   41:      integer, allocatable :: A(:),B(:),C(:)
+        -:   42:      integer nloop 
+        -:   43:      character*7 tname
+        -:   44:                
+        -:   45:!dvm$ distribute B(BLOCK)     
+        -:   46:!dvm$ align (I) with B(I) ::A
+        -:   47:
+        1:   48:      tname='REM1101'
+       1*:   49:      allocate (B(N),A(N),C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 100% (fallthrough)
+branch  7 taken 0%
+call    8 never executed
+        -:   50:      NNL=NL    
+       17:   51:      call serial1(C,N,NNL)
+        -:   52:      nloop=NL
+        -:   53:!dvm$ region out(A)
+        -:   54:!dvm$ parallel (i) on A(i)
+       17:   55:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+       17:   56:        A(i) = NL+i
+        -:   57:      enddo
+        -:   58:!dvm$ end region
+        -:   59:!dvm$ get_actual(A(1))
+        -:   60:!dvm$ remote_access (A(1))
+        1:   61:      ib=A(1)
+        -:   62:
+        1:   63:      if (ib .eq.C(1)) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:   64:          call ansyes(tname)
+call    0 returned 100%
+        -:   65:      else
+    #####:   66:          call ansno(tname)
+call    0 never executed
+        -:   67:      endif 
+       1*:   68:      deallocate (A,B,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:   69:
+        1:   70:      end
+        -:   71:C ---------------------------------------------REM1102
+function rem1102_ called 1 returned 100% blocks executed 75%
+        1:   72:      subroutine REM1102
+        -:   73:      integer, parameter :: N = 16,NL=1000
+        1:   74:      integer, allocatable :: A(:),B(:),C(:)
+        -:   75:      integer nloop 
+        -:   76:      character*7 tname
+        -:   77:                
+        -:   78:!dvm$ distribute B(BLOCK)    
+        -:   79:!dvm$ align (I) with B(I) ::A
+        -:   80:
+        1:   81:      tname='REM1102'
+       1*:   82:      allocate (B(N),A(N),C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 100% (fallthrough)
+branch  7 taken 0%
+call    8 never executed
+        -:   83:      NNL=NL    
+       17:   84:      call serial1(C,N,NNL)
+        -:   85:      nloop=NL
+        -:   86:!dvm$ region out(A)
+        -:   87:!dvm$ parallel (i) on A(i)
+       17:   88:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+       17:   89:        A(i) = NL+i
+        -:   90:      enddo
+        -:   91:               
+        -:   92:!dvm$ end region
+        -:   93:!dvm$ get_actual(A(N))
+        -:   94:!dvm$ remote_access (A(N))
+        1:   95:      ib=A(N)               
+        1:   96:      if (ib .eq.C(N)) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:   97:         call ansyes(tname)
+call    0 returned 100%
+        -:   98:      else
+    #####:   99:         call ansno(tname)
+call    0 never executed
+        -:  100:      endif 
+       1*:  101:      deallocate (A,B,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  102:
+        1:  103:      end     
+        -:  104: 
+        -:  105:C ----------------------------------------REM1103
+function rem1103_ called 1 returned 100% blocks executed 75%
+        1:  106:      subroutine REM1103
+        -:  107:      integer, parameter :: N = 16,NL=1000
+        1:  108:      integer, allocatable :: A(:),B(:),C(:)
+        -:  109:      integer nloop 
+        -:  110:      character*7 tname
+        -:  111:                
+        -:  112:!dvm$ distribute B(BLOCK)     
+        -:  113:!dvm$ align (I) with B(I) ::A
+        -:  114:
+        1:  115:      tname='REM1103'
+       1*:  116:      allocate (B(N),A(N),C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 100% (fallthrough)
+branch  7 taken 0%
+call    8 never executed
+        -:  117:      NNL=NL    
+       17:  118:      call serial1(C,N,NNL)
+        -:  119:      nloop=NL
+        -:  120:
+        -:  121:!dvm$ region out(A)
+        -:  122:!dvm$ parallel (i) on A(i)
+       17:  123:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+       17:  124:        A(i) = NL+i
+        -:  125:      enddo
+        -:  126:               
+        -:  127:!dvm$ end region
+        -:  128:!dvm$ get_actual(A(N/2))
+        -:  129:!dvm$ remote_access (A(N/2))
+        1:  130:      ib=A(N/2)               
+        1:  131:      if (ib .eq.C(N/2)) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  132:         call ansyes(tname)
+call    0 returned 100%
+        -:  133:      else
+    #####:  134:         call ansno(tname)
+call    0 never executed
+        -:  135:      endif 
+       1*:  136:      deallocate (A,B,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  137:
+        1:  138:      end      
+        -:  139:C ----------------------------------------REM1104
+function rem1104_ called 1 returned 100% blocks executed 72%
+        1:  140:      subroutine REM1104
+        -:  141:      integer, parameter :: N = 16,NL=1000
+        1:  142:      integer, allocatable :: A(:),B(:),C(:),D(:)
+        -:  143:      integer nloop,isumc,isuma 
+        -:  144:      character*7 tname
+        -:  145:                
+        -:  146:!dvm$ distribute B(BLOCK)    
+        -:  147:!dvm$ align (I) with B(I) ::A
+        -:  148:
+        1:  149:      tname='REM1104'
+       1*:  150:      allocate (B(N),A(N),C(N),D(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 100% (fallthrough)
+branch 10 taken 0%
+call   11 never executed
+       17:  151:      isumc=0
+       17:  152:      isuma=0    
+        -:  153:      NNL=NL    
+       17:  154:      call serial1(C,N,NNL)
+        -:  155:      nloop=NL
+        -:  156:
+        -:  157:!dvm$ region out(A)
+        -:  158:!dvm$ parallel (i) on A(i)
+       17:  159:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       17:  160:        A(i) = NL+i
+        -:  161:      enddo
+        -:  162:
+        -:  163:!dvm$ end region
+       17:  164:      do i=1,N         
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+        -:  165:!dvm$ get_actual(A(i))
+        -:  166:!dvm$   remote_access (A(i))
+       16:  167:        D(i)=A(i)
+       16:  168:        isumc=isumc+C(i)
+       17:  169:        isuma=isuma+D(i)
+        -:  170:      enddo
+        1:  171:      if (isumc .eq.isuma) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  172:         call ansyes(tname)
+call    0 returned 100%
+        -:  173:      else
+    #####:  174:         call ansno(tname)
+call    0 never executed
+        -:  175:      endif 
+       1*:  176:      deallocate (A,B,C,D)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+        -:  177:
+        1:  178:      end           
+        -:  179: 
+        -:  180:C ----------------------------------------REM1105
+function rem1105_ called 1 returned 100% blocks executed 72%
+        1:  181:      subroutine REM1105
+        -:  182:      integer, parameter :: N = 16,NL=1000
+        1:  183:      integer, allocatable :: A(:),B(:),C(:),D(:)
+        -:  184:      integer nloop,isumc,isuma 
+        -:  185:      character*7 tname
+        -:  186:                
+        -:  187:!dvm$ distribute B(BLOCK)     
+        -:  188:
+        -:  189:!dvm$ align (I) with B(I) ::A
+        -:  190:
+        1:  191:      tname='REM1105'
+       1*:  192:      allocate (B(N),A(N),C(N),D(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 100% (fallthrough)
+branch 10 taken 0%
+call   11 never executed
+       17:  193:      isumc=0
+       17:  194:      isuma=0    
+        -:  195:      NNL=NL    
+       17:  196:      call serial1(C,N,NNL)
+        -:  197:      nloop=NL
+        -:  198:
+        -:  199:!dvm$ region out(A)
+        -:  200:!dvm$ parallel (i) on A(i)
+       17:  201:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       17:  202:        A(i) = NL+i
+        -:  203:      enddo
+        -:  204:
+        -:  205:!dvm$ end region
+        -:  206:!dvm$ get_actual(A)
+       17:  207:      do i=1,N         
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+        -:  208:!dvm$   remote_access (A(:))
+       16:  209:        D(i)=A(i)
+       16:  210:        isumc=isumc+C(i)
+       17:  211:        isuma=isuma+D(i)
+        -:  212:      enddo
+        1:  213:      if (isumc .eq.isuma) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  214:         call ansyes(tname)
+call    0 returned 100%
+        -:  215:      else
+    #####:  216:         call ansno(tname)
+call    0 never executed
+        -:  217:      endif 
+       1*:  218:      deallocate (A,B,C,D)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+        -:  219:
+        1:  220:      end           
+        -:  221: 
+        -:  222:C ----------------------------------------REM1106
+function rem1106_ called 1 returned 100% blocks executed 72%
+        1:  223:      subroutine REM1106
+        -:  224:      integer, parameter :: N = 16,NL=1000     
+        1:  225:      integer, allocatable :: A(:),B(:),C(:),D(:)
+        -:  226:      integer nloop,isumc,isuma 
+        -:  227:      character*7 tname
+        -:  228:                
+        -:  229:!dvm$ distribute B(BLOCK)     
+        -:  230:!dvm$ align (I) with B(I) ::A
+        -:  231:
+        1:  232:      tname='REM1106'
+       1*:  233:      allocate (B(N),A(N),C(N),D(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 100% (fallthrough)
+branch 10 taken 0%
+call   11 never executed
+       17:  234:      isumc=0
+       17:  235:      isuma=0    
+        -:  236:      NNL=NL    
+       17:  237:      call serial1(C,N,NNL)
+        -:  238:      nloop=NL
+        -:  239:
+        -:  240:!dvm$ region out(A)
+        -:  241:!dvm$ parallel (i) on A(i)
+       17:  242:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       17:  243:        A(i) = NL+i
+        -:  244:      enddo
+        -:  245:
+        -:  246:!dvm$ end region
+        -:  247:      kk=2
+        -:  248:      kk1=3                                               
+        -:  249:
+        6:  250:      do i=1,N/kk-kk1
+branch  0 taken 83% (fallthrough)
+branch  1 taken 17%
+        -:  251:!dvm$ get_actual(A(kk*i+kk1))
+        -:  252:!dvm$  remote_access (A(kk*i+kk1))
+        5:  253:       D(i)=A(kk*i+kk1)
+        5:  254:       isumc=isumc+C(kk*i+kk1)
+        6:  255:       isuma=isuma+D(i)
+        -:  256:      enddo
+        1:  257:      if (isumc .eq.isuma) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  258:          call ansyes(tname)
+call    0 returned 100%
+        -:  259:      else
+    #####:  260:          call ansno(tname)
+call    0 never executed
+        -:  261:      endif 
+       1*:  262:      deallocate (A,B,C,D)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+        -:  263:
+        1:  264:      end           
+        -:  265:C ---------------------------------------------REM1107
+function rem1107_ called 1 returned 100% blocks executed 76%
+        1:  266:      subroutine REM1107
+        -:  267:      integer, parameter :: N = 16,NL=1000
+        1:  268:      integer, allocatable :: A(:),B(:),C(:)
+        -:  269:      integer nloop 
+        -:  270:      character*7 tname
+        -:  271:                
+        -:  272:!dvm$ distribute B(BLOCK)    
+        -:  273:!dvm$ align (I) with B(I) ::A
+        -:  274:
+        1:  275:      tname='REM1107'
+       1*:  276:      allocate (B(N),A(N),C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 100% (fallthrough)
+branch  7 taken 0%
+call    8 never executed
+        -:  277:      NNL=NL    
+       17:  278:      call serial1(C,N,NNL)
+       17:  279:      nloop=NL
+        -:  280:
+        -:  281:!dvm$ region local(A, B)
+        -:  282:!dvm$ parallel (i) on A(i)
+       17:  283:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       17:  284:        A(i) = NL+i
+        -:  285:      enddo
+        -:  286:               
+        -:  287:!dvm$ parallel (i) on B(i),remote_access(A(1))
+       17:  288:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       17:  289:         B(i) = A(1)
+        -:  290:      enddo
+        -:  291:
+        -:  292:!dvm$ parallel (i) on A(i), reduction( min( nloop ) )
+       17:  293:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      17*:  294:          if (B(i).ne.C(1)) nloop=min(nloop, i);
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  295:      enddo
+        -:  296:!dvm$ end region
+        -:  297:!dvm$ get_actual(nloop)
+        -:  298:
+        1:  299:      if (nloop .eq.NL) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  300:          call ansyes(tname)
+call    0 returned 100%
+        -:  301:      else
+    #####:  302:          call ansno(tname)
+call    0 never executed
+        -:  303:      endif 
+       1*:  304:      deallocate (A,B,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        -:  305:
+        1:  306:      end
+        -:  307:
+        -:  308:C ---------------------------------------------REM1108
+function rem1108_ called 1 returned 100% blocks executed 76%
+        1:  309:      subroutine REM1108
+        -:  310:      integer, parameter :: N = 16,NL=1000
+        1:  311:      integer, allocatable :: A(:),B(:),C(:)
+        -:  312:      integer nloop 
+        -:  313:      character*7 tname
+        -:  314:                
+        -:  315:!dvm$ distribute B(BLOCK)    
+        -:  316:!dvm$ align (I) with B(I) ::A
+        -:  317:
+        1:  318:      tname='REM1108'
+       1*:  319:      allocate (B(N),A(N),C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 100% (fallthrough)
+branch  7 taken 0%
+call    8 never executed
+        -:  320:      NNL=NL    
+       17:  321:      call serial1(C,N,NNL)
+       17:  322:      nloop=NL
+        -:  323:!dvm$ region local(A,B)
+        -:  324:!dvm$ parallel (i) on A(i)
+       17:  325:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       17:  326:        A(i) = NL+i
+        -:  327:      enddo
+        -:  328:               
+        -:  329:!dvm$ parallel (i) on B(i),remote_access(A(N))
+       17:  330:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       17:  331:         B(i) = A(N)
+        -:  332:      enddo
+        -:  333:
+        -:  334:!dvm$ parallel (i) on B(i), reduction( min( nloop ) )
+       17:  335:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      17*:  336:          if (B(i).ne.C(N)) nloop=min(nloop,i)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  337:      enddo
+        -:  338:!dvm$ end region
+        -:  339:!dvm$ get_actual(nloop)
+        -:  340:
+        1:  341:      if (nloop .eq.NL) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  342:          call ansyes(tname)
+call    0 returned 100%
+        -:  343:      else
+    #####:  344:          call ansno(tname)
+call    0 never executed
+        -:  345:      endif 
+       1*:  346:      deallocate (A,B,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        -:  347:
+        1:  348:      end
+        -:  349:C ---------------------------------------------REM1109
+        -:  350:
+function rem1109_ called 1 returned 100% blocks executed 76%
+        1:  351:      subroutine REM1109
+        -:  352:      integer, parameter :: N = 16,NL=1000
+        1:  353:      integer, allocatable :: A(:),B(:),C(:)
+        -:  354:      integer nloop 
+        -:  355:      character*7 tname
+        -:  356:                
+        -:  357:!dvm$ distribute B(BLOCK)   
+        -:  358:!dvm$ align (I) with B(I) ::A
+        -:  359:
+        1:  360:      tname='REM1109'
+       1*:  361:      allocate (B(N),A(N),C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 100% (fallthrough)
+branch  7 taken 0%
+call    8 never executed
+        -:  362:      NNL=NL    
+       17:  363:      call serial1(C,N,NNL)
+       17:  364:      nloop=NL
+        -:  365:!dvm$ region local(A,B)
+        -:  366:!dvm$ parallel (i) on A(i)
+       17:  367:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       17:  368:        A(i) = NL+i
+        -:  369:      enddo
+        -:  370:               
+        -:  371:!dvm$ parallel (i) on B(i),remote_access(A(N/2))
+       17:  372:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       17:  373:         B(i) = A(N/2)
+        -:  374:      enddo
+        -:  375:
+        -:  376:!dvm$ parallel (i) on B(i), reduction( min( nloop ) )
+       17:  377:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      17*:  378:          if (B(i).ne.C(N/2)) nloop=min(nloop,i)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  379:      enddo
+        -:  380:!dvm$ end region
+        -:  381:!dvm$ get_actual(nloop)
+        -:  382:
+        1:  383:      if (nloop .eq.NL) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  384:         call ansyes(tname)
+call    0 returned 100%
+        -:  385:      else
+    #####:  386:         call ansno(tname)
+call    0 never executed
+        -:  387:      endif 
+       1*:  388:      deallocate (A,B,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        -:  389:
+        1:  390:      end
+        -:  391:C ---------------------------------------------REM1110
+        -:  392:
+function rem1110_ called 1 returned 100% blocks executed 76%
+        1:  393:      subroutine REM1110
+        -:  394:      integer, parameter :: N = 16,NL=1000
+        1:  395:      integer, allocatable :: A(:),B(:),C(:)
+        -:  396:      integer nloop 
+        -:  397:      character*7 tname
+        -:  398:                
+        -:  399:!dvm$ distribute B(BLOCK)    
+        -:  400:!dvm$ align (I) with B(I) ::A
+        -:  401:
+        1:  402:      tname='REM1110'
+       1*:  403:      allocate (B(N),A(N),C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 100% (fallthrough)
+branch  7 taken 0%
+call    8 never executed
+        -:  404:      NNL=NL    
+       17:  405:      call serial1(C,N,NNL)
+       17:  406:      nloop=NL
+        -:  407:!dvm$ region local(A,B)
+        -:  408:!dvm$ parallel (i) on A(i)
+       17:  409:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       17:  410:        A(i) = NL+i
+        -:  411:      enddo
+        -:  412:               
+        -:  413:!dvm$ parallel (i) on B(i),remote_access(A)
+       17:  414:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       17:  415:         B(i) = A(i)
+        -:  416:      enddo
+        -:  417:
+        -:  418:!dvm$ parallel (i) on B(i), reduction( min( nloop ) )
+       17:  419:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      17*:  420:          if (B(i).ne.C(i)) nloop=min(nloop,i)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  421:      enddo
+        -:  422:!dvm$ end region
+        -:  423:!dvm$ get_actual(nloop)
+        -:  424:
+        -:  425:               
+        1:  426:      if (nloop .eq.NL) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  427:         call ansyes(tname)
+call    0 returned 100%
+        -:  428:      else
+    #####:  429:         call ansno(tname)
+call    0 never executed
+        -:  430:      endif 
+       1*:  431:      deallocate (A,B,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        -:  432:
+        1:  433:      end
+        -:  434:
+        -:  435:C ---------------------------------------------REM1111
+function rem1111_ called 1 returned 100% blocks executed 76%
+        1:  436:      subroutine REM1111
+        -:  437:      integer, parameter :: N = 16,NL=1000
+        1:  438:      integer, allocatable :: A(:),B(:),C(:)
+        -:  439:      integer nloop 
+        -:  440:      character*7 tname
+        -:  441:                
+        -:  442:!dvm$ distribute B(BLOCK)     
+        -:  443:!dvm$ align (I) with B(I) ::A
+        -:  444:
+        1:  445:      tname='REM1111'
+       1*:  446:      allocate (B(N),A(N),C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 100% (fallthrough)
+branch  7 taken 0%
+call    8 never executed
+        -:  447:      NNL=NL    
+       17:  448:      call serial1(C,N,NNL)
+       17:  449:      nloop=NL
+        -:  450:
+        -:  451:!dvm$ region local(A,B)
+        -:  452:!dvm$ parallel (i) on A(i)
+       17:  453:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       17:  454:        A(i) = NL+i
+        -:  455:      enddo
+        -:  456:               
+        -:  457:!dvm$ parallel (i) on B(i),remote_access(A(i))
+       17:  458:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       17:  459:         B(i) = A(i)
+        -:  460:      enddo
+        -:  461:
+        -:  462:!dvm$ parallel (i) on B(i), reduction( min( nloop ) )
+       17:  463:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      17*:  464:          if (B(i).ne.C(i)) nloop=min(nloop,i)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  465:      enddo
+        -:  466:!dvm$ end region
+        -:  467:!dvm$ get_actual(nloop)
+        1:  468:      if (nloop .eq.NL) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  469:         call ansyes(tname)
+call    0 returned 100%
+        -:  470:      else
+    #####:  471:         call ansno(tname)
+call    0 never executed
+        -:  472:      endif 
+       1*:  473:      deallocate (A,B,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        -:  474:
+        1:  475:      end
+        -:  476:
+        -:  477:
+        -:  478:C ---------------------------------------------REM1112
+function rem1112_ called 1 returned 100% blocks executed 76%
+        1:  479:      subroutine REM1112
+        -:  480:      integer, parameter :: N = 16,NL=1000
+        1:  481:      integer, allocatable :: A(:),B(:),C(:)
+        -:  482:      integer nloop 
+        -:  483:      character*7 tname
+        -:  484:                
+        -:  485:!dvm$ distribute B(BLOCK)   
+        -:  486:!dvm$ align (I) with B(I) ::A
+        -:  487:
+        1:  488:      tname='REM1112'
+       1*:  489:      allocate (B(N),A(N),C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 100% (fallthrough)
+branch  7 taken 0%
+call    8 never executed
+        -:  490:      NNL=NL    
+       17:  491:      call serial1(C,N,NNL)
+       17:  492:      nloop=NL
+        -:  493:      kk=2
+        -:  494:      kk1=3         
+        -:  495:!dvm$ region local(A,B)
+        -:  496:!dvm$ parallel (i) on A(i)
+       17:  497:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       17:  498:        A(i) = NL+i
+        -:  499:      enddo
+        -:  500:
+        -:  501:!dvm$ parallel (i) on B(i),remote_access(A(kk*i+kk1))
+        6:  502:      do i=1,N/kk-kk1
+branch  0 taken 17% (fallthrough)
+branch  1 taken 83%
+        6:  503:         B(i) = A(kk*i+kk1)
+        -:  504:      enddo
+        -:  505:
+        -:  506:!dvm$ parallel (i) on B(i), reduction( min( nloop ) )
+        6:  507:      do i=1,N/kk-kk1
+branch  0 taken 83% (fallthrough)
+branch  1 taken 17%
+       6*:  508:          if (B(i).ne.C(kk*i+kk1)) nloop=min(nloop,i)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  509:      enddo
+        -:  510:!dvm$ end region
+        -:  511:!dvm$ get_actual(nloop)
+        -:  512:               
+        1:  513:      if (nloop .eq.NL) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  514:         call ansyes(tname)
+call    0 returned 100%
+        -:  515:      else
+    #####:  516:         call ansno(tname)
+call    0 never executed
+        -:  517:      endif 
+       1*:  518:      deallocate (A,B,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        -:  519:
+        1:  520:      end
+        -:  521:
+        -:  522:C -----------------------------------------------         
+function serial1_ called 0 returned 0% blocks executed 0%
+    #####:  523:      subroutine serial1(AR,N,NL)
+        -:  524:      integer AR(N)
+        -:  525:      integer NL 
+     204*:  526:      do i=1,N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+branch  2 taken 6% (fallthrough)
+branch  3 taken 94%
+branch  4 taken 6% (fallthrough)
+branch  5 taken 94%
+branch  6 taken 6% (fallthrough)
+branch  7 taken 94%
+branch  8 taken 6% (fallthrough)
+branch  9 taken 94%
+branch 10 taken 6% (fallthrough)
+branch 11 taken 94%
+branch 12 taken 6% (fallthrough)
+branch 13 taken 94%
+branch 14 taken 6% (fallthrough)
+branch 15 taken 94%
+branch 16 taken 6% (fallthrough)
+branch 17 taken 94%
+branch 18 taken 6% (fallthrough)
+branch 19 taken 94%
+branch 20 taken 6% (fallthrough)
+branch 21 taken 94%
+branch 22 never executed (fallthrough)
+branch 23 never executed
+branch 24 taken 6% (fallthrough)
+branch 25 taken 94%
+     204*:  527:        AR(i) = NL+i
+        -:  528:      enddo
+    #####:  529:      end 
+        -:  530:
+function ansyes_ called 12 returned 100% blocks executed 100%
+       12:  531:      subroutine ansyes(name)
+        -:  532:      character*7 name
+       12:  533:      print *,name,'  -  complete'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+       12:  534:      end
+function ansno_ called 0 returned 0% blocks executed 0%
+    #####:  535:      subroutine ansno(name)
+        -:  536:      character*7 name
+    #####:  537:      print *,name,'  -  ***error'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+    #####:  538:      end

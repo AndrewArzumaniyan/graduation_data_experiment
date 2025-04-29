@@ -1,0 +1,173 @@
+        -:    0:Source:results/3d/adi3d/adi3d.f
+        -:    0:Graph:./results\3d\adi3d\adi3d.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+function MAIN__ called 0 returned 0% blocks executed 0%
+    #####:    1:       program adi
+        -:    2:       integer nx, ny, nz, itmax
+        -:    3:       double precision eps, relax, maxeps
+        -:    4:       double precision startt, endt, dvtime
+        -:    5:       parameter(nx=384, ny=384, nz=384, maxeps=0.01, itmax=100)
+        -:    6:       double precision a(nx, ny, nz)
+        -:    7:!DVM$  DISTRIBUTE(BLOCK, BLOCK, BLOCK) :: a
+    #####:    8:       call init(a, nx, ny, nz)
+call    0 never executed
+        -:    9:!DVM$  BARRIER
+    #####:   10:       startt = dvtime()
+call    0 never executed
+    #####:   11:       do it = 1, itmax
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   12:         eps=0.D0
+        -:   13:!DVM$    ACTUAL(eps)
+        -:   14:!DVM$    REGION
+        -:   15:!DVM$    PARALLEL(k, j, i) ON a(i, j, k), ACROSS(a(1:1, 0:0, 0:0))
+    #####:   16:         do k = 2, nz - 1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   17:           do j = 2, ny - 1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   18:             do i = 2, nx - 1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   19:               a(i, j, k) = (a(i-1, j, k) + a(i+1, j, k)) / 2
+        -:   20:             enddo
+        -:   21:           enddo
+        -:   22:         enddo
+        -:   23:!DVM$    PARALLEL(k, j, i) ON a(i, j, k), ACROSS(a(0:0, 1:1, 0:0))
+    #####:   24:         do k = 2, nz - 1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   25:           do j = 2, ny - 1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   26:             do i = 2, nx - 1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   27:               a(i, j, k) = (a(i, j-1, k) + a(i, j+1, k)) / 2
+        -:   28:             enddo
+        -:   29:           enddo
+        -:   30:         enddo
+        -:   31:!DVM$    PARALLEL(k, j, i) ON a(i, j, k), ACROSS(a(0:0, 0:0, 1:1))
+        -:   32:!DVM$>, REDUCTION(MAX(eps))
+    #####:   33:         do k = 2, nz - 1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   34:           do j = 2, ny - 1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   35:             do i = 2, nx - 1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+        -:   36:               eps = max(eps, abs(a(i, j, k) -
+    #####:   37:     >                  (a(i,j,k-1) + a(i,j,k+1)) / 2))
+    #####:   38:               a(i, j, k) = (a(i, j, k-1) + a(i, j, k+1)) / 2
+        -:   39:             enddo
+        -:   40:           enddo
+        -:   41:         enddo
+        -:   42:!DVM$    END REGION
+        -:   43:!DVM$    GET_ACTUAL(eps)
+    #####:   44:         print 200, it, eps
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+        -:   45:200      format (' IT = ', i4, '   EPS = ', e14.7)
+    #####:   46:         if (eps .lt. maxeps) exit
+branch  0 never executed (fallthrough)
+branch  1 never executed
+        -:   47:       enddo
+        -:   48:!DVM$  BARRIER
+    #####:   49:       endt = dvtime()
+call    0 never executed
+        -:   50:
+    #####:   51:       print *, 'ADI Benchmark Completed.'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+    #####:   52:       print 201, nx, ny, nz
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+call    4 never executed
+        -:   53:201    format (' Size            = ', i4, ' x ', i4, ' x ', i4)
+    #####:   54:       print 202, itmax
+call    0 never executed
+call    1 never executed
+call    2 never executed
+        -:   55:202    format (' Iterations      =       ', i12)
+    #####:   56:       print 203, endt - startt
+call    0 never executed
+call    1 never executed
+call    2 never executed
+        -:   57:203    format (' Time in seconds =       ', f12.2)
+    #####:   58:       print *, 'Operation type  =   double precision'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+    #####:   59:       if (abs(eps - 0.07249074) .lt. 1.0e-6) then
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   60:         print *, 'Verification    =         SUCCESSFUL'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+        -:   61:       else
+    #####:   62:         print *, 'Verification    =       UNSUCCESSFUL'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+        -:   63:       endif
+        -:   64:
+    #####:   65:       print *, 'END OF ADI Benchmark'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+function main called 0 returned 0% blocks executed 0%
+    #####:   66:       end
+call    0 never executed
+call    1 never executed
+call    2 never executed
+        -:   67:
+function init_ called 0 returned 0% blocks executed 0%
+    #####:   68:       subroutine init(a, nx, ny, nz)
+        -:   69:       double precision a(nx, ny, nz)
+        -:   70:!DVM$  INHERIT a
+        -:   71:       integer nx, ny, nz
+        -:   72:!DVM$  REGION OUT(a)
+        -:   73:!DVM$  PARALLEL(k, j, i) ON a(i, j, k)
+    #####:   74:       do k = 1, nz
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   75:         do j = 1, ny
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   76:           do i = 1, nx
+branch  0 never executed (fallthrough)
+branch  1 never executed
+        -:   77:             if(k.eq.1 .or. k.eq.nz .or. j.eq.1 .or. j.eq.ny .or.
+    #####:   78:     >          i.eq.1 .or. i.eq.nx) then
+branch  0 never executed (fallthrough)
+branch  1 never executed
+branch  2 never executed (fallthrough)
+branch  3 never executed
+branch  4 never executed (fallthrough)
+branch  5 never executed
+branch  6 never executed (fallthrough)
+branch  7 never executed
+branch  8 never executed (fallthrough)
+branch  9 never executed
+branch 10 never executed (fallthrough)
+branch 11 never executed
+        -:   79:               a(i, j, k) = 10.*(i-1)/(nx-1) + 10.*(j-1)/(ny-1)
+    #####:   80:     >                      + 10.*(k-1)/(nz-1)
+        -:   81:             else
+    #####:   82:               a(i, j, k) = 0.D0
+        -:   83:             endif
+        -:   84:           enddo
+        -:   85:         enddo
+        -:   86:       enddo
+        -:   87:!DVM$  END REGION
+    #####:   88:       end

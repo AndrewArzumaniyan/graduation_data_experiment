@@ -1,0 +1,512 @@
+        -:    0:Source:results/1d/distrfloat1/distrfloat1.f
+        -:    0:Graph:./results\1d\distrfloat1\distrfloat1.gcno
+        -:    0:Data:./results\1d\distrfloat1\distrfloat1.gcda
+        -:    0:Runs:1
+function MAIN__ called 1 returned 100% blocks executed 100%
+        1:    1:      program DISTRFLOAT1
+        -:    2:
+        -:    3:c    TESTING distribute and redistribute CLAUSE .       
+        -:    4:
+        1:    5:      print *, '===START OF distrfloat1=================='
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:    6:C --------------------------------------------------
+        -:    7:c 11  DISTRIBUTE arrA1[BLOCK]    REDISTRIBUTE arrA1[*] 
+        1:    8:      call distrf11
+call    0 returned 100%
+        -:    9:C --------------------------------------------------
+        -:   10:c 12  DISTRIBUTE arrA1[*]    REDISTRIBUTE arrA1[BLOCK] 
+        -:   11:c      call distr12
+        -:   12:C --------------------------------------------------
+        -:   13:c 13  DISTRIBUTE arrA1[BLOCK]    REDISTRIBUTE arrA1[*] small array
+        1:   14:      call distrf13
+call    0 returned 100%
+        -:   15:C --------------------------------------------------
+        -:   16:c 14  DISTRIBUTE arrA1[*]    REDISTRIBUTE arrA1[BLOCK] small array 
+        -:   17:c      call distrf14
+        -:   18:C --------------------------------------------------
+        -:   19:c 21  DISTRIBUTE arrA2[BLOCK][*]	REDISTRIBUTE arrA2[*][ BLOCK]
+        1:   20:      call distrf21
+call    0 returned 100%
+        -:   21:C --------------------------------------------------
+        -:   22:c 22  DISTRIBUTE arrA2[*][BLOCK]	REDISTRIBUTE arrA2[*][*]
+        -:   23:c      call distrf22
+        -:   24:C --------------------------------------------------
+        -:   25:c 23  DISTRIBUTE arrA2[*][*]	REDISTRIBUTE arrA2[*][ BLOCK]
+        1:   26:      call distrf23
+call    0 returned 100%
+        -:   27:C -------------------------------------------------
+        -:   28:C
+        1:   29:      print *, '=== END OF distrfloat1 =================='
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   30:C
+function main called 1 returned 100% blocks executed 100%
+        1:   31:      end
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   32:
+        -:   33:C ----------------------------------------------------distrf11
+        -:   34:c 11  DISTR arrA1[BLOCK]    REDISTR arrA1[*]  
+function distrf11_ called 1 returned 100% blocks executed 78%
+        1:   35:      subroutine distrf11
+        -:   36:      integer, parameter :: AN1=8,NL=1000,ER=10000
+        -:   37:      integer :: erri= ER,i
+        1:   38:      real, allocatable :: A1(:)
+        -:   39:      character(10) :: tname = 'distrf11'
+        -:   40:               
+        -:   41:!dvm$ distribute A1(BLOCK)    
+        -:   42:!dvm$ dynamic A1
+        -:   43:
+       1*:   44:      allocate (A1(AN1))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:   45:
+        -:   46:!dvm$ region 
+        -:   47:!dvm$ parallel (i) on A1(i)
+        9:   48:      do i=1,AN1
+branch  0 taken 11% (fallthrough)
+branch  1 taken 89%
+        9:   49:            A1(i) =i     
+        -:   50:      enddo
+        -:   51:!dvm$ end region   
+        -:   52:
+        -:   53:!dvm$ redistribute A1(*)    
+        -:   54:
+        -:   55:!dvm$ actual(erri)
+        -:   56:!dvm$ region 
+        -:   57:!dvm$ parallel (i) on A1(i), reduction( min( erri ) )
+        9:   58:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+        9:   59:            if (A1(i) .eq.(i)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:   60:            else
+    #####:   61:               erri = min(erri,i)
+        -:   62:            endif 
+        -:   63:      enddo
+        -:   64:!dvm$ end region   
+        -:   65:
+        -:   66:!dvm$ get_actual(erri) 
+        1:   67:      if (erri .eq.ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:   68:          call ansyes(tname)
+call    0 returned 100%
+        -:   69:          else
+    #####:   70:          call ansno(tname)
+call    0 never executed
+        -:   71:      endif 
+        -:   72: 
+       1*:   73:      deallocate (A1)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:   74:
+        1:   75:      end
+        -:   76:C ---------------------------------------------distrf12
+        -:   77:c 12  DISTRIBUTE arrA1[*]    REDISTRIBUTE arrA1[BLOCK] 
+function distrf12_ called 0 returned 0% blocks executed 0%
+    #####:   78:      subroutine distrf12
+        -:   79:      integer, parameter :: AN1=8,NL=1000,ER=10000
+        -:   80:      integer :: erri= ER,i
+    #####:   81:      real*8, allocatable :: A1(:)
+        -:   82:      character(10) :: tname = 'distrf12'
+        -:   83:               
+        -:   84:!dvm$ distribute A1(*)    
+        -:   85:!dvm$ dynamic A1
+        -:   86:
+    #####:   87:      allocate (A1(AN1))
+branch  0 never executed (fallthrough)
+branch  1 never executed
+call    2 never executed
+        -:   88:
+        -:   89:c *dvm$ parallel (i) on A1(i)
+    #####:   90:      do i=1,AN1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   91:            A1(i) =i     
+        -:   92:      enddo
+        -:   93:
+        -:   94:!dvm$ redistribute A1(BLOCK)    
+        -:   95:
+        -:   96:!dvm$ actual(erri)
+        -:   97:!dvm$ region 
+        -:   98:!dvm$ parallel (i) on A1(i), reduction( min( erri ) )
+    #####:   99:      do i=1,AN1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  100:            if (A1(i) .eq.(i)) then     
+branch  0 never executed (fallthrough)
+branch  1 never executed
+        -:  101:            else
+    #####:  102:               erri = min(erri,i)
+        -:  103:            endif 
+        -:  104:      enddo
+        -:  105:!dvm$ end region   
+        -:  106:
+        -:  107:!dvm$ get_actual(erri) 
+    #####:  108:      if (erri .eq.ER) then     
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  109:          call ansyes(tname)
+call    0 never executed
+        -:  110:      else
+    #####:  111:          call ansno(tname)
+call    0 never executed
+        -:  112:      endif 
+    #####:  113:      deallocate (A1)
+branch  0 never executed (fallthrough)
+branch  1 never executed
+call    2 never executed
+        -:  114:
+    #####:  115:      end
+        -:  116:C ----------------------------------------------------distrf13
+        -:  117:c 13  DISTR arrA1[BLOCK]    REDISTR arrA1[*] small array  
+function distrf13_ called 1 returned 100% blocks executed 78%
+        1:  118:      subroutine distrf13
+        -:  119:      integer, parameter :: AN1=5,NL=1000,ER=10000
+        -:  120:      integer :: erri= ER,i
+        1:  121:      complex, allocatable :: A1(:)
+        -:  122:      character(10) :: tname = 'distrf13'
+        -:  123:               
+        -:  124:!dvm$ distribute A1(BLOCK)    
+        -:  125:!dvm$ dynamic A1
+        -:  126:
+       1*:  127:      allocate (A1(AN1))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  128:
+        -:  129:!dvm$ region 
+        -:  130:!dvm$ parallel (i) on A1(i)
+        6:  131:      do i=1,AN1
+branch  0 taken 17% (fallthrough)
+branch  1 taken 83%
+        6:  132:            A1(i) =i     
+        -:  133:      enddo
+        -:  134:!dvm$ end region   
+        -:  135:
+        -:  136:!dvm$ redistribute A1(*)    
+        -:  137:
+        -:  138:!dvm$ actual(erri)
+        -:  139:!dvm$ region 
+        -:  140:!dvm$ parallel (i) on A1(i), reduction( min( erri ) )
+        6:  141:      do i=1,AN1
+branch  0 taken 83% (fallthrough)
+branch  1 taken 17%
+        6:  142:            if (A1(i) .eq.(i)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  143:            else
+    #####:  144:               erri = min(erri,i)
+        -:  145:            endif 
+        -:  146:      enddo
+        -:  147:!dvm$ end region   
+        -:  148:
+        -:  149:!dvm$ get_actual(erri) 
+        1:  150:      if (erri .eq.ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  151:          call ansyes(tname)
+call    0 returned 100%
+        -:  152:      else
+    #####:  153:          call ansno(tname)
+call    0 never executed
+        -:  154:      endif 
+        -:  155:
+       1*:  156:      deallocate (A1)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  157:
+        1:  158:      end
+        -:  159:C ---------------------------------------------distrf14
+        -:  160:c 14  DISTRIBUTE arrA1[*]    REDISTRIBUTE arrA1[BLOCK]  small array
+function distrf14_ called 0 returned 0% blocks executed 0%
+    #####:  161:      subroutine distrf14
+        -:  162:      integer, parameter :: AN1=5,NL=1000,ER=10000
+        -:  163:      integer :: erri= ER,i
+    #####:  164:      complex*16, allocatable :: A1(:)
+        -:  165:      character(10), parameter :: tname = 'distrf14'
+        -:  166:               
+        -:  167:!dvm$ distribute A1(*)    
+        -:  168:!dvm$ dynamic A1
+        -:  169:
+    #####:  170:      allocate (A1(AN1))
+branch  0 never executed (fallthrough)
+branch  1 never executed
+call    2 never executed
+        -:  171:
+        -:  172:c *dvm$ parallel (i) on A1(i)
+    #####:  173:      do i=1,AN1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  174:            A1(i) =i     
+        -:  175:      enddo
+        -:  176:
+        -:  177:!dvm$ redistribute A1(BLOCK)    
+        -:  178:
+        -:  179:!dvm$ actual(erri)
+        -:  180:!dvm$ region 
+        -:  181:!dvm$ parallel (i) on A1(i), reduction( min( erri ) )
+    #####:  182:      do i=1,AN1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  183:            if (A1(i) .eq.(i)) then     
+branch  0 never executed (fallthrough)
+branch  1 never executed
+        -:  184:            else
+    #####:  185:               erri = min(erri,i)
+        -:  186:            endif 
+        -:  187:      enddo
+        -:  188:!dvm$ end region   
+        -:  189:
+        -:  190:!dvm$ get_actual(erri) 
+    #####:  191:      if (erri .eq.ER) then     
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  192:          call ansyes(tname)
+call    0 never executed
+        -:  193:      else
+    #####:  194:          call ansno(tname)
+call    0 never executed
+        -:  195:      endif 
+        -:  196:
+    #####:  197:      deallocate (A1)
+branch  0 never executed (fallthrough)
+branch  1 never executed
+call    2 never executed
+        -:  198:
+    #####:  199:      end
+        -:  200:C ----------------------------------------------------distrf21
+        -:  201:c 21  DISTRIBUTE arrA2[BLOCK][*]	REDISTRIBUTE arrA2[*][ BLOCK]
+function distrf21_ called 1 returned 100% blocks executed 85%
+        1:  202:      subroutine distrf21
+        -:  203:      integer, parameter :: AN1=8,AN2=8,NL=1000,ER=10000
+        -:  204:      integer :: erri= ER,i
+        1:  205:      real, allocatable ::  A2(:,:)
+        -:  206:      character(10), parameter :: tname = 'distrf21'
+        -:  207:               
+        -:  208:!dvm$ distribute A2(BLOCK,*)   
+        -:  209:!dvm$ dynamic A2
+        -:  210:
+       1*:  211:      allocate (A2(AN1,AN2))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  212:
+        -:  213:!dvm$ region 
+        -:  214:!dvm$ parallel (i,j) on A2(i,j)
+        9:  215:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  216:          do j=1,AN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       72:  217:            A2(i,j) =i*NL+j     
+        -:  218:          enddo
+        -:  219:      enddo
+        -:  220:!dvm$ end region   
+        -:  221:
+        -:  222:!dvm$ redistribute A2(*,BLOCK)    
+        -:  223:
+        -:  224:!dvm$ actual(erri)
+        -:  225:!dvm$ region 
+        -:  226:!dvm$ parallel (i,j) on A2(i,j), reduction( min( erri ) )
+        9:  227:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  228:          do j=1,AN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       72:  229:            if (A2(i,j) .eq.(i*NL+j)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  230:            else
+    #####:  231:               erri = min(erri,i*NL/10+j)
+        -:  232:            endif 
+        -:  233:
+        -:  234:          enddo
+        -:  235:      enddo
+        -:  236:!dvm$ end region   
+        -:  237:     
+        -:  238:!dvm$ get_actual(erri) 
+        1:  239:      if (erri .eq.ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  240:          call ansyes(tname)
+call    0 returned 100%
+        -:  241:      else
+    #####:  242:          call ansno(tname)
+call    0 never executed
+        -:  243:      endif 
+       1*:  244:      deallocate (A2)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  245:
+        1:  246:      end
+        -:  247:
+        -:  248:C ----------------------------------------------------distrf22
+        -:  249:c 22  DISTRIBUTE arrA2[*][BLOCK]	REDISTRIBUTE arrA2[*][*]
+function distrf22_ called 0 returned 0% blocks executed 0%
+    #####:  250:      subroutine distrf22
+        -:  251:      integer, parameter :: AN1=8,AN2=8,NL=1000,ER=10000
+        -:  252:      integer :: erri= ER,i
+    #####:  253:      real*8, allocatable :: A2(:,:)
+        -:  254:      character(10), parameter :: tname = 'distrf22'
+        -:  255:               
+        -:  256:!dvm$ distribute A2(*,BLOCK)   
+        -:  257:!dvm$ dynamic A2
+        -:  258:
+    #####:  259:      allocate (A2(AN1,AN2))
+branch  0 never executed (fallthrough)
+branch  1 never executed
+call    2 never executed
+        -:  260:
+        -:  261:!dvm$ region 
+        -:  262:!dvm$ parallel (i,j) on A2(i,j)
+    #####:  263:      do i=1,AN1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  264:          do j=1,AN2
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  265:            A2(i,j) =i*NL+j     
+        -:  266:          enddo
+        -:  267:      enddo
+        -:  268:!dvm$ end region   
+        -:  269:
+        -:  270:!dvm$ redistribute A2(*,*)    
+        -:  271:
+        -:  272:!dvm$ actual(erri)
+        -:  273:!dvm$ region 
+        -:  274:!dvm$ parallel (i,j) on A2(i,j), reduction( min( erri ) )
+    #####:  275:      do i=1,AN1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  276:          do j=1,AN2
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  277:            if (A2(i,j) .eq.(i*NL+j)) then     
+branch  0 never executed (fallthrough)
+branch  1 never executed
+        -:  278:            else
+    #####:  279:               erri = min(erri,i*NL/10+j)
+        -:  280:            endif 
+        -:  281:          enddo
+        -:  282:      enddo
+        -:  283:!dvm$ end region   
+        -:  284:     
+        -:  285:!dvm$ get_actual(erri) 
+    #####:  286:      if (erri .eq.ER) then     
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  287:          call ansyes(tname)
+call    0 never executed
+        -:  288:      else
+    #####:  289:          call ansno(tname)
+call    0 never executed
+        -:  290:      endif 
+        -:  291:
+    #####:  292:      deallocate (A2)
+branch  0 never executed (fallthrough)
+branch  1 never executed
+call    2 never executed
+        -:  293:
+    #####:  294:      end
+        -:  295:
+        -:  296:C ----------------------------------------------------distrf23
+        -:  297:c 23  DISTRIBUTE arrA2[BLOCK][*]	REDISTRIBUTE arrA2[*][ BLOCK]
+function distrf23_ called 1 returned 100% blocks executed 85%
+        1:  298:      subroutine distrf23
+        -:  299:      integer, parameter :: AN1=8,AN2=8,NL=1000,ER=10000
+        -:  300:      integer :: erri= ER,i
+        1:  301:      complex, allocatable :: A2(:,:)
+        -:  302:      character(10), parameter :: tname = 'distrf23'
+        -:  303:               
+        -:  304:!dvm$ distribute A2(*,*)   
+        -:  305:!dvm$ dynamic A2
+        -:  306:
+       1*:  307:      allocate (A2(AN1,AN2))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:  308:
+        -:  309:c *dvm$ parallel (i,j) on A2(i,j)
+        9:  310:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  311:          do j=1,AN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       72:  312:            A2(i,j) =i*NL+j     
+        -:  313:          enddo
+        -:  314:      enddo
+        -:  315:
+        -:  316:!dvm$ redistribute A2(*,BLOCK)    
+        -:  317:
+        -:  318:!dvm$ actual(erri)
+        -:  319:!dvm$ region 
+        -:  320:!dvm$ parallel (i,j) on A2(i,j), reduction( min( erri ) )
+        9:  321:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  322:          do j=1,AN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       72:  323:            if (A2(i,j) .eq.(i*NL+j)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  324:            else
+    #####:  325:               erri = min(erri,i*NL/10+j)
+        -:  326:            endif 
+        -:  327:          enddo
+        -:  328:      enddo
+        -:  329:!dvm$ end region   
+        -:  330:
+        -:  331:!dvm$ get_actual(erri) 
+        1:  332:      if (erri .eq.ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  333:          call ansyes(tname)
+call    0 returned 100%
+        -:  334:      else
+    #####:  335:          call ansno(tname)
+call    0 never executed
+        -:  336:      endif 
+        -:  337:
+       1*:  338:      deallocate (A2)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  339:
+        1:  340:      end
+        -:  341:
+        -:  342:C -------------------------------------------------
+        -:  343:
+function ansyes_ called 4 returned 100% blocks executed 100%
+        4:  344:      subroutine ansyes(name)
+        -:  345:      character(*) name
+        4:  346:      print *,name,'  -  complete'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+        4:  347:      end
+        -:  348:
+function ansno_ called 0 returned 0% blocks executed 0%
+    #####:  349:      subroutine ansno(name)
+        -:  350:      character(*) name
+    #####:  351:      print *,name,'  -  ***error'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+    #####:  352:      end

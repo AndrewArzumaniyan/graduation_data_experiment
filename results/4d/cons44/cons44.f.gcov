@@ -1,0 +1,2470 @@
+        -:    0:Source:results/4d/cons44/cons44.f
+        -:    0:Graph:./results\4d\cons44\cons44.gcno
+        -:    0:Data:./results\4d\cons44\cons44.gcda
+        -:    0:Runs:1
+function MAIN__ called 1 returned 100% blocks executed 100%
+        1:    1:      program CONS44
+        -:    2:
+        -:    3:c      TESTING OF THE CONSISTENT CLAUSE'.
+        -:    4:c      CHECKING ( BLOCK, BLOCK, BLOCK, BLOCK ) DISTRIBUTION.
+        -:    5:
+        1:    6:      print *,'===START OF CONS44========================'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:    7:C --------------------------------------------------
+        -:    8:C consistent arrays with 1 dimensions
+        -:    9:C one consistent array and one distributed array
+        1:   10:      call cons4401
+call    0 returned 100%
+        -:   11:C --------------------------------------------------
+        -:   12:C consistent arrays with 1 dimensions
+        -:   13:C two consistent arrays and one distributed array
+        1:   14:      call cons4402
+call    0 returned 100%
+        -:   15:C --------------------------------------------------
+        -:   16:C consistent arrays with 1 dimensions
+        -:   17:C two consistent arrays and two distributed arrays
+        1:   18:      call cons4403
+call    0 returned 100%
+        -:   19:C --------------------------------------------------
+        -:   20:C consistent arrays with 1 dimensions
+        -:   21:C one consistent array and one distributed array
+        -:   22:C big data
+        1:   23:      call cons4404
+call    0 returned 100%
+        -:   24:C --------------------------------------------------
+        -:   25:C consistent arrays with 2 dimensions
+        -:   26:C one consistent array and one distributed array
+        1:   27:      call cons4405
+call    0 returned 100%
+        -:   28:C --------------------------------------------------
+        -:   29:C consistent arrays with 2 dimensions
+        -:   30:C two consistent arrays and one distributed array
+        1:   31:      call cons4406
+call    0 returned 100%
+        -:   32:C --------------------------------------------------
+        -:   33:C consistent arrays with 2 dimensions
+        -:   34:C two consistent arrays and two distributed arrays
+        1:   35:      call cons4407
+call    0 returned 100%
+        -:   36:C --------------------------------------------------
+        -:   37:C consistent arrays with 2 dimensions
+        -:   38:C one consistent array and one distributed array
+        -:   39:C big data
+        1:   40:      call cons4408
+call    0 returned 100%
+        -:   41:C --------------------------------------------------
+        -:   42:C consistent arrays with 3 dimensions
+        -:   43:C one consistent array and one distributed array
+        1:   44:      call cons4409
+call    0 returned 100%
+        -:   45:C --------------------------------------------------
+        -:   46:C consistent arrays with 3 dimensions
+        -:   47:C two consistent arrays and one distributed array
+        1:   48:      call cons4410
+call    0 returned 100%
+        -:   49:C --------------------------------------------------
+        -:   50:C consistent arrays with 3 dimensions
+        -:   51:C two consistent arrays and two distributed arrays
+        1:   52:      call cons4411
+call    0 returned 100%
+        -:   53:C --------------------------------------------------
+        -:   54:C consistent arrays with 3 dimensions
+        -:   55:C one consistent array and one distributed array
+        -:   56:C big data
+        1:   57:      call cons4412
+call    0 returned 100%
+        -:   58:C --------------------------------------------------
+        -:   59:C consistent arrays with 4 dimensions
+        -:   60:C one consistent array and one distributed array
+        1:   61:      call cons4413
+call    0 returned 100%
+        -:   62:C --------------------------------------------------
+        -:   63:C consistent arrays with 4 dimensions
+        -:   64:C two consistent arrays and one distributed array
+        1:   65:      call cons4414
+call    0 returned 100%
+        -:   66:C --------------------------------------------------
+        -:   67:C consistent arrays with 4 dimensions
+        -:   68:C two consistent arrays and two distributed arrays
+        1:   69:      call cons4415
+call    0 returned 100%
+        -:   70:C --------------------------------------------------
+        -:   71:C consistent arrays with 4 dimensions
+        -:   72:C one consistent array and one distributed array
+        -:   73:C big data
+        1:   74:      call cons4416
+call    0 returned 100%
+        -:   75:C --------------------------------------------------
+        -:   76:
+        -:   77:C
+        1:   78:      print *,'=== END OF CONS44 ========================= '
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+function main called 1 returned 100% blocks executed 100%
+        1:   79:      end
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   80:C ---------------------------------------------cons4401
+        -:   81:C consistent arrays with 1 dimensions
+        -:   82:C one consistent array and one distributed array
+function cons4401_ called 1 returned 100% blocks executed 89%
+        1:   83:      subroutine CONS4401
+        -:   84:      INTEGER,PARAMETER:: N=8, ER=10000
+        1:   85:      integer,allocatable:: B(:,:,:,:),V(:),C(:)
+        -:   86:      character*8 tname
+        -:   87:      INTEGER ERROR,IERR
+        -:   88:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   B
+        -:   89:!DVM$   CONSISTENT V
+       1*:   90:      allocate (B(N,N,N,N),V(N),C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:   91:      tname='CONS4401'
+        9:   92:      DO I = 1, N
+branch  0 taken 11% (fallthrough)
+branch  1 taken 89%
+        9:   93:            C(I)=I+(N-1)+(N-1)*(N-1)+(N-1)*(N-1)*(N-1)
+        -:   94:      ENDDO
+        -:   95:!dvm$ region
+        -:   96:!DVM$   PARALLEL    (L,K,J,I)   ON   B(I,J,K,L)
+        9:   97:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:   98:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:   99:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  100:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  101:            B(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -:  102:      ENDDO
+        -:  103:      ENDDO
+        -:  104:      ENDDO
+        -:  105:      ENDDO
+        -:  106:!DVM$   PARALLEL  (I)   ON  B(I,1,1,1), CONSISTENT(V(I))
+        9:  107:      DO I = 1, N
+branch  0 taken 11% (fallthrough)
+branch  1 taken 89%
+        9:  108:            V(I) = B(I,1,1,1)
+        -:  109:      ENDDO
+        -:  110:!dvm$ end region
+        -:  111:!dvm$ get_actual (V)
+        9:  112:      IERR = ER
+        9:  113:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+        9:  114:            IF(V(I) .NE. C(I)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  115:                  IERR = C(I)
+        -:  116:                  EXIT
+        -:  117:            ENDIF
+        -:  118:      ENDDO
+        1:  119:      ERROR = ER
+        -:  120:!DVM$  PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), REDUCTION(MIN(ERROR))
+        9:  121:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  122:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  123:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  124:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  125:            ERROR = MIN(ERROR,IERR)
+        -:  126:      ENDDO
+        -:  127:      ENDDO
+        -:  128:      ENDDO
+        -:  129:      ENDDO
+        1:  130:      IF(ERROR .EQ. ER) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  131:            call ansyes(tname)
+call    0 returned 100%
+        -:  132:      ELSE
+    #####:  133:            call ansno(tname)
+call    0 never executed
+        -:  134:      ENDIF
+       1*:  135:      deallocate (B, V, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  136:      END
+        -:  137:C ---------------------------------------------cons4402
+        -:  138:C consistent arrays with 1 dimensions
+        -:  139:C two consistent arrays and one distributed array
+function cons4402_ called 1 returned 100% blocks executed 88%
+        1:  140:      subroutine CONS4402
+        -:  141:      INTEGER,PARAMETER:: N=8, ER=10000
+        1:  142:      integer,allocatable:: B(:,:,:,:),V(:),W(:),C(:)
+        -:  143:      character*8 tname
+        -:  144:      INTEGER ERROR,IERR
+        -:  145:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   B
+        -:  146:!DVM$   CONSISTENT V
+        -:  147:!DVM$   CONSISTENT W
+       1*:  148:      allocate (B(N,N,N,N),V(N),W(N),C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+        1:  149:      tname='CONS4402'
+        9:  150:      DO I = 1, N
+branch  0 taken 11% (fallthrough)
+branch  1 taken 89%
+        9:  151:            C(I)=I+(N-1)+(N-1)*(N-1)+(N-1)*(N-1)*(N-1)
+        -:  152:      ENDDO
+        -:  153:!dvm$ region
+        -:  154:!DVM$   PARALLEL    (L,K,J,I)   ON   B(I,J,K,L)
+        9:  155:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  156:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  157:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  158:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  159:            B(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -:  160:      ENDDO
+        -:  161:      ENDDO
+        -:  162:      ENDDO
+        -:  163:      ENDDO
+        -:  164:!DVM$   PARALLEL  (I)   ON  B(I,1,1,1), CONSISTENT(V(I))
+        9:  165:      DO I = 1, N
+branch  0 taken 11% (fallthrough)
+branch  1 taken 89%
+        9:  166:            V(I) = B(I,1,1,1)
+        -:  167:      ENDDO
+        -:  168:!DVM$   PARALLEL  (I)   ON  B(I,1,1,1), CONSISTENT(W(I))
+        9:  169:      DO I = 1, N
+branch  0 taken 11% (fallthrough)
+branch  1 taken 89%
+        9:  170:            W(I) = B(I,1,1,1)
+        -:  171:      ENDDO
+        -:  172:!dvm$ end region
+        -:  173:!dvm$ get_actual (V, W)
+        9:  174:      IERR = ER
+        9:  175:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+        9:  176:            IF(V(I) .NE. C(I)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  177:                  IERR = C(I)
+        -:  178:                  EXIT
+        -:  179:            ENDIF
+        -:  180:      ENDDO
+        9:  181:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+        9:  182:            IF(W(I) .NE. C(I)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  183:                  IERR = C(I)
+        -:  184:                  EXIT
+        -:  185:            ENDIF
+        -:  186:      ENDDO
+        1:  187:      ERROR = ER
+        -:  188:!DVM$  PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), REDUCTION(MIN(ERROR))
+        9:  189:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  190:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  191:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  192:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  193:            ERROR = MIN(ERROR,IERR)
+        -:  194:      ENDDO
+        -:  195:      ENDDO
+        -:  196:      ENDDO
+        -:  197:      ENDDO
+        1:  198:      IF(ERROR .EQ. ER) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  199:            call ansyes(tname)
+call    0 returned 100%
+        -:  200:      ELSE
+    #####:  201:            call ansno(tname)
+call    0 never executed
+        -:  202:      ENDIF
+       1*:  203:      deallocate (B, V, W, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+        1:  204:      END
+        -:  205:C ---------------------------------------------cons4403
+        -:  206:C consistent arrays with 1 dimensions
+        -:  207:C two consistent arrays and two distributed arrays
+function cons4403_ called 1 returned 100% blocks executed 88%
+        1:  208:      subroutine CONS4403
+        -:  209:      INTEGER,PARAMETER:: N=8, ER=10000
+        1:  210:      integer,allocatable::B(:,:,:,:),A(:,:,:,:),V(:),W(:)
+        1:  211:     *,C(:)
+        -:  212:      character*8 tname
+        -:  213:      INTEGER ERROR,IERR
+        -:  214:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   B
+        -:  215:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   A
+        -:  216:!DVM$   CONSISTENT V
+        -:  217:!DVM$   CONSISTENT W
+       1*:  218:      allocate (B(N,N,N,N),A(N,N,N,N),V(N),W(N),C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+branch 12 taken 0% (fallthrough)
+branch 13 taken 100%
+call   14 never executed
+        1:  219:      tname='CONS4403'
+        9:  220:      DO I = 1, N
+branch  0 taken 11% (fallthrough)
+branch  1 taken 89%
+        9:  221:            C(I)=I+(N-1)+(N-1)*(N-1)+(N-1)*(N-1)*(N-1)
+        -:  222:      ENDDO
+        -:  223:!dvm$ region
+        -:  224:!DVM$   PARALLEL    (L,K,J,I)   ON   B(I,J,K,L)
+        9:  225:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  226:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  227:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  228:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  229:            B(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -:  230:      ENDDO
+        -:  231:      ENDDO
+        -:  232:      ENDDO
+        -:  233:      ENDDO
+        -:  234:!DVM$   PARALLEL    (L,K,J,I)   ON   A(I,J,K,L)
+        9:  235:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  236:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  237:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  238:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  239:            A(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -:  240:      ENDDO
+        -:  241:      ENDDO
+        -:  242:      ENDDO
+        -:  243:      ENDDO
+        -:  244:!DVM$   PARALLEL  (I)   ON  B(I,1,1,1), CONSISTENT(V(I))
+        9:  245:      DO I = 1, N
+branch  0 taken 11% (fallthrough)
+branch  1 taken 89%
+        9:  246:            V(I) = B(I,1,1,1)
+        -:  247:      ENDDO
+        -:  248:!DVM$   PARALLEL  (I)   ON  A(I,1,1,1), CONSISTENT(W(I))
+        9:  249:      DO I = 1, N
+branch  0 taken 11% (fallthrough)
+branch  1 taken 89%
+        9:  250:            W(I) = A(I,1,1,1)
+        -:  251:      ENDDO
+        -:  252:!dvm$ end region
+        -:  253:!dvm$ get_actual (V, W)
+        9:  254:      IERR = ER
+        9:  255:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+        9:  256:            IF(V(I) .NE. C(I)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  257:                  IERR = C(I)
+        -:  258:                  EXIT
+        -:  259:            ENDIF
+        -:  260:      ENDDO
+        9:  261:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+        9:  262:            IF(W(I) .NE. C(I)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  263:                  IERR = C(I)
+        -:  264:                  EXIT
+        -:  265:            ENDIF
+        -:  266:      ENDDO
+        1:  267:      ERROR = ER
+        -:  268:!DVM$  PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), REDUCTION(MIN(ERROR))
+        9:  269:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  270:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  271:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  272:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  273:            ERROR = MIN(ERROR,IERR)
+        -:  274:      ENDDO
+        -:  275:      ENDDO
+        -:  276:      ENDDO
+        -:  277:      ENDDO
+        1:  278:      IF(ERROR .EQ. ER) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  279:            call ansyes(tname)
+call    0 returned 100%
+        -:  280:      ELSE
+    #####:  281:            call ansno(tname)
+call    0 never executed
+        -:  282:      ENDIF
+       1*:  283:      deallocate (B, A, V, W, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+branch 12 taken 0% (fallthrough)
+branch 13 taken 100%
+call   14 never executed
+        1:  284:      END
+        -:  285:C ---------------------------------------------cons4404
+        -:  286:C consistent arrays with 1 dimensions
+        -:  287:C one consistent array and one distributed array
+        -:  288:C big data
+function cons4404_ called 1 returned 100% blocks executed 89%
+        1:  289:      subroutine CONS4404
+        -:  290:      INTEGER,PARAMETER:: N=16, ER=1000000
+        1:  291:      integer,allocatable:: B(:,:,:,:),V(:),C(:)
+        -:  292:      character*8 tname
+        -:  293:      INTEGER ERROR,IERR
+        -:  294:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   B
+        -:  295:!DVM$   CONSISTENT V
+       1*:  296:      allocate (B(N,N,N,N),V(N),C(N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  297:      tname='CONS4404'
+       17:  298:      DO I = 1, N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       17:  299:            C(I)=I+(N-1)+(N-1)*(N-1)+(N-1)*(N-1)*(N-1)
+        -:  300:      ENDDO
+        -:  301:!dvm$ region
+        -:  302:!DVM$   PARALLEL    (L,K,J,I)   ON   B(I,J,K,L)
+       17:  303:      DO L = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  304:      DO K = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368:  305:      DO J = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69888:  306:      DO I = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69632:  307:            B(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -:  308:      ENDDO
+        -:  309:      ENDDO
+        -:  310:      ENDDO
+        -:  311:      ENDDO
+        -:  312:!DVM$   PARALLEL  (I)   ON  B(I,1,1,1), CONSISTENT(V(I))
+       17:  313:      DO I = 1, N
+branch  0 taken 6% (fallthrough)
+branch  1 taken 94%
+       17:  314:            V(I) = B(I,1,1,1)
+        -:  315:      ENDDO
+        -:  316:!dvm$ end region
+        -:  317:!dvm$ get_actual (V)
+       17:  318:      IERR = ER
+       17:  319:      DO I = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+       17:  320:            IF(V(I) .NE. C(I)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  321:                  IERR = C(I)
+        -:  322:                  EXIT
+        -:  323:            ENDIF
+        -:  324:      ENDDO
+        1:  325:      ERROR = ER
+        -:  326:!DVM$  PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), REDUCTION(MIN(ERROR))
+       17:  327:      DO L = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  328:      DO K = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368:  329:      DO J = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69888:  330:      DO I = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69632:  331:            ERROR = MIN(ERROR,IERR)
+        -:  332:      ENDDO
+        -:  333:      ENDDO
+        -:  334:      ENDDO
+        -:  335:      ENDDO
+        1:  336:      IF(ERROR .EQ. ER) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  337:            call ansyes(tname)
+call    0 returned 100%
+        -:  338:      ELSE
+    #####:  339:            call ansno(tname)
+call    0 never executed
+        -:  340:      ENDIF
+       1*:  341:      deallocate (B, V, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  342:      END
+        -:  343:C ---------------------------------------------cons4405
+        -:  344:C consistent arrays with 2 dimensions
+        -:  345:C one consistent array and one distributed array
+function cons4405_ called 1 returned 100% blocks executed 90%
+        1:  346:      subroutine CONS4405
+        -:  347:      INTEGER,PARAMETER:: N=8, ER=10000
+        1:  348:      integer,allocatable:: B(:,:,:,:),V(:,:),C(:,:)
+        -:  349:      character*8 tname
+        -:  350:      INTEGER ERROR,IERR
+        -:  351:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   B
+        -:  352:!DVM$   CONSISTENT V
+       1*:  353:      allocate (B(N,N,N,N),V(N,N),C(N,N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  354:      tname='CONS4405'
+        9:  355:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  356:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       72:  357:            C(I,J)=I+(N-1)*J+(N-1)*(N-1)+(N-1)*(N-1)*(N-1)
+        -:  358:      ENDDO
+        -:  359:      ENDDO
+        -:  360:!dvm$ region
+        -:  361:!DVM$   PARALLEL    (L,K,J,I)   ON   B(I,J,K,L)
+        9:  362:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  363:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  364:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  365:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  366:            B(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -:  367:      ENDDO
+        -:  368:      ENDDO
+        -:  369:      ENDDO
+        -:  370:      ENDDO
+        -:  371:!DVM$   PARALLEL  (J,I)   ON  B(I,J,1,1), CONSISTENT(V(I,J))
+        9:  372:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  373:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       72:  374:            V(I,J) = B(I,J,1,1)
+        -:  375:      ENDDO
+        -:  376:      ENDDO
+        -:  377:!dvm$ end region
+        -:  378:!dvm$ get_actual (V)
+        -:  379:      IERR = ER
+        9:  380:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  381:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       72:  382:            IF(V(I,J) .NE. C(I,J)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  383:                  IERR = C(I,J)
+        -:  384:                  EXIT
+        -:  385:            ENDIF
+        -:  386:      ENDDO
+        -:  387:      ENDDO
+        -:  388:      ERROR = ER
+        -:  389:!DVM$  PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), REDUCTION(MIN(ERROR))
+        9:  390:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  391:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  392:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  393:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  394:            ERROR = MIN(ERROR,IERR)
+        -:  395:      ENDDO
+        -:  396:      ENDDO
+        -:  397:      ENDDO
+        -:  398:      ENDDO
+        1:  399:      IF(ERROR .EQ. ER) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  400:            call ansyes(tname)
+call    0 returned 100%
+        -:  401:      ELSE
+    #####:  402:            call ansno(tname)
+call    0 never executed
+        -:  403:      ENDIF
+       1*:  404:      deallocate (B, V, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  405:      END
+        -:  406:C ---------------------------------------------cons4406
+        -:  407:C consistent arrays with 2 dimensions
+        -:  408:C two consistent arrays and one distributed array
+function cons4406_ called 1 returned 100% blocks executed 90%
+        1:  409:      subroutine CONS4406
+        -:  410:      INTEGER,PARAMETER:: N=8, ER=10000
+        1:  411:      integer,allocatable:: B(:,:,:,:),V(:,:),W(:,:),C(:,:)
+        -:  412:      character*8 tname
+        -:  413:      INTEGER ERROR,IERR
+        -:  414:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   B
+        -:  415:!DVM$   CONSISTENT V
+        -:  416:!DVM$   CONSISTENT W
+       1*:  417:      allocate (B(N,N,N,N),V(N,N),W(N,N),C(N,N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+        1:  418:      tname='CONS4406'
+        9:  419:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  420:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       72:  421:            C(I,J)=I+(N-1)*J+(N-1)*(N-1)+(N-1)*(N-1)*(N-1)
+        -:  422:      ENDDO
+        -:  423:      ENDDO
+        -:  424:!dvm$ region
+        -:  425:!DVM$   PARALLEL    (L,K,J,I)   ON   B(I,J,K,L)
+        9:  426:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  427:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  428:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  429:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  430:            B(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -:  431:      ENDDO
+        -:  432:      ENDDO
+        -:  433:      ENDDO
+        -:  434:      ENDDO
+        -:  435:!DVM$   PARALLEL  (J,I)   ON  B(I,J,1,1), CONSISTENT(V(I,J))
+        9:  436:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  437:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       72:  438:            V(I,J) = B(I,J,1,1)
+        -:  439:      ENDDO
+        -:  440:      ENDDO
+        -:  441:!DVM$   PARALLEL  (J,I)   ON  B(I,J,1,1), CONSISTENT(W(I,J))
+        9:  442:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  443:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       72:  444:            W(I,J) = B(I,J,1,1)
+        -:  445:      ENDDO
+        -:  446:      ENDDO
+        -:  447:!dvm$ end region
+        -:  448:!dvm$ get_actual (V, W)
+        -:  449:      IERR = ER
+        9:  450:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  451:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       72:  452:            IF(V(I,J) .NE. C(I,J)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  453:                  IERR = C(I,J)
+        -:  454:                  EXIT
+        -:  455:            ENDIF
+        -:  456:      ENDDO
+        -:  457:      ENDDO
+        9:  458:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  459:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       72:  460:            IF(W(I,J) .NE. C(I,J)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  461:                  IERR = C(I,J)
+        -:  462:                  EXIT
+        -:  463:            ENDIF
+        -:  464:      ENDDO
+        -:  465:      ENDDO
+        -:  466:      ERROR = ER
+        -:  467:!DVM$  PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), REDUCTION(MIN(ERROR))
+        9:  468:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  469:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  470:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  471:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  472:            ERROR = MIN(ERROR,IERR)
+        -:  473:      ENDDO
+        -:  474:      ENDDO
+        -:  475:      ENDDO
+        -:  476:      ENDDO
+        1:  477:      IF(ERROR .EQ. ER) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  478:            call ansyes(tname)
+call    0 returned 100%
+        -:  479:      ELSE
+    #####:  480:            call ansno(tname)
+call    0 never executed
+        -:  481:      ENDIF
+       1*:  482:      deallocate (B, V, W, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+        1:  483:      END
+        -:  484:C ---------------------------------------------cons4407
+        -:  485:C consistent arrays with 2 dimensions
+        -:  486:C two consistent arrays and two distributed arrays
+function cons4407_ called 1 returned 100% blocks executed 90%
+        1:  487:      subroutine CONS4407
+        -:  488:      INTEGER,PARAMETER:: N=8, ER=10000
+        1:  489:      integer,allocatable::B(:,:,:,:),A(:,:,:,:),V(:,:),W(:,:)
+        1:  490:     *,C(:,:)
+        -:  491:      character*8 tname
+        -:  492:      INTEGER ERROR,IERR
+        -:  493:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   B
+        -:  494:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   A
+        -:  495:!DVM$   CONSISTENT V
+        -:  496:!DVM$   CONSISTENT W
+       1*:  497:      allocate (B(N,N,N,N),A(N,N,N,N),V(N,N),W(N,N),C(N,N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+branch 12 taken 0% (fallthrough)
+branch 13 taken 100%
+call   14 never executed
+        1:  498:      tname='CONS4407'
+        9:  499:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  500:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       72:  501:            C(I,J)=I+(N-1)*J+(N-1)*(N-1)+(N-1)*(N-1)*(N-1)
+        -:  502:      ENDDO
+        -:  503:      ENDDO
+        -:  504:!dvm$ region
+        -:  505:!DVM$   PARALLEL    (L,K,J,I)   ON   B(I,J,K,L)
+        9:  506:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  507:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  508:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  509:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  510:            B(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -:  511:      ENDDO
+        -:  512:      ENDDO
+        -:  513:      ENDDO
+        -:  514:      ENDDO
+        -:  515:!DVM$   PARALLEL    (L,K,J,I)   ON   A(I,J,K,L)
+        9:  516:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  517:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  518:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  519:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  520:            A(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -:  521:      ENDDO
+        -:  522:      ENDDO
+        -:  523:      ENDDO
+        -:  524:      ENDDO
+        -:  525:!DVM$   PARALLEL  (J,I)   ON  B(I,J,1,1), CONSISTENT(V(I,J))
+        9:  526:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  527:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       72:  528:            V(I,J) = B(I,J,1,1)
+        -:  529:      ENDDO
+        -:  530:      ENDDO
+        -:  531:!DVM$   PARALLEL  (J,I)   ON  A(I,J,1,1), CONSISTENT(W(I,J))
+        9:  532:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  533:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       72:  534:            W(I,J) = A(I,J,1,1)
+        -:  535:      ENDDO
+        -:  536:      ENDDO
+        -:  537:!dvm$ end region
+        -:  538:!dvm$ get_actual (V, W)
+        -:  539:      IERR = ER
+        9:  540:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  541:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       72:  542:            IF(V(I,J) .NE. C(I,J)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  543:                  IERR = C(I,J)
+        -:  544:                  EXIT
+        -:  545:            ENDIF
+        -:  546:      ENDDO
+        -:  547:      ENDDO
+        9:  548:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  549:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       72:  550:            IF(W(I,J) .NE. C(I,J)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  551:                  IERR = C(I,J)
+        -:  552:                  EXIT
+        -:  553:            ENDIF
+        -:  554:      ENDDO
+        -:  555:      ENDDO
+        -:  556:      ERROR = ER
+        -:  557:!DVM$  PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), REDUCTION(MIN(ERROR))
+        9:  558:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  559:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  560:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  561:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  562:            ERROR = MIN(ERROR,IERR)
+        -:  563:      ENDDO
+        -:  564:      ENDDO
+        -:  565:      ENDDO
+        -:  566:      ENDDO
+        1:  567:      IF(ERROR .EQ. ER) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  568:            call ansyes(tname)
+call    0 returned 100%
+        -:  569:      ELSE
+    #####:  570:            call ansno(tname)
+call    0 never executed
+        -:  571:      ENDIF
+       1*:  572:      deallocate (B, A, V, W, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+branch 12 taken 0% (fallthrough)
+branch 13 taken 100%
+call   14 never executed
+        1:  573:      END
+        -:  574:C ---------------------------------------------cons4408
+        -:  575:C consistent arrays with 2 dimensions
+        -:  576:C one consistent array and one distributed array
+        -:  577:C big data
+function cons4408_ called 1 returned 100% blocks executed 90%
+        1:  578:      subroutine CONS4408
+        -:  579:      INTEGER,PARAMETER:: N=16, ER=1000000
+        1:  580:      integer,allocatable:: B(:,:,:,:),V(:,:),C(:,:)
+        -:  581:      character*8 tname
+        -:  582:      INTEGER ERROR,IERR
+        -:  583:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   B
+        -:  584:!DVM$   CONSISTENT V
+       1*:  585:      allocate (B(N,N,N,N),V(N,N),C(N,N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  586:      tname='CONS4408'
+       17:  587:      DO J = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  588:      DO I = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      272:  589:            C(I,J)=I+(N-1)*J+(N-1)*(N-1)+(N-1)*(N-1)*(N-1)
+        -:  590:      ENDDO
+        -:  591:      ENDDO
+        -:  592:!dvm$ region
+        -:  593:!DVM$   PARALLEL    (L,K,J,I)   ON   B(I,J,K,L)
+       17:  594:      DO L = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  595:      DO K = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368:  596:      DO J = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69888:  597:      DO I = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69632:  598:            B(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -:  599:      ENDDO
+        -:  600:      ENDDO
+        -:  601:      ENDDO
+        -:  602:      ENDDO
+        -:  603:!DVM$   PARALLEL  (J,I)   ON  B(I,J,1,1), CONSISTENT(V(I,J))
+       17:  604:      DO J = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  605:      DO I = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      272:  606:            V(I,J) = B(I,J,1,1)
+        -:  607:      ENDDO
+        -:  608:      ENDDO
+        -:  609:!dvm$ end region
+        -:  610:!dvm$ get_actual (V)
+        -:  611:      IERR = ER
+       17:  612:      DO J = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  613:      DO I = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      272:  614:            IF(V(I,J) .NE. C(I,J)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  615:                  IERR = C(I,J)
+        -:  616:                  EXIT
+        -:  617:            ENDIF
+        -:  618:      ENDDO
+        -:  619:      ENDDO
+        -:  620:      ERROR = ER
+        -:  621:!DVM$  PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), REDUCTION(MIN(ERROR))
+       17:  622:      DO L = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  623:      DO K = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368:  624:      DO J = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69888:  625:      DO I = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69632:  626:            ERROR = MIN(ERROR,IERR)
+        -:  627:      ENDDO
+        -:  628:      ENDDO
+        -:  629:      ENDDO
+        -:  630:      ENDDO
+        1:  631:      IF(ERROR .EQ. ER) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  632:            call ansyes(tname)
+call    0 returned 100%
+        -:  633:      ELSE
+    #####:  634:            call ansno(tname)
+call    0 never executed
+        -:  635:      ENDIF
+       1*:  636:      deallocate (B, V, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  637:      END
+        -:  638:C ---------------------------------------------cons4409
+        -:  639:C consistent arrays with 3 dimensions
+        -:  640:C one consistent array and one distributed array
+function cons4409_ called 1 returned 100% blocks executed 92%
+        1:  641:      subroutine CONS4409
+        -:  642:      INTEGER,PARAMETER:: N=8, ER=10000
+        1:  643:      integer,allocatable:: B(:,:,:,:),V(:,:,:),C(:,:,:)
+        -:  644:      character*8 tname
+        -:  645:      INTEGER ERROR,IERR
+        -:  646:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   B
+        -:  647:!DVM$   CONSISTENT V
+       1*:  648:      allocate (B(N,N,N,N),V(N,N,N),C(N,N,N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  649:      tname='CONS4409'
+        9:  650:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  651:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  652:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      576:  653:            C(I,J,K)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)
+        -:  654:      ENDDO
+        -:  655:      ENDDO
+        -:  656:      ENDDO
+        -:  657:!dvm$ region
+        -:  658:!DVM$   PARALLEL    (L,K,J,I)   ON   B(I,J,K,L)
+        9:  659:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  660:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  661:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  662:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  663:            B(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -:  664:      ENDDO
+        -:  665:      ENDDO
+        -:  666:      ENDDO
+        -:  667:      ENDDO
+        -:  668:!DVM$   PARALLEL  (K,J,I)   ON  B(I,J,K,1), CONSISTENT(V(I,J,K))
+        9:  669:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  670:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  671:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      576:  672:            V(I,J,K) = B(I,J,K,1)
+        -:  673:      ENDDO
+        -:  674:      ENDDO
+        -:  675:      ENDDO
+        -:  676:!dvm$ end region
+        -:  677:!dvm$ get_actual (V)
+        -:  678:      IERR = ER
+        9:  679:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  680:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  681:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      576:  682:            IF(V(I,J,K) .NE. C(I,J,K)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  683:                  IERR = C(I,J,K)
+        -:  684:                  EXIT
+        -:  685:            ENDIF
+        -:  686:      ENDDO
+        -:  687:      ENDDO
+        -:  688:      ENDDO
+        -:  689:      ERROR = ER
+        -:  690:!DVM$  PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), REDUCTION(MIN(ERROR))
+        9:  691:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  692:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  693:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  694:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  695:            ERROR = MIN(ERROR,IERR)
+        -:  696:      ENDDO
+        -:  697:      ENDDO
+        -:  698:      ENDDO
+        -:  699:      ENDDO
+        1:  700:      IF(ERROR .EQ. ER) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  701:            call ansyes(tname)
+call    0 returned 100%
+        -:  702:      ELSE
+    #####:  703:            call ansno(tname)
+call    0 never executed
+        -:  704:      ENDIF
+       1*:  705:      deallocate (B, V, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  706:      END
+        -:  707:C ---------------------------------------------cons4410
+        -:  708:C consistent arrays with 3 dimensions
+        -:  709:C two consistent arrays and one distributed array
+function cons4410_ called 1 returned 100% blocks executed 92%
+        1:  710:      subroutine CONS4410
+        -:  711:      INTEGER,PARAMETER:: N=8, ER=10000
+        1:  712:      integer,allocatable:: B(:,:,:,:),V(:,:,:),W(:,:,:),C(:,:,:)
+        -:  713:      character*8 tname
+        -:  714:      INTEGER ERROR,IERR
+        -:  715:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   B
+        -:  716:!DVM$   CONSISTENT V
+        -:  717:!DVM$   CONSISTENT W
+       1*:  718:      allocate (B(N,N,N,N),V(N,N,N),W(N,N,N),C(N,N,N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+        1:  719:      tname='CONS4410'
+        9:  720:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  721:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  722:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      576:  723:            C(I,J,K)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)
+        -:  724:      ENDDO
+        -:  725:      ENDDO
+        -:  726:      ENDDO
+        -:  727:!dvm$ region
+        -:  728:!DVM$   PARALLEL    (L,K,J,I)   ON   B(I,J,K,L)
+        9:  729:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  730:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  731:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  732:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  733:            B(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -:  734:      ENDDO
+        -:  735:      ENDDO
+        -:  736:      ENDDO
+        -:  737:      ENDDO
+        -:  738:!DVM$   PARALLEL  (K,J,I)   ON  B(I,J,K,1), CONSISTENT(V(I,J,K))
+        9:  739:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  740:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  741:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      576:  742:            V(I,J,K) = B(I,J,K,1)
+        -:  743:      ENDDO
+        -:  744:      ENDDO
+        -:  745:      ENDDO
+        -:  746:!DVM$   PARALLEL  (K,J,I)   ON  B(I,J,K,1), CONSISTENT(W(I,J,K))
+        9:  747:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  748:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  749:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      576:  750:            W(I,J,K) = B(I,J,K,1)
+        -:  751:      ENDDO
+        -:  752:      ENDDO
+        -:  753:      ENDDO
+        -:  754:!dvm$ end region
+        -:  755:!dvm$ get_actual (V, W)
+        -:  756:      IERR = ER
+        9:  757:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  758:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  759:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      576:  760:            IF(V(I,J,K) .NE. C(I,J,K)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  761:                  IERR = C(I,J,K)
+        -:  762:                  EXIT
+        -:  763:            ENDIF
+        -:  764:      ENDDO
+        -:  765:      ENDDO
+        -:  766:      ENDDO
+        9:  767:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  768:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  769:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      576:  770:            IF(W(I,J,K) .NE. C(I,J,K)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  771:                  IERR = C(I,J,K)
+        -:  772:                  EXIT
+        -:  773:            ENDIF
+        -:  774:      ENDDO
+        -:  775:      ENDDO
+        -:  776:      ENDDO
+        -:  777:      ERROR = ER
+        -:  778:!DVM$  PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), REDUCTION(MIN(ERROR))
+        9:  779:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  780:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  781:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  782:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  783:            ERROR = MIN(ERROR,IERR)
+        -:  784:      ENDDO
+        -:  785:      ENDDO
+        -:  786:      ENDDO
+        -:  787:      ENDDO
+        1:  788:      IF(ERROR .EQ. ER) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  789:            call ansyes(tname)
+call    0 returned 100%
+        -:  790:      ELSE
+    #####:  791:            call ansno(tname)
+call    0 never executed
+        -:  792:      ENDIF
+       1*:  793:      deallocate (B, V, W, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+        1:  794:      END
+        -:  795:C ---------------------------------------------cons4411
+        -:  796:C consistent arrays with 3 dimensions
+        -:  797:C two consistent arrays and two distributed arrays
+function cons4411_ called 1 returned 100% blocks executed 92%
+        1:  798:      subroutine CONS4411
+        -:  799:      INTEGER,PARAMETER:: N=8, ER=10000
+        1:  800:      integer,allocatable::B(:,:,:,:),A(:,:,:,:),V(:,:,:),W(:,:,:)
+        1:  801:     *,C(:,:,:)
+        -:  802:      character*8 tname
+        -:  803:      INTEGER ERROR,IERR
+        -:  804:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   B
+        -:  805:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   A
+        -:  806:!DVM$   CONSISTENT V
+        -:  807:!DVM$   CONSISTENT W
+       1*:  808:      allocate (B(N,N,N,N),A(N,N,N,N),V(N,N,N),W(N,N,N),C(N,N,N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+branch 12 taken 0% (fallthrough)
+branch 13 taken 100%
+call   14 never executed
+        1:  809:      tname='CONS4411'
+        9:  810:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  811:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  812:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      576:  813:            C(I,J,K)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)
+        -:  814:      ENDDO
+        -:  815:      ENDDO
+        -:  816:      ENDDO
+        -:  817:!dvm$ region
+        -:  818:!DVM$   PARALLEL    (L,K,J,I)   ON   B(I,J,K,L)
+        9:  819:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  820:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  821:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  822:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  823:            B(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -:  824:      ENDDO
+        -:  825:      ENDDO
+        -:  826:      ENDDO
+        -:  827:      ENDDO
+        -:  828:!DVM$   PARALLEL    (L,K,J,I)   ON   A(I,J,K,L)
+        9:  829:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  830:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  831:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  832:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  833:            A(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -:  834:      ENDDO
+        -:  835:      ENDDO
+        -:  836:      ENDDO
+        -:  837:      ENDDO
+        -:  838:!DVM$   PARALLEL  (K,J,I)   ON  B(I,J,K,1), CONSISTENT(V(I,J,K))
+        9:  839:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  840:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  841:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      576:  842:            V(I,J,K) = B(I,J,K,1)
+        -:  843:      ENDDO
+        -:  844:      ENDDO
+        -:  845:      ENDDO
+        -:  846:!DVM$   PARALLEL  (K,J,I)   ON  A(I,J,K,1), CONSISTENT(W(I,J,K))
+        9:  847:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  848:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  849:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      576:  850:            W(I,J,K) = A(I,J,K,1)
+        -:  851:      ENDDO
+        -:  852:      ENDDO
+        -:  853:      ENDDO
+        -:  854:!dvm$ end region
+        -:  855:!dvm$ get_actual (V, W)
+        -:  856:      IERR = ER
+        9:  857:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  858:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  859:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      576:  860:            IF(V(I,J,K) .NE. C(I,J,K)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  861:                  IERR = C(I,J,K)
+        -:  862:                  EXIT
+        -:  863:            ENDIF
+        -:  864:      ENDDO
+        -:  865:      ENDDO
+        -:  866:      ENDDO
+        9:  867:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  868:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  869:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      576:  870:            IF(W(I,J,K) .NE. C(I,J,K)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  871:                  IERR = C(I,J,K)
+        -:  872:                  EXIT
+        -:  873:            ENDIF
+        -:  874:      ENDDO
+        -:  875:      ENDDO
+        -:  876:      ENDDO
+        -:  877:      ERROR = ER
+        -:  878:!DVM$  PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), REDUCTION(MIN(ERROR))
+        9:  879:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  880:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  881:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  882:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  883:            ERROR = MIN(ERROR,IERR)
+        -:  884:      ENDDO
+        -:  885:      ENDDO
+        -:  886:      ENDDO
+        -:  887:      ENDDO
+        1:  888:      IF(ERROR .EQ. ER) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  889:            call ansyes(tname)
+call    0 returned 100%
+        -:  890:      ELSE
+    #####:  891:            call ansno(tname)
+call    0 never executed
+        -:  892:      ENDIF
+       1*:  893:      deallocate (B, A, V, W, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+branch 12 taken 0% (fallthrough)
+branch 13 taken 100%
+call   14 never executed
+        1:  894:      END
+        -:  895:C ---------------------------------------------cons4412
+        -:  896:C consistent arrays with 3 dimensions
+        -:  897:C one consistent array and one distributed array
+        -:  898:C big data
+function cons4412_ called 1 returned 100% blocks executed 92%
+        1:  899:      subroutine CONS4412
+        -:  900:      INTEGER,PARAMETER:: N=16, ER=1000000
+        1:  901:      integer,allocatable:: B(:,:,:,:),V(:,:,:),C(:,:,:)
+        -:  902:      character*8 tname
+        -:  903:      INTEGER ERROR,IERR
+        -:  904:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   B
+        -:  905:!DVM$   CONSISTENT V
+       1*:  906:      allocate (B(N,N,N,N),V(N,N,N),C(N,N,N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  907:      tname='CONS4412'
+       17:  908:      DO K = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  909:      DO J = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368:  910:      DO I = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4352:  911:            C(I,J,K)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)
+        -:  912:      ENDDO
+        -:  913:      ENDDO
+        -:  914:      ENDDO
+        -:  915:!dvm$ region
+        -:  916:!DVM$   PARALLEL    (L,K,J,I)   ON   B(I,J,K,L)
+       17:  917:      DO L = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  918:      DO K = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368:  919:      DO J = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69888:  920:      DO I = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69632:  921:            B(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -:  922:      ENDDO
+        -:  923:      ENDDO
+        -:  924:      ENDDO
+        -:  925:      ENDDO
+        -:  926:!DVM$   PARALLEL  (K,J,I)   ON  B(I,J,K,1), CONSISTENT(V(I,J,K))
+       17:  927:      DO K = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  928:      DO J = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368:  929:      DO I = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4352:  930:            V(I,J,K) = B(I,J,K,1)
+        -:  931:      ENDDO
+        -:  932:      ENDDO
+        -:  933:      ENDDO
+        -:  934:!dvm$ end region
+        -:  935:!dvm$ get_actual (V)
+        -:  936:      IERR = ER
+       17:  937:      DO K = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  938:      DO J = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368:  939:      DO I = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4352:  940:            IF(V(I,J,K) .NE. C(I,J,K)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  941:                  IERR = C(I,J,K)
+        -:  942:                  EXIT
+        -:  943:            ENDIF
+        -:  944:      ENDDO
+        -:  945:      ENDDO
+        -:  946:      ENDDO
+        -:  947:      ERROR = ER
+        -:  948:!DVM$  PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), REDUCTION(MIN(ERROR))
+       17:  949:      DO L = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273:  950:      DO K = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368:  951:      DO J = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69888:  952:      DO I = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69632:  953:            ERROR = MIN(ERROR,IERR)
+        -:  954:      ENDDO
+        -:  955:      ENDDO
+        -:  956:      ENDDO
+        -:  957:      ENDDO
+        1:  958:      IF(ERROR .EQ. ER) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  959:            call ansyes(tname)
+call    0 returned 100%
+        -:  960:      ELSE
+    #####:  961:            call ansno(tname)
+call    0 never executed
+        -:  962:      ENDIF
+       1*:  963:      deallocate (B, V, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  964:      END
+        -:  965:C ---------------------------------------------cons4413
+        -:  966:C consistent arrays with 4 dimensions
+        -:  967:C one consistent array and one distributed array
+function cons4413_ called 1 returned 100% blocks executed 93%
+        1:  968:      subroutine CONS4413
+        -:  969:      INTEGER,PARAMETER:: N=8, ER=10000
+        1:  970:      integer,allocatable:: B(:,:,:,:),V(:,:,:,:),C(:,:,:,:)
+        -:  971:      character*8 tname
+        -:  972:      INTEGER ERROR,IERR
+        -:  973:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   B
+        -:  974:!DVM$   CONSISTENT V
+       1*:  975:      allocate (B(N,N,N,N),V(N,N,N,N),C(N,N,N,N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1:  976:      tname='CONS4413'
+        9:  977:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  978:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  979:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  980:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  981:            C(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -:  982:      ENDDO
+        -:  983:      ENDDO
+        -:  984:      ENDDO
+        -:  985:      ENDDO
+        -:  986:!dvm$ region
+        -:  987:!DVM$   PARALLEL    (L,K,J,I)   ON   B(I,J,K,L)
+        9:  988:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  989:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  990:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  991:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  992:            B(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -:  993:      ENDDO
+        -:  994:      ENDDO
+        -:  995:      ENDDO
+        -:  996:      ENDDO
+        -:  997:!DVM$   PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), CONSISTENT(V(I,J,K,L))
+        9:  998:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  999:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1000:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1001:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1002:            V(I,J,K,L)=B(I,J,K,L)
+        -: 1003:      ENDDO
+        -: 1004:      ENDDO
+        -: 1005:      ENDDO
+        -: 1006:      ENDDO
+        -: 1007:!dvm$ end region
+        -: 1008:!dvm$ get_actual (V)
+        -: 1009:      IERR = ER
+        9: 1010:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1011:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1012:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1013:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1014:            IF(V(I,J,K,L) .NE. C(I,J,K,L)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 1015:                  IERR = C(I,J,K,L)
+        -: 1016:                  EXIT
+        -: 1017:            ENDIF
+        -: 1018:      ENDDO
+        -: 1019:      ENDDO
+        -: 1020:      ENDDO
+        -: 1021:      ENDDO
+        -: 1022:      ERROR = ER
+        -: 1023:!DVM$  PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), REDUCTION(MIN(ERROR))
+        9: 1024:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1025:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1026:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1027:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1028:            ERROR = MIN(ERROR,IERR)
+        -: 1029:      ENDDO
+        -: 1030:      ENDDO
+        -: 1031:      ENDDO
+        -: 1032:      ENDDO
+        1: 1033:      IF(ERROR .EQ. ER) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1: 1034:            call ansyes(tname)
+call    0 returned 100%
+        -: 1035:      ELSE
+    #####: 1036:            call ansno(tname)
+call    0 never executed
+        -: 1037:      ENDIF
+       1*: 1038:      deallocate (B, V, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1: 1039:      END
+        -: 1040:C ---------------------------------------------cons4414
+        -: 1041:C consistent arrays with 4 dimensions
+        -: 1042:C two consistent arrays and one distributed array
+function cons4414_ called 1 returned 100% blocks executed 93%
+        1: 1043:      subroutine CONS4414
+        -: 1044:      INTEGER,PARAMETER:: N=8, ER=10000
+        1: 1045:      integer,allocatable:: B(:,:,:,:),V(:,:,:,:),W(:,:,:,:),C(:,:,:,:)
+        -: 1046:      character*8 tname
+        -: 1047:      INTEGER ERROR,IERR
+        -: 1048:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   B
+        -: 1049:!DVM$   CONSISTENT V
+        -: 1050:!DVM$   CONSISTENT W
+       1*: 1051:      allocate (B(N,N,N,N),V(N,N,N,N),W(N,N,N,N),C(N,N,N,N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+        1: 1052:      tname='CONS4414'
+        9: 1053:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1054:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1055:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1056:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1057:            C(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -: 1058:      ENDDO
+        -: 1059:      ENDDO
+        -: 1060:      ENDDO
+        -: 1061:      ENDDO
+        -: 1062:!dvm$ region
+        -: 1063:!DVM$   PARALLEL    (L,K,J,I)   ON   B(I,J,K,L)
+        9: 1064:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1065:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1066:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1067:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1068:            B(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -: 1069:      ENDDO
+        -: 1070:      ENDDO
+        -: 1071:      ENDDO
+        -: 1072:      ENDDO
+        -: 1073:!DVM$   PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), CONSISTENT(V(I,J,K,L))
+        9: 1074:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1075:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1076:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1077:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1078:            V(I,J,K,L)=B(I,J,K,L)
+        -: 1079:      ENDDO
+        -: 1080:      ENDDO
+        -: 1081:      ENDDO
+        -: 1082:      ENDDO
+        -: 1083:!DVM$   PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), CONSISTENT(W(I,J,K,L))
+        9: 1084:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1085:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1086:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1087:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1088:            W(I,J,K,L)=B(I,J,K,L)
+        -: 1089:      ENDDO
+        -: 1090:      ENDDO
+        -: 1091:      ENDDO
+        -: 1092:      ENDDO
+        -: 1093:!dvm$ end region
+        -: 1094:!dvm$ get_actual (V, W)
+        -: 1095:      IERR = ER
+        9: 1096:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1097:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1098:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1099:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1100:            IF(V(I,J,K,L) .NE. C(I,J,K,L)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 1101:                  IERR = C(I,J,K,L)
+        -: 1102:                  EXIT
+        -: 1103:            ENDIF
+        -: 1104:      ENDDO
+        -: 1105:      ENDDO
+        -: 1106:      ENDDO
+        -: 1107:      ENDDO
+        9: 1108:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1109:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1110:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1111:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1112:            IF(W(I,J,K,L) .NE. C(I,J,K,L)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 1113:                  IERR = C(I,J,K,L)
+        -: 1114:                  EXIT
+        -: 1115:            ENDIF
+        -: 1116:      ENDDO
+        -: 1117:      ENDDO
+        -: 1118:      ENDDO
+        -: 1119:      ENDDO
+        -: 1120:      ERROR = ER
+        -: 1121:!DVM$  PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), REDUCTION(MIN(ERROR))
+        9: 1122:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1123:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1124:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1125:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1126:            ERROR = MIN(ERROR,IERR)
+        -: 1127:      ENDDO
+        -: 1128:      ENDDO
+        -: 1129:      ENDDO
+        -: 1130:      ENDDO
+        1: 1131:      IF(ERROR .EQ. ER) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1: 1132:            call ansyes(tname)
+call    0 returned 100%
+        -: 1133:      ELSE
+    #####: 1134:            call ansno(tname)
+call    0 never executed
+        -: 1135:      ENDIF
+       1*: 1136:      deallocate (B, V, W, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+        1: 1137:      END
+        -: 1138:C ---------------------------------------------cons4415
+        -: 1139:C consistent arrays with 4 dimensions
+        -: 1140:C two consistent arrays and two distributed arrays
+function cons4415_ called 1 returned 100% blocks executed 93%
+        1: 1141:      subroutine CONS4415
+        -: 1142:      INTEGER,PARAMETER:: N=8, ER=10000
+        1: 1143:      integer,allocatable::B(:,:,:,:),A(:,:,:,:),V(:,:,:,:),W(:,:,:,:)
+        1: 1144:     *,C(:,:,:,:)
+        -: 1145:      character*8 tname
+        -: 1146:      INTEGER ERROR,IERR
+        -: 1147:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   B
+        -: 1148:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   A
+        -: 1149:!DVM$   CONSISTENT V
+        -: 1150:!DVM$   CONSISTENT W
+       1*: 1151:      allocate (B(N,N,N,N),A(N,N,N,N),V(N,N,N,N),W(N,N,N,N),C(N,N,N,N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+branch 12 taken 0% (fallthrough)
+branch 13 taken 100%
+call   14 never executed
+        1: 1152:      tname='CONS4415'
+        9: 1153:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1154:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1155:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1156:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1157:            C(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -: 1158:      ENDDO
+        -: 1159:      ENDDO
+        -: 1160:      ENDDO
+        -: 1161:      ENDDO
+        -: 1162:!dvm$ region
+        -: 1163:!DVM$   PARALLEL    (L,K,J,I)   ON   B(I,J,K,L)
+        9: 1164:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1165:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1166:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1167:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1168:            B(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -: 1169:      ENDDO
+        -: 1170:      ENDDO
+        -: 1171:      ENDDO
+        -: 1172:      ENDDO
+        -: 1173:!DVM$   PARALLEL    (L,K,J,I)   ON   A(I,J,K,L)
+        9: 1174:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1175:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1176:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1177:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1178:            A(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -: 1179:      ENDDO
+        -: 1180:      ENDDO
+        -: 1181:      ENDDO
+        -: 1182:      ENDDO
+        -: 1183:!DVM$   PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), CONSISTENT(V(I,J,K,L))
+        9: 1184:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1185:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1186:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1187:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1188:            V(I,J,K,L)=B(I,J,K,L)
+        -: 1189:      ENDDO
+        -: 1190:      ENDDO
+        -: 1191:      ENDDO
+        -: 1192:      ENDDO
+        -: 1193:!DVM$   PARALLEL  (L,K,J,I)   ON  A(I,J,K,L), CONSISTENT(W(I,J,K,L))
+        9: 1194:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1195:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1196:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1197:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1198:            W(I,J,K,L)=A(I,J,K,L)
+        -: 1199:      ENDDO
+        -: 1200:      ENDDO
+        -: 1201:      ENDDO
+        -: 1202:      ENDDO
+        -: 1203:!dvm$ end region
+        -: 1204:!dvm$ get_actual (V, W)
+        -: 1205:      IERR = ER
+        9: 1206:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1207:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1208:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1209:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1210:            IF(V(I,J,K,L) .NE. C(I,J,K,L)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 1211:                  IERR = C(I,J,K,L)
+        -: 1212:                  EXIT
+        -: 1213:            ENDIF
+        -: 1214:      ENDDO
+        -: 1215:      ENDDO
+        -: 1216:      ENDDO
+        -: 1217:      ENDDO
+        9: 1218:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1219:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1220:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1221:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1222:            IF(W(I,J,K,L) .NE. C(I,J,K,L)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 1223:                  IERR = C(I,J,K,L)
+        -: 1224:                  EXIT
+        -: 1225:            ENDIF
+        -: 1226:      ENDDO
+        -: 1227:      ENDDO
+        -: 1228:      ENDDO
+        -: 1229:      ENDDO
+        -: 1230:      ERROR = ER
+        -: 1231:!DVM$  PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), REDUCTION(MIN(ERROR))
+        9: 1232:      DO L = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1233:      DO K = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1234:      DO J = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1235:      DO I = 1, N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1236:            ERROR = MIN(ERROR,IERR)
+        -: 1237:      ENDDO
+        -: 1238:      ENDDO
+        -: 1239:      ENDDO
+        -: 1240:      ENDDO
+        1: 1241:      IF(ERROR .EQ. ER) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1: 1242:            call ansyes(tname)
+call    0 returned 100%
+        -: 1243:      ELSE
+    #####: 1244:            call ansno(tname)
+call    0 never executed
+        -: 1245:      ENDIF
+       1*: 1246:      deallocate (B, A, V, W, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+branch 12 taken 0% (fallthrough)
+branch 13 taken 100%
+call   14 never executed
+        1: 1247:      END
+        -: 1248:C ---------------------------------------------cons4416
+        -: 1249:C consistent arrays with 4 dimensions
+        -: 1250:C one consistent array and one distributed array
+        -: 1251:C big data
+function cons4416_ called 1 returned 100% blocks executed 93%
+        1: 1252:      subroutine CONS4416
+        -: 1253:      INTEGER,PARAMETER:: N=16, ER=1000000
+        1: 1254:      integer,allocatable:: B(:,:,:,:),V(:,:,:,:),C(:,:,:,:)
+        -: 1255:      character*8 tname
+        -: 1256:      INTEGER ERROR,IERR
+        -: 1257:!DVM$   DISTRIBUTE     ( BLOCK, BLOCK, BLOCK, BLOCK )   ::   B
+        -: 1258:!DVM$   CONSISTENT V
+       1*: 1259:      allocate (B(N,N,N,N),V(N,N,N,N),C(N,N,N,N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1: 1260:      tname='CONS4416'
+       17: 1261:      DO L = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273: 1262:      DO K = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368: 1263:      DO J = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69888: 1264:      DO I = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69632: 1265:            C(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -: 1266:      ENDDO
+        -: 1267:      ENDDO
+        -: 1268:      ENDDO
+        -: 1269:      ENDDO
+        -: 1270:!dvm$ region
+        -: 1271:!DVM$   PARALLEL    (L,K,J,I)   ON   B(I,J,K,L)
+       17: 1272:      DO L = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273: 1273:      DO K = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368: 1274:      DO J = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69888: 1275:      DO I = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69632: 1276:            B(I,J,K,L)=I+(N-1)*J+(N-1)*(N-1)*K+(N-1)*(N-1)*(N-1)*L
+        -: 1277:      ENDDO
+        -: 1278:      ENDDO
+        -: 1279:      ENDDO
+        -: 1280:      ENDDO
+        -: 1281:!DVM$   PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), CONSISTENT(V(I,J,K,L))
+       17: 1282:      DO L = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273: 1283:      DO K = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368: 1284:      DO J = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69888: 1285:      DO I = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69632: 1286:            V(I,J,K,L)=B(I,J,K,L)
+        -: 1287:      ENDDO
+        -: 1288:      ENDDO
+        -: 1289:      ENDDO
+        -: 1290:      ENDDO
+        -: 1291:!dvm$ end region
+        -: 1292:!dvm$ get_actual (V)
+        -: 1293:      IERR = ER
+       17: 1294:      DO L = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273: 1295:      DO K = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368: 1296:      DO J = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69888: 1297:      DO I = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69632: 1298:            IF(V(I,J,K,L) .NE. C(I,J,K,L)) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -: 1299:                  IERR = C(I,J,K,L)
+        -: 1300:                  EXIT
+        -: 1301:            ENDIF
+        -: 1302:      ENDDO
+        -: 1303:      ENDDO
+        -: 1304:      ENDDO
+        -: 1305:      ENDDO
+        -: 1306:      ERROR = ER
+        -: 1307:!DVM$  PARALLEL  (L,K,J,I)   ON  B(I,J,K,L), REDUCTION(MIN(ERROR))
+       17: 1308:      DO L = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      273: 1309:      DO K = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+     4368: 1310:      DO J = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69888: 1311:      DO I = 1, N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    69632: 1312:            ERROR = MIN(ERROR,IERR)
+        -: 1313:      ENDDO
+        -: 1314:      ENDDO
+        -: 1315:      ENDDO
+        -: 1316:      ENDDO
+        1: 1317:      IF(ERROR .EQ. ER) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1: 1318:            call ansyes(tname)
+call    0 returned 100%
+        -: 1319:      ELSE
+    #####: 1320:            call ansno(tname)
+call    0 never executed
+        -: 1321:      ENDIF
+       1*: 1322:      deallocate (B, V, C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+        1: 1323:      END
+        -: 1324:
+        -: 1325:C --------------------------------------------------
+function ansyes_ called 16 returned 100% blocks executed 100%
+       16: 1326:      subroutine ansyes(name)
+        -: 1327:      character*8 name
+       16: 1328:      print *,name,'  -  complete'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+       16: 1329:      end
+function ansno_ called 0 returned 0% blocks executed 0%
+    #####: 1330:      subroutine ansno(name)
+        -: 1331:      character*8 name
+    #####: 1332:      print *,name,'  -  ***error'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+    #####: 1333:      end

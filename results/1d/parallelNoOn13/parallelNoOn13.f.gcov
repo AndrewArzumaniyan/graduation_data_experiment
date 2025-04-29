@@ -1,0 +1,671 @@
+        -:    0:Source:results/1d/parallelNoOn13/parallelNoOn13.f
+        -:    0:Graph:./results\1d\parallelNoOn13\parallelNoOn13.gcno
+        -:    0:Data:./results\1d\parallelNoOn13\parallelNoOn13.gcda
+        -:    0:Runs:1
+function MAIN__ called 1 returned 100% blocks executed 100%
+        1:    1:      program PARALLELNoOn3
+        -:    2:
+        -:    3:c    TESTING parallel CLAUSE .       
+        -:    4:
+        1:    5:      print *,'===START OF parallelNoOn3========================'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:    6:C --------------------------------------------------
+        -:    7:c 11  PARALLEL , REDUCTION
+        1:    8:      call parallelNoOn31
+call    0 returned 100%
+        -:    9:C --------------------------------------------------
+        -:   10:c 12  PARALLEL, PRIVATE, REDUCTION
+        1:   11:      call parallelNoOn32
+call    0 returned 100%
+        -:   12:C --------------------------------------------------
+        -:   13:c 13  PARALLEL, ACROSS , TIE, REDUCTION
+        1:   14:      call parallelNoOn33
+call    0 returned 100%
+        -:   15:C --------------------------------------------------
+        -:   16:c 14  PARALLEL, ACROSS, TIE, REDUCTION
+        1:   17:      call parallelNoOn34
+call    0 returned 100%
+        -:   18:C --------------------------------------------------
+        1:   19:      print *,'=== END OF parallelNoOn3 ========================= '    
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+function main called 1 returned 100% blocks executed 100%
+        1:   20:      end
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   21:
+        -:   22:C ---------------------------------------------parallelNoOn31
+function parallelnoon31_ called 1 returned 100% blocks executed 89%
+        1:   23:      subroutine parallelNoOn31
+        -:   24:      integer, parameter :: N = 10,  ER=10000
+        -:   25:      character*14:: tname='parallelNoOn31' 
+        1:   26:      integer, allocatable :: A(:,:,:),B(:,:,:),AS(:,:,:),BS(:,:,:)
+        -:   27:      integer:: erri=ER
+        -:   28:                      
+       1*:   29:      allocate (B(N,N,N),A(N,N,N),BS(N,N,N),AS(N,N,N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 100% (fallthrough)
+branch 10 taken 0%
+call   11 never executed
+       11:   30:      do k=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:   31:      do j=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:   32:      do i=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1100:   33:        if(i == N .or. i==1 .or. j==N .or. j==1 .or.k==N .or.k==1) then
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+branch  2 taken 80% (fallthrough)
+branch  3 taken 20%
+branch  4 taken 20% (fallthrough)
+branch  5 taken 80%
+      488:   34:           AS(i,j,k) = 0
+      488:   35:           BS(i,j,k) = 0
+        -:   36:        else
+      512:   37:           AS(i,j,k) = i+j+k
+        -:   38:        endif
+        -:   39:      enddo
+        -:   40:      enddo
+        -:   41:      enddo
+        9:   42:      do k=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:   43:      do j=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:   44:      do i=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+        -:   45:         BS(i,j,k) = AS(i-1,j,k)+AS(i+1,j,k)+AS(i,j+1,k)+AS(i,j-1,k)
+      576:   46:     &             + AS(i,j,k-1) + AS(i,j,k+1)
+        -:   47:      enddo
+        -:   48:      enddo
+        -:   49:      enddo
+        -:   50:!dvm$ actual(erri)
+        -:   51:!dvm$ region local(A,B)
+        -:   52:!dvm$ parallel (k,j,i)
+       11:   53:      do k=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:   54:      do j=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:   55:      do i=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1100:   56:        if(i == N .or. i==1 .or. j==N .or. j==1 .or.k==N .or.k==1) then
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+branch  2 taken 80% (fallthrough)
+branch  3 taken 20%
+branch  4 taken 20% (fallthrough)
+branch  5 taken 80%
+      488:   57:           A(i,j,k) = 0
+      488:   58:           B(i,j,k) = 0
+        -:   59:        else
+      512:   60:           A(i,j,k) = i+j+k
+        -:   61:        endif
+        -:   62:      enddo
+        -:   63:      enddo
+        -:   64:      enddo
+        -:   65:!dvm$ parallel (k,j,i)
+        9:   66:      do k=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:   67:      do j=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:   68:      do i=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+        -:   69:        B(i,j,k) =  A(i-1,j,k)+A(i+1,j,k)+A(i,j+1,k)+A(i,j-1,k)
+      576:   70:     &          + A(i,j,k-1) + A(i,j,k+1)
+        -:   71:      enddo
+        -:   72:      enddo
+        -:   73:      enddo
+        -:   74:!dvm$ parallel (k,j,i), reduction( min( erri ) )
+       11:   75:      do k=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:   76:      do j=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:   77:      do i=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1000:   78:        if(B(i,j,k) .ne. BS(i,j,k)) 
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+     100*:   79:     &      erri =  min(erri, ABS(B(i,j,k)-BS(i,j,k)))
+        -:   80:      enddo
+        -:   81:      enddo
+        -:   82:      enddo
+        -:   83:!dvm$ end region
+        -:   84:   
+        -:   85:!dvm$ get_actual(erri) 
+        -:   86:      
+        1:   87:      if (erri .eq. ER) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:   88:          call ansyes(tname)
+call    0 returned 100%
+        -:   89:      else
+    #####:   90:          call ansno(tname)
+call    0 never executed
+        -:   91:      endif 
+       1*:   92:      deallocate (A,B,AS,BS)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+        -:   93:      
+        1:   94:      end
+        -:   95:
+        -:   96:C ---------------------------------------------parallelNoOn32
+function parallelnoon32_ called 1 returned 100% blocks executed 89%
+        1:   97:      subroutine parallelNoOn32
+        -:   98:      integer, parameter :: N = 10,  ER=10000
+        -:   99:      character*14:: tname='parallelNoOn32' 
+        1:  100:      integer, allocatable :: A(:,:,:),B(:,:,:),AS(:,:,:),BS(:,:,:)
+        -:  101:      integer:: erri=ER
+        -:  102:                      
+       1*:  103:      allocate (B(N,N,N),A(N,N,N),BS(N,N,N),AS(N,N,N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 100% (fallthrough)
+branch 10 taken 0%
+call   11 never executed
+       11:  104:      do k=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  105:      do j=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  106:      do i=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1100:  107:        if(i == N .or. i==1 .or. j==N .or. j==1 .or.k==N .or.k==1) then
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+branch  2 taken 80% (fallthrough)
+branch  3 taken 20%
+branch  4 taken 20% (fallthrough)
+branch  5 taken 80%
+      488:  108:           AS(i,j,k) = 0
+      488:  109:           BS(i,j,k) = 0
+        -:  110:        else
+      512:  111:           AS(i,j,k) = i+j+k
+        -:  112:        endif
+        -:  113:      enddo
+        -:  114:      enddo
+        -:  115:      enddo
+        9:  116:      do k=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  117:      do j=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  118:      do i=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+        -:  119:         BS(i,j,k) = AS(i-1,j,k)+AS(i+1,j,k)+AS(i,j+1,k)+AS(i,j-1,k)
+      576:  120:     &             + AS(i,j,k-1) + AS(i,j,k+1)
+        -:  121:      enddo
+        -:  122:      enddo
+        -:  123:      enddo
+        -:  124:!dvm$ actual(erri)
+        -:  125:!dvm$ region local(A,B)
+        -:  126:!dvm$ parallel (k,j,i), private(i0) 
+       11:  127:      do k=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  128:      do j=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  129:      do i=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1100:  130:        if(i == N .or. i==1 .or. j==N .or. j==1 .or.k==N .or.k==1) then
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+branch  2 taken 80% (fallthrough)
+branch  3 taken 20%
+branch  4 taken 20% (fallthrough)
+branch  5 taken 80%
+      488:  131:           i0 = 0
+      488:  132:           A(i,j,k) = i0
+      488:  133:           B(i,j,k) = i0
+        -:  134:        else
+      512:  135:           A(i,j,k) = i+j+k
+        -:  136:        endif
+        -:  137:      enddo
+        -:  138:      enddo
+        -:  139:      enddo
+        -:  140:!dvm$ parallel (k,j,i),private(ia1,ja1,ka1)
+        9:  141:      do k=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  142:      do j=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  143:      do i=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      512:  144:        ia1 = A(i-1,j,k)
+      512:  145:        ja1 = A(i,j-1,k)
+      512:  146:        ka1 = A(i,j,k-1)
+        -:  147:        B(i,j,k) = ia1+A(i+1,j,k)+A(i,j+1,k)+ ja1
+      576:  148:     &          + ka1 + A(i,j,k+1)
+        -:  149:      enddo
+        -:  150:      enddo
+        -:  151:      enddo
+        -:  152:!dvm$ parallel (k,j,i), reduction( min( erri ) )
+       11:  153:      do k=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  154:      do j=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  155:      do i=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1000:  156:        if(B(i,j,k) .ne. BS(i,j,k)) 
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+     100*:  157:     &      erri =  min(erri, ABS(B(i,j,k)-BS(i,j,k)))
+        -:  158:      enddo
+        -:  159:      enddo
+        -:  160:      enddo
+        -:  161:!dvm$ end region
+        -:  162:   
+        -:  163:!dvm$ get_actual(erri) 
+        -:  164:      
+        1:  165:      if (erri .eq. ER) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  166:          call ansyes(tname)
+call    0 returned 100%
+        -:  167:      else
+    #####:  168:          call ansno(tname)
+call    0 never executed
+        -:  169:      endif 
+       1*:  170:      deallocate (A,B,AS,BS)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+        -:  171:      
+        1:  172:      end
+        -:  173:
+        -:  174:C ---------------------------------------------parallelNoOn33
+function parallelnoon33_ called 1 returned 100% blocks executed 88%
+        1:  175:      subroutine parallelNoOn33
+        -:  176:      integer, parameter :: N = 10,  ER=10000
+        -:  177:      character*14:: tname='parallelNoOn33' 
+        1:  178:      integer, allocatable :: A(:,:,:),B(:,:,:),AS(:,:,:),BS(:,:,:)
+        -:  179:      integer:: erri=ER
+        -:  180:                      
+       1*:  181:      allocate (B(N,N,N),A(N,N,N),BS(N,N,N),AS(N,N,N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 100% (fallthrough)
+branch 10 taken 0%
+call   11 never executed
+       11:  182:      do k=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  183:      do j=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  184:      do i=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1100:  185:        if(i == N .or. i==1 .or. j==N .or. j==1 .or.k==N .or.k==1) then
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+branch  2 taken 80% (fallthrough)
+branch  3 taken 20%
+branch  4 taken 20% (fallthrough)
+branch  5 taken 80%
+      488:  186:           AS(i,j,k) = 0
+      488:  187:           BS(i,j,k) = 0
+        -:  188:        else
+      512:  189:           AS(i,j,k) = i+j+k
+      512:  190:           BS(i,j,k) = i+j+k+1
+        -:  191:        endif
+        -:  192:      enddo
+        -:  193:      enddo
+        -:  194:      enddo
+        8:  195:      do k=2,N-2
+branch  0 taken 88% (fallthrough)
+branch  1 taken 12%
+       64:  196:      do j=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      511:  197:      do i=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+        -:  198:         AS(i,j,k) = AS(i-1,j,k)+AS(i+1,j,k)+AS(i,j+1,k)+AS(i,j-1,k)
+      448:  199:     &             + AS(i,j,k-1) + AS(i,j,k+1)
+      504:  200:         BS(i,j,k) = BS(i,j,k) + BS(i-1,j,k) + BS(i,j,k+2)
+        -:  201:      enddo
+        -:  202:      enddo
+        -:  203:      enddo
+        -:  204:!dvm$ actual(erri)
+        -:  205:!dvm$ region local(A,B)
+        -:  206:!dvm$ parallel (k,j,i)
+       11:  207:      do k=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  208:      do j=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  209:      do i=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1100:  210:        if(i == N .or. i==1 .or. j==N .or. j==1 .or.k==N .or.k==1) then
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+branch  2 taken 80% (fallthrough)
+branch  3 taken 20%
+branch  4 taken 20% (fallthrough)
+branch  5 taken 80%
+      488:  211:           A(i,j,k) = 0
+      488:  212:           B(i,j,k) = 0
+        -:  213:        else
+      512:  214:           A(i,j,k) = i+j+k
+      512:  215:           B(i,j,k) = i+j+k+1
+        -:  216:        endif
+        -:  217:      enddo
+        -:  218:      enddo
+        -:  219:      enddo
+        -:  220:!dvm$ parallel (k,j,i), tie(A(i,j,k),B(i,j,k)), 
+        -:  221:!dvm$&     across(A(1:1,1:1,1:1),B(1:0,0:0,0:2))
+        8:  222:      do k=2,N-2
+branch  0 taken 88% (fallthrough)
+branch  1 taken 12%
+       64:  223:      do j=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      511:  224:      do i=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+        -:  225:
+        -:  226:         A(i,j,k) =  A(i-1,j,k)+A(i+1,j,k)+A(i,j+1,k)+A(i,j-1,k)
+      448:  227:     &          + A(i,j,k-1) + A(i,j,k+1)
+      504:  228:         B(i,j,k) = B(i,j,k) + B(i-1,j,k) + B(i,j,k+2)
+        -:  229:      enddo
+        -:  230:      enddo
+        -:  231:      enddo
+        -:  232:!dvm$ parallel (k,j,i), reduction( min( erri ) )
+       11:  233:      do k=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  234:      do j=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  235:      do i=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1000:  236:        if(A(i,j,k) .ne. AS(i,j,k)) 
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  237:     &      erri =  min(erri, ABS(A(i,j,k)-AS(i,j,k)))
+     1000:  238:        if(B(i,j,k) .ne. BS(i,j,k)) 
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+     100*:  239:     &      erri =  min(erri, ABS(B(i,j,k)-BS(i,j,k)))
+        -:  240:      enddo
+        -:  241:      enddo
+        -:  242:      enddo
+        -:  243:!dvm$ end region
+        -:  244:   
+        -:  245:!dvm$ get_actual(erri) 
+        -:  246:      
+        1:  247:      if (erri .eq. ER) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  248:          call ansyes(tname)
+call    0 returned 100%
+        -:  249:      else
+    #####:  250:          call ansno(tname)
+call    0 never executed
+        -:  251:      endif 
+       1*:  252:      deallocate (A,B,AS,BS)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+        -:  253:      
+        1:  254:      end
+        -:  255:C ---------------------------------------------parallelNoOn34
+function parallelnoon34_ called 1 returned 100% blocks executed 88%
+        1:  256:      subroutine parallelNoOn34
+        -:  257:      integer, parameter :: N = 10,  ER=10000
+        -:  258:      character*14:: tname='parallelNoOn34' 
+        1:  259:      integer, allocatable :: A(:,:,:),B(:,:,:),AS(:,:,:),BS(:,:,:)
+        -:  260:      integer:: erri=ER
+        -:  261:                      
+       1*:  262:      allocate (B(N,N,N),A(N,N,N),BS(N,N,N),AS(N,N,N))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 100% (fallthrough)
+branch 10 taken 0%
+call   11 never executed
+       11:  263:      do k=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  264:      do j=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  265:      do i=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1100:  266:        if(i == N .or. i==1 .or. j==N .or. j==1 .or.k==N .or.k==1) then
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+branch  2 taken 80% (fallthrough)
+branch  3 taken 20%
+branch  4 taken 20% (fallthrough)
+branch  5 taken 80%
+      488:  267:           AS(i,j,k) = 0
+      488:  268:           BS(i,j,k) = 0
+        -:  269:        else
+      512:  270:           AS(i,j,k) = i+j+k
+      512:  271:           BS(i,j,k) = i+j+k+1
+        -:  272:        endif
+        -:  273:      enddo
+        -:  274:      enddo
+        -:  275:      enddo
+        9:  276:      do k=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  277:      do j=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  278:      do i=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+        -:  279:         AS(i,j,k) = AS(i-1,j,k)+AS(i+1,j,k)+AS(i,j+1,k)+AS(i,j-1,k)
+      512:  280:     &             + AS(i,j,k-1) + AS(i,j,k+1)
+      576:  281:         BS(i+1,j,k-1) = BS(i+1,j,k) + BS(i-1,j,k-1) + BS(i+1,j,k+1)
+        -:  282:      enddo
+        -:  283:      enddo
+        -:  284:      enddo
+        -:  285:!dvm$ actual(erri)
+        -:  286:!dvm$ region local(A,B)
+        -:  287:!dvm$ parallel (k,j,i)
+       11:  288:      do k=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  289:      do j=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  290:      do i=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1100:  291:        if(i == N .or. i==1 .or. j==N .or. j==1 .or.k==N .or.k==1) then
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+branch  2 taken 80% (fallthrough)
+branch  3 taken 20%
+branch  4 taken 20% (fallthrough)
+branch  5 taken 80%
+      488:  292:           A(i,j,k) = 0
+      488:  293:           B(i,j,k) = 0
+        -:  294:        else
+      512:  295:           A(i,j,k) = i+j+k
+      512:  296:           B(i,j,k) = i+j+k+1
+        -:  297:        endif
+        -:  298:      enddo
+        -:  299:      enddo
+        -:  300:      enddo
+        -:  301:!dvm$ parallel (k,j,i), tie(A(i,j,k),B(i+1,j,k-1)), 
+        -:  302:!dvm$&     across(A(1:1,1:1,1:1),B(2:0,0:0,0:2))
+        9:  303:      do k=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  304:      do j=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  305:      do i=2,N-1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+        -:  306:
+        -:  307:         A(i,j,k) =  A(i-1,j,k)+A(i+1,j,k)+A(i,j+1,k)+A(i,j-1,k)
+      512:  308:     &          + A(i,j,k-1) + A(i,j,k+1)
+      576:  309:         B(i+1,j,k-1) = B(i+1,j,k) + B(i-1,j,k-1) + B(i+1,j,k+1)
+        -:  310:      enddo
+        -:  311:      enddo
+        -:  312:      enddo
+        -:  313:!dvm$ parallel (k,j,i), reduction( min( erri ) )
+       11:  314:      do k=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+      111:  315:      do j=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1110:  316:      do i=1,N
+branch  0 taken 91% (fallthrough)
+branch  1 taken 9%
+     1000:  317:        if(A(i,j,k) .ne. AS(i,j,k)) 
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  318:     &      erri =  min(erri, ABS(A(i,j,k)-AS(i,j,k)))
+     1000:  319:        if(B(i,j,k) .ne. BS(i,j,k)) 
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+     100*:  320:     &      erri =  min(erri, ABS(B(i,j,k)-BS(i,j,k)))
+        -:  321:      enddo
+        -:  322:      enddo
+        -:  323:      enddo
+        -:  324:!dvm$ end region
+        -:  325:   
+        -:  326:!dvm$ get_actual(erri) 
+        -:  327:      
+        1:  328:      if (erri .eq. ER) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  329:          call ansyes(tname)
+call    0 returned 100%
+        -:  330:      else
+    #####:  331:          call ansno(tname)
+call    0 never executed
+        -:  332:      endif 
+       1*:  333:      deallocate (A,B,AS,BS)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+        -:  334:      
+        1:  335:      end
+        -:  336:
+        -:  337:C -------------------------------------------------
+        -:  338:
+function ansyes_ called 4 returned 100% blocks executed 100%
+        4:  339:      subroutine ansyes(name)
+        -:  340:      character*14 name
+        4:  341:      print *,name,'  -  complete'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+        4:  342:      end
+function ansno_ called 0 returned 0% blocks executed 0%
+    #####:  343:      subroutine ansno(name)
+        -:  344:      character*14 name
+    #####:  345:      print *,name,'  -  ***error'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+    #####:  346:      end

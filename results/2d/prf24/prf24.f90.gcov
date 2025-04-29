@@ -1,0 +1,468 @@
+        -:    0:Source:results/2d/prf24/prf24.f90
+        -:    0:Graph:./results\2d\prf24\prf24.gcno
+        -:    0:Data:./results\2d\prf24\prf24.gcda
+        -:    0:Runs:1
+function MAIN__ called 1 returned 100% blocks executed 100%
+        1:    1:program prf24
+        -:    2:    !TESTING OF THE PREFETCH DIRECTIVE.
+        -:    3:
+        1:    4:    print *, '===START OF PRF24========================'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:    5:
+        1:    6:    call prf2401
+call    0 returned 100%
+        1:    7:    call prf2402
+call    0 returned 100%
+        1:    8:    call prf2403
+call    0 returned 100%
+        -:    9:
+        1:   10:    print *, '===END OF PRF24=========================='
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+function main called 1 returned 100% blocks executed 100%
+        1:   11:end
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   12:
+function prf2401_ called 1 returned 100% blocks executed 79%
+        1:   13:subroutine prf2401
+        -:   14:    integer, parameter :: N = 4, M = 4, NL = 1000, NIT = 3
+        1:   15:    integer, allocatable :: A( :, : ), B( :, : ), C( :, : ), D( :, : )
+        -:   16:    character * 7 :: tname = 'PRF2401'
+        -:   17:
+        -:   18:    !dvm$ distribute B( block, * )
+        -:   19:    !dvm$ align ( :, : ) with B( :, : ) :: A, D
+        -:   20:
+        -:   21:    !dvm$ remote_group GR1
+        -:   22:    !dvm$ remote_group GR2
+        -:   23:    !dvm$ remote_group GR3
+        -:   24:
+       1*:   25:    allocate( B( N, M ), A( N, M ), C( N, M ), D( N, M ) )
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 100% (fallthrough)
+branch 10 taken 0%
+call   11 never executed
+        5:   26:    call serial2( C, N, M, NL )
+        -:   27:
+        -:   28:    !dvm$ parallel ( i, j ) on A( i, j )
+        5:   29:    do i = 1, N
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       21:   30:        do j = 1, M
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       16:   31:            A( i, j ) = NL + i + j
+       16:   32:            B( i, j ) = NL + i + j
+       20:   33:            D( i, j ) = NL + i + j
+        -:   34:        enddo
+        -:   35:    enddo
+        -:   36:
+        4:   37:    do it = 1, NIT
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:   38:        !dvm$ prefetch GR1
+        -:   39:        !dvm$ prefetch GR2
+        -:   40:        !dvm$ prefetch GR3
+        -:   41:
+        -:   42:        !dvm$ remote_access( GR1:A( N / 2, M / 2 ) )
+        3:   43:        ib1 = A( N / 2, M / 2 )
+        -:   44:
+        -:   45:        !dvm$ remote_access( GR1:B( N / 2, M ) )
+        3:   46:        ib2 = B( N / 2, M )
+        -:   47:
+        -:   48:        !dvm$ remote_access( GR2:D( N, M / 2 ) )
+        3:   49:        ib3 = D( N, M / 2 )
+        -:   50:
+        -:   51:        !dvm$ remote_access( GR3:D( N / 2, 1 ) )
+        3:   52:        ib4 = D( N / 2, 1 )
+        -:   53:
+        -:   54:        if ( ( ib1 .eq. C( N / 2, M / 2 ) ) .and. ( ib2 .eq. C( N / 2, M ) ) .and. &
+        3:   55:             ( ib3 .eq. C( N, M / 2 ) ) .and. ( ib4 .eq. C( N / 2, 1 ) ) ) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 100% (fallthrough)
+branch  5 taken 0%
+branch  6 taken 100% (fallthrough)
+branch  7 taken 0%
+        3:   56:          call ansyes( tname )
+call    0 returned 100%
+        -:   57:        else
+    #####:   58:          call ansno( tname )
+call    0 never executed
+        -:   59:        endif
+        1:   60:        if ( it .eq. 2 ) cycle
+        -:   61:        !dvm$ reset GR1
+        -:   62:        !dvm$ reset GR2
+        -:   63:        !dvm$ reset GR3
+        -:   64:    enddo
+       1*:   65:    deallocate( A, B, C, D )
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+        1:   66:end
+        -:   67:
+function prf2402_ called 1 returned 100% blocks executed 79%
+        1:   68:subroutine prf2402
+        -:   69:    integer, parameter ::  N = 4, M = 4, NL = 1000, NIT = 3
+        1:   70:    integer, allocatable :: A( :, : ), B( :, : ), C( :, : ), D( :, : )
+        1:   71:    integer, allocatable :: A1( :, : )
+        -:   72:    character * 7 :: tname = 'PRF2402'
+        -:   73:
+        -:   74:    !dvm$ distribute B( *, block )
+        -:   75:    !dvm$ align( :, : ) with B( :, : ) :: A, A1
+        -:   76:
+        -:   77:    !dvm$ remote_group GR1
+        -:   78:    !dvm$ remote_group GR2
+        -:   79:    !dvm$ remote_group GR3
+        -:   80:
+       1*:   81:    allocate( B( N, M ), A( N, M ), C( N, M ), D( N, M ), A1( N, M ) )
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+branch 12 taken 100% (fallthrough)
+branch 13 taken 0%
+call   14 never executed
+        5:   82:    call serial2( C, N, M, NL )
+        -:   83:
+        -:   84:    !dvm$ parallel ( i, j ) on A( i, j )
+        5:   85:    do i = 1, N
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       21:   86:        do j = 1, M
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       16:   87:            A( i, j ) = NL + i + j
+       20:   88:            A1( i, j ) = NL + i + j
+        -:   89:        enddo
+        -:   90:    enddo
+        -:   91:
+        4:   92:    do it = 1, NIT
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:   93:        !dvm$ prefetch GR1
+        -:   94:        !dvm$ prefetch GR2
+        -:   95:        !dvm$ prefetch GR3
+        -:   96:
+        -:   97:        isumc1 = 0
+        -:   98:        isuma1 = 0
+        -:   99:        !dvm$ remote_access ( GR1:A( :, M / 2 ) )
+       15:  100:        do i = 1, N
+branch  0 taken 20% (fallthrough)
+branch  1 taken 80%
+       12:  101:            D( i, M / 2 ) = A( i, M / 2 )
+       12:  102:            isumc1 = isumc1 + C( i, M / 2 )
+       15:  103:            isuma1 = isuma1 + D( i, M / 2 )
+        -:  104:        enddo
+        -:  105:
+        -:  106:        isumc2 = 0
+        -:  107:        isuma2 = 0
+        -:  108:        !dvm$ remote_access ( GR2:A( N / 2, : ) )
+       15:  109:        do j = 1, M
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       12:  110:            D( N / 2, j ) = A( N / 2, j )
+       12:  111:            isumc2 = isumc2 + C( N / 2, j )
+       15:  112:            isuma2 = isuma2 + D( N / 2, j )
+        -:  113:        enddo
+        -:  114:
+        -:  115:        isumc3 = 0
+        -:  116:        isuma3 = 0
+        3:  117:        ki = 2
+        3:  118:        ki1 = 3
+        -:  119:        !dvm$ remote_access ( GR3:A1( :, M / 2 ) )
+        -:  120:        do i = 1, N / ki - ki1
+        -:  121:            D( i, M / 2 ) = A1( ki * i + ki1, M / 2 )
+        -:  122:            isumc3 = isumc3 + C( ki * i + ki1, M / 2 )
+        -:  123:            isuma3 = isuma3 + D( i, M / 2 )
+        -:  124:        enddo
+        -:  125:
+        3:  126:        isumc4 = 0
+        3:  127:        isuma4 = 0
+        3:  128:        kj = 2
+        3:  129:        kj1 = 3
+        -:  130:        !dvm$ remote_access ( GR3:A1( N / 2, : ) )
+        -:  131:        do j = 1, M/kj-kj1
+        -:  132:            D( N / 2, j ) = A1( N / 2, kj * j + kj1 )
+        -:  133:            isumc7 = isumc7 + C( N / 2, kj * j + kj1 )
+        -:  134:            isuma7 = isuma7 + D( N / 2, j )
+        -:  135:        enddo
+        -:  136:
+        3:  137:        if ( ( isumc1 .eq. isuma1 ) .and. ( isumc2 .eq. isuma2 ) .and. ( isumc3 .eq. isuma3 ) .and. &
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  138:             ( isumc4 .eq. isuma4 ) ) then
+        3:  139:            call ansyes( tname )
+call    0 returned 100%
+        -:  140:        else
+    #####:  141:            call ansno( tname )
+call    0 never executed
+        -:  142:        endif
+        -:  143:
+        1:  144:        if ( it .eq. 2 ) cycle
+        -:  145:
+        -:  146:        !dvm$ reset GR1
+        -:  147:        !dvm$ reset GR2
+        -:  148:        !dvm$ reset GR3
+        -:  149:    enddo
+       1*:  150:    deallocate( A, B, C, D, A1 )
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+branch 12 taken 0% (fallthrough)
+branch 13 taken 100%
+call   14 never executed
+        1:  151:end
+        -:  152:
+function prf2403_ called 1 returned 100% blocks executed 88%
+        1:  153:subroutine prf2403
+        -:  154:    integer, parameter ::  N = 4, M = 4, NL = 1000, NIT = 3
+        1:  155:    integer, allocatable :: A( :, : ), B( :, : ), C( :, : ), A1( :, : )
+        -:  156:    character * 7 :: tname ='PRF2403'
+        -:  157:
+        -:  158:    !dvm$ distribute B( block, * )
+        -:  159:    !dvm$ align( :, : ) with B( :, : ) :: A, A1
+        -:  160:
+        -:  161:    !dvm$ remote_group GR1
+        -:  162:    !dvm$ remote_group GR2
+        -:  163:    !dvm$ remote_group GR3
+        -:  164:
+       1*:  165:    allocate ( B( N, M ), A( N, M ), C( N, M ), A1( N, M ) )
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 100% (fallthrough)
+branch 10 taken 0%
+call   11 never executed
+        5:  166:    call serial2( C, N, M, NL )
+        -:  167:
+        -:  168:    !dvm$ parallel ( i, j ) on A( i, j )
+        5:  169:    do i = 1, N
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       21:  170:        do j = 1, M
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       16:  171:            A( i, j ) = NL + i + j
+       20:  172:            A1( i, j ) = NL + i + j
+        -:  173:        enddo
+        -:  174:    enddo
+        -:  175:
+        4:  176:    do it = 1, NIT
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  177:        !dvm$ prefetch GR1
+        -:  178:        !dvm$ prefetch GR2
+        -:  179:
+       15:  180:        nloopi1 = NL
+       15:  181:        nloopj1 = NL
+        -:  182:        !dvm$ parallel ( i, j ) on B( i, j ), remote_access( GR1:A( N / 2, M / 2 ) )
+       15:  183:        do i = 1, N
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       63:  184:            do j = 1, M
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       60:  185:                B( i, j ) = A( N / 2, M / 2 )
+        -:  186:            enddo
+        -:  187:        enddo
+        -:  188:        !dvm$ parallel ( i, j ) on B( i, j ), reduction( min( nloopi1 ), min( nloopj1 ) )
+       15:  189:        do i = 1, N
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       63:  190:            do j = 1, M
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       60:  191:                if ( B( i, j )  .ne. C( N / 2, M / 2 ) ) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  192:                    nloopi1 = min( nloopi1, i )
+    #####:  193:                    nloopj1 = min( nloopj1, j )
+        -:  194:                endif
+        -:  195:            enddo
+        -:  196:        enddo
+        -:  197:
+       15:  198:        nloopi2 = NL
+       15:  199:        nloopj2 = NL
+        -:  200:        !dvm$ parallel ( i, j ) on B( i, j ), remote_access( GR2:A1( :, M / 2 ) )
+       15:  201:        do i = 1, N
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       63:  202:            do j = 1, M
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       60:  203:                B( i, j ) = A1( i, M / 2 )
+        -:  204:            enddo
+        -:  205:        enddo
+        -:  206:        !dvm$ parallel ( i, j ) on B( i, j ), reduction( min( nloopi2 ), min( nloopj2 ) )
+       15:  207:        do i = 1, N
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       63:  208:            do j = 1, M
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       60:  209:                if ( B( i, j ) .ne. C( i, M / 2 ) ) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  210:                    nloopi2 = min( nloopi2, i )
+    #####:  211:                    nloopj2 = min( nloopj2, j )
+        -:  212:                endif
+        -:  213:            enddo
+        -:  214:        enddo
+        -:  215:
+       15:  216:        nloopi3 = NL
+       15:  217:        nloopj3 = NL
+        -:  218:        !dvm$ parallel ( i, j ) on A( i, j ), remote_access( GR2:A1( N / 2, : ) )
+       15:  219:        do i = 1, N
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       63:  220:            do j = 1, M
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       60:  221:                B( i, j ) = A1( N / 2, j )
+        -:  222:            enddo
+        -:  223:        enddo
+        -:  224:        !dvm$ parallel ( i, j ) on A( i, j ), reduction( min( nloopi3 ), min( nloopj3 ) )
+       15:  225:        do i = 1, N
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       63:  226:            do j = 1, M
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       60:  227:                if ( B( i, j ) .ne. C( N / 2, j ) ) then
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+    #####:  228:                    nloopi3 = min( nloopi3, i )
+    #####:  229:                    nloopj3 = min( nloopj3, j )
+        -:  230:                endif
+        -:  231:            enddo
+        -:  232:        enddo
+        -:  233:
+        -:  234:        if ( ( nloopi1 .eq. NL ) .and. ( nloopj1 .eq. NL ) .and. &
+        -:  235:             ( nloopi2 .eq. NL ) .and. ( nloopj2 .eq. NL ) .and. &
+        3:  236:             ( nloopi3 .eq. NL ) .and. ( nloopj3 .eq. NL ) ) then
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 100% (fallthrough)
+branch  5 taken 0%
+        3:  237:            call ansyes( tname )
+call    0 returned 100%
+        -:  238:        else
+    #####:  239:            call ansno( tname )
+call    0 never executed
+        -:  240:        endif
+        -:  241:
+        1:  242:        if ( it .eq. 2 ) cycle
+        -:  243:        !dvm$ reset GR1
+        -:  244:        !dvm$ reset GR2
+        -:  245:    enddo
+        -:  246:
+       1*:  247:    deallocate( A, B, C, A1 )
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+branch  6 taken 0% (fallthrough)
+branch  7 taken 100%
+call    8 never executed
+branch  9 taken 0% (fallthrough)
+branch 10 taken 100%
+call   11 never executed
+        1:  248:end
+        -:  249:
+function serial2_ called 0 returned 0% blocks executed 0%
+    #####:  250:subroutine serial2( AR, N, M, NL )
+        -:  251:    integer AR( N, M )
+        -:  252:    integer NL
+      15*:  253:    do i = 1, N
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+branch  2 taken 80% (fallthrough)
+branch  3 taken 20%
+branch  4 never executed (fallthrough)
+branch  5 never executed
+branch  6 taken 80% (fallthrough)
+branch  7 taken 20%
+      63*:  254:        do j = 1, M
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+branch  2 taken 80% (fallthrough)
+branch  3 taken 20%
+branch  4 never executed (fallthrough)
+branch  5 never executed
+branch  6 taken 80% (fallthrough)
+branch  7 taken 20%
+      60*:  255:            AR( i, j ) = NL + i + j
+        -:  256:        enddo
+        -:  257:    enddo
+    #####:  258:end
+        -:  259:
+function ansyes_ called 9 returned 100% blocks executed 100%
+        9:  260:subroutine ansyes( name )
+        -:  261:    character * 7 name
+        9:  262:    print *, name, '  -  complete'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+        9:  263:end
+        -:  264:
+function ansno_ called 0 returned 0% blocks executed 0%
+    #####:  265:subroutine ansno( name )
+        -:  266:    character * 7 name
+    #####:  267:    print *, name, '  -  ***error'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+    #####:  268:end

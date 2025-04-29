@@ -1,0 +1,555 @@
+=== Processing file: taskst32.f ===
+Date and time: 2025-04-23 11:58:01
+Dimension: 3d
+==================================================
+
+Copied ./sources\3d\taskst32.f to ./results\3d\taskst32\taskst32.f
+Command: gfortran -O3 -g -fprofile-arcs -ftest-coverage "./results\3d\taskst32\taskst32.f" -o "./results\3d\taskst32\taskst32"
+Output: 
+
+Error output: 
+./results\3d\taskst32\taskst32.f:1:2:
+
+    1 | program taskst32
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:2:6:
+
+    2 |     integer, parameter :: k = 8, n1 = 4, itmax = 20, n2 = k - n1, er = 10000
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:3:6:
+
+    3 |     real, allocatable :: a( :, :, :, : ), a1( :, :, :, : ), a2( :, :, :, : )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:4:6:
+
+    4 |     real, allocatable :: b( :, :, :, : ), b1( :, :, :, : ), b2( :, :, :, : )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:5:6:
+
+    5 |     integer lp( 2 ), hp( 2 )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:6:6:
+
+    6 |     integer errt
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:7:6:
+
+    7 |     character*8 :: tname = 'taskst32'
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:16:6:
+
+   16 |     print *,  '===START OF taskst32 ====================='
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:17:6:
+
+   17 |     call dpt( lp, hp, 2 )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:19:6:
+
+   19 |     allocate( a1( n1 + 1, k, k, k ) )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:21:6:
+
+   21 |     allocate( b1( n1 + 1, k, k, k ) )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:25:6:
+
+   25 |     allocate( a2( n2 + 1, k, k, k ) )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:27:6:
+
+   27 |     allocate( b2( n2 + 1, k, k, k ) )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:30:6:
+
+   30 |     allocate( a( k, k, k, k ), b( k, k, k, k ) )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:41:41:
+
+   41 |                         if( i .eq. 1 .or. &
+      |                                                1
+Error: Syntax error in expression at (1)
+./results\3d\taskst32\taskst32.f:47:72:
+
+   47 |                         else
+      |                                                                               1
+Error: Unexpected ELSE statement at (1)
+./results\3d\taskst32\taskst32.f:50:25:
+
+   50 |                         endif
+      |                                1
+Error: Expecting END DO statement at (1)
+./results\3d\taskst32\taskst32.f:65:48:
+
+   65 |                         if( i .eq. n2 + 1 .or. &
+      |                                                1
+Error: Syntax error in expression at (1)
+./results\3d\taskst32\taskst32.f:71:72:
+
+   71 |                         else
+      |                                                                        1
+Error: Unexpected ELSE statement at (1)
+./results\3d\taskst32\taskst32.f:74:27:
+
+   74 |                         endif
+      |                           1
+Error: Expecting END DO statement at (1)
+./results\3d\taskst32\taskst32.f:83:6:
+
+   83 |     do it = 1, itmax
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:86:11:
+
+   86 |         a1( n1 + 1, :, :, : ) = b2( 2, :, :, : )
+      |           1
+Error: 'a1' at (1) is not a variable
+./results\3d\taskst32\taskst32.f:89:11:
+
+   89 |         a2( 1, :, :, : ) = b1( n1, :, :, : )
+      |           1
+Error: 'a2' at (1) is not a variable
+./results\3d\taskst32\taskst32.f:100:39:
+
+  100 |                                     b1( i, j, ii, jj ) = ( a1( i - 1, j, ii, jj ) + a1( i + 1, j, ii, jj ) + &
+      |                                       1
+Error: 'b1' at (1) is not a variable
+./results\3d\taskst32\taskst32.f:101:62:
+
+  101 |                                                            a1( i, j - 1, ii, jj ) + a1( i, j + 1, ii, jj ) + &
+      |                                                              1
+Error: 'a1' at (1) is not a variable
+./results\3d\taskst32\taskst32.f:102:62:
+
+  102 |                                                            a1( i, j, ii - 1, jj ) + a1( i, j, ii + 1, jj ) + &
+      |                                                              1
+Error: 'a1' at (1) is not a variable
+./results\3d\taskst32\taskst32.f:103:62:
+
+  103 |                                                            a1( i, j, ii, jj - 1 ) + a1( i, j, ii, jj + 1 ) ) / 8
+      |                                                              1
+Error: 'a1' at (1) is not a variable
+./results\3d\taskst32\taskst32.f:114:39:
+
+  114 |                                     a1( i, j, ii, jj ) = b1( i, j, ii, jj )
+      |                                       1
+Error: 'a1' at (1) is not a variable
+./results\3d\taskst32\taskst32.f:129:39:
+
+  129 |                                     b2( i, j, ii, jj ) = ( a2( i - 1, j, ii, jj ) + a2( i + 1, j, ii, jj ) + &
+      |                                       1
+Error: 'b2' at (1) is not a variable
+./results\3d\taskst32\taskst32.f:130:62:
+
+  130 |                                                            a2( i, j - 1, ii, jj ) + a2( i, j + 1, ii, jj ) + &
+      |                                                              1
+Error: 'a2' at (1) is not a variable
+./results\3d\taskst32\taskst32.f:131:62:
+
+  131 |                                                            a2( i, j, ii - 1, jj ) + a2( i, j, ii + 1, jj ) + &
+      |                                                              1
+Error: 'a2' at (1) is not a variable
+./results\3d\taskst32\taskst32.f:132:62:
+
+  132 |                                                            a2( i, j, ii, jj - 1 ) + a2( i, j, ii, jj + 1 ) ) / 8
+      |                                                              1
+Error: 'a2' at (1) is not a variable
+./results\3d\taskst32\taskst32.f:142:39:
+
+  142 |                                     a2( i, j, ii, jj ) = b2( i, j, ii, jj )
+      |                                       1
+Error: 'a2' at (1) is not a variable
+./results\3d\taskst32\taskst32.f:150:6:
+
+  150 |     enddo
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:160:57:
+
+  160 |                         if( i .eq. 1 .or. j .eq. 1 .or. &
+      |                                                         1
+Error: Syntax error in expression at (1)
+./results\3d\taskst32\taskst32.f:165:72:
+
+  165 |                         else
+      |                                                                        1
+Error: Unexpected ELSE statement at (1)
+./results\3d\taskst32\taskst32.f:167:27:
+
+  167 |                         endif
+      |                           1
+Error: Expecting END DO statement at (1)
+./results\3d\taskst32\taskst32.f:174:6:
+
+  174 |     do it = 1, itmax
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:191:30:
+
+  191 |                             b( i, j, ii, jj ) = ( a( i - 1, j, ii, jj ) + a( i + 1, j, ii, jj ) + &
+      |                              1
+Error: 'b' at (1) is not a variable
+./results\3d\taskst32\taskst32.f:192:52:
+
+  192 |                                                   a( i, j - 1, ii, jj ) + a( i, j + 1, ii, jj ) + &
+      |                                                    1
+Error: 'a' at (1) is not a variable
+./results\3d\taskst32\taskst32.f:193:52:
+
+  193 |                                                   a( i, j, ii - 1, jj ) + a( i, j, ii + 1, jj ) + &
+      |                                                    1
+Error: 'a' at (1) is not a variable
+./results\3d\taskst32\taskst32.f:194:52:
+
+  194 |                                                   a( i, j, ii, jj - 1 ) + a( i, j, ii, jj + 1 ) ) / 8
+      |                                                    1
+Error: 'a' at (1) is not a variable
+./results\3d\taskst32\taskst32.f:200:6:
+
+  200 |     enddo
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:203:6:
+
+  203 |     a(2:n1,:,:,:) = b1(2:n1,:,:,:)
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:204:6:
+
+  204 |     a(n1+1:n1+n2-1,:,:,:) = b2(2:n2,:,:,:)
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:205:6:
+
+  205 |     errt = er
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:207:6:
+
+  207 |     do jj = 2, k - 1
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:215:6:
+
+  215 |     enddo
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:216:6:
+
+  216 |     if (errt .eq. er)  then
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:218:6:
+
+  218 |     else
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:220:6:
+
+  220 |     endif
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:221:6:
+
+  221 |     deallocate(b,b1,b2,a,a1,a2)
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:222:6:
+
+  222 |     print *,  '=== END OF taskst32 ====================='
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:223:2:
+
+  223 | end
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:225:2:
+
+  225 | subroutine dpt( lp, hp, nt )
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:227:6:
+
+  227 |     integer lp( 2 ), hp( 2 )
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:228:6:
+
+  228 |     processors_size( i ) = 1
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:244:2:
+
+  244 | end
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:246:2:
+
+  246 | subroutine ansyes(name)
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:247:6:
+
+  247 |     character*8 name
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:248:6:
+
+  248 |     print *, name, '  -  complete'
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:249:2:
+
+  249 | end
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:251:2:
+
+  251 | subroutine ansno(name)
+      |  1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:252:6:
+
+  252 |     character*8 name
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:253:6:
+
+  253 |     print *, name, '  -  ***error'
+      |      1
+Error: Non-numeric character in statement label at (1)
+./results\3d\taskst32\taskst32.f:254:2:
+
+  254 | end
+      |  1
+Error: Non-numeric character in statement label at (1)
+f951.exe: Error: Unexpected end of file in './results\3d\taskst32\taskst32.f'
+
+--------------------------------------------------
+Command: "./results\3d\taskst32\taskst32"
+Output: 
+
+Error output: 
+'"./results\3d\taskst32\taskst32"' is not recognized as an internal or external command,
+operable program or batch file.
+
+--------------------------------------------------
+Command: gcov -b "./results\3d\taskst32\taskst32.f"
+Output: 
+No executable lines
+
+Error output: 
+./results\3d\taskst32\taskst32.gcno:cannot open notes file
+./results\3d\taskst32\taskst32.gcda:cannot open data file, assuming not executed
+
+--------------------------------------------------
+GCOV file copied from ./taskst32.f.gcov to ./results\3d\taskst32\taskst32.f.gcov
+Command: "../SAPFOR/_bin/Release/Sapfor_F.exe" -parse -spf "./results\3d\taskst32\taskst32.f"
+Output: 
+SAPFOR version is 2410, build date: Apr 23 2025 11:52:44, c++ version 201703
+  parse file './results\3d\taskst32\taskst32.f'
+  options: -spf 
+files compilation order:
+  ./results\3d\taskst32\taskst32.f
+Error 009 on line 1 of ./results\3d\taskst32\taskst32.f: Illegal continuation line ignored
+Error 009 on line 2 of ./results\3d\taskst32\taskst32.f: Illegal continuation line ignored
+Error 009 on line 3 of ./results\3d\taskst32\taskst32.f: Illegal continuation line ignored
+Error 009 on line 4 of ./results\3d\taskst32\taskst32.f: Illegal continuation line ignored
+Error 009 on line 5 of ./results\3d\taskst32\taskst32.f: Illegal continuation line ignored
+Error 009 on line 6 of ./results\3d\taskst32\taskst32.f: Illegal continuation line ignored
+Error 009 on line 7 of ./results\3d\taskst32\taskst32.f: Illegal continuation line ignored
+Error 009 on line 16 of ./results\3d\taskst32\taskst32.f: Illegal continuation line ignored
+Error 009 on line 17 of ./results\3d\taskst32\taskst32.f: Illegal continuation line ignored
+Error 009 on line 19 of ./results\3d\taskst32\taskst32.f: Illegal continuation line ignored
+Error 009 on line 21 of ./results\3d\taskst32\taskst32.f: Illegal continuation line ignored
+Error 009 on line 25 of ./results\3d\taskst32\taskst32.f: Illegal continuation line ignored
+Error 009 on line 27 of ./results\3d\taskst32\taskst32.f: Illegal continuation line ignored
+Error 009 on line 30 of ./results\3d\taskst32\taskst32.f: Illegal continuation line ignored
+Error 013 on line 41 of ./results\3d\taskst32\taskst32.f: Unbalanced parentheses, statement skipped
+Error 010 on line 41 of ./results\3d\taskst32\taskst32.f: Unclassifiable statement
+Error 010 on line 42 of ./results\3d\taskst32\taskst32.f: Unclassifiable statement
+Error 010 on line 43 of ./results\3d\taskst32\taskst32.f: Unclassifiable statement
+Error 013 on line 44 of ./results\3d\taskst32\taskst32.f: Unbalanced parentheses, statement skipped
+Error 010 on line 44 of ./results\3d\taskst32\taskst32.f: Unclassifiable statement
+Error 030 on line 45 of ./results\3d\taskst32\taskst32.f: Declaration among executables
+Error 030 on line 46 of ./results\3d\taskst32\taskst32.f: Declaration among executables
+Error 032 on line 47 of ./results\3d\taskst32\taskst32.f: ELSE out of place
+Error 030 on line 48 of ./results\3d\taskst32\taskst32.f: Declaration among executables
+Error 030 on line 49 of ./results\3d\taskst32\taskst32.f: Declaration among executables
+Error 260 on line 50 of ./results\3d\taskst32\taskst32.f: Illegal END IF
+Parsing was completed with errors, throw code 0, errors count 26
+
+--------------------------------------------------
+Command: "../SAPFOR/_bin/Release/Sapfor_F.exe" -passN GET_STATS_FOR_PREDICTOR -keepDVM
+Output: 
+SAPFOR version is 2410, build date: Apr 23 2025 11:52:44, c++ version 201703
+code for pass GET_STATS_FOR_PREDICTOR is 79
+RUN PASS with name VERIFY_FUNC_DECL
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.002000 sec)
+RUN PASS with name FILE_LINE_INFO
+  Analyzing: results\3d\sha32\sha32.f
+  All lines in project 335
+PROFILE: time for this pass = 0.000000 sec (total 0.002000 sec)
+RUN PASS with name BUILD_INCLUDE_DEPENDENCIES
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.003000 sec)
+RUN PASS with name CORRECT_VAR_DECL
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.004000 sec)
+RUN PASS with name VERIFY_OPERATORS
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.004000 sec)
+RUN PASS with name VERIFY_ENDDO
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.005000 sec)
+RUN PASS with name VERIFY_INCLUDES
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.005000 sec)
+RUN PASS with name PREPROC_ALLOCATES
+  Analyzing: results\3d\sha32\sha32.f
+  attribute (37 results\3d\sha32\sha32.f) is added to declaration on line 27 of results\3d\sha32\sha32.f file
+  attribute (38 results\3d\sha32\sha32.f) is added to declaration on line 28 of results\3d\sha32\sha32.f file
+  attribute (98 results\3d\sha32\sha32.f) is added to declaration on line 28 of results\3d\sha32\sha32.f file
+  attribute (98 results\3d\sha32\sha32.f) is added to declaration on line 27 of results\3d\sha32\sha32.f file
+  attribute (116 results\3d\sha32\sha32.f) is added to declaration on line 106 of results\3d\sha32\sha32.f file
+  attribute (117 results\3d\sha32\sha32.f) is added to declaration on line 107 of results\3d\sha32\sha32.f file
+  attribute (170 results\3d\sha32\sha32.f) is added to declaration on line 106 of results\3d\sha32\sha32.f file
+  attribute (170 results\3d\sha32\sha32.f) is added to declaration on line 107 of results\3d\sha32\sha32.f file
+  attribute (188 results\3d\sha32\sha32.f) is added to declaration on line 178 of results\3d\sha32\sha32.f file
+  attribute (189 results\3d\sha32\sha32.f) is added to declaration on line 179 of results\3d\sha32\sha32.f file
+  attribute (242 results\3d\sha32\sha32.f) is added to declaration on line 178 of results\3d\sha32\sha32.f file
+  attribute (242 results\3d\sha32\sha32.f) is added to declaration on line 179 of results\3d\sha32\sha32.f file
+  attribute (260 results\3d\sha32\sha32.f) is added to declaration on line 250 of results\3d\sha32\sha32.f file
+  attribute (261 results\3d\sha32\sha32.f) is added to declaration on line 251 of results\3d\sha32\sha32.f file
+  attribute (312 results\3d\sha32\sha32.f) is added to declaration on line 250 of results\3d\sha32\sha32.f file
+  attribute (312 results\3d\sha32\sha32.f) is added to declaration on line 251 of results\3d\sha32\sha32.f file
+PROFILE: time for this pass = 0.000000 sec (total 0.006000 sec)
+RUN PASS with name CHECK_PAR_REG_DIR
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.006000 sec)
+RUN PASS with name FILL_PARALLEL_REG_IR
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.007000 sec)
+RUN PASS with name GET_ALL_ARRAY_DECL
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.004000 sec (total 0.011000 sec)
+RUN PASS with name FILL_COMMON_BLOCKS
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.012000 sec)
+RUN PASS with name PARSE_OMP_DIRS
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.012000 sec)
+RUN PASS with name PREPROC_SPF
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.013000 sec)
+RUN PASS with name CREATE_INTER_TREE
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.014000 sec)
+RUN PASS with name GCOV_PARSER
+  Analyzing: results\3d\sha32\sha32.f
+   Error: unable to open file statistic.txt
+PROFILE: time for this pass = 0.001000 sec (total 0.015000 sec)
+RUN PASS with name VERIFY_FORMAT
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.015000 sec)
+RUN PASS with name VERIFY_DVM_DIRS
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.016000 sec)
+RUN PASS with name PRIVATE_CALL_GRAPH_STAGE1
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.016000 sec)
+RUN PASS with name PRIVATE_CALL_GRAPH_STAGE2
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.017000 sec)
+RUN PASS with name MACRO_EXPANSION
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.017000 sec)
+RUN PASS with name CONVERT_ASSIGN_TO_LOOP
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.018000 sec)
+RUN PASS with name DEF_USE_STAGE1
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.002000 sec (total 0.020000 sec)
+RUN PASS with name DEF_USE_STAGE2
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.021000 sec)
+RUN PASS with name VERIFY_COMMON
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.000000 sec (total 0.021000 sec)
+RUN PASS with name CALL_GRAPH_IR
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.002000 sec (total 0.024000 sec)
+RUN PASS with name BUILD_IR
+  Analyzing: results\3d\sha32\sha32.f
+  count of functions 8, count of lvls 3
+     RD time for 'ansno' function is 0.000 sec, iters 1
+     RD time for 'serial3' function is 0.000 sec, iters 5
+     RD time for 'ansyes' function is 0.000 sec, iters 1
+
+     RD time for 'sha3202' function is 0.000 sec, iters 5
+     RD time for 'sha3203' function is 0.000 sec, iters 5
+     RD time for 'sha3201' function is 0.000 sec, iters 5
+     RD time for 'sha3204' function is 0.000 sec, iters 5
+
+     RD time for 'sha32' function is 0.000 sec, iters 1
+
+PROFILE: time for this pass = 0.005000 sec (total 0.029000 sec)
+RUN PASS with name SUBST_EXPR_RD
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.002000 sec (total 0.031000 sec)
+RUN PASS with name LOOP_GRAPH
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.002000 sec (total 0.034000 sec)
+RUN PASS with name CALL_GRAPH
+  Analyzing: results\3d\sha32\sha32.f
+PROFILE: time for this pass = 0.003000 sec (total 0.037000 sec)
+RUN PASS with name CALL_GRAPH2
+  Analyzing: results\3d\sha32\sha32.f
+  run for func sha32
+  run for func sha3201
+  run for func sha3202
+  run for func sha3203
+  run for func sha3204
+  run for func serial3
+  run for func ansyes
+  run for func ansno
+PROFILE: time for this pass = 0.001000 sec (total 0.039000 sec)
+RUN PASS with name GET_STATS_FOR_PREDICTOR
+  Analyzing: results\3d\sha32\sha32.f
+    PAR LOOP [48 results\3d\sha32\sha32.f] total exec 21843, total exec lines 8, avg 2.7303750000000000e+03
+    PAR LOOP [67 results\3d\sha32\sha32.f] total exec 5553, total exec lines 8, avg 6.9412500000000000e+02
+    PAR LOOP [80 results\3d\sha32\sha32.f] total exec 8453, total exec lines 11, avg 7.6845454545454550e+02
+    PAR LOOP [127 results\3d\sha32\sha32.f] total exec 21843, total exec lines 8, avg 2.7303750000000000e+03
+    PAR LOOP [140 results\3d\sha32\sha32.f] total exec 5553, total exec lines 8, avg 6.9412500000000000e+02
+    PAR LOOP [152 results\3d\sha32\sha32.f] total exec 8453, total exec lines 11, avg 7.6845454545454550e+02
+    PAR LOOP [199 results\3d\sha32\sha32.f] total exec 21843, total exec lines 8, avg 2.7303750000000000e+03
+    PAR LOOP [212 results\3d\sha32\sha32.f] total exec 5553, total exec lines 8, avg 6.9412500000000000e+02
+    PAR LOOP [224 results\3d\sha32\sha32.f] total exec 8453, total exec lines 11, avg 7.6845454545454550e+02
+    PAR LOOP [271 results\3d\sha32\sha32.f] total exec 21843, total exec lines 8, avg 2.7303750000000000e+03
+    PAR LOOP [282 results\3d\sha32\sha32.f] total exec 5553, total exec lines 8, avg 6.9412500000000000e+02
+    PAR LOOP [294 results\3d\sha32\sha32.f] total exec 8453, total exec lines 11, avg 7.6845454545454550e+02
+    average_parallel_exec 1.3277407407407406e+03
+    parallel_rate 7.2317763230888721e-01
+PROFILE: time for this pass = 0.015000 sec (total 0.055000 sec)
+
+--------------------------------------------------
+INFO.JSON file copied from ./info.json to ./results\3d\taskst32\info.json
+
+==================================================
+Processing of taskst32.f completed successfully at 2025-04-23 11:58:01

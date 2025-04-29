@@ -1,0 +1,1940 @@
+        -:    0:Source:results/4d/red42/red42.f
+        -:    0:Graph:./results\4d\red42\red42.gcno
+        -:    0:Data:./results\4d\red42\red42.gcda
+        -:    0:Runs:1
+function MAIN__ called 1 returned 100% blocks executed 100%
+        1:    1:      program RED42
+        -:    2:
+        -:    3:c    TESTING OF THE REDUCTION CLAUSE .       
+        -:    4:c    REDUCTION OPERATION : SUM,PRODUCT,MAX,MIN,AND,OR, EQV,
+        -:    5:C    NEQV,MAXLOC,MINLOC AND THEIR COMBINATION ARE EXECUTED
+        -:    6:c    FOR DISTRIBUTED ARRAY A(N,M,K,L). 
+        -:    7:
+        1:    8:      print *,'===START OF RED42======================='
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:    9:C --------------------------------------------------
+        1:   10:      call red4201
+call    0 returned 100%
+        -:   11:C --------------------------------------------------
+        1:   12:      call red4202
+call    0 returned 100%
+        -:   13:C --------------------------------------------------
+        1:   14:      call red4203
+call    0 returned 100%
+        -:   15:C -------------------------------------------------
+        1:   16:      call red4204
+call    0 returned 100%
+        -:   17:C -------------------------------------------------
+        1:   18:      call red4205
+call    0 returned 100%
+        -:   19:C -------------------------------------------------
+        1:   20:      call red4206
+call    0 returned 100%
+        -:   21:C --------------------------------------------------
+        1:   22:      call red4207
+call    0 returned 100%
+        -:   23:C --------------------------------------------------
+        1:   24:      call red4208
+call    0 returned 100%
+        -:   25:C --------------------------------------------------
+        1:   26:      call red4209
+call    0 returned 100%
+        -:   27:C -------------------------------------------------
+        1:   28:      call red4210
+call    0 returned 100%
+        -:   29:C -------------------------------------------------
+        1:   30:       call red4211
+call    0 returned 100%
+        -:   31:C -------------------------------------------------
+        1:   32:      call red4212
+call    0 returned 100%
+        -:   33:C ------------------------------------------------- 
+        1:   34:      call red4213
+call    0 returned 100%
+        -:   35:C --------------------------------------------------
+        1:   36:      call red4214
+call    0 returned 100%
+        -:   37:C --------------------------------------------------
+        -:   38:
+        -:   39:C
+        -:   40:C
+        1:   41:      print *,'=== END OF RED42 ========================= '    
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+function main called 1 returned 100% blocks executed 100%
+        1:   42:      end
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   43:
+        -:   44:C ----------------------------------------------------RED4201
+function red4201_ called 1 returned 100% blocks executed 89%
+        1:   45:      subroutine RED4201
+        -:   46:      integer, parameter :: N = 16,M=8,K=8,L=8,NL=1000
+        -:   47:      character*7 tname
+        1:   48:      integer, allocatable :: A(:,:,:,:),C(:,:,:,:)
+        -:   49:      integer isum1,isumt1 
+        -:   50:      
+        -:   51:!dvm$ distribute A(*,*,*,*)     
+        -:   52:
+        1:   53:      tname='RED4201'
+       1*:   54:      allocate (A(N,M,K,L),C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        1:   55:      NNL=NL 
+        1:   56:      NN=N
+        1:   57:      MM=M
+        1:   58:      KK=K
+        1:   59:      LL=L
+        1:   60:      call sersum4(C,NN,MM,KK,LL,NNL,isum1)
+        1:   61:      isumt1 = 0
+        -:   62:
+        -:   63:!dvm$ actual(isumt1)
+        -:   64:!dvm$ region local(A)
+        -:   65:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:   66:      do i=1,N
+call    0 returned 100%
+branch  1 taken 94% (fallthrough)
+branch  2 taken 6%
+      145:   67:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168:   68:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9344:   69:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9216:   70:              A(i,j,ii,jj) = i+j+ii+jj+NL
+        -:   71:            enddo
+        -:   72:          enddo
+        -:   73:        enddo
+        -:   74:      enddo
+        -:   75:  
+        -:   76:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj), reduction( sum( isumt1 ) )
+       17:   77:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:   78:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168:   79:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9344:   80:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9216:   81:              isumt1 = isumt1+A(i,j,ii,jj)
+        -:   82:            enddo
+        -:   83:          enddo
+        -:   84:        enddo
+        -:   85:      enddo
+        -:   86:!dvm$ end region   
+        -:   87:!dvm$ get_actual(isumt1) 
+        -:   88:     
+        1:   89:      if (isum1 .eq.isumt1) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:   90:          call ansyes(tname)
+call    0 returned 100%
+        -:   91:      else
+    #####:   92:          call ansno(tname)
+call    0 never executed
+        -:   93:      endif 
+       1*:   94:      deallocate (A,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:   95:
+        1:   96:      end
+        -:   97:C -----------------------------------------------------RED4202
+function red4202_ called 1 returned 100% blocks executed 90%
+        1:   98:      subroutine RED4202
+        -:   99:      integer, parameter :: N = 16,M=8,K=8,L=8,NL=10
+        -:  100:      character*7 tname
+        1:  101:      integer, allocatable :: A(:,:,:,:),C(:,:,:,:)
+        -:  102:      integer iprod1,iprodt1       
+        -:  103:                 
+        -:  104:!dvm$ distribute A(*,*,*,*)    
+        -:  105:      
+        1:  106:      tname='RED4202'
+       1*:  107:      allocate (A(N,M,K,L),C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        1:  108:      NNL=NL
+        1:  109:      NN=N
+        1:  110:      MM=M
+        1:  111:      KK=K
+        1:  112:      LL=L
+        1:  113:      call serprod4(C,NN,MM,KK,LL,NNL,iprod1)
+        1:  114:      iprodt1 = 1
+        -:  115:
+        -:  116:!dvm$ actual(iprodt1)
+        -:  117:!dvm$ region local(A)
+        -:  118:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:  119:      do i=1,N
+call    0 returned 100%
+branch  1 taken 94% (fallthrough)
+branch  2 taken 6%
+      145:  120:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168:  121:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9344:  122:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9216:  123:              if ((i.eq.j).and.(j.eq.ii).and.(ii.eq.jj)) then
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+branch  2 taken 12% (fallthrough)
+branch  3 taken 88%
+        8:  124:                A(i,j,ii,jj) = i
+        -:  125:              else
+     8184:  126:                A(i,j,ii,jj) =1
+        -:  127:              endif
+        -:  128:            enddo
+        -:  129:          enddo
+        -:  130:        enddo 
+        -:  131:      enddo
+        -:  132:    
+        -:  133:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj),
+        -:  134:!dvm$* reduction( product( iprodt1 ) )
+       17:  135:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  136:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168:  137:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9344:  138:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9216:  139:              iprodt1 = iprodt1*A(i,j,ii,jj)
+        -:  140:            enddo
+        -:  141:          enddo
+        -:  142:        enddo
+        -:  143:      enddo
+        -:  144:!dvm$ end region   
+        -:  145:!dvm$ get_actual(iprodt1) 
+        -:  146: 
+        1:  147:      if (iprod1 .eq.iprodt1) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  148:          call ansyes(tname)
+call    0 returned 100%
+        -:  149:      else
+    #####:  150:          call ansno(tname)
+call    0 never executed
+        -:  151:      endif 
+       1*:  152:      deallocate (A,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  153: 
+        1:  154:      end
+        -:  155:C ----------------------------------------------------RED4203
+function red4203_ called 1 returned 100% blocks executed 90%
+        1:  156:      subroutine RED4203
+        -:  157:      integer, parameter :: N = 16,M=8,K=8,L=8,NL=1000
+        -:  158:      character*7 tname
+        1:  159:      integer, allocatable :: A(:,:,:,:),C(:,:,:,:)
+        -:  160:      integer imax1,imaxt1 ,ni,imin
+        -:  161:                       
+        -:  162:!dvm$ distribute A(*,*,*,*) 
+        -:  163:
+        1:  164:      tname='RED4203'
+       1*:  165:      allocate (A(N,M,K,L),C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        -:  166:     
+        -:  167:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:  168:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  169:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168:  170:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9344:  171:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9216:  172:              A(i,j,ii,jj) = i+j+ii+jj+NL
+        -:  173:            enddo
+        -:  174:          enddo
+        -:  175:        enddo
+        -:  176:      enddo
+        1:  177:      ni=N/2
+        1:  178:      nj=M/2
+        1:  179:      nii=K/2
+        1:  180:      njj=L/2
+        1:  181:      A(ni,nj,nii,njj)=N+M+K+L+1+NL
+        1:  182:      imax1=N+M+K+L+1+NL
+        -:  183:
+        -:  184:!dvm$ remote_access (A(1,1,1,1))
+        1:  185:      imaxt1=A(1,1,1,1)  
+        -:  186:
+        -:  187:!dvm$ actual(imaxt1)
+        -:  188:!dvm$ region
+        -:  189:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj),
+        -:  190:!dvm$* reduction( max( imaxt1 ) )
+       17:  191:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  192:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168:  193:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9344:  194:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9216:  195:              if (A(i,j,ii,jj).GT.imaxt1) imaxt1=A(i,j,ii,jj)
+        -:  196:            enddo
+        -:  197:          enddo
+        -:  198:        enddo
+        -:  199:      enddo
+        -:  200:!dvm$ end region   
+        -:  201:!dvm$ get_actual(imaxt1) 
+        -:  202:
+        1:  203:      if (imax1 .eq.imaxt1) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  204:          call ansyes(tname)
+call    0 returned 100%
+        -:  205:      else
+    #####:  206:          call ansno(tname)
+call    0 never executed
+        -:  207:      endif 
+       1*:  208:      deallocate (A,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  209:      
+        1:  210:      end
+        -:  211:    
+        -:  212:C ----------------------------------------------------RED4204
+function red4204_ called 1 returned 100% blocks executed 90%
+        1:  213:      subroutine RED4204
+        -:  214:      integer, parameter :: N = 16,M=8,K=8,L=8,NL=1000
+        -:  215:      character*7 tname
+        1:  216:      integer, allocatable :: A(:,:,:,:),C(:,:,:,:)
+        -:  217:      integer imax1,imaxt1 ,ni,imin
+        -:  218:                       
+        -:  219:!dvm$ distribute A(*,*,*,*)
+        -:  220:
+        1:  221:      tname='RED4204'
+       1*:  222:      allocate (A(N,M,K,L),C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        -:  223:
+        -:  224:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:  225:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  226:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168:  227:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9344:  228:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9216:  229:              A(i,j,ii,jj) = i+j+ii+jj+NL
+        -:  230:            enddo
+        -:  231:          enddo
+        -:  232:        enddo
+        -:  233:      enddo
+        -:  234:  
+        1:  235:      ni=N/2
+        1:  236:      nj=M/2
+        1:  237:      nii=K/2
+        1:  238:      njj=L/2
+        1:  239:      A(ni,nj,nii,njj)=-(N+M+K+L+1+NL)
+        1:  240:      imin1=-(N+M+K+L+1+NL)
+        -:  241:
+        -:  242:!dvm$ remote_access (A(1,1,1,1))      
+        1:  243:      imint1=A(1,1,1,1)
+        -:  244:
+        -:  245:!dvm$ actual(imint1)
+        -:  246:!dvm$ region
+        -:  247:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj),
+        -:  248:!dvm$* reduction( min( imint1 ) )
+       16:  249:      do i=2,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      136:  250:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1095:  251:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     8760:  252:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     8640:  253:              if (A(i,j,ii,jj).LT.imint1) imint1=A(i,j,ii,jj)
+        -:  254:            enddo
+        -:  255:          enddo
+        -:  256:        enddo
+        -:  257:      enddo
+        -:  258:!dvm$ end region   
+        -:  259:!dvm$ get_actual(imint1) 
+        -:  260:
+        1:  261:      if (imin1 .eq.imint1) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  262:          call ansyes(tname)
+call    0 returned 100%
+        -:  263:      else
+    #####:  264:          call ansno(tname)
+call    0 never executed
+        -:  265:      endif 
+       1*:  266:      deallocate (A,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  267: 
+        1:  268:      end
+        -:  269:C ----------------------------------------------------RED4205
+function red4205_ called 1 returned 100% blocks executed 90%
+        1:  270:      subroutine RED4205
+        -:  271:      integer, parameter :: N = 16,M=8,K=8,L=8
+        -:  272:      real, parameter :: NL=1000.
+        -:  273:      character*7 tname
+        1:  274:      real, allocatable :: A(:,:,:,:),C(:,:,:,:)
+        -:  275:      integer ni
+        -:  276:      real imax1,imaxt1                  
+        -:  277:!dvm$ distribute A(*,*,*,*)
+        -:  278:
+        1:  279:      tname='RED4205'
+       1*:  280:      allocate (A(N,M,K,L),C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        -:  281:     
+        -:  282:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:  283:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  284:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168:  285:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9344:  286:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9216:  287:              A(i,j,ii,jj) = i+j+ii+jj+NL
+        -:  288:            enddo
+        -:  289:          enddo
+        -:  290:        enddo
+        -:  291:      enddo
+        -:  292:      
+        1:  293:      ni=N/2
+        1:  294:      nj=M/2
+        1:  295:      nii=K/2
+        1:  296:      njj=L/2
+        1:  297:      A(ni,nj,nii,njj)=N+M+K+L+1.+NL
+        -:  298:      
+        1:  299:      imax1=N+M+K+L+1.+NL
+        -:  300:
+        -:  301:!dvm$ remote_access (A(1,1,1,1))
+        1:  302:      imaxt1=A(1,1,1,1)  
+        -:  303:
+        -:  304:!dvm$ actual(imaxt1)
+        -:  305:!dvm$ region
+        -:  306:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj),
+        -:  307:!dvm$* reduction( max( imaxt1 ) )
+       16:  308:      do i=2,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      136:  309:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1095:  310:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     8760:  311:            do jj=1,L      
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     8640:  312:              if (A(i,j,ii,jj).GT.imaxt1) imaxt1=A(i,j,ii,jj)
+        -:  313:            enddo
+        -:  314:          enddo
+        -:  315:        enddo
+        -:  316:      enddo
+        -:  317:!dvm$ end region   
+        -:  318:!dvm$ get_actual(imaxt1) 
+        -:  319:
+        1:  320:      if (imax1 .eq.imaxt1) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  321:          call ansyes(tname)
+call    0 returned 100%
+        -:  322:      else
+    #####:  323:          call ansno(tname)
+call    0 never executed
+        -:  324:      endif 
+       1*:  325:      deallocate (A,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  326:      
+        1:  327:      end
+        -:  328:                    
+        -:  329:C -----------------------------------------------------RED4206
+function red4206_ called 1 returned 100% blocks executed 90%
+        1:  330:      subroutine RED4206
+        -:  331:      integer, parameter :: N = 8,M=8,K=8,L=8
+        -:  332:      real, parameter :: NL=1.
+        -:  333:      character*7 tname
+        1:  334:      real, allocatable :: A(:,:,:,:),C(:,:,:,:)
+        -:  335:      real iprod1,iprodt1 
+        -:  336:      real NNl
+        -:  337:                 
+        -:  338:!dvm$ distribute A(*,*,*,*)    
+        -:  339:      
+        1:  340:      tname='RED4206'
+       1*:  341:      allocate (A(N,M,K,L),C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        1:  342:      NNL=NL
+        1:  343:      NN=N
+        1:  344:      MM=M
+        1:  345:      KK=K
+        1:  346:      LL=L
+        1:  347:      call serprodr4(C,NN,MM,KK,LL,NNL,iprod1)
+        1:  348:      iprodt1 = 1.
+        -:  349:
+        -:  350:!dvm$ actual(iprodt1)
+        -:  351:!dvm$ region local(A)
+        -:  352:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+        9:  353:      do i=1,N
+call    0 returned 100%
+branch  1 taken 89% (fallthrough)
+branch  2 taken 11%
+       73:  354:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  355:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  356:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  357:              if ((i.eq.j).and.(j.eq.ii).and.(ii.eq.jj))  then
+branch  0 taken 2% (fallthrough)
+branch  1 taken 98%
+branch  2 taken 12% (fallthrough)
+branch  3 taken 88%
+        8:  358:                A(i,j,ii,jj) = i
+        -:  359:              else
+     4088:  360:                A(i,j,ii,jj) =1.
+        -:  361:              endif
+        -:  362:            enddo
+        -:  363:          enddo
+        -:  364:        enddo
+        -:  365:      enddo
+        -:  366:  
+        -:  367:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj),
+        -:  368:!dvm$* reduction( product( iprodt1 ) )
+        9:  369:      do i=1,N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  370:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  371:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  372:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  373:              iprodt1 = iprodt1*A(i,j,ii,jj)
+        -:  374:            enddo
+        -:  375:          enddo
+        -:  376:        enddo
+        -:  377:      enddo
+        -:  378:!dvm$ end region   
+        -:  379:!dvm$ get_actual(iprodt1) 
+        -:  380: 
+        1:  381:      if (iprod1 .eq.iprodt1) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  382:          call ansyes(tname)
+call    0 returned 100%
+        -:  383:      else
+    #####:  384:          call ansno(tname)
+call    0 never executed
+        -:  385:      endif 
+       1*:  386:      deallocate (A,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  387: 
+        1:  388:      end
+        -:  389:C -----------------------------------------------------RED4207
+function red4207_ called 1 returned 100% blocks executed 94%
+        1:  390:      subroutine RED4207
+        -:  391:      integer, parameter :: N = 16,M=8,K=8,L=8
+        -:  392:      character*7 tname
+        1:  393:      logical, allocatable :: A(:,:,:,:),C(:,:,:,:)
+        -:  394:      logical land1,landt1,leqv1,lneqv1,lor1
+        -:  395:
+        -:  396:!dvm$ distribute A(*,*,*,*) 
+        -:  397:
+        1:  398:      tname='RED4207'
+       1*:  399:      allocate (A(N,M,K,L),C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        1:  400:      NN=N
+        1:  401:      MM=M
+        1:  402:      KK=K
+        1:  403:      LL=L           
+        1:  404:      call serlog4(C,NN,MM,KK,LL,land1,lor1,leqv1,lneqv1)
+        -:  405:
+        -:  406:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:  407:      do i=1,N
+call    0 returned 100%
+branch  1 taken 94% (fallthrough)
+branch  2 taken 6%
+      145:  408:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168:  409:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      128:  410:            do jj=1,L,2
+     4096:  411:              A(i,j,ii,jj) = .true. 
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  412:            enddo 
+        -:  413:          enddo
+        -:  414:        enddo        
+        -:  415:      enddo
+        -:  416:
+        -:  417:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:  418:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  419:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168:  420:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      128:  421:            do jj=2,L,2
+     4096:  422:              A(i,j,ii,jj)=.false.
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  423:            enddo
+        -:  424:          enddo
+        -:  425:        enddo
+        -:  426:      enddo
+        -:  427: 
+        -:  428:!dvm$ remote_access (A(1,1,1,1))
+        1:  429:      landt1 = A(1,1,1,1)
+        -:  430:
+        -:  431:!dvm$ actual(landt1)
+        -:  432:!dvm$ region
+        -:  433:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj),
+        -:  434:!dvm$* reduction( AND( landt1 ) )
+       17:  435:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  436:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168:  437:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9344:  438:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+        -:  439:              if ((i.eq.1).and.(j.eq.1)
+     9216:  440:     *.and.(ii.eq.1).and.(jj.eq.1)) then
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+branch  2 taken 98% (fallthrough)
+branch  3 taken 2%
+        -:  441:!                landt1=A(i,j,ii,jj)
+        -:  442:              else
+     8191:  443:                landt1 = landt1 .and. A(i,j,ii,jj)
+branch  0 taken 1% (fallthrough)
+branch  1 taken 100%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+        -:  444:              endif
+        -:  445:            enddo
+        -:  446:          enddo
+        -:  447:        enddo
+        -:  448:      enddo      
+        -:  449:!dvm$ end region   
+        -:  450:!dvm$ get_actual(landt1) 
+        -:  451:
+        1:  452:      if (land1 .eqv.landt1) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  453:          call ansyes(tname)
+call    0 returned 100%
+        -:  454:      else
+    #####:  455:          call ansno(tname)
+call    0 never executed
+        -:  456:      endif 
+       1*:  457:      deallocate (A,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  458: 
+        1:  459:      end
+        -:  460:C -----------------------------------------------------RED4208
+function red4208_ called 1 returned 100% blocks executed 92%
+        1:  461:      subroutine RED4208
+        -:  462:      integer, parameter :: N = 16,M=8,K=16,L=8
+        -:  463:      character*7 tname
+        1:  464:      logical, allocatable :: A(:,:,:,:),C(:,:,:,:)
+        -:  465:      logical land1,landt1,lor1,lort1,leqv1,lneqv1
+        -:  466:
+        -:  467:!dvm$ distribute A(*,*,*,*) 
+        -:  468:
+        1:  469:      tname='RED4208'
+       1*:  470:      allocate (A(N,M,K,L),C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        1:  471:      NN=N
+        1:  472:      MM=M
+        1:  473:      KK=K
+        1:  474:      LL=L
+        1:  475:      call serlog4(C,NN,MM,KK,LL,land1,lor1,leqv1,lneqv1)
+        -:  476:                                    
+        -:  477:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:  478:      do i=1,N
+call    0 returned 100%
+branch  1 taken 94% (fallthrough)
+branch  2 taken 6%
+      145:  479:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2192:  480:          do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      128:  481:            do jj=1,L,2
+     8192:  482:               A(i,j,ii,jj) = .true. 
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  483:            enddo 
+        -:  484:          enddo
+        -:  485:        enddo        
+        -:  486:      enddo
+        -:  487:
+        -:  488:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:  489:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  490:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2192:  491:          do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      128:  492:            do jj=2,L,2
+     8192:  493:              A(i,j,ii,jj)=.false.
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  494:            enddo
+        -:  495:          enddo
+        -:  496:        enddo
+        -:  497:      enddo
+        -:  498:                
+        -:  499:!dvm$ remote_access (A(1,1,1,1))
+        1:  500:      lort1 = A(1,1,1,1)
+        -:  501:
+        -:  502:!dvm$ actual(lort1)
+        -:  503:!dvm$ region
+        -:  504:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj),
+        -:  505:!dvm$* reduction( OR( lort1 ) )
+       17:  506:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  507:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2192:  508:          do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    18560:  509:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+        -:  510:              if ((i.eq.1).and.(j.eq.1)
+    18432:  511:     *.and.(ii.eq.1).and.(jj.eq.1)) then
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+branch  2 taken 99% (fallthrough)
+branch  3 taken 1%
+        -:  512:!                lORt1=A(i,j,ii,jj)
+        -:  513:              else
+   16383*:  514:                lort1 = lort1 .or. A(i,j,ii,jj)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+branch  2 never executed (fallthrough)
+branch  3 never executed
+        -:  515:              endif
+        -:  516:            enddo
+        -:  517:          enddo
+        -:  518:        enddo
+        -:  519:      enddo
+        -:  520:!dvm$ end region   
+        -:  521:!dvm$ get_actual(lort1) 
+        -:  522:      
+        1:  523:      if (lor1 .eqv.lort1) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  524:          call ansyes(tname)
+call    0 returned 100%
+        -:  525:      else
+    #####:  526:          call ansno(tname)
+call    0 never executed
+        -:  527:      endif 
+       1*:  528:      deallocate (A,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  529: 
+        1:  530:      end
+        -:  531:C -----------------------------------------------------RED4209
+function red4209_ called 1 returned 100% blocks executed 93%
+        1:  532:      subroutine RED4209
+        -:  533:      integer, parameter :: N = 16,M=8,K=8,L=8
+        -:  534:      character*7 tname
+        1:  535:      logical, allocatable :: A(:,:,:,:),C(:,:,:,:)
+        -:  536:      logical land1,landt1,lor1,leqv1,leqvt1,lneqv1
+        -:  537:
+        -:  538:!dvm$ distribute A(*,*,*,*)
+        -:  539:
+        1:  540:      tname='RED4209'
+       1*:  541:      allocate (A(N,M,K,L),C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        1:  542:      NN=N
+        1:  543:      MM=M
+        1:  544:      KK=K
+        1:  545:      LL=L
+        1:  546:      call serlog4(C,NN,MM,KK,LL,land1,lor1,leqv1,lneqv1)
+        -:  547:
+        -:  548:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:  549:      do i=1,N
+call    0 returned 100%
+branch  1 taken 94% (fallthrough)
+branch  2 taken 6%
+      145:  550:         do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168:  551:           do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      128:  552:             do jj=1,L,2
+     4096:  553:               A(i,j,ii,jj) = .true. 
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  554:             enddo 
+        -:  555:           enddo
+        -:  556:         enddo        
+        -:  557:      enddo
+        -:  558:
+        -:  559:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:  560:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  561:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168:  562:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      128:  563:            do jj=2,L,2
+     4096:  564:              A(i,j,ii,jj)=.false.
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  565:            enddo
+        -:  566:          enddo
+        -:  567:        enddo
+        -:  568:      enddo
+        -:  569:                                     
+        -:  570:!dvm$ remote_access (A(1,1,1,1))
+        1:  571:      leqvt1 = A(1,1,1,1)
+        -:  572:
+        -:  573:!dvm$ actual(leqvt1)
+        -:  574:!dvm$ region
+        -:  575:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj),
+        -:  576:!dvm$* reduction( EQV( leqvt1 ) )
+       17:  577:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  578:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168:  579:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9344:  580:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+        -:  581:              if ((i.eq.1).and.(j.eq.1)
+     9216:  582:     *.and.(ii.eq.1).and.(jj.eq.1)) then
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+branch  2 taken 98% (fallthrough)
+branch  3 taken 2%
+        -:  583:!                leqvt1=A(i,j,ii,jj)
+        -:  584:              else
+     8191:  585:                leqvt1 = leqvt1 .eqv. A(i,j,ii,jj)
+        -:  586:              endif
+        -:  587:            enddo
+        -:  588:          enddo
+        -:  589:        enddo
+        -:  590:      enddo
+        -:  591:!dvm$ end region   
+        -:  592:!dvm$ get_actual(leqvt1) 
+        -:  593:      
+        1:  594:      if (leqv1 .eqv.leqvt1) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  595:          call ansyes(tname)
+call    0 returned 100%
+        -:  596:      else
+    #####:  597:          call ansno(tname)
+call    0 never executed
+        -:  598:      endif 
+       1*:  599:      deallocate (A,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  600: 
+        1:  601:      end
+        -:  602:C -----------------------------------------------------RED4210
+function red4210_ called 1 returned 100% blocks executed 93%
+        1:  603:      subroutine RED4210
+        -:  604:      integer, parameter :: N = 16,M=8,K=8,L=8
+        -:  605:      character*7 tname
+        1:  606:      logical, allocatable :: A(:,:,:,:),C(:,:,:,:)
+        -:  607:      logical land1,landt1,lor1,leqv1,lneqv1,lneqvt1
+        -:  608:
+        -:  609:!dvm$ distribute A(*,*,*,*)
+        -:  610:
+        1:  611:      tname='RED4210'
+       1*:  612:      allocate (A(N,M,K,L),C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  613:
+        1:  614:      NN=N
+        1:  615:      MM=M
+        1:  616:      KK=K
+        1:  617:      LL=L
+        1:  618:      call serlog4(C,NN,MM,KK,LL,land1,lor1,leqv1,lneqv1)
+        -:  619:                                    
+        -:  620:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:  621:      do i=1,N
+call    0 returned 100%
+branch  1 taken 94% (fallthrough)
+branch  2 taken 6%
+      145:  622:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168:  623:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      128:  624:            do jj=1,L,2
+     4096:  625:              A(i,j,ii,jj) = .true. 
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  626:            enddo 
+        -:  627:          enddo
+        -:  628:        enddo        
+        -:  629:      enddo
+        -:  630:
+        -:  631:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:  632:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  633:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168:  634:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      128:  635:            do jj=2,L,2
+     4096:  636:              A(i,j,ii,jj)=.false.
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  637:            enddo
+        -:  638:          enddo
+        -:  639:        enddo
+        -:  640:      enddo
+        -:  641:
+        -:  642:!dvm$ remote_access (A(1,1,1,1))
+        1:  643:      lneqvt1 = A(1,1,1,1)
+        -:  644:
+        -:  645:!dvm$ actual(lneqvt1)
+        -:  646:!dvm$ region
+        -:  647:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj),
+        -:  648:!dvm$* reduction( NEQV( lneqvt1 ) )
+       17:  649:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  650:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168:  651:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9344:  652:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+        -:  653:              if ((i.eq.1).and.(j.eq.1)
+     9216:  654:     *.and.(ii.eq.1).and.(jj.eq.1)) then
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+branch  2 taken 98% (fallthrough)
+branch  3 taken 2%
+        -:  655:!                lneqvt1=A(i,j,ii,jj)
+        -:  656:              else
+     8191:  657:                lneqvt1 = lneqvt1 .neqv. A(i,j,ii,jj)
+        -:  658:              endif
+        -:  659:            enddo
+        -:  660:          enddo
+        -:  661:        enddo
+        -:  662:      enddo
+        -:  663:!dvm$ end region   
+        -:  664:!dvm$ get_actual(lneqvt1) 
+        -:  665:      
+        1:  666:      if (lneqv1 .eqv.lneqvt1) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  667:          call ansyes(tname)
+call    0 returned 100%
+        -:  668:      else
+    #####:  669:          call ansno(tname)
+call    0 never executed
+        -:  670:      endif 
+       1*:  671:      deallocate (A,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  672: 
+        1:  673:      end
+        -:  674:C ----------------------------------------------------RED4211
+function red4211_ called 1 returned 100% blocks executed 92%
+        1:  675:      subroutine RED4211
+        -:  676:      integer, parameter :: N = 16,M=8,K=16,L=8,NL=100
+        -:  677:      character*7 tname
+        1:  678:      integer, allocatable :: A(:,:,:,:),C(:,:,:,:)
+        -:  679:      integer imax1,imaxt1 ,ni,imin
+        -:  680:      integer it1,jt1,it2,jt2,iit1,jjt1                 
+        -:  681:      integer coor(4),lcoor
+        -:  682:!dvm$ distribute A(*,*,*,*)
+        -:  683:
+        1:  684:      tname='RED4211'
+       1*:  685:      allocate (A(N,M,K,L),C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        -:  686:     
+        -:  687:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:  688:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  689:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2192:  690:          do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    18560:  691:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+    18432:  692:              A(i,j,ii,jj) = i*NL*NL*NL+j*NL*NL+ii*NL+jj
+        -:  693:            enddo
+        -:  694:          enddo
+        -:  695:        enddo
+        -:  696:      enddo
+        -:  697:      
+        1:  698:      ni=N/2
+        1:  699:      nj=M/2
+        1:  700:      nii=K/2
+        1:  701:      njj=L/2
+        1:  702:      A(ni,nj,nii,njj)=N+M+K+L+1+NL*NL*NL*NL       
+        1:  703:      imax1=N+M+K+L+1+NL*NL*NL*NL 
+        -:  704:
+        -:  705:!dvm$ remote_access (A(1,1,1,1))
+        1:  706:      imaxt1=A(1,1,1,1)  
+        -:  707:
+        1:  708:      lcoor=4
+        1:  709:      coor(1)=0
+        1:  710:      coor(2)=0
+        1:  711:      coor(3)=0
+        1:  712:      coor(4)=0
+        -:  713:
+        -:  714:!dvm$ actual(imaxt1,coor,lcoor)
+        -:  715:!dvm$ region
+        -:  716:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj),
+        -:  717:!dvm$* reduction( maxloc( imaxt1,coor,4))
+       16:  718:      do i=2,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      136:  719:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2055:  720:          do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    17400:  721:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+    17280:  722:              if (A(i,j,ii,jj).GT.imaxt1)then
+branch  0 taken 43% (fallthrough)
+branch  1 taken 57%
+     6588:  723:                imaxt1=A(i,j,ii,jj)
+     6588:  724:                coor(1)=i
+     6588:  725:                coor(2)=j
+     6588:  726:                coor(3)=ii
+     6588:  727:                coor(4)=jj 
+        -:  728:              endif
+        -:  729:            enddo
+        -:  730:          enddo
+        -:  731:        enddo
+        -:  732:      enddo
+        -:  733:!dvm$ end region   
+        -:  734:!dvm$ get_actual(imaxt1,coor)
+        -:  735:
+        -:  736:      if ((imax1 .eq.imaxt1) .and.(coor(1).eq.ni)
+        -:  737:     *.and.(coor(2).eq.nj).and.(coor(3).eq.nii)
+        1:  738:     *.and.(coor(4).eq.njj)) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 100% (fallthrough)
+branch  5 taken 0%
+branch  6 taken 100% (fallthrough)
+branch  7 taken 0%
+branch  8 taken 100% (fallthrough)
+branch  9 taken 0%
+        1:  739:          call ansyes(tname)
+call    0 returned 100%
+        -:  740:      else
+    #####:  741:          call ansno(tname)
+call    0 never executed
+        -:  742:      endif 
+       1*:  743:      deallocate (A,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  744:      
+        1:  745:      end
+        -:  746:C ----------------------------------------------------RED4212
+function red4212_ called 1 returned 100% blocks executed 92%
+        1:  747:      subroutine RED4212
+        -:  748:      integer, parameter :: N = 16,M=8,K=16,L=8,NL=100
+        -:  749:      character*7 tname
+        1:  750:      integer, allocatable :: A(:,:,:,:),C(:,:,:,:)
+        -:  751:      integer imin1,imint1 ,ni
+        -:  752:      integer it1,jt1,it2,jt2,iit1,jjt1
+        -:  753:      integer coor(4),lcoor
+        -:  754:                 
+        -:  755:!dvm$ distribute A(*,*,*,*)
+        -:  756:
+        1:  757:      tname='RED4212'
+       1*:  758:      allocate (A(N,M,K,L),C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        -:  759:     
+        -:  760:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:  761:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  762:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2192:  763:          do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    18560:  764:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+    18432:  765:              A(i,j,ii,jj) = i*NL*NL*NL+j*NL*NL+ii*NL+jj
+        -:  766:            enddo
+        -:  767:          enddo
+        -:  768:        enddo
+        -:  769:      enddo
+        1:  770:      ni=N/2
+        1:  771:      nj=M/2
+        1:  772:      nii=K/2
+        1:  773:      njj=L/2
+        1:  774:      A(ni,nj,nii,njj)=-(N+M+K+L+1+NL*NL*NL*NL )
+        -:  775:      
+        1:  776:      imin1=-(N+M+K+L+1+NL*NL*NL*NL )
+        -:  777:
+        -:  778:!dvm$ remote_access (A(1,1,1,1))
+        1:  779:      imint1=A(1,1,1,1)  
+        -:  780:
+        1:  781:      lcoor=4
+        1:  782:      coor(1)=0
+        1:  783:      coor(2)=0
+        1:  784:      coor(3)=0
+        1:  785:      coor(4)=0
+        -:  786:
+        -:  787:!dvm$ actual(imint1,coor,lcoor)
+        -:  788:!dvm$ region
+        -:  789:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj),
+        -:  790:!dvm$* reduction( minloc( imint1,coor,4))
+       16:  791:      do i=2,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      136:  792:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2055:  793:          do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    17400:  794:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+    17280:  795:              if (A(i,j,ii,jj).LT.imint1)then
+branch  0 taken 1% (fallthrough)
+branch  1 taken 100%
+        1:  796:                imint1=A(i,j,ii,jj)
+        1:  797:                coor(1)=i
+        1:  798:                coor(2)=j
+        1:  799:                coor(3)=ii
+        1:  800:                coor(4)=jj 
+        -:  801:              endif
+        -:  802:            enddo
+        -:  803:          enddo
+        -:  804:        enddo
+        -:  805:      enddo
+        -:  806:!dvm$ end region   
+        -:  807:!dvm$ get_actual(imint1,coor)
+        -:  808:
+        -:  809:      if ((imin1 .eq.imint1) .and.(coor(1).eq.ni)
+        -:  810:     *.and.(coor(2).eq.nj).and.(coor(3).eq.nii)
+        1:  811:     * .and.(coor(4).eq.njj)) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 100% (fallthrough)
+branch  5 taken 0%
+branch  6 taken 100% (fallthrough)
+branch  7 taken 0%
+branch  8 taken 100% (fallthrough)
+branch  9 taken 0%
+        1:  812:          call ansyes(tname)
+call    0 returned 100%
+        -:  813:      else
+    #####:  814:          call ansno(tname)
+call    0 never executed
+        -:  815:      endif 
+       1*:  816:      deallocate (A,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  817:      
+        1:  818:      end
+        -:  819:C ----------------------------------------------------RED4213
+function red4213_ called 1 returned 100% blocks executed 91%
+        1:  820:      subroutine RED4213
+        -:  821:      integer, parameter :: N = 16,M=8,K=16,L=8,NL=1000
+        -:  822:      character*7 tname
+        1:  823:      integer, allocatable :: A(:,:,:,:),C(:,:,:,:)
+        -:  824:      integer imin1,imint1 ,ni
+        -:  825:      integer isum1,isumt1 
+        -:  826:      integer imax1,imaxt1
+        -:  827:                      
+        -:  828:!dvm$ distribute A(*,*,*,*)
+        -:  829:
+        1:  830:      tname='RED4213'
+       1*:  831:      allocate (A(N,M,K,L),C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        1:  832:      NNL=NL 
+        1:  833:      NN=N
+        1:  834:      MM=M
+        1:  835:      KK=K
+        1:  836:      LL=L
+        -:  837:
+        1:  838:      call sersum4m(C,NN,MM,KK,LL,NNL,isum1)
+        -:  839:
+        -:  840:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:  841:      do i=1,N
+call    0 returned 100%
+branch  1 taken 94% (fallthrough)
+branch  2 taken 6%
+      145:  842:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2192:  843:          do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    18560:  844:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+    18432:  845:              A(i,j,ii,jj) = i+j+ii+jj+NL
+        -:  846:            enddo
+        -:  847:          enddo
+        -:  848:        enddo
+        -:  849:      enddo
+        1:  850:      ni=N/2-1
+        1:  851:      nj=M/2-1
+        1:  852:      nii=K/2-1
+        1:  853:      njj=L/2-1
+        1:  854:      A(ni,nj,nii,njj)=N+M+K+L+1+NL
+        1:  855:      imax1=N+M+K+L+1+NL
+        -:  856:c      print *,'before remote'
+        -:  857:
+        -:  858:!dvm$ remote_access (A(1,1,1,1))
+        1:  859:      imaxt1=A(1,1,1,1)
+        -:  860:
+        1:  861:      ni=N/2
+        1:  862:      nj=M/2
+        1:  863:      nii=K/2
+        1:  864:      njj=L/2
+        1:  865:      A(ni,nj,nii,njj)=-(N+M+K+L+1+NL)              
+        1:  866:      imin1=-(N+M+K+L+1+NL)
+        -:  867:
+        -:  868:!dvm$ remote_access (A(1,1,1,1))
+        1:  869:      imint1=A(1,1,1,1)
+        -:  870:
+        1:  871:      isumt1 = 0
+        -:  872:c      print *,'before cycle' 
+        -:  873:!dvm$ actual(isumt1,imaxt1,imint1)
+        -:  874:!dvm$ region
+        -:  875:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj),
+        -:  876:!dvm$* reduction( sum( isumt1 ),
+        -:  877:!dvm$*max( imaxt1 ),min( imint1 ) )
+       17:  878:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  879:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2192:  880:          do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    18560:  881:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+    16384:  882:             isumt1 = isumt1+A(i,j,ii,jj)
+    16384:  883:             if (A(i,j,ii,jj).GT.imaxt1) imaxt1=A(i,j,ii,jj)
+    18432:  884:             if (A(i,j,ii,jj).LT.imint1) imint1=A(i,j,ii,jj)
+        -:  885:            enddo
+        -:  886:          enddo
+        -:  887:        enddo 
+        -:  888:      enddo
+        -:  889:!dvm$ end region   
+        -:  890:!dvm$ get_actual(isumt1,imaxt1,imint1) 	  
+        -:  891:c      print *,isumt1,isum1
+        -:  892:c      print *,imaxt1,imax1
+        -:  893:c      print *,imint1,imin1
+        -:  894:      if ((isum1 .eq.isumt1) .and.(imax1 .eq.imaxt1)
+        1:  895:     *   .and.(imin1 .eq.imint1))   then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+        1:  896:          call ansyes(tname)
+call    0 returned 100%
+        -:  897:      else
+    #####:  898:          call ansno(tname)
+call    0 never executed
+        -:  899:      endif 
+       1*:  900:      deallocate (A,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  901:
+        1:  902:      end
+        -:  903:C ----------------------------------------------------RED4214
+function red4214_ called 1 returned 100% blocks executed 91%
+        1:  904:      subroutine RED4214
+        -:  905:      integer, parameter :: N = 16,M=8,K=16,L=8,NL=1
+        -:  906:      character*7 tname
+        1:  907:      integer, allocatable :: A(:,:,:,:),C(:,:,:,:)
+        -:  908:      integer iprod1,iprodt1 
+        1:  909:      logical, allocatable :: B(:,:,:,:),CL(:,:,:,:)
+        -:  910:      logical land1,landt1,lor1,leqv1,lneqv1               
+        -:  911:                 
+        -:  912:!dvm$ distribute A(*,*,*,*)    
+        -:  913:!dvm$ align B(I,J,II,JJ) with A(I,J,II,JJ)      
+        -:  914:
+        1:  915:      tname='RED4214'
+       1*:  916:      allocate (A(N,M,K,L),C(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+       1*:  917:      allocate (B(N,M,K,L),CL(N,M,K,L))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        1:  918:      NNL=NL
+        1:  919:      NN=N
+        1:  920:      MM=M
+        1:  921:      KK=K
+        1:  922:      LL=L
+        1:  923:      call serprod4(C,NN,MM,KK,LL,NNL,iprod1)
+call    0 returned 100%
+        1:  924:      call serlog4(CL,NN,MM,KK,LL,land1,lor1,leqv1,lneqv1)
+        -:  925:
+        -:  926:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:  927:      do i=1,N
+call    0 returned 100%
+branch  1 taken 94% (fallthrough)
+branch  2 taken 6%
+      145:  928:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2192:  929:          do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      128:  930:            do jj=1,L,2
+     8192:  931:              B(i,j,ii,jj) = .true. 
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  932:            enddo 
+        -:  933:          enddo
+        -:  934:        enddo        
+        -:  935:      enddo
+        -:  936:
+        -:  937:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:  938:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  939:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2192:  940:          do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      128:  941:            do jj=2,L,2
+     8192:  942:              B(i,j,ii,jj)=.false.
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+        -:  943:            enddo
+        -:  944:          enddo
+        -:  945:        enddo
+        -:  946:      enddo
+        -:  947: 
+        -:  948:!dvm$ remote_access (B(1,1,1,1))
+        1:  949:      landt1 = B(1,1,1,1)                   
+        1:  950:      iprodt1 = 1
+        -:  951:
+        -:  952:!dvm$ actual(iprodt1,landt1)
+        -:  953:!dvm$ region local(A)
+        -:  954:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj)
+       17:  955:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  956:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2192:  957:          do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    18560:  958:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+    18432:  959:             if ((i.eq.j).and.(j.eq.ii).and.(ii.eq.jj)) then
+branch  0 taken 1% (fallthrough)
+branch  1 taken 100%
+branch  2 taken 12% (fallthrough)
+branch  3 taken 88%
+        8:  960:               A(i,j,ii,jj) = i
+        -:  961:             else
+    16376:  962:               A(i,j,ii,jj) =1
+        -:  963:             endif
+        -:  964:            enddo
+        -:  965:          enddo
+        -:  966:        enddo
+        -:  967:      enddo
+        -:  968:
+        -:  969:!dvm$ parallel (i,j,ii,jj) on A(i,j,ii,jj),
+        -:  970:!dvm$* reduction( product( iprodt1 ), and(landt1))
+       17:  971:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145:  972:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2192:  973:          do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    18560:  974:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+    16384:  975:              iprodt1 = iprodt1*A(i,j,ii,jj)
+        -:  976:              if ((i.eq.1).and.(j.eq.1)
+    18432:  977:     *.and.(ii.eq.1).and.(jj.eq.1)) then
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+branch  2 taken 99% (fallthrough)
+branch  3 taken 1%
+        -:  978:!                 landt1=B(i,j,ii,jj)
+        -:  979:              else
+    16383:  980:                 landt1 = landt1 .and. B(i,j,ii,jj)
+branch  0 taken 1% (fallthrough)
+branch  1 taken 100%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+        -:  981:              endif
+        -:  982:!              landt1 = landt1 .and.B(i,j,ii,jj)
+        -:  983:            enddo
+        -:  984:          enddo
+        -:  985:        enddo
+        -:  986:      enddo
+        -:  987:!dvm$ end region   
+        -:  988:!dvm$ get_actual(iprodt1,landt1) 
+        -:  989: 
+        -:  990:      if ((iprod1 .eq.iprodt1)
+        1:  991:     *.and. (land1 .eqv.landt1)) then       
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+        1:  992:          call ansyes(tname)
+call    0 returned 100%
+        -:  993:      else
+    #####:  994:          call ansno(tname)
+call    0 never executed
+        -:  995:      endif 
+       1*:  996:      deallocate (B,CL) 
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+       1*:  997:      deallocate (A,C)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  998:
+        1:  999:      end   
+        -: 1000:C -----------------------------------------------------
+        -: 1001:
+function sersum4_ called 1 returned 100% blocks executed 100%
+        1: 1002:      subroutine sersum4(AR,N,M,K,L,NL,S)
+        -: 1003:      integer AR(N,M,K,L)
+        -: 1004:      integer S,NL
+       17: 1005:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145: 1006:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168: 1007:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9344: 1008:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9216: 1009:              AR(i,j,ii,jj) = i+j+ii+jj+NL
+        -: 1010:            enddo          
+        -: 1011:          enddo
+        -: 1012:        enddo
+        -: 1013:      enddo
+        1: 1014:      S=0
+       17: 1015:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145: 1016:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     1168: 1017:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9344: 1018:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     9216: 1019:              s = s+ AR(i,j,ii,jj)
+        -: 1020:            enddo
+        -: 1021:          enddo
+        -: 1022:        enddo
+        -: 1023:      enddo
+        1: 1024:      end      
+        -: 1025:   
+function sersum4m_ called 1 returned 100% blocks executed 100%
+        1: 1026:      subroutine sersum4m(AR,N,M,K,L,NL,S)
+        -: 1027:      integer AR(N,M,K,L)
+        -: 1028:      integer S,NL
+       17: 1029:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145: 1030:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2192: 1031:          do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    18560: 1032:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+    18432: 1033:              AR(i,j,ii,jj) = i+j+ii+jj+NL
+        -: 1034:            enddo 
+        -: 1035:          enddo 
+        -: 1036:        enddo        
+        -: 1037:      enddo
+        1: 1038:      ni=N/2-1
+        1: 1039:      nj=M/2-1
+        1: 1040:      nii=K/2-1
+        1: 1041:      njj=L/2-1
+        1: 1042:      AR(ni,nj,nii,njj)=N+M+K+L+1+NL
+        1: 1043:      ni=N/2
+        1: 1044:      nj=M/2
+        1: 1045:      nii=K/2
+        1: 1046:      njj=L/2
+        1: 1047:      AR(ni,nj,nii,njj)=-(N+M+K+L+1+NL)      
+        1: 1048:      S=0
+       17: 1049:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      145: 1050:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     2192: 1051:          do ii=1,K
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+    18560: 1052:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+    18432: 1053:              s = s+ AR(i,j,ii,jj)
+        -: 1054:            enddo
+        -: 1055:          enddo
+        -: 1056:        enddo
+        -: 1057:      enddo    
+        1: 1058:      end   
+        -: 1059:
+function sersum4mr_ called 0 returned 0% blocks executed 0%
+    #####: 1060:      subroutine sersum4mr(AR,N,M,K,L,NL,S)
+        -: 1061:      real AR(N,M,K,L)
+        -: 1062:      real S,NL
+    #####: 1063:      do i=1,N
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####: 1064:        do j=1,M
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####: 1065:          do ii=1,K
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####: 1066:            do jj=1,L
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####: 1067:              AR(i,j,ii,jj) = i+j+ii+jj+NL
+        -: 1068:            enddo 
+        -: 1069:          enddo
+        -: 1070:        enddo
+        -: 1071:      enddo 
+    #####: 1072:      ni=N/2-1
+    #####: 1073:      nj=M/2-1
+    #####: 1074:      nii=K/2-1
+    #####: 1075:      njj=L/2-1
+    #####: 1076:      AR(ni,nj,nii,njj)=N+M+K+L+1.+NL
+    #####: 1077:      ni=N/2
+    #####: 1078:      nj=M/2
+    #####: 1079:      nii=K/2
+    #####: 1080:      njj=L/2
+    #####: 1081:      AR(ni,nj,nii,njj)=-(N+M+K+L+1.+NL)
+    #####: 1082:      S=0.
+    #####: 1083:      do i=1,N
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####: 1084:        do j=1,M
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####: 1085:          do ii=1,K
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####: 1086:            do jj=1,L
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####: 1087:              s = s+ AR(i,j,ii,jj)
+        -: 1088:            enddo
+        -: 1089:          enddo
+        -: 1090:        enddo
+        -: 1091:      enddo
+    #####: 1092:      end  
+        -: 1093:  
+function serprod4_ called 2 returned 100% blocks executed 100%
+        2: 1094:      subroutine serprod4(AR,N,M,K,L,NL,P)
+        -: 1095:      integer AR(N,M,K,L)
+        -: 1096:      integer P,NL
+       34: 1097:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      290: 1098:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     3360: 1099:          do ii=1,K
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+    27904: 1100:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+    27648: 1101:             if ((i.eq.j).and.(j.eq.ii).and.(ii.eq.jj))  then
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+branch  2 taken 12% (fallthrough)
+branch  3 taken 88%
+       16: 1102:               AR(i,j,ii,jj) = i
+        -: 1103:             else
+    24560: 1104:               AR(i,j,ii,jj) =1
+        -: 1105:             endif
+        -: 1106:            enddo
+        -: 1107:          enddo
+        -: 1108:        enddo
+        -: 1109:      enddo   
+        2: 1110:      P=1
+       34: 1111:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      290: 1112:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     3360: 1113:          do ii=1,K
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+    27904: 1114:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+    27648: 1115:              P = P* AR(i,j,ii,jj)
+        -: 1116:            enddo
+        -: 1117:          enddo
+        -: 1118:        enddo
+        -: 1119:      enddo
+        2: 1120:      end   
+        -: 1121: 
+function serprodr4_ called 1 returned 100% blocks executed 100%
+        1: 1122:      subroutine serprodr4(AR,N,M,K,L,NL,P)
+        -: 1123:      real AR(N,M,K,L)
+        -: 1124:      real P,NL
+        9: 1125:      do i=1,N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1126:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1127:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1128:            do jj=1,L 
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1129:              if ((i.eq.j).and.(j.eq.ii).and.(ii.eq.jj)) then
+branch  0 taken 2% (fallthrough)
+branch  1 taken 98%
+branch  2 taken 12% (fallthrough)
+branch  3 taken 88%
+        8: 1130:                AR(i,j,ii,jj) = i
+        -: 1131:              else
+     4088: 1132:                AR(i,j,ii,jj) =1.
+        -: 1133:              endif
+        -: 1134:            enddo
+        -: 1135:          enddo
+        -: 1136:        enddo
+        -: 1137:      enddo 
+        1: 1138:      P=1.
+        9: 1139:      do i=1,N
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73: 1140:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584: 1141:          do ii=1,K
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672: 1142:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608: 1143:              P = P* AR(i,j,ii,jj)
+        -: 1144:            enddo
+        -: 1145:          enddo
+        -: 1146:        enddo
+        -: 1147:      enddo
+        1: 1148:      end
+        -: 1149:     
+function serlog4_ called 5 returned 100% blocks executed 95%
+        5: 1150:      subroutine serlog4(AR,N,M,K,L,LAND,LOR,LEQV,LNEQV)
+        -: 1151:      logical AR(N,M,K,L)
+        -: 1152:      logical LAND,LOR,LEQV,LNEQV
+       85: 1153:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      725: 1154:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     7888: 1155:          do ii=1,K
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+     7808: 1156:            do jj=1,L,2
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+   28672*: 1157:             AR(i,j,ii,jj) = .true.
+branch  0 taken 25% (fallthrough)
+branch  1 taken 75%
+        -: 1158:            enddo
+        -: 1159:          enddo
+        -: 1160:        enddo         
+        -: 1161:      enddo
+       85: 1162:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      725: 1163:        do j=1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     7888: 1164:          do ii=1,K
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+     7808: 1165:            do jj=2,L,2
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+   28672*: 1166:              AR(i,j,ii,jj)=.false.
+branch  0 taken 25% (fallthrough)
+branch  1 taken 75%
+        -: 1167:            enddo
+        -: 1168:          enddo
+        -: 1169:        enddo
+        -: 1170:      enddo 
+        -: 1171:
+       85: 1172:      do i=1,N
+branch  0 taken 94% (fallthrough)
+branch  1 taken 6%
+      725: 1173:        do j= 1,M
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     7888: 1174:          do ii=1,K
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+    65152: 1175:            do jj=1,L
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+    64512: 1176:             if ((i.eq.1).and.(j.eq.1).and.(ii.eq.1).and.(jj.eq.1)) then
+branch  0 taken 1% (fallthrough)
+branch  1 taken 99%
+branch  2 taken 1% (fallthrough)
+branch  3 taken 99%
+        5: 1177:               LAND=AR(1,1,1,1)
+        5: 1178:               LOR=AR(1,1,1,1)
+        5: 1179:               LEQV=AR(1,1,1,1)
+        5: 1180:               LNEQV=AR(1,1,1,1)
+        -: 1181:             else
+    57339: 1182:               LAND = LAND .and. AR(i,j,ii,jj)
+branch  0 taken 1% (fallthrough)
+branch  1 taken 100%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+   57339*: 1183:               LOR = LOR .or.AR(i,j,ii,jj)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+branch  2 never executed (fallthrough)
+branch  3 never executed
+    57339: 1184:               LEQV = LEQV .eqv. AR(i,j,ii,jj)
+    57339: 1185:               LNEQV = LNEQV .neqv. AR(i,j,ii,jj)
+        -: 1186:             endif
+        -: 1187:            enddo
+        -: 1188:          enddo
+        -: 1189:        enddo
+        -: 1190:      enddo
+        5: 1191:      end   
+        -: 1192:
+function ansyes_ called 14 returned 100% blocks executed 100%
+       14: 1193:      subroutine ansyes(name)
+        -: 1194:      character*7 name
+       14: 1195:      print *,name,'  -  complete'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+       14: 1196:      end
+function ansno_ called 0 returned 0% blocks executed 0%
+    #####: 1197:      subroutine ansno(name)
+        -: 1198:      character*7 name
+    #####: 1199:      print *,name,'  -  ***error'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+    #####: 1200:      end

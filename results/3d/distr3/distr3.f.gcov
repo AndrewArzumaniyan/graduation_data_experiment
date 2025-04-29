@@ -1,0 +1,217 @@
+        -:    0:Source:results/3d/distr3/distr3.f
+        -:    0:Graph:./results\3d\distr3\distr3.gcno
+        -:    0:Data:./results\3d\distr3\distr3.gcda
+        -:    0:Runs:1
+function MAIN__ called 1 returned 100% blocks executed 100%
+        1:    1:      program DISTR3
+        -:    2:
+        -:    3:c    TESTING distr CLAUSE .       
+        -:    4:
+        1:    5:      print *,'===START OF distr3========================'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:    6:C -------------------------------------------------
+        -:    7:c 31  DISTRIBUTE  arrA3[BLOCK][BLOCK][ BLOCK] REDISTRIBUTE arrA3[*][*][*]
+        1:    8:      call distr31
+call    0 returned 100%
+        -:    9:C -------------------------------------------------
+        -:   10:c 43  DISTRIBUTE arrA4[BLOCK][*][BLOCK][BLOCK] REDISTRIBUTE arrA4[BLOCK][BLOCK][BLOCK][*]
+        1:   11:      call distr43
+call    0 returned 100%
+        -:   12:C -------------------------------------------------
+        -:   13:C
+        1:   14:      print *,'=== END OF distr3 ========================= '    
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+function main called 1 returned 100% blocks executed 100%
+        1:   15:      end
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   16:
+        -:   17:
+        -:   18:C ----------------------------------------------------distr31
+        -:   19:c 31  DISTRIBUTE  arrA3[BLOCK][BLOCK][ BLOCK] REDISTRIBUTE arrA3[*][*][*]
+function distr31_ called 1 returned 100% blocks executed 88%
+        1:   20:      subroutine distr31
+        -:   21:      integer, parameter :: AN1=8,AN2=8,AN3=8,NL=1000,ER=10000
+        -:   22:      integer :: erri = ER,i,j,n,m,ia,ja,na,ma,ib,jb,nb,mb
+        1:   23:      integer, allocatable :: A3(:,:,:)
+        -:   24:      character(9) :: tname = 'distr31'
+        -:   25:               
+        -:   26:!dvm$ distribute A3(BLOCK,BLOCK,BLOCK)   
+        -:   27:!dvm$ dynamic A3
+        -:   28:
+       1*:   29:      allocate (A3(AN1,AN2,AN3))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:   30:
+        -:   31:!dvm$ region 
+        -:   32:!dvm$ parallel (i,j,n) on A3(i,j,n)
+        9:   33:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:   34:          do j=1,AN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:   35:             do n=1,AN3
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      576:   36:                A3(i,j,n) = i*NL/10 + j*NL/100 + n    
+        -:   37:             enddo
+        -:   38:          enddo
+        -:   39:      enddo
+        -:   40:!dvm$ end region   
+        -:   41:
+        -:   42:!dvm$ redistribute A3(*,*,*)    
+        -:   43:!dvm$ actual(erri)
+        -:   44:
+        -:   45:!dvm$ region 
+        -:   46:!dvm$ parallel (i,j,n) on A3(i,j,n), reduction( min( erri ) )
+        9:   47:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:   48:          do j=1,AN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:   49:            do n=1,AN3
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      576:   50:                if (A3(i,j,n) .eq.(i*NL/10 + j*NL/100 + n)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:   51:                else
+    #####:   52:                    erri = min(erri,i*NL/10 + j*NL/100 + n)
+        -:   53:                endif 
+        -:   54:            enddo
+        -:   55:          enddo
+        -:   56:      enddo
+        -:   57:!dvm$ end region   
+        -:   58:     
+        -:   59:!dvm$ get_actual(erri) 
+        1:   60:      if (erri .eq.ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:   61:          call ansyes(tname)
+call    0 returned 100%
+        -:   62:      else
+    #####:   63:          call ansno(tname)
+call    0 never executed
+        -:   64:      endif 
+        -:   65:
+       1*:   66:      deallocate (A3)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:   67:
+        1:   68:      end
+        -:   69:
+        -:   70:C ----------------------------------------------------distr43
+        -:   71:c 43  DISTRIBUTE arrA4[BLOCK][*][BLOCK][BLOCK] REDISTRIBUTE arrA4[BLOCK][BLOCK][BLOCK][*]
+function distr43_ called 1 returned 100% blocks executed 90%
+        1:   72:      subroutine distr43
+        -:   73:      integer, parameter :: AN1=8,AN2=8,AN3=8,AN4=8,NL=1000,ER=100000
+        -:   74:      integer :: erri=ER,i,j,n,m,ia,ja,na,ma,ib,jb,nb,mb
+        1:   75:      integer, allocatable ::  A4(:,:,:,:)
+        -:   76:      character(9), parameter :: tname = 'distr43'
+        -:   77:               
+        -:   78:!dvm$ distribute A4(BLOCK,*,BLOCK,BLOCK)   
+        -:   79:!dvm$ dynamic A4
+        -:   80:
+       1*:   81:      allocate (A4(AN1,AN2,AN3,AN4))
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+call    2 never executed
+        -:   82:
+        -:   83:!dvm$ region 
+        -:   84:!dvm$ parallel (i,j,n,m) on A4(i,j,n,m)
+        9:   85:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:   86:          do j=1,AN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:   87:             do n=1,AN3
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:   88:                do m=1,AN4
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:   89:                     A4(i,j,n,m) = i*NL/10+j*NL/100+n*NL/1000+m
+        -:   90:                enddo
+        -:   91:             enddo
+        -:   92:          enddo
+        -:   93:      enddo
+        -:   94:!dvm$ end region   
+        -:   95:
+        -:   96:!dvm$ redistribute A4(BLOCK,BLOCK,BLOCK,*)    
+        -:   97:!dvm$ actual(erri)
+        -:   98:
+        -:   99:!dvm$ region 
+        -:  100:!dvm$ parallel (i,j,n,m) on A4(i,j,n,m), reduction( min( erri ) )
+        9:  101:      do i=1,AN1
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+       73:  102:          do j=1,AN2
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+      584:  103:            do n=1,AN3
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4672:  104:              do m=1,AN4
+branch  0 taken 89% (fallthrough)
+branch  1 taken 11%
+     4608:  105:                if (A4(i,j,n,m) .eq.(i*NL/10+j*NL/100+n*NL/1000+m)) then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  106:                else
+    #####:  107:                    erri = min(erri,i*NL/10+j*NL/100+n*NL/1000+m)
+        -:  108:                endif 
+        -:  109:              enddo
+        -:  110:            enddo
+        -:  111:          enddo
+        -:  112:      enddo
+        -:  113:!dvm$ end region   
+        -:  114: 
+        -:  115:!dvm$ get_actual(erri) 
+        1:  116:      if (erri .eq.ER) then     
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:  117:          call ansyes(tname)
+call    0 returned 100%
+        -:  118:      else
+    #####:  119:          call ansno(tname)
+call    0 never executed
+        -:  120:      endif 
+        -:  121:
+       1*:  122:      deallocate (A4)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+        -:  123:
+        1:  124:      end
+        -:  125:
+        -:  126:C -------------------------------------------------
+        -:  127:
+function ansyes_ called 2 returned 100% blocks executed 100%
+        2:  128:      subroutine ansyes(name)
+        -:  129:      character*9 name
+        2:  130:      print *,name,'  -  complete'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+        2:  131:      end
+        -:  132:
+function ansno_ called 0 returned 0% blocks executed 0%
+    #####:  133:      subroutine ansno(name)
+        -:  134:      character*9 name
+    #####:  135:      print *,name,'  -  ***error'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+    #####:  136:      end

@@ -1,0 +1,850 @@
+        -:    0:Source:results/2d/align24/align24.f
+        -:    0:Graph:./results\2d\align24\align24.gcno
+        -:    0:Data:./results\2d\align24\align24.gcda
+        -:    0:Runs:1
+function MAIN__ called 1 returned 100% blocks executed 100%
+        1:    1:      program ALIGN24
+        -:    2:
+        -:    3:c    TESTING align CLAUSE .       
+        -:    4:
+        1:    5:      print *,'===START OF align24========================'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:    6:C --------------------------------------------------
+        -:    7:c      call forcat     
+        -:    8:C --------------------------------------------------
+        -:    9:c 241 arrA2[BLOCK][ BLOCK]  arrB4[ ][ ][ ][ ] ALIGN arrB[i][j][][] WITH arrA[i][j]  
+        -:   10:c                                                       matrix compression      
+        1:   11:      call align241
+call    0 returned 100%
+        -:   12:C -------------------------------------------------
+        -:   13:c 242     ALIGN arrB[ ][ j][][i] WITH arrA[i+4][ 2*j] matrix compression
+        1:   14:      call align2421
+call    0 returned 100%
+        1:   15:      call align2422
+call    0 returned 100%
+        -:   16:C -------------------------------------------------
+        -:   17:c 243     ALIGN arrB[ ][ ][i][] WITH arrA[1][i] matrix compression 
+        -:   18:c                                                       and replication     !!
+        1:   19:      call align243
+call    0 returned 100%
+        -:   20:C -------------------------------------------------
+        1:   21:      print *,'=== END OF align24 ========================'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+function main called 1 returned 100% blocks executed 100%
+        1:   22:      end
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        -:   23:
+        -:   24:C ----------------------------------------------------align241
+        -:   25:c 241 arrA2[BLOCK][ BLOCK]  arrB4[ ][ ][ ][ ] ALIGN arrB[i][j][][] WITH arrA[i][j]  
+        -:   26:c                                                       matrix compression      
+        -:   27:
+function align241_ called 1 returned 100% blocks executed 83%
+        1:   28:      subroutine align241
+        -:   29:      integer, parameter :: AN1=5,AN2=5,BN1=2,BN2=2,BN3=2,BN4=2
+        -:   30:      integer, parameter :: PN=2,NL=10000,ER=100000
+        -:   31:c     parameters for ALIGN arrB[i][j][][] WITH arrA[k1i*i+li][k2j*j+lj]                                               
+        -:   32:      integer, parameter :: k1i=1,k2i=0,k3i=0,li=0
+        -:   33:      integer, parameter :: k1j=0,k2j=1,k3j=0,lj=0
+        -:   34:      character*9 tname
+        1:   35:      integer, allocatable :: A2(:,:),B4(:,:,:,:)
+        -:   36:      integer s,cs,erri,i,j,n,m,ia,ja,na,ib,jb,nb,mb,Avalue,Bvalue
+        -:   37:               
+        -:   38:!dvm$ distribute A2(BLOCK,BLOCK)   
+        -:   39:!dvm$ ALIGN B4(i,j,*,*) WITH A2(k1i * i + li,k2j * j + lj)
+        -:   40:
+        -:   41:
+        1:   42:      tname='align241'
+       1*:   43:      allocate (A2(AN1,AN2), B4(BN1,BN2,BN3,BN4))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        1:   44:      erri= ER
+        1:   45:      NNL=NL 
+        1:   46:      s=0 
+        -:   47:
+        -:   48:!dvm$ actual(erri,s)
+        -:   49:!dvm$ region local(A2,B4)
+        -:   50:!dvm$ parallel (i,j,n,m) on B4(i,j,n,m)
+        3:   51:      do i=1,BN1
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+        7:   52:          do j=1,BN2
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       14:   53:             do n=1,BN3
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       28:   54:                do m=1,BN4
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       24:   55:                    B4(i,j,n,m) =0     
+        -:   56:                enddo  
+        -:   57:             enddo  
+        -:   58:          enddo  
+        -:   59:      enddo 
+        -:   60:
+        -:   61:!dvm$ parallel (i,j) on A2(i,j), private(ib,jb,n,m,nb,mb)
+        6:   62:      do i=1,AN1
+branch  0 taken 83% (fallthrough)
+branch  1 taken 17%
+       31:   63:          do j=1,AN2
+branch  0 taken 83% (fallthrough)
+branch  1 taken 17%
+       25:   64:                A2(i,j) = i*NL/10 + j
+       80:   65:                do n=1,BN3
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+      175:   66:                    do m=1,BN4
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+        -:   67:                      if ( 
+        -:   68:     *                  ((i-li) .eq.(((i-li)/k1i) * k1i)) .and.
+        -:   69:     *                  ((j-lj) .eq.(((j-lj)/k2j) *k2j)) .and.
+        -:   70:     *                  (((i-li)/k1i) .gt. 0)  .and.
+        -:   71:     *                  (((j-lj)/k2j) .gt. 0)  .and.
+      100:   72:     *                  (((i-li)/k1i) .le. BN1)  .and.
+branch  0 taken 16% (fallthrough)
+branch  1 taken 84%
+        -:   73:     *                  (((j-lj)/k2j) .le. BN2)
+       50:   74:     *                  )  then 
+       16:   75:                        ib = (i-li)/k1i
+       16:   76:                        jb = (j-lj)/k2j
+       16:   77:                        nb = n
+       16:   78:                        mb = m  
+       16:   79:                        B4(ib,jb,nb,mb)=ib*NL/10+jb*NL/100+nb*NL/1000+mb 
+        -:   80:                      endif 
+        -:   81:                    enddo
+        -:   82:                enddo 
+        -:   83:          enddo 
+        -:   84:      enddo 
+        -:   85:
+        -:   86:!dvm$ parallel (i,j,n,m) on B4(i,j,n,m), reduction( min( erri ),sum(s) )
+        3:   87:      do i=1,BN1
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+        7:   88:          do j=1,BN2
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       14:   89:            do n=1,BN3
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       28:   90:                do m=1,BN4
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       16:   91:                  s = s + B4(i,j,n,m)
+       24:   92:                  if (B4(i,j,n,m).eq.(i*NL/10+j*NL/100+n*NL/1000+m))then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:   93:                  else
+    #####:   94:                      erri = min(erri,i*NL/10 + j*NL/100+ n*NL/1000+ m)
+        -:   95:                  endif
+        -:   96:                enddo 
+        -:   97:            enddo 
+        -:   98:          enddo 
+        -:   99:      enddo 
+        -:  100:!dvm$ end region
+        -:  101:!dvm$ get_actual(erri,s)
+        -:  102:  
+        1:  103:      cs = 0              
+        3:  104:      do i=1,BN1
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+        7:  105:          do j=1,BN2
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       14:  106:            do n=1,BN3
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       28:  107:                do m=1,BN4
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       24:  108:                    cs = cs + i*NL/10 + j*NL/100+ n*NL/1000+ m
+        -:  109:                enddo 
+        -:  110:            enddo 
+        -:  111:          enddo 
+        -:  112:      enddo 
+        -:  113:     
+        1:  114:      if ((erri .eq.ER) .and.
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  115:     *     (s .eq. cs)) then     
+        1:  116:          call ansyes(tname)
+call    0 returned 100%
+        -:  117:      else
+    #####:  118:          call ansno(tname)
+call    0 never executed
+    #####:  119:          write (*,*) erri,s,cs
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+call    4 never executed
+    #####:  120:          print *,B4  
+call    0 never executed
+call    1 never executed
+call    2 never executed
+        -:  121:      endif 
+       1*:  122:      deallocate (B4,A2)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        1:  123:      end
+        -:  124:
+        -:  125:C ----------------------------------------------------align242
+        -:  126:c 242     ALIGN arrB[ ][ j][][i] WITH arrA[i+4][ 2*j] matrix compression
+        -:  127:
+function align242_ called 0 returned 0% blocks executed 0%
+    #####:  128:      subroutine align242
+        -:  129:
+        -:  130:      integer, parameter :: AN1=3,AN2=4,BN1=2,BN2=2,BN3=2,BN4=2
+        -:  131:      integer, parameter :: PN=2,NL=10000,ER=100000
+        -:  132:c     parameters for ALIGN arrB[][j][][i] WITH arrA[k1i*i+li][k2j*j+lj]                                               
+        -:  133:      integer, parameter :: k1i=1,k2i=0,k3i=0,li=1
+        -:  134:      integer, parameter :: k1j=0,k2j=2,k3j=0,lj=0
+        -:  135:      character*9 tname
+    #####:  136:      integer, allocatable :: A2(:,:),B4(:,:,:,:)
+        -:  137:      integer s,cs,erri,i,j,n,m,ia,ja,na,ib,jb,nb,mb,Avalue,Bvalue
+        -:  138:               
+        -:  139:!dvm$ distribute A2(BLOCK,BLOCK)    
+        -:  140:!dvm$ ALIGN B4(*,j,*,i) WITH A2(k1i * i + li,k2j * j + lj)
+        -:  141:
+    #####:  142:      tname='align242'
+    #####:  143:      allocate (A2(AN1,AN2), B4(BN1,BN2,BN3,BN4))
+branch  0 never executed (fallthrough)
+branch  1 never executed
+call    2 never executed
+branch  3 never executed (fallthrough)
+branch  4 never executed
+call    5 never executed
+    #####:  144:      erri= ER
+        -:  145:      NNL=NL 
+    #####:  146:      s=0 
+        -:  147:
+        -:  148:!dvm$ actual(erri,s)
+        -:  149:!dvm$ region local(A2,B4)
+        -:  150:!dvm$ parallel (i,j,n,m) on B4(i,j,n,m)
+    #####:  151:      do i=1,BN1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  152:          do j=1,BN2
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  153:             do n=1,BN3
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  154:                do m=1,BN4
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  155:                    B4(i,j,n,m) =0     
+        -:  156:                enddo  
+        -:  157:             enddo  
+        -:  158:          enddo  
+        -:  159:      enddo 
+        -:  160:
+        -:  161:!dvm$ parallel (i,j) on A2(i,j), private(ib,jb,n,m,nb,mb)
+    #####:  162:      do i=1,AN1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  163:          do j=1,AN2
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  164:                A2(i,j) = i*NL/10 + j
+    #####:  165:                do n=1,BN1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  166:                    do m=1,BN3
+branch  0 never executed (fallthrough)
+branch  1 never executed
+        -:  167:                      if ( 
+        -:  168:     *                  ((i-li) .eq.(((i-li)/k1i) * k1i)) .and.
+        -:  169:     *                  ((j-lj) .eq.(((j-lj)/k2j) *k2j)) .and.
+        -:  170:     *                  (((i-li)/k1i) .gt. 0)  .and.
+        -:  171:     *                  (((j-lj)/k2j) .gt. 0)  .and.
+    #####:  172:     *                  (((i-li)/k1i) .le. BN4)  .and.
+branch  0 never executed (fallthrough)
+branch  1 never executed
+branch  2 never executed (fallthrough)
+branch  3 never executed
+        -:  173:     *                  (((j-lj)/k2j) .le. BN2)
+    #####:  174:     *                  )  then 
+    #####:  175:                        mb = (i-li)/k1i
+    #####:  176:                        jb = (j-lj)/k2j
+    #####:  177:                        ib = n
+    #####:  178:                        nb = m  
+    #####:  179:                        B4(ib,jb,nb,mb)=ib*NL/10+jb*NL/100+nb*NL/1000+mb 
+        -:  180:                      endif 
+        -:  181:                    enddo
+        -:  182:                enddo 
+        -:  183:          enddo 
+        -:  184:      enddo 
+        -:  185:
+        -:  186:!dvm$ parallel (i,j,n,m) on B4(i,j,n,m), reduction( min( erri ),sum(s) )
+    #####:  187:      do i=1,BN1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  188:          do j=1,BN2
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  189:            do n=1,BN3
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  190:                do m=1,BN4
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  191:                  s = s + B4(i,j,n,m)
+    #####:  192:                  if (B4(i,j,n,m).eq.(i*NL/10+j*NL/100+n*NL/1000+m))then     
+branch  0 never executed (fallthrough)
+branch  1 never executed
+        -:  193:                  else
+    #####:  194:                      erri = min(erri,i*NL/10 + j*NL/100+ n*NL/1000+ m)
+        -:  195:                  endif
+        -:  196:                enddo 
+        -:  197:            enddo 
+        -:  198:          enddo 
+        -:  199:      enddo 
+        -:  200:!dvm$ end region
+        -:  201:!dvm$ get_actual(erri,s)
+        -:  202:  
+        -:  203:      cs = 0              
+    #####:  204:      do i=1,BN1
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  205:          do j=1,BN2
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  206:            do n=1,BN3
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  207:                do m=1,BN4
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:  208:                    cs = cs + i*NL/10 + j*NL/100+ n*NL/1000+ m
+        -:  209:                enddo 
+        -:  210:            enddo 
+        -:  211:          enddo 
+        -:  212:      enddo 
+        -:  213:     
+    #####:  214:      if ((erri .eq.ER) .and.
+branch  0 never executed (fallthrough)
+branch  1 never executed
+        -:  215:     *     (s .eq. cs)) then     
+    #####:  216:          call ansyes(tname)
+call    0 never executed
+        -:  217:      else
+    #####:  218:          call ansno(tname)
+call    0 never executed
+        -:  219:c          write (*,*) erri,s,cs
+        -:  220:c          print *,B4  
+        -:  221:      endif 
+    #####:  222:      deallocate (B4,A2)
+branch  0 never executed (fallthrough)
+branch  1 never executed
+call    2 never executed
+branch  3 never executed (fallthrough)
+branch  4 never executed
+call    5 never executed
+        -:  223:
+    #####:  224:      end
+        -:  225:
+        -:  226:C ----------------------------------------------------align2421
+        -:  227:c 2421      ALIGN arrB[ ][ i][][j] WITH arrA[j+4][ 2*i] matrix compression
+        -:  228:
+function align2421_ called 1 returned 100% blocks executed 93%
+        1:  229:      subroutine align2421
+        -:  230:      integer, parameter :: AN1=12,AN2=9,BN1=4,BN2=4,BN3=4,BN4=4
+        -:  231:      integer, parameter :: PN=2,NL=10000,ER=100000
+        -:  232:c     parameters for ALIGN arrB[][i][][j] WITH arrA[k2i*j+li][k1j*i+lj]                                               
+        -:  233:      integer, parameter :: k1i=0,k2i=1,k3i=0,li=4
+        -:  234:      integer, parameter :: k1j=2,k2j=0,k3j=0,lj=0
+        -:  235:      character*9 tname
+        1:  236:      integer, allocatable :: A2(:,:),B4(:,:,:,:)
+        -:  237:      integer s,cs,erri,i,j,n,m,ia,ja,na,ib,jb,nb,mb,Avalue,Bvalue
+        -:  238:               
+        -:  239:!dvm$ distribute A2(BLOCK,BLOCK)    
+        -:  240:!dvm$ ALIGN B4(*,i,*,j) WITH A2(k2i * j + li,k1j * i + lj)
+        -:  241:
+        1:  242:      tname='align2421'
+       1*:  243:      allocate (A2(AN1,AN2), B4(BN1,BN2,BN3,BN4))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        5:  244:      erri= ER
+        -:  245:      NNL=NL 
+        5:  246:      s=0 
+        -:  247:
+        -:  248:!dvm$ actual(erri,s)
+        -:  249:!dvm$ region local(A2,B4)
+        -:  250:!dvm$ parallel (i,j,n,m) on B4(i,j,n,m)
+        5:  251:      do i=1,BN1
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       21:  252:          do j=1,BN2
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       84:  253:             do n=1,BN3
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+      336:  254:                do m=1,BN4
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+      320:  255:                    B4(i,j,n,m) =0     
+        -:  256:                enddo  
+        -:  257:             enddo  
+        -:  258:          enddo  
+        -:  259:      enddo 
+        -:  260:
+        -:  261:!dvm$ parallel (i,j) on A2(i,j), private(ib,jb,nb,mb,n,m)
+       13:  262:      do i=1,AN1
+branch  0 taken 92% (fallthrough)
+branch  1 taken 8%
+      121:  263:          do j=1,AN2
+branch  0 taken 90% (fallthrough)
+branch  1 taken 10%
+      108:  264:                A2(i,j) = i*NL/10 + j
+      552:  265:                do n=1,BN1
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+     2268:  266:                    do m=1,BN3
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+        -:  267:                      if ( 
+        -:  268:     *                  ((i-li) .eq.(((i-li)/k2i) * k2i)) .and.
+        -:  269:     *                  ((j-lj) .eq.(((j-lj)/k1j) *k1j)) .and.
+        -:  270:     *                  (((i-li)/k2i) .gt. 0)  .and.
+        -:  271:     *                  (((j-lj)/k1j) .gt. 0)  .and.
+     1728:  272:     *                  (((i-li)/k2i) .le. BN4)  .and.
+branch  0 taken 44% (fallthrough)
+branch  1 taken 56%
+branch  2 taken 67% (fallthrough)
+branch  3 taken 33%
+branch  4 taken 50% (fallthrough)
+branch  5 taken 50%
+        -:  273:     *                  (((j-lj)/k1j) .le. BN2)
+      432:  274:     *                  )  then 
+      256:  275:                        mb = (i-li)/k2i
+      256:  276:                        jb = (j-lj)/k1j
+      256:  277:                        ib = n
+      256:  278:                        nb = m
+      256:  279:                        B4(ib,jb,nb,mb)=ib*NL/10+jb*NL/100+nb*NL/1000+mb 
+        -:  280:                      endif 
+        -:  281:                    enddo
+        -:  282:                enddo 
+        -:  283:          enddo 
+        -:  284:      enddo 
+        -:  285:
+        -:  286:!dvm$ parallel (i,j,n,m) on B4(i,j,n,m), reduction( min( erri ),sum(s) )
+        5:  287:      do i=1,BN1
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       21:  288:          do j=1,BN2
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       84:  289:            do n=1,BN3
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+      336:  290:                do m=1,BN4
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+      256:  291:                  s = s + B4(i,j,n,m)
+      320:  292:                  if (B4(i,j,n,m).eq.(i*NL/10+j*NL/100+n*NL/1000+m))then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  293:                  else
+    #####:  294:                      erri = min(erri,i*NL/10 + j*NL/100+ n*NL/1000+ m)
+        -:  295:                  endif
+        -:  296:                enddo 
+        -:  297:            enddo 
+        -:  298:          enddo 
+        -:  299:      enddo 
+        -:  300:!dvm$ end region
+        -:  301:!dvm$ get_actual(erri,s)
+        -:  302:  
+        -:  303:      cs = 0              
+        5:  304:      do i=1,BN1
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       21:  305:          do j=1,BN2
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       84:  306:            do n=1,BN3
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+      336:  307:                do m=1,BN4
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+      320:  308:                    cs = cs + i*NL/10 + j*NL/100+ n*NL/1000+ m
+        -:  309:                enddo 
+        -:  310:            enddo 
+        -:  311:          enddo 
+        -:  312:      enddo 
+        -:  313:     
+        1:  314:      if ((erri .eq.ER) .and.
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  315:     *     (s .eq. cs)) then     
+        1:  316:          call ansyes(tname)
+call    0 returned 100%
+        -:  317:      else
+    #####:  318:          call ansno(tname)
+call    0 never executed
+        -:  319:c          write (*,*) erri,s,cs
+        -:  320:c          print *,B4  
+        -:  321:      endif 
+       1*:  322:      deallocate (B4,A2)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  323:
+        1:  324:      end
+        -:  325:
+        -:  326:C ----------------------------------------------------align2422
+        -:  327:c 2422      ALIGN arrB[ ][ i][][j] WITH arrA[j+1][ 2*i] matrix compression
+        -:  328:
+function align2422_ called 1 returned 100% blocks executed 93%
+        1:  329:      subroutine align2422
+        -:  330:      integer, parameter :: AN1=3,AN2=4,BN1=2,BN2=2,BN3=2,BN4=2
+        -:  331:      integer, parameter :: PN=2,NL=10000,ER=100000
+        -:  332:c     parameters for ALIGN arrB[][i][][j] WITH arrA[k2i*j+li][k1j*i+lj]                                               
+        -:  333:      integer, parameter :: k1i=0,k2i=1,k3i=0,li=1
+        -:  334:      integer, parameter :: k1j=2,k2j=0,k3j=0,lj=0
+        -:  335:      character*9 tname
+        1:  336:      integer, allocatable :: A2(:,:),B4(:,:,:,:)
+        -:  337:      integer s,cs,erri,i,j,n,m,ia,ja,na,ib,jb,nb,mb,Avalue,Bvalue
+        -:  338:               
+        -:  339:!dvm$ distribute A2(BLOCK,BLOCK)    
+        -:  340:!dvm$ ALIGN B4(*,i,*,j) WITH A2(k2i * j + li,k1j * i + lj)
+        -:  341:
+        -:  342:
+        1:  343:      tname='align2422'
+       1*:  344:      allocate (A2(AN1,AN2), B4(BN1,BN2,BN3,BN4))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        3:  345:      erri= ER
+        -:  346:      NNL=NL 
+        3:  347:      s=0 
+        -:  348:
+        -:  349:!dvm$ actual(erri,s)
+        -:  350:!dvm$ region local(A2,B4)
+        -:  351:!dvm$ parallel (i,j,n,m) on B4(i,j,n,m)
+        3:  352:      do i=1,BN1
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+        7:  353:          do j=1,BN2
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       14:  354:             do n=1,BN3
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       28:  355:                do m=1,BN4
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       24:  356:                    B4(i,j,n,m) =0     
+        -:  357:                enddo  
+        -:  358:             enddo  
+        -:  359:          enddo  
+        -:  360:      enddo 
+        -:  361:
+        -:  362:!dvm$ parallel (i,j) on A2(i,j), private(ib,jb,nb,mb,n,m)
+        4:  363:      do i=1,AN1
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+       16:  364:          do j=1,AN2
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       12:  365:                A2(i,j) = i*NL/10 + j
+       39:  366:                do n=1,BN1
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       84:  367:                    do m=1,BN3
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+        -:  368:                      if ( 
+        -:  369:     *                  ((i-li) .eq.(((i-li)/k2i) * k2i)) .and.
+        -:  370:     *                  ((j-lj) .eq.(((j-lj)/k1j) *k1j)) .and.
+        -:  371:     *                  (((i-li)/k2i) .gt. 0)  .and.
+        -:  372:     *                  (((j-lj)/k1j) .gt. 0)  .and.
+       48:  373:     *                  (((i-li)/k2i) .le. BN4)  .and.
+branch  0 taken 50% (fallthrough)
+branch  1 taken 50%
+branch  2 taken 67% (fallthrough)
+branch  3 taken 33%
+        -:  374:     *                  (((j-lj)/k1j) .le. BN2)
+       24:  375:     *                  )  then 
+       16:  376:                        mb = (i-li)/k2i
+       16:  377:                        jb = (j-lj)/k1j
+       16:  378:                        ib = n
+       16:  379:                        nb = m
+       16:  380:                        B4(ib,jb,nb,mb)=ib*NL/10+jb*NL/100+nb*NL/1000+mb 
+        -:  381:                      endif 
+        -:  382:                    enddo
+        -:  383:                enddo 
+        -:  384:          enddo 
+        -:  385:      enddo 
+        -:  386:
+        -:  387:!dvm$ parallel (i,j,n,m) on B4(i,j,n,m), reduction( min( erri ),sum(s) )
+        3:  388:      do i=1,BN1
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+        7:  389:          do j=1,BN2
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       14:  390:            do n=1,BN3
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       28:  391:                do m=1,BN4
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       16:  392:                  s = s + B4(i,j,n,m)
+       24:  393:                  if (B4(i,j,n,m).eq.(i*NL/10+j*NL/100+n*NL/1000+m))then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  394:                  else
+    #####:  395:                      erri = min(erri,i*NL/10 + j*NL/100+ n*NL/1000+ m)
+        -:  396:                  endif
+        -:  397:                enddo 
+        -:  398:            enddo 
+        -:  399:          enddo 
+        -:  400:      enddo 
+        -:  401:!dvm$ end region
+        -:  402:!dvm$ get_actual(erri,s)
+        -:  403:  
+        -:  404:      cs = 0              
+        3:  405:      do i=1,BN1
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+        7:  406:          do j=1,BN2
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       14:  407:            do n=1,BN3
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       28:  408:                do m=1,BN4
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       24:  409:                    cs = cs + i*NL/10 + j*NL/100+ n*NL/1000+ m
+        -:  410:                enddo 
+        -:  411:            enddo 
+        -:  412:          enddo 
+        -:  413:      enddo 
+        -:  414:     
+        1:  415:      if ((erri .eq.ER) .and.
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  416:     *     (s .eq. cs)) then     
+        1:  417:          call ansyes(tname)
+call    0 returned 100%
+        -:  418:      else
+    #####:  419:          call ansno(tname)
+call    0 never executed
+        -:  420:      endif 
+       1*:  421:      deallocate (B4,A2)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  422:
+        1:  423:      end
+        -:  424:
+        -:  425:C ----------------------------------------------------align243
+        -:  426:c 243     ALIGN arrB[ ][ ][i][] WITH arrA[1][i] matrix compression 
+        -:  427:c                                                       and replication     !!
+        -:  428:
+function align243_ called 1 returned 100% blocks executed 93%
+        1:  429:      subroutine align243
+        -:  430:      integer, parameter :: AN1=3,AN2=4,BN1=2,BN2=2,BN3=2,BN4=2
+        -:  431:      integer, parameter :: PN=2,NL=10000,ER=100000
+        -:  432:
+        -:  433:c     parameters for ALIGN arrB[][ ][i][ ] WITH arrA[li][k1j*i+lj]                                               
+        -:  434:      integer, parameter :: k1i=0,k2i=0,k3i=0,li=1
+        -:  435:      integer, parameter :: k1j=1,k2j=0,k3j=0,lj=0
+        -:  436:      character*9 tname
+        1:  437:      integer, allocatable :: A2(:,:),B4(:,:,:,:)
+        -:  438:      integer s,cs,erri,i,j,n,m,ia,ja,na,ib,jb,nb,mb,Avalue,Bvalue
+        -:  439:               
+        -:  440:!dvm$ distribute A2(BLOCK,BLOCK)    
+        -:  441:!dvm$ ALIGN B4(*,*,i,*) WITH A2(li,k1j * i + lj)
+        -:  442:
+        -:  443:
+        1:  444:      tname='align243'
+       1*:  445:      allocate (A2(AN1,AN2), B4(BN1,BN2,BN3,BN4))
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 100% (fallthrough)
+branch  4 taken 0%
+call    5 never executed
+        3:  446:      erri= ER
+        -:  447:      NNL=NL 
+        3:  448:      s=0 
+        -:  449:
+        -:  450:!dvm$ actual(erri,s)
+        -:  451:!dvm$ region local(A2,B4)
+        -:  452:!dvm$ parallel (i,j,n,m) on B4(i,j,n,m)
+        3:  453:      do i=1,BN1
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+        7:  454:          do j=1,BN2
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       14:  455:             do n=1,BN3
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       28:  456:                do m=1,BN4
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       24:  457:                    B4(i,j,n,m) =0     
+        -:  458:                enddo  
+        -:  459:             enddo  
+        -:  460:          enddo  
+        -:  461:      enddo 
+        -:  462:
+        -:  463:!dvm$ parallel (i,j) on A2(i,j), private(ib,jb,nb,mb,n,m,k)
+        4:  464:      do i=1,AN1
+branch  0 taken 75% (fallthrough)
+branch  1 taken 25%
+       16:  465:          do j=1,AN2
+branch  0 taken 80% (fallthrough)
+branch  1 taken 20%
+       12:  466:                A2(i,j) = i*NL/10 + j
+       15:  467:                if (i .eq. (li)) then
+branch  0 taken 33% (fallthrough)
+branch  1 taken 67%
+       12:  468:                  do n=1,BN1
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       28:  469:                    do m=1,BN2
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       56:  470:                     do k=1,BN4
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+        -:  471:                      if ( 
+        -:  472:     *                  ((j-lj) .eq.(((j-lj)/k1j) *k1j)) .and.
+       32:  473:     *                  (((j-lj)/k1j) .gt. 0)  .and.
+branch  0 taken 50% (fallthrough)
+branch  1 taken 50%
+        -:  474:     *                  (((j-lj)/k1j) .le. BN3)
+       16:  475:     *                  )  then 
+       16:  476:                        mb = k
+       16:  477:                        jb = m
+       16:  478:                        ib = n
+       16:  479:                        nb = ((j-lj)/k1j)  
+       16:  480:                        B4(ib,jb,nb,mb)=ib*NL/10+jb*NL/100+nb*NL/1000+mb 
+        -:  481:                      endif 
+        -:  482:                     enddo
+        -:  483:                    enddo
+        -:  484:                  enddo
+        -:  485:                endif
+        -:  486:          enddo 
+        -:  487:      enddo 
+        -:  488:
+        -:  489:!dvm$ parallel (i,j,n,m) on B4(i,j,n,m), reduction( min( erri ),sum(s) )
+        3:  490:      do i=1,BN1
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+        7:  491:          do j=1,BN2
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       14:  492:            do n=1,BN3
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       28:  493:                do m=1,BN4
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       16:  494:                  s = s + B4(i,j,n,m)
+       24:  495:                  if (B4(i,j,n,m).eq.(i*NL/10+j*NL/100+n*NL/1000+m))then     
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  496:                  else
+    #####:  497:                      erri = min(erri,i*NL/10 + j*NL/100+ n*NL/1000+ m)
+        -:  498:                  endif
+        -:  499:                enddo 
+        -:  500:            enddo 
+        -:  501:          enddo 
+        -:  502:      enddo 
+        -:  503:!dvm$ end region
+        -:  504:!dvm$ get_actual(erri,s)
+        -:  505:  
+        -:  506:      cs = 0              
+        3:  507:      do i=1,BN1
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+        7:  508:          do j=1,BN2
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       14:  509:            do n=1,BN3
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       28:  510:                do m=1,BN4
+branch  0 taken 67% (fallthrough)
+branch  1 taken 33%
+       24:  511:                    cs = cs + i*NL/10 + j*NL/100+ n*NL/1000+ m
+        -:  512:                enddo 
+        -:  513:            enddo 
+        -:  514:          enddo 
+        -:  515:      enddo 
+        -:  516:     
+        1:  517:      if ((erri .eq.ER) .and.
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  518:     *     (s .eq. cs)) then     
+        1:  519:          call ansyes(tname)
+call    0 returned 100%
+        -:  520:      else
+    #####:  521:          call ansno(tname)
+call    0 never executed
+        -:  522:      endif 
+       1*:  523:      deallocate (B4,A2)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+call    2 never executed
+branch  3 taken 0% (fallthrough)
+branch  4 taken 100%
+call    5 never executed
+        -:  524:
+        1:  525:      end
+        -:  526:
+        -:  527:C -------------------------------------------------
+        -:  528:
+function ansyes_ called 4 returned 100% blocks executed 100%
+        4:  529:      subroutine ansyes(name)
+        -:  530:      character*9 name
+        4:  531:      print *,name,'  -  complete'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+        4:  532:      end
+function ansno_ called 0 returned 0% blocks executed 0%
+    #####:  533:      subroutine ansno(name)
+        -:  534:      character*9 name
+    #####:  535:      print *,name,'  -  ***error'
+call    0 never executed
+call    1 never executed
+call    2 never executed
+call    3 never executed
+    #####:  536:      end
