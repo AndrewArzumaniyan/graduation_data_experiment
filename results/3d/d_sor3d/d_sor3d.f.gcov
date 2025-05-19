@@ -1,123 +1,121 @@
         -:    0:Source:results/3d/d_sor3d/d_sor3d.f
         -:    0:Graph:./results\3d\d_sor3d\d_sor3d.gcno
-        -:    0:Data:-
-        -:    0:Runs:0
-function MAIN__ called 0 returned 0% blocks executed 0%
-    #####:    1:        PROGRAM SOR3D_double
+        -:    0:Data:./results\3d\d_sor3d\d_sor3d.gcda
+        -:    0:Runs:1
+function MAIN__ called 1 returned 100% blocks executed 94%
+        1:    1:        PROGRAM SOR3D_double
         -:    2:        PARAMETER (L=384, ITMAX=100)
         -:    3:        DOUBLE PRECISION EPS, MAXEPS, A(L, L, L), W, S
         -:    4:        DOUBLE PRECISION STARTT, ENDT, dvtime
         -:    5:!DVM$   DISTRIBUTE(BLOCK, BLOCK, BLOCK) :: A
         -:    6:
-    #####:    7:        MAXEPS = 0.5
-    #####:    8:        W = 0.5
+        1:    7:        MAXEPS = 0.5
+        1:    8:        W = 0.5
         -:    9:!DVM$   REGION
         -:   10:!DVM$   PARALLEL(K, J, I) ON A(I, J, K), CUDA_BLOCK(32, 8)
         -:   11:!        nest of two parallel loops, iteration (i, j) will be executed on
         -:   12:!        processor, which is owner of element A(i, j)
-    #####:   13:        DO K = 1, L
-branch  0 never executed (fallthrough)
-branch  1 never executed
-    #####:   14:          DO J = 1, L
-branch  0 never executed (fallthrough)
-branch  1 never executed
-    #####:   15:            DO I = 1, L
-branch  0 never executed (fallthrough)
-branch  1 never executed
+      385:   13:        DO K = 1, L
+branch  0 taken 100% (fallthrough)
+branch  1 taken 1%
+   147841:   14:          DO J = 1, L
+branch  0 taken 100% (fallthrough)
+branch  1 taken 1%
+ 56770944:   15:            DO I = 1, L
+branch  0 taken 100% (fallthrough)
+branch  1 taken 1%
         -:   16:              IF (I.EQ.1 .OR. J.EQ.1 .OR. K.EQ.1
-    #####:   17:     >.OR. I.EQ.L .OR. J.EQ.L .OR. K.EQ.L) THEN
-branch  0 never executed (fallthrough)
-branch  1 never executed
-branch  2 never executed (fallthrough)
-branch  3 never executed
-branch  4 never executed (fallthrough)
-branch  5 never executed
-    #####:   18:                A(I, J, K) = 0.
+ 56770560:   17:     >.OR. I.EQ.L .OR. J.EQ.L .OR. K.EQ.L) THEN
+branch  0 taken 99% (fallthrough)
+branch  1 taken 1%
+branch  2 taken 99% (fallthrough)
+branch  3 taken 1%
+branch  4 taken 1% (fallthrough)
+branch  5 taken 99%
+   880136:   18:                A(I, J, K) = 0.
         -:   19:              ELSE
-    #####:   20:                A(I, J, K) = (1. + I + J + K)
+ 55742968:   20:                A(I, J, K) = (1. + I + J + K)
         -:   21:              ENDIF
         -:   22:            ENDDO
         -:   23:          ENDDO
         -:   24:        ENDDO
         -:   25:!DVM$   END REGION
         -:   26:!DVM$   BARRIER
-    #####:   27:        STARTT = dvtime()
-call    0 never executed
-    #####:   28:        DO IT = 1, ITMAX
-branch  0 never executed (fallthrough)
-branch  1 never executed
-    #####:   29:          EPS = 0.
+        1:   27:        STARTT = 0
+      101:   28:        DO IT = 1, ITMAX
+branch  0 taken 99% (fallthrough)
+branch  1 taken 1%
+      100:   29:          EPS = 0.
         -:   30:!DVM$     ACTUAL(EPS)
         -:   31:!DVM$     REGION
         -:   32:
         -:   33:!DVM$ PARALLEL (K, J, I) ON A(I, J, K), ACROSS(A(1:1,1:1,1:1)),
         -:   34:!DVM$& REDUCTION(MAX(EPS)), PRIVATE(S)
-    #####:   35:          DO K = 2, L - 1
-branch  0 never executed (fallthrough)
-branch  1 never executed
-    #####:   36:            DO J = 2, L - 1
-branch  0 never executed (fallthrough)
-branch  1 never executed
-    #####:   37:              DO I = 2, L - 1
-branch  0 never executed (fallthrough)
-branch  1 never executed
-    #####:   38:                S = A(I, J, K)
+    38300:   35:          DO K = 2, L - 1
+branch  0 taken 100% (fallthrough)
+branch  1 taken 1%
+ 14630700:   36:            DO J = 2, L - 1
+branch  0 taken 100% (fallthrough)
+branch  1 taken 1%
+5588927400:   37:              DO I = 2, L - 1
+branch  0 taken 100% (fallthrough)
+branch  1 taken 1%
+5574296800:   38:                S = A(I, J, K)
         -:   39:                A(I, J, K) = (W / 6. ) * (A(I, J, K-1) + A(I, J-1, K) + 
         -:   40:     >                                   A(I-1, J, K) + A(I+1, J, K) + 
         -:   41:     >                                   A(I, J+1, K) + A(I, J, K+1))+
-    #####:   42:     >                        + (1 - W) * A(I, J, K)
-    #####:   43:                EPS = MAX(EPS, ABS(S - A(I, J, K)))
+5574296800:   42:     >                        + (1 - W) * A(I, J, K)
+5588889200:   43:                EPS = MAX(EPS, ABS(S - A(I, J, K)))
         -:   44:              ENDDO
         -:   45:            ENDDO
         -:   46:          ENDDO
         -:   47:!DVM$     END REGION
         -:   48:!DVM$     GET_ACTUAL(EPS)
-    #####:   49:          PRINT 200, IT, EPS
-call    0 never executed
-call    1 never executed
-call    2 never executed
-call    3 never executed
+      100:   49:          PRINT 200, IT, EPS
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
         -:   50:200       FORMAT (' IT = ', I4, '   EPS = ', E23.16)
-    #####:   51:          IF (EPS .LT. MAXEPS) EXIT
-branch  0 never executed (fallthrough)
-branch  1 never executed
+      101:   51:          IF (EPS .LT. MAXEPS) EXIT
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
         -:   52:        ENDDO
         -:   53:!DVM$   BARRIER
-    #####:   54:        ENDT = dvtime()
-call    0 never executed
+        1:   54:        ENDT = 0
         -:   55:
-    #####:   56:        PRINT *, 'SOR3D_double Benchmark Completed.'
-call    0 never executed
-call    1 never executed
-call    2 never executed
-    #####:   57:        PRINT 201, L, L, L
-call    0 never executed
-call    1 never executed
-call    2 never executed
-call    3 never executed
-call    4 never executed
+        1:   56:        PRINT *, 'SOR3D_double Benchmark Completed.'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        1:   57:        PRINT 201, L, L, L
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+call    3 returned 100%
+call    4 returned 100%
         -:   58:201     FORMAT (' Size            = ', I4, ' x ', I4, ' x ', I4)
-    #####:   59:        PRINT 202, ITMAX
-call    0 never executed
-call    1 never executed
-call    2 never executed
+        1:   59:        PRINT 202, ITMAX
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
         -:   60:202     FORMAT (' Iterations      =       ', I12)
-    #####:   61:        PRINT 203, ENDT - STARTT
-call    0 never executed
-call    1 never executed
-call    2 never executed
+        1:   61:        PRINT 203, ENDT - STARTT
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
         -:   62:203     FORMAT (' Time in seconds =       ', F12.2)
-    #####:   63:        PRINT *, 'Operation type  =     floating point'
-call    0 never executed
-call    1 never executed
-call    2 never executed
-    #####:   64:        IF (ABS(EPS - 5.134125088529458d0) .LT. 1.0d-7) THEN
-branch  0 never executed (fallthrough)
-branch  1 never executed
-    #####:   65:          PRINT *, 'Verification    =         SUCCESSFUL'
-call    0 never executed
-call    1 never executed
-call    2 never executed
+        1:   63:        PRINT *, 'Operation type  =     floating point'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+        1:   64:        IF (ABS(EPS - 5.134125088529458d0) .LT. 1.0d-7) THEN
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        1:   65:          PRINT *, 'Verification    =         SUCCESSFUL'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
         -:   66:        ELSE
     #####:   67:          PRINT *, 'Verification    =       UNSUCCESSFUL'
 call    0 never executed
@@ -125,12 +123,12 @@ call    1 never executed
 call    2 never executed
         -:   68:        ENDIF
         -:   69:
-    #####:   70:        PRINT *, 'END OF SOR3D_double Benchmark'
-call    0 never executed
-call    1 never executed
-call    2 never executed
-function main called 0 returned 0% blocks executed 0%
-    #####:   71:        END
-call    0 never executed
-call    1 never executed
-call    2 never executed
+        1:   70:        PRINT *, 'END OF SOR3D_double Benchmark'
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%
+function main called 1 returned 100% blocks executed 100%
+        1:   71:        END
+call    0 returned 100%
+call    1 returned 100%
+call    2 returned 100%

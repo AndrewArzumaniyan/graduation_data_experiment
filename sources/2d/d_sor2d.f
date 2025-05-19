@@ -21,7 +21,7 @@
           ENDDO
 !DVM$   END REGION
 !DVM$   BARRIER
-        STARTT = dvtime()
+        STARTT = 0
         DO IT = 1, ITMAX
           EPS = 0.
 !DVM$     ACTUAL(EPS)
@@ -45,7 +45,7 @@
           IF (EPS .LT. MAXEPS) EXIT
         ENDDO
 !DVM$   BARRIER
-        ENDT = dvtime()
+        ENDT = 0
 
         PRINT *, 'SOR2D_double Benchmark Completed.'
         PRINT 201, L, L

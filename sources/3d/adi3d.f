@@ -7,7 +7,7 @@
 !DVM$  DISTRIBUTE(BLOCK, BLOCK, BLOCK) :: a
        call init(a, nx, ny, nz)
 !DVM$  BARRIER
-       startt = dvtime()
+       startt = 0
        do it = 1, itmax
          eps=0.D0
 !DVM$    ACTUAL(eps)
@@ -46,7 +46,7 @@
          if (eps .lt. maxeps) exit
        enddo
 !DVM$  BARRIER
-       endt = dvtime()
+       endt = 0
 
        print *, 'ADI Benchmark Completed.'
        print 201, nx, ny, nz
